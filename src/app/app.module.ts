@@ -41,16 +41,20 @@ import { FormComponent } from './component/form/form.component'
 import { FooterComponent } from './component/footer/footer.component'
 import { SignOffComponent } from './component/sign-off/sign-off.component'
 
-// vehicle-inspection
-import { DetailComponent } from './component/vehicle-inspection/detail/detail.component'
-import { HeaderComponent } from './component/vehicle-inspection/header/header.component'
-import { DiscrepancyComponent } from './component/vehicle-inspection/discrepancy/discrepancy.component'
-import { VehicleInspectionComponent } from './component/vehicle-inspection/vehicle-inspection.component'
-import { DiscrepancyDetailComponent } from './component/vehicle-inspection/discrepancy-detail/discrepancy-detail.component'
-
 // auth
 import { AuthService } from './service/auth.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
+// fire-extinguisher
+import { FireExtinguisherCompanyComponent } from './component/fire-extinguisher/fire-extinguisher-company/fire-extinguisher-company.component'
+import { FireExtinguisherJobDetailsComponent } from './component/fire-extinguisher/fire-extinguisher-job-details/fire-extinguisher-job-details.component'
+import { FireExtinguisherComponent } from './component/fire-extinguisher/fire-extinguisher.component'
+
+// hazard-assessment
+import { HazardAssessmentComponent} from './component/hazard-assessment/hazard-assessment.component'
+import { HazardAssessmentCompanyComponent } from './component/hazard-assessment/hazard-assessment-company/hazard-assessment-company.component'
+import { HazardAssessmentJobDetailsComponent } from './component/hazard-assessment/hazard-assessment-job-details/hazard-assessment-job-details.component'
+import { HazardAssessmentTaskComponent }  from './component/hazard-assessment/hazard-assessment-task/hazard-assessment-task.component'
 
 // json rendering components
 import { RunComponent } from './component/run/run.component'
@@ -107,11 +111,13 @@ import { IdbPersistenceService } from './service-idb/idb-persistence.service'
     BarcodeRunComponent,
     ScannerBarcodeRunComponent,
     ScannerQrcodeRunComponent,
-    DetailComponent,
-    HeaderComponent,
-    DiscrepancyComponent ,
-    VehicleInspectionComponent,
-    DiscrepancyDetailComponent
+    FireExtinguisherCompanyComponent,
+    FireExtinguisherJobDetailsComponent,
+    FireExtinguisherComponent,
+    HazardAssessmentComponent,
+    HazardAssessmentCompanyComponent,
+    HazardAssessmentJobDetailsComponent,
+    HazardAssessmentTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -159,15 +165,15 @@ import { IdbPersistenceService } from './service-idb/idb-persistence.service'
     BarcodeRunComponent,
     ScannerBarcodeRunComponent,
     ScannerQrcodeRunComponent,
-    DetailComponent,
-    HeaderComponent,
-    DiscrepancyComponent,
-    VehicleInspectionComponent,
-    DiscrepancyDetailComponent
+    FireExtinguisherCompanyComponent,
+    FireExtinguisherJobDetailsComponent,
+    FireExtinguisherComponent,
+    HazardAssessmentComponent,
+    HazardAssessmentCompanyComponent,
+    HazardAssessmentJobDetailsComponent,
+    HazardAssessmentTaskComponent
   ],
-  entryComponents: [
-    DiscrepancyDetailComponent
-  ],
+  entryComponents: [],
   providers: [AuthService,
     {
       provide: HTTP_INTERCEPTORS,

@@ -12,10 +12,8 @@ import { AuthService } from "../../service/auth.service"
 import { StateService } from "../../service/state.service"
 import { IdbCrudService } from "../../service-idb/idb-crud.service"
 
-import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from "@angular/forms"
-
 import { environment } from '../../../environments/environment'
-import { ɵNullViewportScroller } from '@angular/common';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-desktop',
@@ -52,9 +50,7 @@ export class DesktopComponent implements OnChanges {
     public stateService: StateService,
     private idbCrudService: IdbCrudService) { }
 
-  ngOnChanges(): void {
-    console.log(this.myInnerWidth)
-  }
+  ngOnChanges(): void {}
 
   goPIN() {
     this.state.page = 'pin'

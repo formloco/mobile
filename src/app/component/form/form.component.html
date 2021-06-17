@@ -7,7 +7,8 @@
   </button>
 </mat-toolbar>
 <span *ngIf="state.selectedForm.type === 'custom'">
-  <app-vehicle-inspection [state]=state></app-vehicle-inspection>
+  <app-hazard-assessment *ngIf="state.selectedForm.id === 'hazard-assessment'" [state]=state></app-hazard-assessment>
+  <app-fire-extinguisher *ngIf="state.selectedForm.id === 'fire-extinguisher'" [state]=state></app-fire-extinguisher>
   <app-footer [state]=state (getHistory)="getHistory($event)"></app-footer>
 </span>
 <div *ngIf="state.selectedForm.type === 'dynamic'">

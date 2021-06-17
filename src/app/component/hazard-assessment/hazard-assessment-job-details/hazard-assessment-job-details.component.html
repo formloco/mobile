@@ -1,0 +1,35 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <form class="header-form" [formGroup]="jobDetailForm">
+    <div fxLayout="column">
+      <mat-checkbox color="primary" class="text-color" formControlName="isPreInspectionComplete">Has a pre-use inspection of equipment<br> and tools been completed?</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color middle-padding" formControlName="warningRibbonNeeded">Warning Ribbon needed?</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color bottom-padding" formControlName="isWorkingAlone">Is the worker working alone?</mat-checkbox>
+      <mat-form-field class="text-color" fxFlex>
+        <mat-label>If Yes, Please Explain:</mat-label>
+        <input matInput formControlName="commentOnWorkingAlone" type="text">
+      </mat-form-field>
+      <mat-label class="text-color bottom-padding">Are all the Permit(s) closed out?</mat-label>
+      <mat-radio-group class="text-color bottom-padding" formControlName="allPermitsClosedOut" color="primary">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+        <mat-radio-button value="NA" checked="true">NA</mat-radio-button>
+      </mat-radio-group>
+      <mat-checkbox class="text-color bottom-padding" color="primary" formControlName="hazardsRemaining">Are there Hazards remaining?</mat-checkbox>
+      <mat-form-field class="text-color"  fxFlex>
+        <mat-label>If Yes, Please Explain:</mat-label>
+        <input matInput formControlName="commentOnRemainingHazards" type="text">
+      </mat-form-field>
+      <mat-label class="text-color bottom-padding">Was the area cleaned up at the end of job/shift?</mat-label>
+      <mat-radio-group class="text-color bottom-padding" formControlName="areaCleanedUp" color="primary">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+        <mat-radio-button value="NA" checked="true">NA</mat-radio-button>
+      </mat-radio-group>
+      <mat-checkbox color="primary" class="text-color bottom-padding" formControlName="anyIncidents">Were there any recent injuries?</mat-checkbox>
+      <mat-form-field class="text-color" fxFlex>
+        <mat-label>If Yes, Please Explain:</mat-label>
+        <input matInput formControlName="commentOnIncidents" type="text">
+      </mat-form-field>
+    </div>
+  </form>
+</div>

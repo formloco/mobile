@@ -1,0 +1,38 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.middle-padding {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+.bottom-padding {
+  margin-bottom: 9px;
+}
+
+.example-dt {
+  padding: 6px;
+  height: 36px;
+}
+
+.overlayProps {
+  border: solid 1px #ccc;
+  padding: 10px;
+  border-radius: 0px 0px 0px 0px;
+}
+
+.companyPanel {
+  max-height: 800px;
+  overflow: auto;
+  padding: 20px;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  // height:400px;
+  // top:300px;
+  top: 0px;
+  width: 100%;
+}

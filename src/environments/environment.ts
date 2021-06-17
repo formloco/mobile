@@ -11,10 +11,9 @@ export const environment = {
   // apiUrl: 'http://localhost:9003/api/',
   // formUrl: 'http://localhost:9002/form/',
 
-  tenant: { email: 'HSE@Summitearth.com', tenant_id: '1a3a6232-ab04-43d6-9d18-6828f257f55f' },
+  tenant: { email: 'brock@formloco.com', tenant_id: '06632206-3cd4-4751-9e5d-b8839a454ca8' },
 
-  
-  idbName: 'summitEarthDB',
+  idbName: 'mobileFormlocoDB',
   pin: '111111'
 };
 

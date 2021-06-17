@@ -8,7 +8,9 @@ import { StateService } from "../../service/state.service"
 import { ErrorService } from "../../service/error.service"
 import { IdbCrudService } from "../../service-idb/idb-crud.service"
 
-import { FORMS, VEHICLE_INSPECTION } from "../../model/forms"
+import { FORMS, FIRE_EXTINGUISHER, HAZARD_ASSESSMENT, QR_CODE_SCANNER } from "../../model/forms"
+import { MAINTENANCE_INSPECTION } from "../../model/maintenance-inspection"
+import { BEHAVIOUR_BASED_OBSERVATION } from '../../model/behaviour-based-observation'
 
 import { environment } from '../../../environments/environment'
 
@@ -43,8 +45,12 @@ export class HomeComponent implements OnChanges {
 
     this.idbCrudService.read('form', form.id).subscribe(registeredForm => {
       if (registeredForm === undefined) {
-        if (form.id === 'vehicle-inspection') formObj = VEHICLE_INSPECTION
-
+        if (form.id === 'qr-code-scanner') formObj = QR_CODE_SCANNER
+        if (form.id === 'hazard-assessment') formObj = HAZARD_ASSESSMENT
+        if (form.id === 'fire-extinguisher') formObj = FIRE_EXTINGUISHER
+        if (form.id === 'maintenance-inspection') formObj = MAINTENANCE_INSPECTION
+        if (form.id === 'bahaviour-based-observation') formObj = BEHAVIOUR_BASED_OBSERVATION
+    
         if (formObj !== null) {
           let userCreated = { email: this.tenant.email, date_created: new Date() }
     
@@ -68,7 +74,6 @@ export class HomeComponent implements OnChanges {
       else {
         this.form["form_id"] = registeredForm["form_id"]
         this.state.selectedForm = this.form
-        console.log(this.state.selectedForm)
         this.state.page = 'form'
       }
     })
