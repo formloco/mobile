@@ -1,0 +1,43 @@
+<div class="responsive-container">
+  <!-- purposely commented out - used to add list for each mobile form app -->
+  <!-- <div class="lookup-bnt" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-stroked-button (click)="isLookupOpen = !isLookupOpen" cdkOverlayOrigin
+      #lookupTrigger="cdkOverlayOrigin">
+      Create List
+    </button>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="lookupTrigger"
+      [cdkConnectedOverlayOpen]="isLookupOpen" (backdropClick)="closeOverlay()" [cdkConnectedOverlayHasBackdrop]=true
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop" cdkConnectedOverlayOffsetX
+      cdkConnectedOverlayOffsetY>
+      <form [formGroup]="lookupListForm">
+        <div [ngStyle]="{'background-color': appService.canvasBackground}" class="link-overlay" fxLayout="column">
+          <div>
+            <mat-form-field class="text-color" appearance="outline" fxFlex>
+              <mat-label>List</mat-label>
+              <input matInput placeholder="Lookup List Name" formControlName="lookupListName" type="text" required>
+              <mat-error>
+                List is required!
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayoutAlign="center" fxLayout="row" fxLayoutGap="1rem">
+            <button (click)="createLookuplist()" mat-raised-button color="primary" [disabled]="!lookupListForm.valid">
+              Create List
+            </button>
+            <button mat-stroked-button color="primary" (click)="closeOverlay()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </div> -->
+  <div fxLayout="row wrap">
+    <mat-card (click)=run(formObj) class="custom hand" *ngFor="let formObj of appService.lookupLists; let i=index">
+      <div class="action-label" fxLayoutAlign="center">{{formObj.name}}</div>
+      <div>
+        <mat-icon class="card-icon">list</mat-icon>
+      </div>
+    </mat-card>
+  </div>
+</div>

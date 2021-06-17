@@ -1,0 +1,36 @@
+@import './styles-app';
+@import "~@angular/material/theming";
+@include mat-core();
+
+$angular-primary: mat-palette($mat-light-blue, 300, 100, 900);
+$angular-accent: mat-palette($mat-orange, 300, 100, 400);
+$angular-warn: mat-palette($mat-red, 300);
+$angular-default-theme: mat-light-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+@include angular-material-theme($angular-default-theme);
+
+$angular-dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+.darkMode {
+  @include angular-material-color($angular-dark-theme);
+}
+
+html, body { height: 100%; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden;}
+
+@import "~@angular/cdk/overlay-prebuilt.css";
+
+

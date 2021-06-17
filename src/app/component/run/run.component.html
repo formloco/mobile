@@ -1,0 +1,38 @@
+<form class="run-form-container" *ngIf="state.selectedForm.formObject !== undefined" [formGroup]="runForm">
+  <div class="container-padding" *ngFor="let control of state.selectedForm.formObject.form.controls; let i=index">
+    <div [ngSwitch]="control.type">
+      <app-label-run *ngSwitchCase="'Label'" [index]=i></app-label-run>
+      <app-quill-run *ngSwitchCase="'Editor'" [index]=i></app-quill-run>
+      <app-fileupload-run *ngSwitchCase="'File Upload'" [index]=i></app-fileupload-run>
+      <app-gps-run *ngSwitchCase="'GPS'" [runForm]="runForm" [state]=state></app-gps-run>
+      <app-textbox-run *ngSwitchCase="'Textbox'" [runForm]="runForm" [index]=i>
+      </app-textbox-run>
+      <app-textarea-run *ngSwitchCase="'Textarea'" [runForm]="runForm" [index]=i>
+      </app-textarea-run>
+      <app-checkbox-run *ngSwitchCase="'Checkbox'" [runForm]="runForm" [index]=i>
+      </app-checkbox-run>
+      <app-radio-run *ngSwitchCase="'Radio'" [runForm]="runForm" [index]=i>
+      </app-radio-run>
+      <app-select-run *ngSwitchCase="'Select'" [runForm]="runForm" [index]=i>
+      </app-select-run>
+      <app-select-run *ngSwitchCase="'SelectMulti'" [runForm]="runForm" [index]=i>
+      </app-select-run>
+      <app-slider-run *ngSwitchCase="'Slider'" [runForm]="runForm" [index]=i>
+      </app-slider-run>
+      <app-toggle-run *ngSwitchCase="'Toggle'" [runForm]="runForm" [index]=i>
+      </app-toggle-run>
+      <app-barcode-run *ngSwitchCase="'BarCode'" [runForm]="runForm" [index]=i>
+      </app-barcode-run>
+      <app-qrcode-run *ngSwitchCase="'QRCode'" [runForm]="runForm" [index]=i>
+      </app-qrcode-run>
+      <app-scanner-barcode-run *ngSwitchCase="'BarCodeScanner'" [runForm]="runForm" [index]=i>
+      </app-scanner-barcode-run>
+      <app-scanner-qrcode-run *ngSwitchCase="'QRCodeScanner'" [runForm]="runForm" [index]=i>
+      </app-scanner-qrcode-run>
+      <app-micro-app-run *ngSwitchCase="'MicroApp'" [index]=i></app-micro-app-run>
+    </div>
+  </div>
+</form>
+<div class="floating-btn">
+  <mat-icon class="icon-96px-action" (click)="saveCloud()">fingerprint</mat-icon>
+</div>

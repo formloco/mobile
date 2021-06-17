@@ -1,0 +1,166 @@
+.nav-padding {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header-padding {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+
+.container-padding {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.text-color {
+  color: #959595;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.icon-196px {
+  height:196px !important;
+  width:196px !important;
+  font-size:196px !important;
+}
+
+.icon-196px-action {
+  height:196px !important;
+  width:196px !important;
+  font-size:196px !important;
+  color: #90ee90;
+}
+
+.icon-96px-action {
+  height:120px !important;
+  width:120px !important;
+  font-size:120px !important;
+  color: #90ee90;
+}
+
+.icon-96px-disabled {
+  height:120px !important;
+  width:120px !important;
+  font-size:120px !important;
+  color: #959595;
+}
+
+.title {
+  color: #959595;
+  font-size: 24px;
+  padding-bottom: 10px;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.admin-container {
+  margin-top: 65px;
+}
+
+.list-container {
+  height: auto;
+}
+
+.link-overlay {
+  text-align: center;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  background: white;
+  min-width: 600px;
+}
+
+.files-padding {
+  padding-right: 5px;
+  padding-bottom: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+footer {
+  position:fixed;
+  bottom:0px;
+  width:100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.list-menu {
+  width: 130px;
+}
+
+.padding {
+  padding: 20px;
+}
+
+button.mat-flat-button {
+  border-radius: 0;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.form-icon {
+  font-size: 48px;
+}
+
+.form-padding {
+  padding: 6px;
+}
+
+.form-icon24 {
+  font-size: 24px;
+}
+
+.viewport-full {
+  height: 100%;
+  width: auto;
+  border: 1px solid black;
+}
+
+.viewport-300 {
+  height: 300px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.viewport-450 {
+  height: 450px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.middle-padding {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+.bottom-padding {
+  margin-bottom: 9px;
+}
+
+.scroll-container {
+  height: 400px;
+  overflow: auto;
+}

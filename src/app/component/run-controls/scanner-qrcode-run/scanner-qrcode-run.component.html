@@ -1,0 +1,33 @@
+
+<div fxLayout="column" flex>
+    <zxing-scanner *ngIf="isEnabled" class="qr-scanner" [enable]="isEnabled" (scanSuccess)="scanSuccess($event)" (scanError)="scanError($event)"
+      (scanFailure)="scanFailure($event)" (scanComplete)="scanComplete($event)">
+    </zxing-scanner>
+    <button *ngIf="!isEnabled" type="button" mat-flat-button color="primary" (click)="startScan()" fxFlex>
+      Start Scan
+    </button>
+    <button *ngIf="isEnabled" type="button" mat-flat-button color="warn" (click)="stopScan()" fxFlex>
+      Stop Scan
+    </button>
+  </div>
+
+
+<!-- <mat-grid-list cols="1" rowHeight="100px">
+  <mat-grid-tile colspan="1" rowspan="4">
+    <div fxLayout="row" fxLayoutAlign="center center" class="zxing-scanner">
+      <zxing-scanner *ngIf="isEnabled" [enable]="isEnabled" [torch]="torchEnabled" [device]="deviceCurrent" (scanSuccess)="onCodeResult($event)"
+        [formats]="formatsEnabled" [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
+        (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div class="control-padding">
+      <button *ngIf="!isEnabled" mat-stroked-button (click)="scan()" color="primary">
+        Start Barcode Scan
+      </button>
+      <button *ngIf="isEnabled" mat-stroked-button (click)="stop()" color="primary">
+        Stop Barcode Scan
+      </button>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list> -->

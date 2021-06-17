@@ -1,0 +1,16 @@
+<div class="container-padding" fxLayout="column" fxLayoutAlign="center center">
+  <form [formGroup]="settingsForm" fxFlex>
+    <div fxLayout="column">
+      <mat-form-field  fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" type="text" >
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <mat-label>PIN</mat-label>
+        <input matInput placeholder="PIN" formControlName="pin" type="text">
+      </mat-form-field>
+      <br>
+      <button color="primary" (click)="save()" mat-flat-button fxFlex>Save</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,26 @@
+<div fxLayout="column">
+  <form class="container-padding" [formGroup]="idForm">
+    <div fxLayout="column">
+      <br>
+      <div class="text-color text-center">
+        <div><img src="assets/logo.svg"></div>
+        <br><br>
+        <h2>Welcome!</h2>
+        <h3>Please introduce yourself</h3>
+      </div>
+      <br>
+      <mat-form-field class="text-color" appearance="outline" fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" type="text" required>
+        <mat-error>
+          Name is required!
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <div fxLayoutAlign="center">
+        <mat-icon *ngIf="!idForm.valid" class="icon-196px text-color">fingerprint</mat-icon>
+        <mat-icon *ngIf="idForm.valid" class="icon-196px-action" (click)="save()">fingerprint</mat-icon>
+      </div>
+    </div>
+  </form>
+</div>

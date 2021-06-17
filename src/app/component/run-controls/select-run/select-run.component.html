@@ -1,0 +1,22 @@
+<div [formGroup]="runForm" class="control-padding" fxFlex>
+  <mat-form-field appearance="{{appService.detailArray[index].appearance}}" fxFlex>
+    <mat-label>{{appService.detailArray[index].label}}</mat-label>
+    <span *ngIf="multi">
+      <mat-select multiple formControlName="{{appService.detailArray[index].formControlName}}" [required]="appService.detailArray[index].required">
+        <mat-option *ngFor="let select of appService.detailArray[index].selectArray" [value]="select.value">
+          {{select.value}}
+        </mat-option>
+      </mat-select>
+    </span>
+    <span *ngIf="!multi">
+      <mat-select formControlName="{{appService.detailArray[index].formControlName}}" [required]="appService.detailArray[index].required">
+        <mat-option *ngFor="let select of appService.detailArray[index].selectArray" [value]="select.value">
+          {{select.value}}
+        </mat-option>
+      </mat-select>
+    </span>
+    <mat-error>
+      {{appService.detailArray[index].error}}
+    </mat-error>
+  </mat-form-field>
+</div>

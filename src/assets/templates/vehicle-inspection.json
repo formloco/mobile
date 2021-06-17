@@ -1,0 +1,400 @@
+{
+  "form": {
+    "name": "Motor Vehicle Inspection",
+    "controls": [
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "SelectMulti",
+        "label": "Multi Select",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "SelectMulti",
+        "label": "Multi Select",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Label",
+        "label": "Label",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Checkbox",
+        "label": "Checkbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Label",
+        "label": "Label",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Label",
+        "label": "Label",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Checkbox",
+        "label": "Checkbox",
+        "experiment": false,
+        "disabled": false
+      },
+      {
+        "type": "Textbox",
+        "label": "Textbox",
+        "experiment": false,
+        "disabled": false
+      }
+    ],
+    "details": [
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox0",
+        "label": "Date Inspection Completed",
+        "appearance": "standard",
+        "required": true,
+        "types": "date",
+        "error": "Date is required"
+      },
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox1",
+        "label": "Worker Completing Inspection Name (First Name, Last Name)",
+        "appearance": "outline",
+        "required": true,
+        "types": "text",
+        "error": "Required Field"
+      },
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox2",
+        "label": "Supervisor Name",
+        "appearance": "outline",
+        "required": true,
+        "types": "text",
+        "error": "Required Field"
+      },
+      {
+        "type": "Select",
+        "label": "Multi Select",
+        "formControlName": "SelectMulti9",
+        "list": "none",
+        "appearance": "outline",
+        "required": true,
+        "multiple": true,
+        "error": "Field is required",
+        "selectArray": [
+          {
+            "label": "Option 1",
+            "value": "Employee"
+          },
+          {
+            "label": "Option 2",
+            "value": "Contractor/Vendor"
+          },
+          {
+            "value": "Consultant"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "DIVISION",
+        "formControlName": "SelectMulti8",
+        "list": "none",
+        "appearance": "outline",
+        "required": true,
+        "multiple": true,
+        "error": "Field is required",
+        "selectArray": [
+          {
+            "label": "Option 1",
+            "value": "RRRM"
+          },
+          {
+            "label": "Option 2",
+            "value": "EPM"
+          },
+          {
+            "value": "DWM"
+          },
+          {
+            "value": "SDS"
+          }
+        ]
+      },
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox3",
+        "label": "Vehicle Mileage Reading (KM)",
+        "appearance": "outline",
+        "required": false,
+        "types": "number",
+        "error": "Required Field"
+      },
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox4",
+        "label": "Registration Expiry Date",
+        "appearance": "outline",
+        "required": false,
+        "types": "date",
+        "error": "Required Field"
+      },
+      {
+        "type": "Label",
+        "label": "The items on this inspection sheet should be checked monthly. A separate sheet should be filled out for each vehicle driven. Place a check mark confirming that you have checked the listed item and it is in good working order. If item requires attention leave item blank (do not check) and list any discrepancies on the bottom of this sheet under corrective actions.",
+        "fontValue": "mat-body-2"
+      },
+      {
+        "type": "Checkbox",
+        "label": "Inspection Items",
+        "checkboxArray": [
+          {
+            "label": "Ignition Key",
+            "labelPosition": "after",
+            "formControlName": "Checkbox81",
+            "required": false,
+            "value": false,
+            "error": "Field is required"
+          },
+          {
+            "label": "Oil Level",
+            "labelPosition": "after",
+            "formControlName": "Checkbox82",
+            "required": false,
+            "value": false,
+            "error": "Field is required"
+          },
+          {
+            "label": "Washer Fluid Level",
+            "labelPosition": "after",
+            "formControlName": "checkbox83",
+            "required": false
+          },
+          {
+            "label": "Coolant Level",
+            "labelPosition": "after",
+            "formControlName": "checkbox84",
+            "required": false
+          },
+          {
+            "label": "Power Steering Fluid Level",
+            "labelPosition": "after",
+            "formControlName": "checkbox85",
+            "required": false
+          },
+          {
+            "label": "Check for Air Gauge",
+            "labelPosition": "after",
+            "formControlName": "checkbox86",
+            "required": false
+          },
+          {
+            "label": "Check Horn",
+            "labelPosition": "after",
+            "formControlName": "checkbox87",
+            "required": false
+          },
+          {
+            "label": "Check Heater/Defroster",
+            "labelPosition": "after",
+            "formControlName": "checkbox88",
+            "required": false
+          },
+          {
+            "label": "Check Windshield Wipers/Washers",
+            "labelPosition": "after",
+            "formControlName": "checkbox89",
+            "required": false
+          },
+          {
+            "label": "Check all signal lights",
+            "labelPosition": "after",
+            "formControlName": "checkbox810",
+            "required": false
+          },
+          {
+            "label": "Check Interior lights",
+            "labelPosition": "after",
+            "formControlName": "checkbox811",
+            "required": false
+          },
+          {
+            "label": "Check Mirrors for damage and adjustments",
+            "labelPosition": "after",
+            "formControlName": "checkbox812",
+            "required": false
+          },
+          {
+            "label": "Windshield clear visibility, No Cracks",
+            "labelPosition": "after",
+            "formControlName": "checkbox813",
+            "required": false
+          },
+          {
+            "label": "Visual Inspection for Exterior Damage/Leaks under vehicle",
+            "labelPosition": "after",
+            "formControlName": "checkbox814",
+            "required": false
+          },
+          {
+            "label": "Check inside Engine compartment for Leaks/loose items",
+            "labelPosition": "after",
+            "formControlName": "checkbox815",
+            "required": false
+          },
+          {
+            "label": "Start Engine & check Transmission Fluid Level (Fluid should be hot)",
+            "labelPosition": "after",
+            "formControlName": "checkbox816",
+            "required": false
+          },
+          {
+            "label": "Check Highlight/Signal lights/4way flashes/Tail lights/Backup lights",
+            "labelPosition": "after",
+            "formControlName": "checkbox817",
+            "required": false
+          },
+          {
+            "label": "Check fuel level (Should Not be Less Than ½ Tank)",
+            "labelPosition": "after",
+            "formControlName": "checkbox818",
+            "required": false
+          },
+          {
+            "label": "Check First Aid Kit Available and full (Check expiry dates on contents)",
+            "labelPosition": "after",
+            "formControlName": "checkbox819",
+            "required": false
+          },
+          {
+            "label": "Check Fire Extinguisher is available/Gauge showing charged, proper seal, pin and inspection",
+            "labelPosition": "after",
+            "formControlName": "checkbox820",
+            "required": false
+          },
+          {
+            "label": "Survival kit available : candles, emergency blanket, tow rope, booster cables, light sticks, water",
+            "labelPosition": "after",
+            "formControlName": "checkbox821",
+            "required": false
+          },
+          {
+            "label": "Fuel Key, if used (Check if not used)",
+            "labelPosition": "after",
+            "formControlName": "checkbox822",
+            "required": false
+          },
+          {
+            "label": "Check Radio (Two-way check), if required",
+            "labelPosition": "after",
+            "formControlName": "checkbox823",
+            "required": false
+          },
+          {
+            "label": "Check Tires for wear and pressure (as per manufacturer)",
+            "labelPosition": "after",
+            "formControlName": "checkbox824",
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": "Label",
+        "label": "As you drive, continually check for any strange smells, sounds, vibrations, or Anything that does not feel right.  **Vehicles should be serviced as per manufacturers recommendations and repairs made only by competent accredited personnel.",
+        "fontValue": "mat-body-2"
+      },
+      {
+        "type": "Label",
+        "label": "For monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per Summits Inspection Policy. ",
+        "fontValue": "mat-body-2"
+      },
+      {
+        "type": "Checkbox",
+        "label": "The following discrepancies were noted:",
+        "checkboxArray": [
+          {
+            "label": "Yes - List below",
+            "labelPosition": "after",
+            "formControlName": "Checkbox121",
+            "required": false,
+            "value": false,
+            "error": "Field is required"
+          },
+          {
+            "label": "No ",
+            "labelPosition": "after",
+            "formControlName": "Checkbox122",
+            "required": false,
+            "value": false,
+            "error": "Field is required"
+          }
+        ]
+      },
+      {
+        "type": "Textbox",
+        "placeholder": "Textbox",
+        "formControlName": "Textbox11",
+        "label": "The following discrepancies were noted:",
+        "appearance": "outline",
+        "required": false,
+        "types": "text",
+        "error": "Required Field"
+      }
+    ],
+    "labels": "[\"Date Inspection Completed\",\"Worker Completing Inspection Name (First Name, Last Name)\",\"Supervisor Name\",\"Multi Select\",\"DIVISION\",\"Vehicle Mileage Reading (KM)\",\"Registration Expiry Date\",\"Ignition Key\",\"Oil Level\",\"Washer Fluid Level\",\"Coolant Level\",\"Power Steering Fluid Level\",\"Check for Air Gauge\",\"Check Horn\",\"Check Heater/Defroster\",\"Check Windshield Wipers/Washers\",\"Check all signal lights\",\"Check Interior lights\",\"Check Mirrors for damage and adjustments\",\"Windshield clear visibility, No Cracks\",\"Visual Inspection for Exterior Damage/Leaks under vehicle\",\"Check inside Engine compartment for Leaks/loose items\",\"Start Engine & check Transmission Fluid Level (Fluid should be hot)\",\"Check Highlight/Signal lights/4way flashes/Tail lights/Backup lights\",\"Check fuel level (Should Not be Less Than ½ Tank)\",\"Check First Aid Kit Available and full (Check expiry dates on contents)\",\"Check Fire Extinguisher is available/Gauge showing charged, proper seal, pin and inspection\",\"Survival kit available : candles, emergency blanket, tow rope, booster cables, light sticks, water\",\"Fuel Key, if used (Check if not used)\",\"Check Radio (Two-way check), if required\",\"Check Tires for wear and pressure (as per manufacturer)\",\"Yes - List below\",\"No \",\"The following discrepancies were noted:\"]",
+    "columns": "id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar , user_created varchar , user_archived jsonb , date_updated timestamp , date_archived timestamp , date_created timestamp, Textbox0 varchar,Textbox1 varchar,Textbox2 varchar,SelectMulti9 varchar,SelectMulti8 varchar,Textbox3 varchar,Textbox4 varchar,Checkbox81 boolean,Checkbox82 boolean,checkbox83 boolean,checkbox84 boolean,checkbox85 boolean,checkbox86 boolean,checkbox87 boolean,checkbox88 boolean,checkbox89 boolean,checkbox810 boolean,checkbox811 boolean,checkbox812 boolean,checkbox813 boolean,checkbox814 boolean,checkbox815 boolean,checkbox816 boolean,checkbox817 boolean,checkbox818 boolean,checkbox819 boolean,checkbox820 boolean,checkbox821 boolean,checkbox822 boolean,checkbox823 boolean,checkbox824 boolean,Checkbox121 boolean,Checkbox122 boolean,Textbox11 varchar,PRIMARY KEY(id)",
+    "pin": "U2FsdGVkX1/3BLZ7IAd0yJGzGj+6jLZwMwxvhsnnz0A="
+  },
+  "form_id": "b92fb392-6302-41a4-aa30-d2f8daf75d71",
+  "date_created": "2021-05-20T16:02:29.226Z",
+  "date_last_access": "2021-05-20T16:02:29.226Z",
+  "user_created": 1,
+  "user_archived": null,
+  "is_data": true,
+  "is_published": false,
+  "id": 4,
+  "tenant_id": "1a3a6232-ab04-43d6-9d18-6828f257f55f",
+  "type": "dynamic"
+}

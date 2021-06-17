@@ -1,0 +1,17 @@
+<div [formGroup]="runForm" class="control-padding" fxLayout="column" fxLayoutGap="10px">
+  <div fxLayout="row">
+    <label>{{appService.detailArray[index].label}}</label>
+  </div>
+  <div class="slider-margin">
+    <mat-slider formControlName="{{appService.detailArray[index].formControlName}}" 
+      fxFlex
+      [max]="appService.detailArray[index].max"
+      [min]="appService.detailArray[index].min"
+      [step]= "appService.detailArray[index].step"
+      [thumbLabel]="appService.detailArray[index].label"
+      [tickInterval]="appService.detailArray[index].interval"
+      [value]="appService.detailArray[index].value"
+      [vertical]="appService.detailArray[index].vertical">
+    </mat-slider>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="form-padding" *ngFor="let formObj of forms">
+  <mat-card class="custom hand" (click)=selectForm(formObj)>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+      </div>
+      <mat-card-title>{{ formObj.name }}</mat-card-title>
+      <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>

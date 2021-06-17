@@ -1,0 +1,12 @@
+<div [formGroup]="runForm" class="control-padding text-color">
+  <mat-form-field appearance="{{appService.detailArray[index].appearance}}" fxFlex> 
+    <mat-label>{{appService.detailArray[index].label}}</mat-label>
+    <input matInput [type]="appService.detailArray[index].types"
+           formControlName="{{appService.detailArray[index].formControlName}}"
+           [placeholder]="appService.detailArray[index].placeholder" 
+           [required]="appService.detailArray[index].required">
+    <mat-error>
+      {{appService.detailArray[index].error}}
+    </mat-error>
+  </mat-form-field>
+</div>

@@ -1,0 +1,51 @@
+  <div class="container-padding">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="50">
+        <h2>{{state.selectedForm.name}}</h2>
+      </div>
+      <div>
+        <button mat-icon-button (click)="openList()">
+          <mat-icon>menu_open</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <form [formGroup]="runForm">
+        <mat-form-field fxFlex>
+          <mat-label>Enter new List Item</mat-label>
+          <input matInput type="text" formControlName="item" placeholder="Enter new List Item" required>
+        </mat-form-field>
+      </form>
+      <button mat-raised-button (click)="save()" color="primary" [disabled]="!runForm.valid" runForm.type="submit">
+        Add ID to List
+      </button>
+    </div>
+    <br>
+    <div class="scroll-container mat-elevation-z8">
+      <table mat-table [dataSource]="appService.dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td (click)="edit(i, element)" class="hand" mat-cell *matCellDef="let element; let i = index">
+            <div *ngIf="selectedIdx !== i">{{element.data}}</div>
+            <span *ngIf="selectedIdx === i">
+              <div fxLayout="row">
+                <mat-form-field>
+                  <input matInput type="text" [formControl]="id">
+                </mat-form-field>
+              </div>
+              <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
+                <div>
+                  <button (click)="update(i)" mat-stroked-button color="primary">Save</button>
+                </div>
+                <div>
+                  <button (click)="delete(i)" mat-stroked-button color="warn">Delete</button>
+                </div>
+              </div>
+            </span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>

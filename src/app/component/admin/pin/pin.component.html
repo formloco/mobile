@@ -1,0 +1,28 @@
+<mat-toolbar>
+  <span>{{ state.childPageLabel }}</span>
+  <span class="toolbar-spacer"></span>
+</mat-toolbar>
+<div class="top-margin text-color" fxLayout="column" [ngStyle]="{'background-color': appService.canvasBackground}" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div >Enter PIN</div>
+  </div>
+  <form [formGroup]="pinForm">
+    <div fxLayout="column">
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>PIN</mat-label>
+        <input matInput placeholder="Enter PIN" formControlName="pin" type="password" required>
+        <mat-error>
+          PIN is required!
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutGap="1rem">
+      <button (click)="goHome()" mat-stroked-button color="primary">
+        CANCEL
+      </button>
+      <button (click)="loginPIN()" mat-raised-button color="primary" [disabled]="!pinForm.valid">
+        OK
+      </button>
+    </div>
+  </form>
+</div>

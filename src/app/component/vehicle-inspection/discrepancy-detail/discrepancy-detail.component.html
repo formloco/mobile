@@ -1,0 +1,21 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div class="mat-headline">{{data.formControlName | splitCamelCase}}</div>
+    <div (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </div>
+  </div>
+  <form [formGroup]="detailForm">
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <mat-label>Describe Discrepancies</mat-label>
+        <textarea matInput formControlName="{{data.formControlName}}"></textarea>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="center" style="margin-bottom: -14px !important;" fxLayout="row" fxLayoutGap="1rem">
+      <button (click)="dialogRef.close()" mat-raised-button color="primary" [disabled]="!detailForm.valid">
+        SAVE
+      </button>
+    </div>
+  </form>
+</div>

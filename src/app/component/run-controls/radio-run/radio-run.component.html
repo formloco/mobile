@@ -1,0 +1,14 @@
+<div [formGroup]="runForm" class="control-padding text-color" fxLayout="column" fxLayoutAlign="center">
+  <div>
+    <label>{{appService.detailArray[index].label}}</label>
+  </div>
+  <br>
+  <div fxLayoutAlign="center">
+    <mat-radio-group formControlName="{{appService.detailArray[index].formControlName}}" fxLayoutGap="40px">
+      <mat-radio-button *ngFor="let radio of appService.detailArray[index].radioArray" [labelPosition]="radio.labelPosition" [value]="radio.value"
+        required="appService.detailArray[index].required">
+        {{radio.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>

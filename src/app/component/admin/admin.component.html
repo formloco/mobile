@@ -1,0 +1,17 @@
+<div class="column" fxFlexFill>
+  <mat-sidenav-container class="list-container" [ngStyle]="{'background-color': appService.canvasBackground, 'style.height.px': myInnerHeight }" (backdropClick)="close('backdrop')">
+    <mat-sidenav #sidenav (keydown.escape)="close('escape')" class="list-menu" mode="over" [(opened)]="appService.isListMenu"
+      [fixedInViewport]="true" [fixedTopGap]=55>
+      <app-form-lists (selectChild)=selectChild($event) [state]=state></app-form-lists>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-list-run *ngIf="state.childPage === 'list'" [state]=state (openLists)=openLists()></app-list-run>
+      <app-data *ngIf="state.childPage === 'data'" [state]=state></app-data>
+      <app-data-forms *ngIf="state.childPage === 'data-forms'" (selectChild)=selectChild($event) [state]=state></app-data-forms>
+      <app-settings *ngIf="state.childPage === 'settings'" [state]=state></app-settings>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<footer>
+  <app-menu [state]=state (selectChild)=selectChild($event)></app-menu>
+</footer>

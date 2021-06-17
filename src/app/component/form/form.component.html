@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <span fxLayoutAlign="center center">
+    <mat-icon class="form-icon">{{ state.selectedForm.icon }}</mat-icon>&nbsp;{{ state.selectedForm.name }}</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+<span *ngIf="state.selectedForm.type === 'custom'">
+  <app-vehicle-inspection [state]=state></app-vehicle-inspection>
+  <app-footer [state]=state (getHistory)="getHistory($event)"></app-footer>
+</span>
+<div *ngIf="state.selectedForm.type === 'dynamic'">
+  <app-run [state]=state [runForm]=runForm></app-run>
+</div>
+
