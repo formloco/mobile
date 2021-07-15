@@ -4,11 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://bluerockmicro.com/api/',
+  // apiUrl: 'https://bluerockmicro.com/api/',
   authUrl: 'https://bluerockmicro.com/auth/',
   formUrl: 'https://bluerockmicro.com/form/',
 
-  // apiUrl: 'http://localhost:9003/api/',
+  // authUrl: 'https://localhost:9000/auth/',
+  apiUrl: 'http://localhost:9003/api/',
   // formUrl: 'http://localhost:9002/form/',
 
   tenant: { email: 'brock@formloco.com', tenant_id: '06632206-3cd4-4751-9e5d-b8839a454ca8' },
