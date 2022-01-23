@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Branding } from '../app/state/apps/apps-state.model'
+import { Branding, Tenant } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
@@ -17,7 +17,7 @@ export const environment = {
   redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
   tenant: { email: 'polly@formloco.com', 
-            tenant_id: 'formloco',
+            tenant_id: Tenant.formloco,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
   logo: Branding.formloco,

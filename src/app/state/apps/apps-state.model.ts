@@ -25,3 +25,9 @@ export enum Branding {
   formloco = 'assets/logo-light.png',
   rumzer = 'assets/logo-rumzer.svg'
 }
+
+export enum Tenant {
+  summit = 'summit',
+  formloco = 'formloco',
+  rumzer = 'rumzer'
+}
