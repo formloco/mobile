@@ -13,12 +13,12 @@ export const environment = {
   signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 
-  tenant: { email: 'polly@formloco.com', 
-            tenant_id: Tenant.formloco,
+  tenant: { email: 'rumzerbot@rumzer.com', 
+            tenant_id: Tenant.rumzer,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.formloco,
-  idbName: 'formlocoMobileDB',
-  version: 'January 20, 2022',
+  logo: Branding.rumzer,
+  idbName: 'rumzerMobileDB',
+  version: 'January 23, 2022',
   pin: '999999'
 }
