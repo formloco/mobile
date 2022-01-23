@@ -15,11 +15,11 @@ export const environment = {
   redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 
   tenant: { email: 'rumzerbot@rumzer.com', 
-            tenant_id: Tenant.formloco,
+            tenant_id: Tenant.rumzer,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.formloco,
-  idbName: IdbName.formloco,
+  logo: Branding.rumzer,
+  idbName: IdbName.rumzer,
   version: 'January 23, 2022',
   pin: '999999'
 }
