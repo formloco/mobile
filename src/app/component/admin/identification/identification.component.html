@@ -4,11 +4,12 @@
       <img src="assets/parrot.svg" height="42px">
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <img *ngIf="(isDarkMode$ | async)" src="assets/logo-dark.png" height="90px">
-        <img *ngIf="!(isDarkMode$ | async)" src="assets/logo-light.png" height="90px">
-      </button>
+      <!-- <button mat-menu-item>
+        <img *ngIf="(isDarkMode$ | async)" src="{{branding.logoDark}}" height="90px">
+        <img *ngIf="!(isDarkMode$ | async)" src="{{branding.logoLight}}" height="90px">
+      </button> -->
       <button mat-menu-item>{{version}}</button>
+      <button mat-menu-item (click)="upGradeIndexDB()">UpGrade</button>
     </mat-menu>
   </div>
   <span class="toolbar-spacer"></span>
@@ -20,7 +21,7 @@
   <form class="container-padding" [formGroup]="idForm">
     <div fxLayout="column">
       <div class="text-color text-center">
-        <div><img src="assets/logo.svg"></div>
+        <div><img src="{{logo}}"></div>
       </div>
       <br>
       <mat-form-field appearance="outline" fxFlex>

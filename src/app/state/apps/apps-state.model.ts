@@ -19,3 +19,9 @@ export const APPS = [
     description: "Realtime Asset Tracking"
   }
 ]
+
+export enum Branding {
+  summit = 'assets/logo-summit.svg',
+  formloco = 'assets/logo-light.png',
+  rumzer = 'assets/logo-rumzer.svg'
+}

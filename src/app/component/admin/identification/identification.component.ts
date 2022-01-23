@@ -7,14 +7,13 @@ import { environment } from '../../../../environments/environment'
 
 import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
-import { EmailService } from "../../../service/email.service"
-import { ErrorService } from "../../../service/error.service"
-import { SuccessService } from "../../../service/success.service"
 
 import { Store, Select } from '@ngxs/store'
 import { DeviceState } from '../../../state/device/device.state'
 import { SetPage, SetUserIdb, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 import { SetIsDarkMode } from '../../../state/device/device-state.actions'
+
+import { IdbPersistenceService } from '../../../service-idb/idb-persistence.service';
 
 @Component({
   selector: 'app-identification',
@@ -27,6 +26,7 @@ export class IdentificationComponent {
 
   tenant = environment.tenant
   version = environment.version
+  logo = environment.logo
 
   data
   idForm: FormGroup
@@ -36,7 +36,8 @@ export class IdentificationComponent {
     private fb: FormBuilder,
     public appService: AppService,
     private authService: AuthService, 
-    private idbCrudService: IdbCrudService) { 
+    private idbCrudService: IdbCrudService,
+    private idbPersistenceService: IdbPersistenceService,) { 
     this.idForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required,]]
@@ -70,6 +71,10 @@ export class IdentificationComponent {
 
   getEmail() {
     this.store.dispatch(new SetPage('send-password'))
+  }
+
+  upGradeIndexDB() {
+    this.idbPersistenceService.deleteDb()
   }
 
 }
