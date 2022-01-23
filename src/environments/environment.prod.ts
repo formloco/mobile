@@ -1,4 +1,4 @@
-import { Branding, Tenant } from '../app/state/apps/apps-state.model'
+import { Branding, Tenant, IdbName } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: true,
@@ -17,8 +17,8 @@ export const environment = {
             tenant_id: Tenant.formloco,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.rumzer,
-  idbName: 'rumzerMobileDB',
+  logo: Branding.formloco,
+  idbName: IdbName.formloco,
   version: 'January 23, 2022',
   pin: '999999'
 }

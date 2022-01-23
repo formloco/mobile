@@ -31,3 +31,9 @@ export enum Tenant {
   formloco = 'formloco',
   rumzer = 'rumzer'
 }
+
+export enum IdbName {
+  summit = 'summitMobileDB',
+  formloco = 'formlocoMobileDB',
+  rumzer = 'rumzerMobileDB'
+}
