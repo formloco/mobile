@@ -1,0 +1,10 @@
+<div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
+  <div fxLayoutAlign="center">
+    <div [fxFlex]="screenWidth$ | async">
+      <app-pin (changeTheme)=changeTheme($event) *ngIf="!(page$ | async)"></app-pin>
+      <app-notification *ngIf="(page$ | async) === 'notification'"></app-notification>
+      <app-admin *ngIf="(page$ | async) === 'admin'"></app-admin>
+      <app-form *ngIf="(page$ | async) === 'form-admin'"></app-form>
+    </div>
+  </div>
+</div>

@@ -1,30 +1,30 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core'
+import { Component, Output, EventEmitter  } from '@angular/core'
 
-import { AppState } from "../../../model/state"
-
+import { Observable } from 'rxjs'
+import { Store, Select } from '@ngxs/store'
 import { FORMS } from "../../../model/forms"
+
+import { AuthState } from '../../../state/auth/auth.state'
+import { SetSelectedForm } from '../../../state/auth/auth-state.actions'
 
 @Component({
   selector: 'app-data-forms',
   templateUrl: './data-forms.component.html',
   styleUrls: ['./data-forms.component.scss']
 })
-export class DataFormsComponent implements OnInit {
+export class DataFormsComponent {
 
-  @Input() state: AppState
-  @Output() selectChild = new EventEmitter<any>()
+  @Select(AuthState.forms) forms$: Observable<any[]>
 
-  forms = FORMS
+  @Output() selectData = new EventEmitter<any>()
 
-  constructor() { }
+  // forms = FORMS
 
-  ngOnInit(): void {
-    this.state.childPageLabel = 'Administration - Data Forms'
-  }
+  constructor(private store: Store) { }
 
   selectForm(formObj) {
-    this.state.selectedForm = formObj
-    this.selectChild.emit('data')
+    this.store.dispatch(new SetSelectedForm(formObj))
+    this.selectData.emit()
   }
 
 }

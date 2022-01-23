@@ -1,0 +1,101 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="equipmentForm">
+    <div class="text-color radio-center">{{label.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects,'ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.InteriorOfVehicleKeptTidyAndClean}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="InteriorOfVehicleKeptTidyAndClean">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.InteriorOfVehicleKeptTidyAndClean,'InteriorOfVehicleKeptTidyAndClean')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div class="text-color radio-center">{{label.VehicleWindshieldFreeOfMajorChipsAndCracks}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="VehicleWindshieldFreeOfMajorChipsAndCracks">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.VehicleWindshieldFreeOfMajorChipsAndCracks,'VehicleWindshieldFreeOfMajorChipsAndCracks')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.DailyPreUseVehicleInspectionCompleted}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="DailyPreUseVehicleInspectionCompleted">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.DailyPreUseVehicleInspectionCompleted,'DailyPreUseVehicleInspectionCompleted')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.EquipmentPreUseInspectionCompleted}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EquipmentPreUseInspectionCompleted">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.EquipmentPreUseInspectionCompleted,'EquipmentPreUseInspectionCompleted')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.CargoIinternalAndExternalProperlyStowedAndSecured}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="CargoIinternalAndExternalProperlyStowedAndSecured">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.CargoIinternalAndExternalProperlyStowedAndSecured,'CargoIinternalAndExternalProperlyStowedAndSecured')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.HornIsInProperWorkingCondition}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="HornIsInProperWorkingCondition">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.HornIsInProperWorkingCondition,'HornIsInProperWorkingCondition')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.HeadlightsAreInProperWorkingCondition}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="HeadlightsAreInProperWorkingCondition">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.HeadlightsAreInProperWorkingCondition,'HeadlightsAreInProperWorkingCondition')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.SignalLightsAreInProperWorkingCondition}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SignalLightsAreInProperWorkingCondition">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SignalLightsAreInProperWorkingCondition,'SignalLightsAreInProperWorkingCondition')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.EmergencyWarningStrobeLightEquippedOnVehicle}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EmergencyWarningStrobeLightEquippedOnVehicle">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.EmergencyWarningStrobeLightEquippedOnVehicle,'EmergencyWarningStrobeLightEquippedOnVehicle')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.SafetyBuggyWhipEquippedOnVehicle}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SafetyBuggyWhipEquippedOnVehicle">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SafetyBuggyWhipEquippedOnVehicle,'SafetyBuggyWhipEquippedOnVehicle')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.FirstAidKitEquippedInVehicle}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="FirstAidKitEquippedInVehicle">
+        <mat-radio-button (click)="openComment(label.FirstAidKitEquippedInVehicle,'FirstAidKitEquippedInVehicle')" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.FirstAidKitEquippedInVehicle,'FirstAidKitEquippedInVehicle')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.EmergencySurvivalKitEquippedInVehicle}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EmergencySurvivalKitEquippedInVehicle">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.EmergencySurvivalKitEquippedInVehicle,'EmergencySurvivalKitEquippedInVehicle')" value="no">No</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.EmergencySurvivalKitEquippedInVehicle,'EmergencySurvivalKitEquippedInVehicle')" value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field fxFlex>
+      <mat-label>Other Comments - Key Positive Findings</mat-label>
+      <textarea cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" matInput formControlName="OtherCommentsKeyPositiveFindings" placeholder="Other Comments - Key Positive Findings" fxFlex></textarea>
+    </mat-form-field>
+  </form>
+</div>

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core'
 
-import { BuilderService } from "../service/builder.service"
-
 import { environment } from '../../environments/environment'
 
 @Injectable({
@@ -12,7 +10,7 @@ export class TransformRunService {
   columnArray = []
   tenant = environment.tenant
 
-  constructor(public builderService: BuilderService) { }
+  constructor() { }
 
   public parseDataCloud(formValues, form) {
     

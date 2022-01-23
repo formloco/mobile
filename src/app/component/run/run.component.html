@@ -1,10 +1,10 @@
-<form class="run-form-container" *ngIf="state.selectedForm.formObject !== undefined" [formGroup]="runForm">
-  <div class="container-padding" *ngFor="let control of state.selectedForm.formObject.form.controls; let i=index">
+<form class="run-form-container" *ngIf="selectedForm$ | async" [formGroup]="runForm">
+  <div class="container-padding" *ngFor="let control of (selectedForm$ | async).formObject.form.controls; let i=index">
     <div [ngSwitch]="control.type">
       <app-label-run *ngSwitchCase="'Label'" [index]=i></app-label-run>
       <app-quill-run *ngSwitchCase="'Editor'" [index]=i></app-quill-run>
       <app-fileupload-run *ngSwitchCase="'File Upload'" [index]=i></app-fileupload-run>
-      <app-gps-run *ngSwitchCase="'GPS'" [runForm]="runForm" [state]=state></app-gps-run>
+      <app-gps-run *ngSwitchCase="'GPS'" [runForm]="runForm" ></app-gps-run>
       <app-textbox-run *ngSwitchCase="'Textbox'" [runForm]="runForm" [index]=i>
       </app-textbox-run>
       <app-textarea-run *ngSwitchCase="'Textarea'" [runForm]="runForm" [index]=i>
@@ -34,5 +34,5 @@
   </div>
 </form>
 <div class="floating-btn">
-  <mat-icon class="icon-96px-action" (click)="saveCloud()">fingerprint</mat-icon>
+  <mat-icon class="icon-120px-action" (click)="saveCloud()">fingerprint</mat-icon>
 </div>

@@ -1,0 +1,91 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="jobsiteForm">
+    <div class="text-color radio-center">{{label.WorkAreaClearlyIdentified}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="WorkAreaClearlyIdentified">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.WorkAreaClearlyIdentified,'WorkAreaClearlyIdentified')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.AppropriateAccessAndEgressRoutesAreEstablished}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="AppropriateAccessAndEgressRoutesAreEstablished">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.AppropriateAccessAndEgressRoutesAreEstablished,'AppropriateAccessAndEgressRoutesAreEstablished')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div class="text-color radio-center">{{label.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns,'SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.AllOpenExcavationsAreClearlyMarked}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="AllOpenExcavationsAreClearlyMarked">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.AllOpenExcavationsAreClearlyMarked,'AllOpenExcavationsAreClearlyMarked')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.PublicAccessToTheSiteControlled}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="PublicAccessToTheSiteControlled">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.PublicAccessToTheSiteControlled,'PublicAccessToTheSiteControlled')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    
+    <div class="text-color radio-center">{{label.PrimeContractorClearlyIdentifiedWithSignage}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="PrimeContractorClearlyIdentifiedWithSignage">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.PrimeContractorClearlyIdentifiedWithSignage,'PrimeContractorClearlyIdentifiedWithSignage')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.IsThereEmergencyEquipmentOnSite}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="IsThereEmergencyEquipmentOnSite">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.IsThereEmergencyEquipmentOnSite,'IsThereEmergencyEquipmentOnSite')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.FirstAidKitAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="FirstAidKitAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.FirstAidKitAvailable,'FirstAidKitAvailable')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.BlanketsAndStretcherAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="BlanketsAndStretcherAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.BlanketsAndStretcherAvailable,'BlanketsAndStretcherAvailable')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.EyeWashBottleAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EyeWashBottleAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.EyeWashBottleAvailable,'EyeWashBottleAvailable')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.SpillKitAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SpillKitAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SpillKitAvailable,'SpillKitAvailable')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,17 @@
+<div class="mat-headline" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayoutAlign="start center">Unsaved Comments!</div>
+  <div fxLayoutAlign="start center" class="icon-pointer" (click)="close()">
+    <mat-icon class="hand">close</mat-icon>
+  </div>
+</div>
+<br>
+<p style="text-align:center"><b>Should you decide to continue your comments will be deleted.</b></p>
+<br>
+<div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutGap="2rem">
+  <button (click)="deleteComments()" mat-raised-button color="warn">
+    Delete
+  </button>
+  <button mat-stroked-button (click)="close()">
+    Cancel
+  </button>
+</div>

@@ -1,0 +1,45 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="10px">
+    <!-- <mat-form-field fxFlex="50">
+      <mat-label class="select-font">Filter by Category</mat-label>
+      <mat-select (selectionChange)="filterCategory($event)">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.category }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field fxFlex="50">
+      <mat-label class="select-font">Filter by Status</mat-label>
+      <mat-select (selectionChange)="filterStatus($event)">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{ status.status }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+  </div>
+  <div *ngIf="isAssetVitals" class="margin-bottom20px" fxLayout="row" fxFlex>
+    <app-asset-vitals 
+                      [isUpdateMap]=isUpdateMap
+                      [isUpdateAsset]=isUpdateAsset
+                      (cancelVitals)="cancelVitals($event)"
+                      (refreshMarkers)="refreshMarkers($event)" 
+                      [assetId]=assetId fxFlex>
+    </app-asset-vitals>
+  </div>
+  <div fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="20px" fxFlex>
+      <div fxLayout="column" fxFlex>
+        <mat-card fxFlex>
+          <mat-card-content>
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+              (mapClick)="closePrevInfo()">
+              <agm-marker *ngFor="let marker of (assetMarker$ | async)" (markerClick)="clickedMarker(marker)"
+                [latitude]="marker.lat" [longitude]="marker.lng" [label]="marker.label" [iconUrl]="marker.icon">
+              </agm-marker>
+            </agm-map>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

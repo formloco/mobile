@@ -1,18 +1,16 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core'
 
-import * as uuid from 'uuid'
+import { Observable } from 'rxjs'
 
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 
-import { AppService } from "../../service/app.service"
-import { DataService } from "../../service/data.service"
-import { AuthService } from "../../service/auth.service"
-import { BuilderService } from "../../service/builder.service"
+import { Store, Select } from '@ngxs/store'
+import { ApiService } from "../../service/api.service"
 import { SuccessService } from "../../service/success.service"
 import { IdbCrudService } from "../../service-idb/idb-crud.service"
 import { TransformRunService } from "../../service/transform-run.service"
 
-import { AppState } from "../../model/state"
+import { AuthState } from '../../state/auth/auth.state'
 
 @Component({
   selector: 'app-run',
@@ -22,8 +20,9 @@ import { AppState } from "../../model/state"
 })
 export class RunComponent implements OnInit {
 
-  @Input() state: AppState
   @Input() runForm: FormGroup
+
+  @Select(AuthState.selectedForm) selectedForm$: Observable<any>
   
   id
   newform
@@ -36,9 +35,9 @@ export class RunComponent implements OnInit {
   user_created
 
   constructor(
+    private store: Store,
     private fb: FormBuilder,
-    public appService: AppService,
-    private dataService: DataService,
+    private apiService: ApiService,
     public idbCrudService: IdbCrudService,
     private successService: SuccessService,
     private transformRunService: TransformRunService) {
@@ -50,13 +49,13 @@ export class RunComponent implements OnInit {
 
   saveCloud() {
     let obj = {
-      data: this.transformRunService.parseDataCloud(this.runForm.value, this.state.selectedForm.formObject),
-      columns: this.transformRunService.parseColumns(this.state.selectedForm.formObject["form"]["details"]),
-      user: this.state.tenant,
-      formObj: this.state.selectedForm.formObject["form"]
+      data: this.transformRunService.parseDataCloud(this.runForm.value, this.store.selectSnapshot(AuthState.selectedForm["formObject"])),
+      columns: this.transformRunService.parseColumns(this.store.selectSnapshot(AuthState.selectedForm["formObject"]["form"]["details"])),
+      user: this.store.selectSnapshot(AuthState.user),
+      formObj: this.store.selectSnapshot(AuthState.selectedForm["formObject"])
     }
 
-    this.dataService.save(obj).subscribe(() => {
+    this.apiService.save(obj).subscribe(() => {
       this.successService.popSnackbar('Successfully Saved.')
     })
   }

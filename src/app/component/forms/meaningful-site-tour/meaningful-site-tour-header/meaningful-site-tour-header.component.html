@@ -1,0 +1,55 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form class="header-form" [formGroup]="headerForm">
+    <div fxLayout="column">
+      <ion-label position="stacked">Choose a date</ion-label>
+      <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date">
+      </ion-datetime>
+      <mat-divider></mat-divider>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Client Name" formControlName="Name" type="text" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Location</mat-label>
+        <input matInput placeholder="" formControlName="Location" type="text" required>
+      </mat-form-field>
+      <mat-form-field class="bot-pad full-width-field">
+        <mat-label> First & Last Name</mat-label>
+        <input type="text" placeholder="Select or Enter First Name & Last Name" matInput
+          [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
+        <mat-hint>Worker Completing the Tour</mat-hint>
+        <mat-autocomplete #autoWorkers="matAutocomplete" required>
+          <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
+            {{worker.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="full-width-field">
+        <mat-label>Supervisor Name</mat-label>
+        <input type="text" placeholder="Select or Enter Supervisor Name" matInput
+          [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
+        <mat-autocomplete #autoSupervisors="matAutocomplete" required>
+          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async"
+            [value]="supervisor.name" required>
+            {{supervisor.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" color="primary" fxLayoutAlign="center start" fxLayoutGap="20px">
+      <mat-checkbox color="primary" class="text-color" formControlName="SiteOrientation">SiteOrientation</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="DailySafetyMeeting">Attend a Daily Safety Meeting / Toolbox Talk</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="SiteTour">Site tour (2 hrs)</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="SiteTourWithWorker">Site tour with worker</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="ReviewDiscuss">Complete/review and discuss <br>FLHA/JSA,HA etc.</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="PositiveInterventionRecognition">Positive intervention/recognition</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="EngageWithContractors">Engage with contractors</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="HousekeepingInspection">Housekeeping inspection</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="CompleteBBO">Complete a BBO</mat-checkbox> 
+      <mat-checkbox color="primary" class="text-color" formControlName="OpenTeamDiscussion">Hold an open discussion with the team</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="SafetyAlert">Share a recent “Safety Alert” <br>verbally if required</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="ProvideFeedback">Provide feedback and follow-up</mat-checkbox>
+      <mat-checkbox color="primary" class="text-color" formControlName="FormalAuditInspection">Participate in a formal audit/inspection <br>if available or applicable</mat-checkbox>
+    </div>
+  </form>
+</div>

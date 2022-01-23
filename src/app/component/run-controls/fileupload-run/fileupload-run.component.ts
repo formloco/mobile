@@ -25,7 +25,7 @@ export class FileuploadRunComponent implements OnInit {
     this.appService.fileArray.forEach(element => {
       this.readFile(element).then(fileContents => {
         element.content = fileContents;
-        element.tenant_id = localStorage.getItem('formTenantId');
+        element.tenantID = localStorage.getItem('formTenantId');
       });
     });
   }

@@ -1,57 +1,66 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
-import { AppState } from "../../model/state"
+import { Observable } from 'rxjs'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { MatDialogConfig, MatDialog } from "@angular/material/dialog"
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
 
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms'
+import { PicsComponent } from '../pics/pics.component'
+import { CameraComponent } from '../camera/camera.component'
 
-import { AppService } from "../../service/app.service"
-import { DataService } from "../../service/data.service"
-import { StateService } from "../../service/state.service"
-import { IdbCrudService } from "../../service-idb/idb-crud.service"
+import { Store, Select } from '@ngxs/store'
+import { AuthState } from '../../state/auth/auth.state'
+import { DeviceState } from '../../state/device/device.state'
+import { SetPage, SetChildPage, SetChildPageLabel } from '../../state/auth/auth-state.actions'
+
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
 
-  @Input() state: AppState
+  @Select(DeviceState.pics) pics$: Observable<[]>
+  @Select(AuthState.selectedForm) selectedForm$: Observable<any>
 
   runForm: FormGroup
 
   form
   step = 0
 
+  tenant = environment.tenant
+
   constructor(
+    private store: Store,
     private fb: FormBuilder,
-    public appService: AppService,
-    private dataService: DataService,
-    public stateService: StateService,
-    private idbCrudService: IdbCrudService) {
+    private dialog: MatDialog,
+    private bottomSheet: MatBottomSheet) {
     this.runForm = this.fb.group({})
   }
 
   close() {
-    this.appService.isFooter = true
-    this.state.page = 'home'
-    this.state.childPageLabel = 'Mobile Forms'
+    const page = this.store.selectSnapshot(AuthState.page)
+    if (page == 'form') {
+      this.store.dispatch(new SetPage('home'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
+    }
+    else {
+      this.store.dispatch(new SetPage('admin'))
+      this.store.dispatch(new SetChildPage('forms'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
+    }
   }
 
-  ngOnInit(): void {
-    if (this.state.selectedForm.history) {
-      this.idbCrudService.read('form', this.state.selectedForm.id).subscribe(form => {
-        this.form = form
-        let obj = ({
-          form_id: this.form.form_id,
-          tenant_id: this.state.tenant["tenant_id"]
-        })
-
-        this.dataService.getData(obj).subscribe(data => {
-          this.appService.history = data
-        })
-      })
-    }
+  snapShot() {
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.height = '100%'
+    dialogConfig.width = '100%'
+    dialogConfig.maxWidth = '100vw',
+    dialogConfig.maxHeight = '100vh',
+    dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
+    this.dialog.open(CameraComponent, dialogConfig)
   }
 
   setStep(index: number) {
@@ -66,5 +75,8 @@ export class FormComponent implements OnInit {
     this.step--
   }
 
-
+  showPhotos() {
+    this.bottomSheet.open(PicsComponent)
+  }
+  
 }

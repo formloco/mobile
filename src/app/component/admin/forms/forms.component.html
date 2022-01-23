@@ -1,0 +1,48 @@
+<!-- this line is intentionally left in to provide for introducing new forms into the app
+  from the FORMS const - client-side
+  to use: 
+  1) update FORMS in the model
+  2) Comment current div tag and uncomment the line below
+  3) Run the form and it will get registered to the cloud
+-->
+<!-- 
+  <div class="form-padding" *ngFor="let formObj of forms"></div> 
+-->
+<div class="form-padding" *ngFor="let formObj of (forms$ | async)">
+  <mat-card class="custom hand">
+    <mat-card-header (click)=selectForm(formObj)>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+      </div>
+      <mat-card-title>{{ formObj.name }}</mat-card-title>
+      <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+    </mat-card-header>
+    <div class="publish" fxLayoutAlign="space-between center">
+      <div fxLayout="column" fxLayoutGap="15px">
+        <div>
+          <mat-slide-toggle (change)="publish(formObj, $event)" color="primary" [checked]=formObj.is_published>
+          </mat-slide-toggle>&nbsp;&nbsp;
+          <span class="action-label-pub" *ngIf="formObj.is_published">Published</span>
+          <span class="action-label-pub" *ngIf="!formObj.is_published">Unpublished</span>  
+        </div>
+      </div>
+      <div>
+        <mat-slide-toggle (change)="setPermission(formObj,$event)" color="primary" [checked]=formObj.is_manager>
+        </mat-slide-toggle>&nbsp;&nbsp;
+        <span class="action-label-pub" *ngIf="formObj.is_manager">Manager Only</span>
+        <span class="action-label-pub" *ngIf="!formObj.is_manager">Everyone</span> 
+      </div>
+    </div>
+  </mat-card>
+</div>
+<div class="form-padding" *ngFor="let app of apps">
+  <mat-card class="custom hand" (click)=selectApp(app)>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon text-color material-icons-outlined">{{ app.icon }}</mat-icon>
+      </div>
+      <mat-card-title class="text-color">{{ app.name }}</mat-card-title>
+      <mat-card-subtitle>{{ app.description }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>

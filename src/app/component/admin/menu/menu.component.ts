@@ -1,12 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { Component, Output, EventEmitter } from '@angular/core'
 
-import { AppState } from "../../../model/state"
+import { Store } from '@ngxs/store'
 
-import { OverlayContainer } from '@angular/cdk/overlay'
-
-import { AppService } from "../../../service/app.service";
-import { AuthService } from "../../../service/auth.service";
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
+import { AppService } from "../../../service/app.service"
+import { SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 @Component({
   selector: 'app-menu',
@@ -15,24 +12,20 @@ import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 })
 export class MenuComponent {
 
-  @Input() state: AppState
-  @Output() selectChild = new EventEmitter<any>()
-
   constructor(
-    public appService: AppService,
-    public authService: AuthService,
-    private idbCrudService: IdbCrudService,
-    private overlayContainer: OverlayContainer) { }
+    private store: Store,
+    public appService: AppService) { }
 
   selectMenu(child) {
-    this.appService.isListMenu = false
-    if (child === 'data-forms') this.state.childPageLabel = 'Admin - Data'
-    if (child === 'settings') this.state.childPageLabel = 'Admin - User Settings'
-    this.selectChild.emit(child)
-  }
-
-  list() {
-    this.appService.isListMenu = !this.appService.isListMenu
+    if (child === 'data-forms') 
+      this.store.dispatch(new SetChildPageLabel('Data Forms'))
+    if (child === 'list-forms') 
+      this.store.dispatch(new SetChildPageLabel('Form Lists'))
+    if (child === 'email')
+      this.store.dispatch(new SetChildPageLabel('Users'))
+    if (child === 'forms')
+      this.store.dispatch(new SetChildPageLabel('Forms'))
+    this.store.dispatch(new SetChildPage(child))
   }
 
 }

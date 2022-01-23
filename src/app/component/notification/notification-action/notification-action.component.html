@@ -1,0 +1,26 @@
+<div class="mat-headline" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayoutAlign="start center">Corrective Action</div>
+  <div fxLayoutAlign="start center" class="hand" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </div>
+</div>
+<div *ngIf="data.notification.form_name === 'Vehicle Inspection'">
+  <app-action-vehicle-inspection [form]=data.form.data (close)=close()></app-action-vehicle-inspection>
+</div>
+<div *ngIf="data.notification.form_name === 'Meaningful Site Tour'">
+  <app-action-meaningful-site-tour [form]=data.form.data (close)=close()></app-action-meaningful-site-tour>
+</div>
+<div *ngIf="data.notification.form_name === 'Spot Check Safety'">
+  <app-action-spot-check-safety [form]=data.form.data (close)=close()></app-action-spot-check-safety>
+</div>
+<div *ngIf="data.notification.form_name === 'Worksite Safety Inspection'">
+  <app-action-worksite-safety-inspection [form]=data.form.data (close)=close()></app-action-worksite-safety-inspection>
+</div>
+<div class="padding" fxLayoutGap="20px" class="footer">
+  <button *ngIf="(pics$ | async)?.length > 0" color="primary" mat-mini-fab>
+    <mat-icon class="material-icons-outlined hand" (click)="openImage()">perm_media</mat-icon>
+  </button>
+  <button color="primary" mat-mini-fab>
+    <mat-icon class="material-icons-outlined hand" (click)="openPdf()">picture_as_pdf</mat-icon>
+  </button>
+</div>

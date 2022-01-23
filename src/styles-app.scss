@@ -1,3 +1,22 @@
+.header, .footer, .content {
+  position: absolute;
+  width: 100%;
+}
+
+.header { top: 0 }
+.footer { bottom: 0 }
+
+.content {
+  top: 55px;
+  bottom: 55px;
+  overflow: auto;
+}
+.content-full {
+  top: 0px;
+  bottom: 0px;
+  overflow: auto;
+}
+
 .nav-padding {
   padding-top: 10px;
   padding-left: 20px;
@@ -22,28 +41,46 @@
   color: #959595;
 }
 
+.recorder-running-color {
+  color: orange;
+}
+
 .text-center {
   text-align: center;
 }
 
-.icon-196px {
-  height:196px !important;
-  width:196px !important;
-  font-size:196px !important;
+.icon-169px {
+  height:169px !important;
+  width:169px !important;
+  font-size:169px !important;
 }
 
-.icon-196px-action {
-  height:196px !important;
-  width:196px !important;
-  font-size:196px !important;
+.icon-169px-action {
+  height:169px !important;
+  width:169px !important;
+  font-size:169px !important;
   color: #90ee90;
 }
 
-.icon-96px-action {
+.icon-select-files {
+  height:111px !important;
+  width:111px !important;
+  font-size:111px !important;
+  color: #959595;
+}
+
+.icon-120px-action {
   height:120px !important;
   width:120px !important;
   font-size:120px !important;
   color: #90ee90;
+}
+
+.icon-96px-delete {
+  height:96px !important;
+  width:96px !important;
+  font-size:96px !important;
+  color: red;
 }
 
 .icon-96px-disabled {
@@ -100,6 +137,10 @@ footer {
   width: 100%;
 }
 
+.logo-padding {
+  padding: 9px;
+}
+
 .list-menu {
   width: 130px;
 }
@@ -108,12 +149,18 @@ footer {
   padding: 20px;
 }
 
+.padding-top {
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 button.mat-flat-button {
   border-radius: 0;
 }
 
 .toolbar-spacer {
-  flex: 1 1 auto;
+  flex: auto;
 }
 
 .form-icon {
@@ -128,22 +175,8 @@ button.mat-flat-button {
   font-size: 24px;
 }
 
-.viewport-full {
-  height: 100%;
-  width: auto;
-  border: 1px solid black;
-}
-
-.viewport-300 {
-  height: 300px;
-  width: 100%;
-  border: 1px solid black;
-}
-
-.viewport-450 {
-  height: 450px;
-  width: 100%;
-  border: 1px solid black;
+.form-icon66 {
+  font-size: 66px;
 }
 
 .mat-radio-button ~ .mat-radio-button {
@@ -160,12 +193,30 @@ button.mat-flat-button {
   margin-bottom: 9px;
 }
 
-.scroll-container {
-  height: 400px;
-  overflow: auto;
+.header-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
 }
 
-.scroll-container-full {
-  // height: 500px;
-  overflow: auto;
+.accordion-padding {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.pdf {
+  color: red;
+}
+
+.icon-orange {
+  color: #FFAF42
+}
+
+.radio-margin {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.radio-center {
+  text-align: center;
 }

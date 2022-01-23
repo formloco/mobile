@@ -1,0 +1,38 @@
+<div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
+  <div class="padding-top" fxLayoutAlign="center space-between" fxLayout="row">
+    <div fxLayoutAlign="start center" class="text-color">Profile</div>
+    <span class="toolbar-spacer"></span>
+    <div>
+      <button (click)=close() mat-icon-button>
+        <mat-icon class="text-color">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="container-padding text-color padding" fxLayoutAlign="space-between" fxLayout="row">
+    <div fxLayoutAlign="start center">
+      <mat-slide-toggle [checked]="isDarkMode$ | async" color="primary" (click)="toggleTheme()"></mat-slide-toggle>
+      <span *ngIf="(isDarkMode$ | async)">&nbsp;&nbsp;Dark Mode</span>
+      <span *ngIf="!(isDarkMode$ | async)">&nbsp;&nbsp;Light Mode</span>
+    </div>
+    <div *ngIf="(user$ | async)?.admin" fxLayoutAlign="start center">
+      <a mat-button href='{{signinUrl}}' target="blank" color="primary">
+        <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon> Admin
+      </a>
+    </div>
+      <!-- <a href='http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/' target="blank">Admin link</a></div> -->
+  </div>
+  <form fxLayout="column" class="container-padding text-color" [formGroup]="passwordForm" fxLayoutGap="10px">
+    <div class="text-color">
+      Reset Password
+    </div>
+    <mat-form-field class="text-color" appearance="outline" fxFlex>
+      <mat-label class="text-color">Password</mat-label>
+      <input class="text-color" matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
+        formControlName="password" required>
+      <mat-icon class="hand" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <button (click)="resetPassword()" color="primary" mat-flat-button>
+      Reset Password
+    </button>
+  </form>
+</div>

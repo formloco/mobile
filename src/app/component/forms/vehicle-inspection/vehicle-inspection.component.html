@@ -1,0 +1,48 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Vehicle
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-header [headerForm]=headerForm></app-header>
+    <div class="action-btn" fxLayoutAlign="center center">
+      <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="isHeaderValid$ | async" [expanded]="step === 1" (opened)="setStep(1)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Details
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-detail [detailForm]=detailForm></app-detail>
+    <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-stroked-button color="primary" (click)="detailStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="isHeaderValid$ | async" [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Discrepancies
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-discrepancy [discrepancyForm]=discrepancyForm [detailForm]=appService.currentDetailForm></app-discrepancy>
+    <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="isHeaderValid$ | async" [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Signature
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-sign-off (submitForm)="submitForm()"></app-sign-off>
+    <div class="action-btn" fxLayoutAlign="center center">
+      <button mat-stroked-button color="warn" (click)="prevStep()">Previous</button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

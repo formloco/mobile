@@ -1,8 +1,0 @@
-<div class="column scroll-container-full" [ngStyle]="{'background-color': appService.canvasBackground, 'style.height.px': myInnerHeight}" fxFlexFill>
-  <app-nav *ngIf="state?.page === 'home' || state?.page === 'admin'" [state]=state (changeTheme)="changeTheme()"></app-nav>
-  <app-pin *ngIf="state?.page === 'pin'" [state]=state></app-pin>
-  <app-identification *ngIf="state?.page === 'identified'" [state]=state></app-identification>
-  <app-form *ngIf="state?.page === 'form'" [state]=state></app-form>
-  <app-home *ngIf="state?.page === 'home'" [state]=state></app-home>
-  <app-admin *ngIf="state?.page === 'admin'" [state]=state></app-admin>
-</div>

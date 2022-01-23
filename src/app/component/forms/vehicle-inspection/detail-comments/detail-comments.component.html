@@ -1,0 +1,25 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div class="mat-headline">{{data.formControlName | splitCamelCase}}</div>
+    <div class="hand" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </div>
+  </div>
+  <form [formGroup]="commentForm">
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <mat-label>Describe Discrepancies</mat-label>
+        <textarea matInput formControlName="comments"></textarea>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutAlign="space-between">
+      <button (click)="snapShot()" mat-raised-button color="primary" [disabled]="!commentForm.valid">
+        SNAP PIC
+      </button>
+      <div fxLayoutGap="20px">
+        <button (click)="delete()" mat-stroked-button color="warn">DELETE</button>
+        <button (click)="save()" mat-raised-button color="primary">SAVE</button>
+      </div>
+    </div>
+  </form>
+</div>

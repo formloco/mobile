@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="hotWorkForm">
+    <div class="text-color radio-center">{{label.DoesTheProjectInvolveHotWork}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="DoesTheProjectInvolveHotWork">
+        <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isHotwork$ | async)">
+      <div class="text-color radio-center">{{label.HotWorkPermitIssued}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="HotWorkPermitIssued">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.HotWorkPermitIssued,'HotWorkPermitIssued')" value="no">No
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireHazardsIdentifiedControls}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireHazardsIdentifiedControls">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireHazardsIdentifiedControls,'FireHazardsIdentifiedControls')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireSafetyWatchAvailable}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireSafetyWatchAvailable">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireSafetyWatchAvailable,'FireSafetyWatchAvailable')" value="no">
+            No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+  </form>
+</div>

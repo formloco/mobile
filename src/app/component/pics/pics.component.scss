@@ -1,0 +1,15 @@
+.list-unstyled {
+  list-style: none;
+}
+
+.list-unstyled li {
+  display: inline-block;
+  // padding: 5px;
+  cursor: pointer;
+}
+
+.float {
+  position: fixed;
+  left: 33%;
+  bottom: 1rem;
+}

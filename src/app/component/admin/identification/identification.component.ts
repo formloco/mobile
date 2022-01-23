@@ -1,20 +1,20 @@
-import { Component, Input } from '@angular/core'
+import { Component } from '@angular/core'
 
-import * as uuid from 'uuid'
-
-import { Router } from '@angular/router'
-
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
+import { Observable } from 'rxjs'
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { IdbCrudService } from "../../../service-idb/idb-crud.service"
+import { environment } from '../../../../environments/environment'
 
 import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
+import { EmailService } from "../../../service/email.service"
 import { ErrorService } from "../../../service/error.service"
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
+import { SuccessService } from "../../../service/success.service"
 
-import { AppState, Form } from "../../../model/state"
-import { environment } from '../../../../environments/environment'
-
-import { StateService } from "../../../service/state.service"
+import { Store, Select } from '@ngxs/store'
+import { DeviceState } from '../../../state/device/device.state'
+import { SetPage, SetUserIdb, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
+import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 
 @Component({
   selector: 'app-identification',
@@ -22,42 +22,54 @@ import { StateService } from "../../../service/state.service"
   styleUrls: ['./identification.component.scss']
 })
 export class IdentificationComponent {
-
-  @Input() state: AppState
   
-  auth
-  token
-  prefs
+  @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
 
-  form: Form
-  
   tenant = environment.tenant
+  version = environment.version
+
+  data
   idForm: FormGroup
 
   constructor(
-    private router: Router,
+    private store: Store,
     private fb: FormBuilder,
     public appService: AppService,
-    private authService: AuthService,
-    public stateService: StateService,
-    private errorService: ErrorService,
+    private authService: AuthService, 
     private idbCrudService: IdbCrudService) { 
     this.idForm = this.fb.group({
-      name: ['', Validators.required]
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required,]]
     })
   }
 
   save() {
-    this.idbCrudService.readAll('prefs').subscribe(prefs => {
-      let obj = prefs[0]
+    const obj = {
+      email: this.idForm.value['email'],
+      password: this.idForm.value['password']
+    }
+    this.authService.register(obj).subscribe(data => {
+      this.data = data
 
-      obj["user"]["userID"] = uuid.v4()
-      obj["user"]["name"] = this.idForm.value['name']
-      obj["user"]["tenant_id"] = this.appService.tenant.tenant_id
+      let userObj = {
+        isDarkMode: true,
+        email: this.idForm.value['email']
+      }
+      let obj = {
+        user: userObj
+      }
       this.idbCrudService.put('prefs', obj)
-      location.reload()
-      
-    })   
+      this.store.dispatch(new SetPage('home'))
+      this.store.dispatch(new SetUserIdb(userObj))
+      this.store.dispatch(new SetIsDarkMode(true))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
+
+      this.appService.initializeUser(this.idForm.value['email'])
+    })
+  }
+
+  getEmail() {
+    this.store.dispatch(new SetPage('send-password'))
   }
 
 }

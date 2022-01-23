@@ -1,0 +1,28 @@
+<div mat-subheader>Spot Check Safety Form</div>
+<br>
+<div fxLayout="column">
+  <div><b>Date:</b>&nbsp;&nbsp;{{form.header.Date | date: 'shortDate'}}</div>
+  <div><b>Company Name:</b>&nbsp;&nbsp;{{form.header.Stakeholder}}</div>
+  <div><b>Employee Name:</b>&nbsp;&nbsp;{{form.header.Stakeholder}}</div>
+  <div><b>Job Description:</b>&nbsp;&nbsp;{{form.header.Stakeholder}}</div>
+  <div><b>Location:</b>&nbsp;&nbsp;{{form.header.Division}}</div>
+  <div><b>Evaluator:</b>&nbsp;&nbsp;{{form.header.Worker}}</div>
+  <div><b>Supervisor:</b>&nbsp;&nbsp;{{form.header.Supervisor}}</div>
+</div>
+<br>
+<mat-divider></mat-divider>
+<br>
+<div mat-subheader>Corrective Action Required</div>
+<form class="header-form" [formGroup]="correctiveAction">
+  <mat-form-field>
+    <textarea cdkTextareaAutosize cdkAutosizeMaxRows="10" matInput formControlName="CorrectiveActionRequired"
+      placeholder="Corrective Action Required"></textarea>
+  </mat-form-field>
+</form>
+
+<div fxLayout="column" class="hand" fxLayoutAlign="space-around center">
+  <mat-icon class="icon-169px-action" (click)="signForm()">fingerprint</mat-icon>
+  <div class="text-color bottom-padding">
+    <mat-label>Press to Sign</mat-label>
+  </div>
+</div>

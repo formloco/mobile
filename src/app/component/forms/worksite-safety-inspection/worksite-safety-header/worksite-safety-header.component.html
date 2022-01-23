@@ -1,0 +1,92 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form class="header-form" [formGroup]="headerForm">
+    <div fxLayout="column">
+      <ion-label position="stacked">Date Inspection Completed</ion-label>
+      <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date" required>
+      </ion-datetime>
+      <mat-divider></mat-divider>
+      <br>
+      <mat-form-field class="bot-pad full-width-field">
+        <mat-label>Worker Completing Inspection</mat-label>
+        <input type="text" placeholder="Select or Enter Inspection Completed By" matInput
+          [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
+        <mat-autocomplete (optionSelected)=validHeaderCheck() #autoWorkers="matAutocomplete">
+          <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
+            {{worker.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="full-width-field">
+        <mat-label>Site Supervisor Name</mat-label>
+        <input type="text" placeholder="Select or Enter Site Supervisor Name" matInput
+          [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
+        <mat-autocomplete (optionSelected)=validHeaderCheck() #autoSupervisors="matAutocomplete">
+          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async"
+            [value]="supervisor.name">
+            {{supervisor.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Site Supervisor Phone Number</mat-label>
+        <input matInput (change)=validHeaderCheck() placeholder="Site Supervisor Phone Number"
+          formControlName="SupervisorPhone" type="text" required>
+      </mat-form-field>
+      <mat-form-field class="full-width-field">
+        <mat-label>Client Name</mat-label>
+        <input type="text" placeholder="Select or Enter Client Name" matInput
+          [formControl]="autoCompleteService.clientsControl" [matAutocomplete]="autoClients" required>
+        <mat-autocomplete (optionSelected)=validHeaderCheck() #autoClients="matAutocomplete">
+          <mat-option *ngFor="let client of autoCompleteService.filteredClients$ | async" [value]="client">
+            {{client}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Worksite Location</mat-label>
+        <input matInput placeholder="Worksite Location" formControlName="Location" type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>LSD/UWI</mat-label>
+        <input matInput placeholder="LSD/UWI" formControlName="LSDUWI" type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Latitude</mat-label>
+        <input matInput placeholder="Latitude" formControlName="Latitude" type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Longitude</mat-label>
+        <input matInput placeholder="Longitude" formControlName="Longitude" type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Job/Project#</mat-label>
+        <input matInput (change)=validHeaderCheck() placeholder="Job/Project#" formControlName="JobNumber" type="text"
+          required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Division</mat-label>
+        <mat-select (selectionChange)=validHeaderCheck() panelClass="select-panel" formControlName="Division" required>
+          <mat-option *ngFor="let division of divisions" [value]="division" required>{{division}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>STARS Site # (if applicable)</mat-label>
+        <input matInput placeholder="STARS Site # (if applicable)" formControlName="STARSSiteNumber" type="text">
+      </mat-form-field>
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Scope of Work</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('ScopeOfWork')" mat-mini-fab color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-form-field fxFlex>
+        <textarea (change)=validHeaderCheck() cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
+          matInput formControlName="ScopeOfWork" fxFlex required></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

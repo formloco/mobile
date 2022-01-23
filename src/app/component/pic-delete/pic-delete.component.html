@@ -1,0 +1,18 @@
+<div class="mat-headline" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayoutAlign="start center">Delete Pic</div>
+  <div fxLayoutAlign="start center" class="icon-pointer" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </div>
+</div>
+<div fxLayoutAlign="center center">
+  <img [src]="(pics$ | async)[data]" height="200px">
+</div>
+<br>
+<div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutGap="2rem">
+  <button (click)="deletePhoto()" mat-raised-button color="warn">
+    Delete
+  </button>
+  <button mat-stroked-button color="warn" (click)="dialogRef.close()">
+    Cancel
+  </button>
+</div>

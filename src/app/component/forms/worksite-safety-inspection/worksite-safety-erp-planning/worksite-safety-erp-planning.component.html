@@ -1,0 +1,49 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="erpPlanningForm">
+    <div class="text-color radio-center">Emergency Response Plan (ERP) onsite</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EmergencyResponsePlanOnSite">
+        <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isErpPlanning$ | async)">
+      <div class="text-color radio-center">Muster point(s) identified</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="MusterPointsIdentified">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.MusterPointsIdentified,'MusterPointsIdentified')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">ERP includes directions to nearest hospital</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ERPIncludesDirectionsToNearestHospital">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ERPIncludesDirectionsToNearestHospital,'ERPIncludesDirectionsToNearestHospital')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">STARS # (if applicable)</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="STARSNumber">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.STARSNumber,'STARSNumber')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">ERP responder roles and <br>responsibilities identified</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ERPResponderRolesAndResponsibilitiesIdentified">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ERPResponderRolesAndResponsibilitiesIdentified,'ERPResponderRolesAndResponsibilitiesIdentified')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+    <div class="text-color radio-center">Cellular or radio coverage confirmed. <br>If no, what communication is in
+      place?</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="CellularOrRadioCoverageConfirmed">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.CellularOrRadioCoverageConfirmed,'CellularOrRadioCoverageConfirmed')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</div>

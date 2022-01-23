@@ -1,0 +1,26 @@
+<mat-accordion multi [togglePosition]="'before'" *ngFor="let notification of (notificationSigned$ | async)">
+  <mat-expansion-panel class="panel-margin">
+    <mat-expansion-panel-header class="accordion-margin right-aligned-header">
+      <mat-panel-title>
+        {{notification.form_name}}
+        <br>Signed:&nbsp;{{notification.date_signed | date: 'mediumDate'}}<br>By:&nbsp;{{notification.signed_name}}
+      </mat-panel-title>
+      <mat-panel-description>
+          <button color="primary" mat-mini-fab>
+            <mat-icon class="material-icons-outlined" (click)="openPdf(notification)">picture_as_pdf</mat-icon>
+          </button>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <br>
+    <div>Messages</div>
+    <mat-accordion>
+      <div class="form-padding" *ngFor="let comment of notification.comment">
+        <mat-card class="custom hand">
+          {{ comment.from }}<br>
+          <br>{{comment.message}}
+        </mat-card>
+      </div>
+    </mat-accordion>
+  </mat-expansion-panel>
+</mat-accordion>
+<h4 class="text-color padding-left" *ngIf="(notificationSigned$ | async)?.length === 0">No signed notificaitions</h4>

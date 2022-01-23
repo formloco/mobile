@@ -1,0 +1,57 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="incidentForm">
+    <div class="text-color radio-center">Not Applicable(N/A), Unsatisfactory(U), Satisfactory(S)</div>
+    <br>
+    <div class="text-color radio-center">Is there an Incident reporting process in place? (Briefly explain)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="IncidentReporting">
+        <mat-radio-button (click)="toggle('IncidentReporting')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Is there an Incident reporting process in place? (Briefly explain)','IncidentReporting')" value="unsatisfactory">U</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Is there a near miss/incident reporting form which includes follow-up?</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="NearMissReporting">
+        <mat-radio-button (click)="toggle('NearMissReporting')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Is there a near miss/incident reporting form which includes follow-up?','NearMissReporting')" value="unsatisfactory">U</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Are incidents reported and was the problem fixed the last time there was a near miss or incident?</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="ProblemFixed">
+        <mat-radio-button (click)="toggle('ProblemFixed')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Are incidents reported and was the problem fixed the last time there was a near miss or incident?','ProblemFixed')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Are management and workers involved in solving the issues?
+    </div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SolvingIssues">
+        <mat-radio-button (click)="toggle('SolvingIssues')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Are management and workers involved in solving the issues?','SolvingIssues')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div>
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Incident Reporting Comments</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('IncidentComments','Incident Reporting Comments')" mat-mini-fab color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div>
+        <mat-form-field fxFlex>
+          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+            formControlName="IncidentComments" fxFlex></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+
+

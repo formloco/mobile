@@ -10,7 +10,7 @@
       cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop" cdkConnectedOverlayOffsetX
       cdkConnectedOverlayOffsetY>
       <form [formGroup]="lookupListForm">
-        <div [ngStyle]="{'background-color': appService.canvasBackground}" class="link-overlay" fxLayout="column">
+        <div [ngStyle]="{'background-color': (background$ | async)}" class="link-overlay" fxLayout="column">
           <div>
             <mat-form-field class="text-color" appearance="outline" fxFlex>
               <mat-label>List</mat-label>
@@ -33,8 +33,8 @@
     </ng-template>
   </div> -->
   <div fxLayout="row wrap">
-    <mat-card (click)=run(formObj) class="custom hand" *ngFor="let formObj of appService.lookupLists; let i=index">
-      <div class="action-label" fxLayoutAlign="center">{{formObj.name}}</div>
+    <mat-card (click)=run(name) class="custom hand" *ngFor="let name of (lookupListNames$ | async)">
+      <div class="action-label" fxLayoutAlign="center">{{name}}</div>
       <div>
         <mat-icon class="card-icon">list</mat-icon>
       </div>

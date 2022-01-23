@@ -1,0 +1,41 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="hazardForm">
+    <div class="text-color radio-center">Not Applicable(N/A), Unsatisfactory(U), Satisfactory(S)</div>
+    <br>
+    <div class="text-color radio-center">Are equipment and vehicles inspected, and at what frequency? (Examples and documentation)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="InspectionFrequency">
+        <mat-radio-button (click)="toggle('InspectionFrequency')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Is there a system for hazard assessment, reporting and follow-up? (Written or verbal)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="HazardAssessmentSystem">
+        <mat-radio-button (click)="toggle('HazardAssessmentSystem')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Is there a system for hazard assessment, reporting and follow-up?','HazardAssessmentSystem')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div>
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Hazard Identification & Control Comments</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('HazardComments')" mat-mini-fab color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div>
+        <mat-form-field fxFlex>
+          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+            formControlName="HazardComments" fxFlex></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+

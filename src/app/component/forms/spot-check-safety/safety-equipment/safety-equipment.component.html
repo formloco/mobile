@@ -1,0 +1,81 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="safetyEquipmentForm">
+    <div class="text-color radio-center">Not Applicable(N/A), Unsatisfactory(U), Satisfactory(S)</div>
+    <br>
+    <div class="text-color radio-center">Is the appropriate safety equipment available and being used</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SafetyEquipmentAvailable">
+        <mat-radio-button (click)="toggle('SafetyEquipmentAvailable')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Is the appropriate safety equipment available and being used','SafetyEquipmentAvailable')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Fire Fighting equipment (inspected, tagged, accessible, good condition)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="FireFightingEquipment">
+        <mat-radio-button (click)="toggle('FireFightingEquipment')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Fire Fighting equipment (inspected, tagged, accessible, good condition)','FireFightingEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Rotating Equiment Guards</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="RotatingEquimentGuards">
+        <mat-radio-button (click)="toggle('RotatingEquimentGuards')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Rotating Equiment Guards','RotatingEquimentGuards')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">First Aid Kit</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="FirstAidKit">
+        <mat-radio-button (click)="toggle('FirstAidKit')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('First Aid Kit','FirstAidKit')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="FallArrestEquipment">
+        <mat-radio-button (click)="toggle('FallArrestEquipment')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.)','FallArrestEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="EmergencySystems">
+        <mat-radio-button (click)="toggle('EmergencySystems')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.)','EmergencySystems')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div class="text-color radio-center">Other (Specify)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="Other">
+        <mat-radio-button (click)="toggle('Other')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openComment('Other (Specify)','Other')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Safety Equipment Comments</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('SafetyEquipmentComments','Safety Equipment Comments')" mat-mini-fab color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div>
+        <mat-form-field fxFlex>
+          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+            formControlName="SafetyEquipmentComments" fxFlex></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+

@@ -1,127 +1,90 @@
-import { Component, OnInit, HostBinding } from '@angular/core'
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core'
 
 import { OverlayContainer } from '@angular/cdk/overlay'
 
-import { AppState, Form } from "./model/state"
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+
+import { Platform } from '@angular/cdk/platform'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 
 import { AppService } from "./service/app.service"
 import { AuthService } from "./service/auth.service"
-import { DataService } from "./service/data.service"
-import { StateService } from "./service/state.service"
 import { IdbCrudService } from "./service-idb/idb-crud.service"
 
-import { environment } from '../environments/environment'
+import { Store } from '@ngxs/store'
+import { SetScreenSize, SetScreenWidth } from './state/device/device-state.actions'
+import { SetUserIdb, SetPage } from './state/auth/auth-state.actions'
+import { SetBackground, SetIsDarkMode } from './state/device/device-state.actions'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-
-  title = 'MOBILE FORMS'
+export class AppComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') className = 'darkMode'
 
-  prefs
+  destroyed = new Subject<void>();
+  title = 'MOBILE FORMS'
+
   token
-  // state
+  prefs
 
-  form: Form
-  state: AppState
+  myInnerWidth = window.innerWidth
 
-  tenant = environment.tenant
-  myInnerHeight = window.innerHeight
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+  ]);
 
   constructor(
+    private store: Store,
+    public platform: Platform,
     public appService: AppService,
     private authService: AuthService,
-    private dataService: DataService,
-    public stateService: StateService,
     private idbCrudService: IdbCrudService,
+    breakpointObserver: BreakpointObserver,
     private overlayContainer: OverlayContainer) {
-    this.appService.canvasBackground = '#3b3b3b'
-  }
-
-  ngOnInit(): void {
-    this.idbCrudService.readAll('prefs').subscribe(prefs => {
-      this.prefs = prefs
-      let darkClassName = 'darkMode'
-
-      // set default prefs on first load
-      if (this.prefs.length === 0) {
-        let obj = { id: 0, dark_mode: true, user: {} }
-        this.idbCrudService.put('prefs', obj)
-        this.setStateIdentified()
-      }
-      else {
-
-          if (!this.prefs[0].dark_mode) darkClassName = ''
-
-          // state: identified, user is undefined until identified
-          if (this.prefs[0]["user"]["userID"] !== undefined) {
-            this.appService.user = this.prefs[0]['user']
-
-            this.state = {
-              identified: true,
-              page: 'home',
-              childPage: '',
-              childPageLabel: 'Mobile Forms',
-              lat: null,
-              long: null,
-              user: this.prefs[0]['user'],
-              darkMode: this.prefs[0]["dark_mode"],
-              tenant: this.tenant,
-              signIn: false,
-              selectedForm: this.form
-            }
-            this.stateService.setState(this.state)
-          }
-          else this.setStateIdentified()
+    breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge,
+    ]).pipe(takeUntil(this.destroyed)).subscribe(result => {
+      for (const query of Object.keys(result.breakpoints)) {
+        if (result.breakpoints[query]) {
+          this.store.dispatch(new SetScreenSize(this.displayNameMap.get(query) ?? 'Unknown'))
+          this.store.dispatch(new SetScreenWidth(this.myInnerWidth + 'px'))
         }
-        this.setMode(darkClassName)
-      })
-
-    this.authService.token().subscribe(token => {
-      this.token = token
-      localStorage.setItem('formToken', this.token.token)
-
-      this.dataService.getLists({ tenant_id: this.tenant.tenant_id }).subscribe(lists => {
-        this.appService.lookupLists = lists
-        this.appService.lookupLists.sort()
-      })
+      }
     })
   }
 
-  setStateIdentified() {
-     this.state = {
-      identified: true,
-      page: 'identified',
-      childPage: '',
-      childPageLabel: '',
-      lat: null,
-      long: null,
-      user: {},
-      darkMode: true,
-      tenant: this.tenant,
-      signIn: false,
-      selectedForm: this.form
-    }
-  }
-
-  toggleTheme() {
-    let darkClassName = ''
-
-    if (this.state.darkMode) darkClassName = ''
-    else darkClassName = 'darkMode'
-
-    this.setMode(darkClassName)
-
+  ngOnInit(): void {
+    this.authService.token().subscribe(token => {
+      this.token = token
+      localStorage.setItem('formToken', this.token.token)
+    })
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
-      if (prefs[0] !== undefined) {
-        let obj = prefs[0]
-        obj["dark_mode"] = this.state.darkMode
-        this.idbCrudService.put('prefs', obj)
+      this.prefs = prefs
+      if (this.prefs.length > 0) {
+        if (this.prefs[0]["user"]["isDarkMode"]) this.setMode('darkMode')
+        else this.setMode('')
+
+        this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
+        this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
+        this.appService.initializeUser(this.prefs[0]["user"]["email"])
+      }
+      else {
+        this.setMode('darkMode')
+        this.store.dispatch(new SetPage('identify'))
+        this.store.dispatch(new SetIsDarkMode(true)) 
       }
     })
   }
@@ -130,13 +93,18 @@ export class AppComponent implements OnInit {
     this.className = 'darkMode' ? darkClassName : ''
 
     if (darkClassName === 'darkMode') {
+      this.store.dispatch(new SetBackground('#3b3b3b'))
       this.overlayContainer.getContainerElement().classList.add(darkClassName)
-      this.appService.canvasBackground = '#3b3b3b'
     }
     else {
+      this.store.dispatch(new SetBackground(''))
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
-      this.appService.canvasBackground = '#ffffff'
     }
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next()
+    this.destroyed.complete()
   }
 
 }

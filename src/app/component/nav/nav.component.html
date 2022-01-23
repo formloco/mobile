@@ -1,7 +1,0 @@
-<mat-toolbar>
-  <span>{{ state.childPageLabel }}</span>
-  <span class="toolbar-spacer"></span>
-  <mat-slide-toggle *ngIf="!state.signIn" [(ngModel)]="state.darkMode" color="primary" (click)="toggleTheme($event)"></mat-slide-toggle>&nbsp;&nbsp;
-  <button *ngIf="!state.signIn" color="primary" (click)="signin()" mat-flat-button>Sign In</button>
-  <button *ngIf="state.signIn" color="primary" (click)="signout()" mat-flat-button>Sign Out</button>
-</mat-toolbar>

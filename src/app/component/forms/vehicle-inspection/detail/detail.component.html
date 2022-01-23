@@ -1,0 +1,67 @@
+<form class="header-form" [formGroup]="detailForm">
+  <div fxLayout="column" color="primary" fxLayoutAlign="center start">
+    <label>The items on this inspection sheet should be checked monthly. A form should be filled out for each vehicle driven.
+      <br>
+      <br> If item requires attention check it off and provide comments, they will be added to the discrepancies list below.</label>
+    <br>
+    <mat-checkbox (click)="openComments('IgnitionKey')" color="primary" class="text-color"
+      formControlName="IgnitionKey">Ignition Key</mat-checkbox>
+    <mat-checkbox (click)="openComments('OilLevel')" color="primary" class="text-color middle-padding"
+      formControlName="OilLevel">Oil Level</mat-checkbox>
+    <mat-checkbox (click)="openComments('CoolantLevel')" color="primary"
+      class="text-color bottom-padding" formControlName="CoolantLevel">Coolant Level</mat-checkbox>
+    <mat-checkbox (click)="openComments('WasherFluidLevel')" color="primary"
+      class="text-color bottom-padding" formControlName="WasherFluidLevel">Washer Fluid Level</mat-checkbox>
+    <mat-checkbox (click)="openComments('PowerSteeringFluidLevel')" color="primary"
+      class="text-color bottom-padding" formControlName="PowerSteeringFluidLevel">Power Steering Fluid Level</mat-checkbox>
+    <mat-checkbox (click)="openComments('AirGauge')" color="primary" class="text-color bottom-padding"
+      formControlName="AirGauge">Check for Air Gauge</mat-checkbox>
+    <mat-checkbox (click)="openComments('Horn')" color="primary" class="text-color bottom-padding"
+      formControlName="Horn">Check Horn</mat-checkbox>
+    <mat-checkbox (click)="openComments('HeaterDefroster')" color="primary"
+      class="text-color bottom-padding" formControlName="HeaterDefroster">Check Heater/Defroster</mat-checkbox>
+    <mat-checkbox (click)="openComments('WindshieldWipersWashers')" color="primary"
+      class="text-color bottom-padding" formControlName="WindshieldWipersWashers">Check Windshield Wipers/Washers</mat-checkbox>
+    <mat-checkbox (click)="openComments('AllSignalLights')" color="primary"
+      class="text-color bottom-padding" formControlName="AllSignalLights">Check all signal lights</mat-checkbox>
+    <mat-checkbox (click)="openComments('InteriorLights')" color="primary"
+      class="text-color bottom-padding" formControlName="InteriorLights">Check Interior lights</mat-checkbox>
+    <mat-checkbox (click)="openComments('MirrorsDamageAdjustments')" color="primary"
+      class="text-color bottom-padding" formControlName="MirrorsDamageAdjustments">Check Mirrors for Damage and Adjustments</mat-checkbox>
+    <mat-checkbox (click)="openComments('WindshieldVisibility')" color="primary"
+      class="text-color bottom-padding" formControlName="WindshieldVisibility">Windshield Clear Visibility, No Cracks</mat-checkbox>
+    <mat-checkbox (click)="openComments('VisualInspectionExterior')" color="primary"
+      class="text-color bottom-padding" formControlName="VisualInspectionExterior">Visual Inspection for Exterior Damage/Leaks
+      <br> Under Vehicle</mat-checkbox>
+    <mat-checkbox (click)="openComments('InsideEngineCompartment')" color="primary"
+      class="text-color bottom-padding" formControlName="InsideEngineCompartment">Check inside Engine compartment for Leaks/Loose
+      <br> Items</mat-checkbox>
+    <mat-checkbox (click)="openComments('TransmissionFluidLevel')" color="primary"
+      class="text-color bottom-padding" formControlName="TransmissionFluidLevel">Start Engine & check Transmission Fluid Level
+      <br> (Fluid should be hot)</mat-checkbox>
+    <mat-checkbox (click)="openComments('HighlightSignal4wayTailBackup')"
+      color="primary" class="text-color bottom-padding" formControlName="HighlightSignal4wayTailBackup">Check Highlight/Signal lights/4way flashes
+      <br>/Tail lights/Backup lights</mat-checkbox>
+    <mat-checkbox (click)="openComments('FuelLevel')" color="primary" class="text-color bottom-padding"
+      formControlName="FuelLevel">Check fuel level (Should Not be Less Than ½ Tank)</mat-checkbox>
+    <mat-checkbox (click)="openComments('FirstAidKit')" color="primary" class="text-color bottom-padding"
+      formControlName="FirstAidKit">Check First Aid Kit Available and full
+      <br> (Check expiry dates on contents)</mat-checkbox>
+    <mat-checkbox (click)="openComments('FireExtinguisher')" color="primary"
+      class="text-color bottom-padding" formControlName="FireExtinguisher">Check Fire Extinguisher is available:
+      <br> Gauge showing charged, proper seal,
+      <br> pin and inspection</mat-checkbox>
+    <mat-checkbox (click)="openComments('SurvivalKit')" color="primary" class="text-color bottom-padding"
+      formControlName="SurvivalKit">Survival kit available: candles, emergency blanket,
+      <br> tow rope, booster cables, light sticks, water</mat-checkbox>
+    <mat-checkbox (click)="openComments('FuelKey')" color="primary" class="text-color bottom-padding"
+      formControlName="FuelKey">Fuel Key, check used</mat-checkbox>
+    <mat-checkbox (click)="openComments('TwoWayRadio')" color="primary" class="text-color bottom-padding"
+      formControlName="TwoWayRadio">Check Radio (Two-way check), if required</mat-checkbox>
+    <mat-checkbox (click)="openComments('Tires')" color="primary" class="text-color bottom-padding"
+      formControlName="Tires">Check Tires for wear and pressure
+      <br> (as per manufacturer)</mat-checkbox>
+    <mat-checkbox (click)="openComments('SpillKit')" color="primary" class="text-color bottom-padding"
+      formControlName="SpillKit">Check Spill Kit, if required</mat-checkbox>
+  </div>
+</form>

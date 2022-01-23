@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
-import { AppService } from "../../../service/app.service"
-import { AuthService } from "../../../service/auth.service"
-import { DataService } from "../../../service/data.service"
-
+import { Observable } from 'rxjs'
+import { ApiService } from "../../../service/api.service"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { saveAs } from 'file-saver'
 
-import { AppState } from "../../../model/state"
+import { Store, Select } from '@ngxs/store'
+import { AuthState } from '../../../state/auth/auth.state'
+
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-data',
@@ -17,17 +18,19 @@ import { AppState } from "../../../model/state"
 })
 export class DataComponent implements OnInit {
 
-  @Input() state: AppState
+  @Select(AuthState.selectedForm.name) name$: Observable<string>
 
+  name
   forms
-  data
+  records
 
   isData = false
 
+  tenant = environment.tenant
+
   constructor(
-    public appService: AppService,
-    private authService: AuthService,
-    private dataService: DataService,
+    private store: Store,
+    private apiService: ApiService,
     public idbCrudService: IdbCrudService) { }
 
   ngOnInit() {
@@ -35,32 +38,30 @@ export class DataComponent implements OnInit {
   }
 
   getCloud() {
-    // forms are written to idx when first run
     this.idbCrudService.readAll('form').subscribe(forms => {
       this.forms = forms
-
-      let form = this.forms.filter(f => f.id === this.state.selectedForm.id)
+      const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
+      let form = this.forms.filter(f => f.id === selectedForm["id"])
       let obj = {
         form_id: form[0]["form_id"],
-        tenant_id: this.state.tenant["tenant_id"]
+        tenant_id: this.tenant["tenant_id"]
       }
-
-      this.dataService.getData(obj).subscribe(data => {
-        this.data = data
-        if (this.data.length > 1) this.isData = true
+      this.apiService.getData(obj).subscribe(data => {
+        this.records = data
+        if (this.records.length > 0) this.isData = true
       })
     })
   }
 
   exportData() {
     const replacer = (key, value) => value === null ? '' : value;
-    const header = Object.keys(this.data[0]);
-    let csv = this.data.map(row =>
+    const header = Object.keys(this.records[0]);
+    let csv = this.records.map(row =>
       header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
     csv.unshift(header.join(','));
     let csvArray = csv.join('\r\n');
     var blob = new Blob([csvArray], { type: 'text/csv' })
-    saveAs(blob, this.state.page);
+    saveAs(blob, this.store.selectSnapshot(AuthState.page))
   }
 
 }

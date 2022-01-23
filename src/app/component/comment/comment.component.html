@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div>
+    <div class="header-font" fxLayoutAlign="start center">{{ data.title }}</div>
+    <div>{{ data.label }}</div>
+  </div>
+  <div class="header-font" fxLayoutAlign="start center" class="icon-pointer" (click)="dialogRef.close()">
+    <mat-icon class="hand">close</mat-icon>
+  </div>
+</div>
+<div mat-dialog-content fxLayoutGap="20px">
+  <form class="header-form" [formGroup]="commentForm">
+    <div fxLayout="row" class="text-color">
+      <mat-form-field fxFlex>
+        <mat-label>{{data.placeholder}}</mat-label>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="4" cdkAutosizeMaxRows="10" matInput formControlName="comment"
+          fxFlex required></textarea>
+      </mat-form-field>
+    </div>
+    <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-stroked-button color="accent" (click)="dialogRef.close()"> Close</button>
+      <button mat-stroked-button color="primary" (click)="save()">Save</button>
+    </div>
+  </form>
+  <br>
+  <div mat-dialog-actions class="text-color" fxLayoutAlign="end center">
+    <button (click)=openVoice() mat-mini-fab color="primary">
+      <mat-icon matSuffix>mic_none</mat-icon>
+    </button>
+  </div>
+</div>

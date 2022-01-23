@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form class="header-form" [formGroup]="commentForm">
+    <div fxLayout="column">
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Comments And Required Action Items</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('CommentsAndRequiredActionItems')" mat-mini-fab color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-form-field fxFlex>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" matInput formControlName="CommentsAndRequiredActionItems" placeholder="Note comments and required action items" fxFlex></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

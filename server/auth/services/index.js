@@ -1,0 +1,99 @@
+const jwt = require('jsonwebtoken')
+const bcrypt  = require('bcryptjs')
+
+const { userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL } = require('../db/authDB')
+
+const tokenTemp = async() => {
+  try {
+    let token = jwt.sign({ id: .369 }, process.env.SECRET, {expiresIn: 86400})
+    return { token: token }
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const userFetch = async(data) => {
+  try {
+    let rows = await userFetchSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailReset = async(data) => {
+  try {
+    let rows = await emailResetSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const passwordReset = async(data) => {
+  try {
+    let rows = await passwordResetSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailEnable = async(data) => {
+  try {
+    let rows = await emailEnableSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailDisable = async(data) => {
+  try {
+    let rows = await emailDisableSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailUpdate = async(data) => {
+  try {
+    let rows = await emailUpdateSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailCreate = async(data) => {
+  try {
+    let rows = await emailCreateSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const emailRegister = async(data) => {
+  
+  try {
+    let rows = await emailRegisterSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const permissionGet = async(data) => {
+  try {
+    let rows = await permissionGetSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+module.exports = {
+  tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet
+}

@@ -1,0 +1,17 @@
+<div class="mat-headline3" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayoutAlign="start center">{{ data.comment[0].label }}</div>
+  <div fxLayoutAlign="start center" class="icon-pointer" (click)="close()">
+    <mat-icon class="hand">close</mat-icon>
+  </div>
+</div>
+<br>
+<p style="text-align:center"><b>Click continue to set satisfactory and delete related comments.</b></p>
+<br>
+<div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutGap="2rem">
+  <button (click)="deleteComment(data.comment[0].field)" mat-raised-button color="warn">
+    Delete
+  </button>
+  <button mat-stroked-button (click)="close()">
+    Cancel
+  </button>
+</div>

@@ -1,0 +1,109 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="communicationForm">
+    <div class="text-color radio-center">Not Applicable(N/A), Unsatisfactory(U), Satisfactory(S)</div>
+    <br>
+    <div class="text-color radio-center">Have you received a safety orientation (When and what)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SafetyOrientation">
+        <mat-radio-button (click)="toggle('SafetyOrientation')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button
+          (click)="openComment('Have you received a safety orientation (When and what)','SafetyOrientation')"
+          value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">How often are safety meetings held (Show examples and documentation)</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SafetyMeetingFrequency">
+        <mat-radio-button (click)="toggle('SafetyEquipmentAvailable')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button
+          (click)="openComment('How often are safety meetings held (Show examples and documentation)','SafetyMeetingFrequency')"
+          value="unsatisfactory">U</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">Is the appropriate training in place?</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="AppropriateTraining">
+        <mat-radio-button (click)="toggleAppropriateTraining('AppropriateTraining')" value="satisfactory">S
+        </mat-radio-button>
+        <mat-radio-button (click)="openComment('Is the appropriate training in place','AppropriateTraining')"
+          value="unsatisfactory">U</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isAppropriateTraining$ | async)">
+      <div class="text-color radio-center">First aid training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FirstAidTraining">
+          <mat-radio-button (click)="toggle('FirstAidTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('First aid training','FirstAidTraining')" value="no">No
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="text-color radio-center">H2S training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="H2STraining">
+          <mat-radio-button (click)="toggle('H2STraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('H2S training','H2STraining')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">WHMIS training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="WHMISTraining">
+          <mat-radio-button (click)="toggle('WHMISTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('WHMIS training','WHMISTraining')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">TDG training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="TDGTraining">
+          <mat-radio-button (click)="toggle('TDGTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('TDG training','TDGTraining')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">Ground disturbance training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="GroundDisturbanceTraining">
+          <mat-radio-button (click)="toggle('GroundDisturbanceTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('Ground disturbance training','GroundDisturbanceTraining')" value="no">
+            No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">eGSO/ CSO training</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="EGSOCSOTraining">
+          <mat-radio-button (click)="toggle('EGSOCSOTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('eGSO/ CSO training','EGSOCSOTraining')" value="no">No
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">Job Specific training (List any that apply)</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="JobSpecificTraining">
+          <mat-radio-button (click)="toggle('JobSpecificTraining')" value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment('Job Specific training (List any that apply)','JobSpecificTraining')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+    <div>
+      <div class="text-color" fxLayoutAlign="space-between center">
+        <div>
+          <mat-label>Communication & Training Comments</mat-label>
+        </div>
+        <div>
+          <button (click)="openVoice('CommunicationComments','Communication & Training Comments')" mat-mini-fab
+            color="primary">
+            <mat-icon matSuffix>mic_none</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div>
+        <mat-form-field fxFlex>
+          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+            formControlName="CommunicationComments" fxFlex></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>

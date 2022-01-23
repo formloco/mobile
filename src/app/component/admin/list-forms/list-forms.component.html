@@ -1,0 +1,23 @@
+<div class="form-padding">
+  <mat-card class="custom hand" (click)=selectSharedLists()>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon material-icons-outlined">fact_check</mat-icon>
+      </div>
+      <mat-card-title>All Lists</mat-card-title>
+      <mat-card-subtitle>Lists Accross All Forms</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
+<div class="form-padding" *ngFor="let formObj of forms">
+  <mat-card class="custom hand" (click)=selectForm(formObj)>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+      </div>
+      <mat-card-title>{{ formObj.name }}</mat-card-title>
+      <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
+

@@ -4,18 +4,24 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://bluerockmicro.com/api/',
-  authUrl: 'https://bluerockmicro.com/auth/',
-  formUrl: 'https://bluerockmicro.com/form/',
 
-  // authUrl: 'https://localhost:9000/auth/',
-  apiUrl: 'http://localhost:9003/api/',
-  // formUrl: 'http://localhost:9002/form/',
+  apiUrl: 'https://api.formloco.com/api/',
+  authUrl: 'https://api.formloco.com/auth/',
+  formUrl: 'https://api.formloco.com/form/',
+  emailUrl: 'https://api.formloco.com/email/',
+  assetUrl: 'https://api.formloco.com/asset/',
+  messageUrl: 'https://forms.summitearth.com/message/',
+  notificationUrl: 'https://api.formloco.com/notification/',
+  signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
-  tenant: { email: 'brock@formloco.com', tenant_id: '06632206-3cd4-4751-9e5d-b8839a454ca8' },
-
-  idbName: 'mobileFormlocoDB',
-  pin: '111111'
+  tenant: { email: 'HSE@Summitearth.com', 
+            tenant_id: '1a3a6232-ab04-43d6-9d18-6828f257f55f',
+            assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
+  },
+  version: 'Development',
+  idbName: 'summitEarthDB',
+  pin: '999999'
 };
 
 /*
@@ -25,4 +31,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

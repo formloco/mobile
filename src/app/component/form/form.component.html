@@ -1,17 +1,34 @@
-<mat-toolbar>
-  <span fxLayoutAlign="center center">
-    <mat-icon class="form-icon">{{ state.selectedForm.icon }}</mat-icon>&nbsp;{{ state.selectedForm.name }}</span>
-  <span class="toolbar-spacer"></span>
-  <button mat-icon-button (click)="close()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-toolbar>
-<span *ngIf="state.selectedForm.type === 'custom'">
-  <app-hazard-assessment *ngIf="state.selectedForm.id === 'hazard-assessment'" [state]=state></app-hazard-assessment>
-  <app-fire-extinguisher *ngIf="state.selectedForm.id === 'fire-extinguisher'" [state]=state></app-fire-extinguisher>
-  <app-footer [state]=state (getHistory)="getHistory($event)"></app-footer>
-</span>
-<div *ngIf="state.selectedForm.type === 'dynamic'">
-  <app-run [state]=state [runForm]=runForm></app-run>
+<div class="header">
+  <mat-toolbar>
+    <span fxLayoutAlign="center center">
+      <mat-icon class="form-icon text-color">{{ (selectedForm$ | async)?.icon }}</mat-icon>&nbsp;
+      <span class="text-color">{{(selectedForm$ | async)?.name }}</span>
+    </span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon class="text-color">close</mat-icon>
+    </button>
+  </mat-toolbar>
 </div>
-
+<div class="content">
+  <div *ngIf="(selectedForm$ | async)?.type === 'custom'">
+    <app-vehicle-inspection *ngIf="(selectedForm$ | async)?.id === 'vehicle-inspection'"></app-vehicle-inspection>
+    <app-meaningful-site-tour *ngIf="(selectedForm$ | async)?.id === 'meaningful-site-tour'"></app-meaningful-site-tour>
+    <app-worksite-safety-inspection *ngIf="(selectedForm$ | async)?.id === 'worksite-safety-inspection'"></app-worksite-safety-inspection>
+    <app-spot-check-safety *ngIf="(selectedForm$ | async)?.id === 'spot-check-safety'"></app-spot-check-safety>
+ </div>
+  <div *ngIf="(selectedForm$ | async)?.type === 'dynamic'">
+    <app-run [runForm]=runForm></app-run>
+  </div>
+</div>
+<div class="footer">
+  <mat-toolbar>
+    <button mat-icon-button (click)="snapShot()">
+      <mat-icon class="form-icon text-color">photo_camera</mat-icon>
+    </button>
+    <span class="toolbar-spacer"></span>
+    <button *ngIf="(pics$ | async).length > 0" mat-icon-button (click)="showPhotos()">
+      <mat-icon class="form-icon text-color" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>

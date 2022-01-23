@@ -1,4 +1,7 @@
-import { MAINTENANCE_INSPECTION } from './maintenance-inspection'
+import { VEHICLE_INSPECTION } from '../component/forms/vehicle-inspection/state/vehicle-inspection-state.model'
+import { WORKSITE_SAFETY_INSPECTION } from '../component/forms/worksite-safety-inspection/state/worksite-safety-inspection-state.model'
+import { MEANINGFUL_SITE_TOUR } from '../component/forms/meaningful-site-tour/state/meaningful-site-tour.model'
+import { SPOT_CHECK_SAFETY } from '../component/forms/spot-check-safety/state/spot-check-safety.model'
 
 export const LIST_FORM = {
   columns: 'user_updated, user_created, date_updated, date_created, data',
@@ -11,108 +14,51 @@ export const LIST_FORM = {
   }
 }
 
-export const FIRE_EXTINGUISHER = {
-  columns: 'user_updated, user_created, date_updated, date_created, data',
+// list used to populate all data at startup
+export const LISTS = [
+  'stakeholders', 'models', 'years', 'divisions', 'makes', 'clients'
+]
 
-  // columns: 'user_updated, user_created, date_updated, date_created, company_name, company_address, job_number, data',
-  form: {
-    name: 'Fire Extinguisher',
-    lists: [{form_id: 'd6648af2-b6e8-43b0-8c25-a094b8f71759', name: 'company'}],
-    pin: '369',
-    labels: '[\"Company Name\",\"Job Number\",\"Date Created\",\"User Created\"]',
-    columns: 'id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, data jsonb, PRIMARY KEY(id)'
-
-    // columns: 'id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, company_name varchar, company_address varchar, job_number varchar, data jsonb, PRIMARY KEY(id)'
-  }
-}
-
-export const HAZARD_ASSESSMENT = {
-  columns: 'user_updated, user_created, date_updated, date_created, data',
-
-  // columns: 'user_updated, user_created, date_updated, date_created, company, location, muster_point, job_number, ppe_inspection, is_pre_inspection_complete, is_working_alone, comment_on_working_alone, warning_ribbon_needed, all_permits_closed_out, area_cleaned_up, hazards_remaining, comment_on_remaining_hazards, any_incidents, comment_on_incidents, data',
-  form: {
-    name: 'Hazard Assessment',
-    lists: [{form_id: 'd6648af2-b6e8-43b0-8c25-a094b8f71759', name: 'company'}],
-    pin: '369',
-    labels: '[\"Company Name\",\"Job Number\",\"Date Created\",\"User Created\"]',
-    columns: 'id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, data jsonb, PRIMARY KEY(id)'
-
-    // columns: 'id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, company varchar, location varchar, muster_point varchar, job_number varchar, ppe_inspection boolean, is_pre_inspection_complete boolean, is_working_alone boolean, comment_on_working_alone varchar, warning_ribbon_needed boolean, all_permits_closed_out varchar, area_cleaned_up varchar, hazards_remaining varchar, comment_on_remaining_hazards varchar, any_incidents varchar, comment_on_incidents varchar, data jsonb, PRIMARY KEY(id)'
-  }
-}
-
-export const QR_CODE_SCANNER = {
-  "form": {
-    "name": "QR Code Scanner",
-    "controls": [
-      {
-        "type": "QRCodeScanner",
-        "label": "QR Code Scanner",
-        "experiment": true,
-        "disabled": true
-      }
-    ],
-    "details": [
-      {
-        "files": []
-      }
-    ],
-    "labels": "[]",
-    "columns": "id int4 NOT NULL DEFAULT nextval(`id_seq`::regclass), user_updated varchar , user_created varchar , user_archived jsonb , date_updated timestamp , date_archived timestamp , date_created timestamp, PRIMARY KEY(id)",
-    "pin": "U2FsdGVkX19+NGvgUScXGSsA3nlpZEL8sVLDxrxMEmA="
-  }
-}
-
-export const FIRE_ALARM_FORM = {}
-
-export const EMERGECY_LIGHTING_FORM = {}
-
+// list array to prime forms state
 export const FORMS = [
   {
-    id: "fire-extinguisher",
-    name: "Fire Extinguisher",
-    icon: "fire_extinguisher",
+    id: "vehicle-inspection",
+    name: "Vehicle Inspection",
+    icon: "directions_car",
     type: "custom",
-    description: "Onsite inspection",
-    formObject: FIRE_EXTINGUISHER
+    lists: ['stakeholders', 'models', 'years', 'divisions', 'makes'],
+    description: "Monthly vehicle inspection",
+    formObject: VEHICLE_INSPECTION,
+    history: false
   },
   {
-    id: "hazard-assessment",
-    name: "Hazard Assessment",
-    icon: "warning_amber",
+    id: "worksite-safety-inspection",
+    name: "Worksite Safety Inspection",
+    icon: "checklist",
     type: "custom",
-    description: "Onsite hazard assessment gathering",
-    formObject: HAZARD_ASSESSMENT
+    lists: ['clients'],
+    description: "Worksite Safety Inspection",
+    formObject: WORKSITE_SAFETY_INSPECTION,
+    history: false
   },
   {
-    id: "maintenance-inspection",
-    name: "Maintenance Inspection",
-    icon: "manage_search",
-    type: "dynamic",
-    description: "Onsite inspection",
-    formObject: MAINTENANCE_INSPECTION
-  },
-  // {
-  //   id: "qr-code-scanner",
-  //   name: "QR Code Scanner",
-  //   icon: "qr_code_2",
-  //   description: "QR Code Scanner - scans qr codes",
-  //   formObject: QR_CODE_SCANNER
-  // },
-  {
-    id: "fire-alarm",
-    name: "Fire Alarm",
-    icon: "local_fire_department",
-    type: "dynamic",
-    description: "Onsite inspection",
-    formObject: FIRE_ALARM_FORM
+    id: "meaningful-site-tour",
+    name: "Meaningful Site Tour",
+    icon: "tour",
+    type: "custom",
+    lists: [],
+    description: "Safety Environment Compliance",
+    formObject: MEANINGFUL_SITE_TOUR,
+    history: false
   },
   {
-    id: "emergency-lighting",
-    name: "Emergency Lighting",
-    icon: "lightbulb",
-    type: "dynamic",
-    description: "Onsite inspection",
-    formObject: EMERGECY_LIGHTING_FORM
+    id: "spot-check-safety",
+    name: "Spot Check Safety",
+    icon: "grading",
+    type: "custom",
+    lists: [],
+    description: "Worksite Safety Management Review",
+    formObject: SPOT_CHECK_SAFETY,
+    history: false
   }
 ]

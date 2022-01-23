@@ -1,0 +1,68 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="hazardForm">
+    <div class="text-color radio-center">{{label.SiteHazardAssessmentCompleted}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SiteHazardAssessmentCompleted">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SiteHazardAssessmentCompleted,'SiteHazardAssessmentCompleted')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.ScopeOfWorkClearlyDefined}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="ScopeOfWorkClearlyDefined">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.ScopeOfWorkClearlyDefined,'ScopeOfWorkClearlyDefined')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div> 
+    <div class="text-color radio-center">{{label.PotentialHazardsAndMitigationRequirementsIdentified}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="PotentialHazardsAndMitigationRequirementsIdentified">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.PotentialHazardsAndMitigationRequirementsIdentified,'PotentialHazardsAndMitigationRequirementsIdentified')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.SummitHealthAndSafetyManualAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="SummitHealthAndSafetyManualAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.SummitHealthAndSafetyManualAvailable,'SummitHealthAndSafetyManualAvailable')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.OccupationalHealthAndSafetyLegislationAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="OccupationalHealthAndSafetyLegislationAvailable">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.OccupationalHealthAndSafetyLegislationAvailable,'OccupationalHealthAndSafetyLegislationAvailable')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.DailySafetyMeetingsConductedDocumented}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="DailySafetyMeetingsConductedDocumented">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.DailySafetyMeetingsConductedDocumented,'DailySafetyMeetingsConductedDocumented')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.AllSitePersonalTrainingAndSafetyTickets}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="AllSitePersonalTrainingAndSafetyTickets">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.AllSitePersonalTrainingAndSafetyTickets,'AllSitePersonalTrainingAndSafetyTickets')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="H2SPersonalGasMonitorsOnsiteHaveBeenBumped">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped,'H2SPersonalGasMonitorsOnsiteHaveBeenBumped')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="text-color radio-center">{{label.AllSitePersonnelSiteSpecificWearingPPE}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="AllSitePersonnelSiteSpecificWearingPPE">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.AllSitePersonnelSiteSpecificWearingPPE,'AllSitePersonnelSiteSpecificWearingPPE')" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</div>

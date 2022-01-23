@@ -1,8 +1,4 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core'
-
-import { AppService } from "../../service/app.service"
-
-import { AppState } from "../../model/state"
+import { Component, Output, EventEmitter } from '@angular/core'
 
 @Component({
   selector: 'app-sign-off',
@@ -11,11 +7,9 @@ import { AppState } from "../../model/state"
 })
 export class SignOffComponent {
 
-  @Input() state: AppState
-  // @Input() companyForm
   @Output() submitForm = new EventEmitter<any>()
 
-  constructor(public appService: AppService) { }
+  constructor() { }
 
   save() {
     this.submitForm.emit()

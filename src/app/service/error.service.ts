@@ -9,12 +9,10 @@ export class ErrorService {
 
   constructor(private snackBar: MatSnackBar) { }
 
-  popRequestErrorSnackbar(error): any {
-    this.snackBar.open(error.reason, "Error:", {duration: 3000})
-  }
-
   popSnackbar(message) {
-    this.snackBar.open(message, "Heads Up!", {duration: 3000})
+    let msg = "Whoa, something went wrong"
+    if (message) msg = message
+    this.snackBar.open(msg, "Heads Up!", {duration: 3000})
   }
   
 }

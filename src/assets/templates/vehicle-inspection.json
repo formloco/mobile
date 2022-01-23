@@ -395,6 +395,6 @@
   "is_data": true,
   "is_published": false,
   "id": 4,
-  "tenant_id": "1a3a6232-ab04-43d6-9d18-6828f257f55f",
+  "tenantID": "1a3a6232-ab04-43d6-9d18-6828f257f55f",
   "type": "dynamic"
 }

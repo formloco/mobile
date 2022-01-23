@@ -1,0 +1,49 @@
+<div class="container-padding">
+  <form fxLayout="column" fxLayoutGap="5px" [formGroup]="emailForm">
+    <mat-form-field fxFlex>
+      <mat-label>Enter Name</mat-label>
+      <input matInput type="text" formControlName="name" placeholder="Enter Name" required>
+      <mat-error>You must enter a name</mat-error>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label>Enter Email</mat-label>
+      <input matInput type="text" formControlName="email" placeholder="Enter Email" required>
+      <mat-error>You must enter a valid email</mat-error>
+    </mat-form-field>
+    <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
+      <mat-checkbox formControlName="worker" color="primary">Worker</mat-checkbox>
+      <mat-checkbox formControlName="supervisor" color="primary">Supervisor</mat-checkbox>
+    </div>
+    <br>
+    <button mat-raised-button (click)="save()" color="primary" [disabled]="!emailForm.valid" runForm.type="submit">
+      Add Email to List
+    </button>
+  </form>
+  <br>
+  <div>
+    <table mat-table [dataSource]="appService.dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="hand" mat-cell *matCellDef="let element;">
+          <span *ngIf="element.enabled">
+            <mat-icon class="material-icons-outlined" color="primary">check_circle</mat-icon>
+          </span>
+          <span *ngIf="element.enabled === false">
+            <mat-icon class="material-icons-outlined" color="warn">cancel</mat-icon>
+          </span>
+          <span *ngIf="element.enabled === null">
+            <mat-icon class="material-icons-outlined">do_not_disturb_on</mat-icon>
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td class="hand" mat-cell *matCellDef="let element;">
+          {{element.email}}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row (click)="edit(i)" *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

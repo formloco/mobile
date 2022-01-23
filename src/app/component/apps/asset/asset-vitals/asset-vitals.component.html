@@ -1,0 +1,43 @@
+<mat-card class="mat-elevation-z8" fxFlex>
+  <mat-card-content>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" class="headline" fxLayoutAlign="start" fxFlex>
+        Asset Vitals - Unit No. {{(asset$ | async)?.unit_number}}
+      </div>
+      <div class="close-detail cursor-hand" fxLayoutAlign="end">
+        <mat-icon (click)="close()">close</mat-icon>
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+        <div class="font"  fxFlex="25">Purchase Date: 
+          <span class="mat-h4">{{(asset$ | async)?.purchase_date | date}}</span>
+        </div>
+        <div class="font" fxFlex="25">Current Location: 
+          <span class="mat-h4" >{{(asset$ | async)?.lat}}, {{(asset$ | async)?.lng}}</span>
+        </div>
+        <div class="font" fxFlex="25">Current Address: 
+          <span class="mat-h4">{{(asset$ | async)?.current_address}}</span>
+        </div>
+        <div class="font" fxFlex="25">Nearest Town/City:
+          <span class="mat-h4">{{(asset$ | async)?.nearest_city}}</span>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+        <div class="font" fxFlex="25">Capital Cost: 
+          <span class="mat-h4">${{(asset$ | async)?.capital_cost}}</span>
+        </div>
+        <div class="font" fxFlex="25">Maintenance Costs: 
+          <span class="mat-h4" >${{(asset$ | async)?.maintenance_cost}}</span>
+        </div>
+        <div class="font" fxFlex="25">Hours Billed: 
+          <span class="mat-h4" >${{(asset$ | async)?.hours_billed}}</span>
+        </div>
+        <div class="font" fxFlex="25">Hours Worked: 
+          <span class="mat-h4" >${{(asset$ | async)?.hours_billed}}</span>
+        </div>
+      </div>
+    </div>     
+  </mat-card-content>
+</mat-card>
+
+    

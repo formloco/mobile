@@ -1,0 +1,123 @@
+<div class="table-padding">
+  <div fxLayout="column">
+    <div *ngIf="!isNewAsset" fxLayout="row">
+      <div fxLayoutAlign="start center" fxFlex>
+        <mat-form-field fxFlex="30">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </div>
+      <div fxLayoutAlign="end center" >
+        <button mat-mini-fab color="primary" (click)="newAsset()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="isNewAsset">
+      <app-asset (cancelCreate)='cancelCreate($event)'
+                 [isUpdate]=isUpdate>
+      </app-asset>
+    </div>
+    <br>
+  </div>
+  <div class="custom-container mat-elevation-z8">
+    <div class="custom-table-container">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows
+             matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+            {{column}} 
+          </th>
+          <td (click)="updateForm(element)" mat-cell *matCellDef="let element"> 
+            <!-- <span *ngIf="column === 'image'">
+              <span *ngIf="element[column] !== null">
+                <img src="{{baseUrl}}images/{{tenant_id}}/{{element.thumb}}">
+              </span>
+              <span *ngIf="element[column] === null">
+                no image
+              </span>
+            </span> -->
+            <span *ngIf="column !== 'date_created' && column !== 'image'">
+              {{element[column]}}
+            </span>
+            <span *ngIf="column === 'date_created'">{{element[column] | date}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="custom-element-detail" 
+                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <form fxLayout="column" [formGroup]="assetForm" fxFlex>
+                <div fxLayout="row" fxLayoutGap="10px">                  
+                  <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" formControlName="name">
+                  </mat-form-field>  
+                  <mat-form-field appearance="outline" fxFlex="15">
+                    <mat-label>Unit Number</mat-label>
+                    <input matInput type="text" formControlName="unit_number">
+                  </mat-form-field>  
+                  <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Asset Category</mat-label>
+                    <mat-select formControlName="category">
+                      <mat-option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.category }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>  
+                  <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Asset Status</mat-label>
+                    <mat-select formControlName="status">
+                      <mat-option *ngFor="let status of statuses" [value]="status.id">
+                        {{ status.status }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> 
+                <div fxLayout="column" fxFlex>
+                  <div fxLayout="row" fxFlex>
+                    <div fxLayoutAlign="start center" fxFlex>
+                      <a *ngIf="!isHistory" class="blue-link" mat-button 
+                         (click)="showHistory(element)">
+                        Show History
+                      </a>
+                      <a *ngIf="isHistory" class="blue-link" mat-button 
+                         (click)="hideHistory(element)">
+                        Hide History
+                      </a>
+                    </div>
+                    <div fxLayoutAlign="end center" fxLayoutGap="10px">
+                      <div *ngIf="isDelete">
+                        <a class="blue-link" mat-button (click)="delete(element.id)">
+                          Delete
+                        </a>
+                      </div>     
+                      <div *ngIf="isUpdate">
+                        <button mat-raised-button color="primary" (click)="update(element.id)">
+                          Save
+                        </button>
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="table-padding" *ngIf="isHistory" fxLayout="row">
+                    <app-asset-log [assetId]=assetId fxFlex></app-asset-log>
+                  </div>
+                </div>
+                <br>
+              </form>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+            class="custom-element-row"
+            [class.custom-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" 
+            class="custom-detail-row">
+        </tr>
+      </table>
+    </div>
+    <mat-paginator [pageSize]="[10, 25, 50, 100]"></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div fxLayout="column" fxFlex>
+  <div fxLayout="row" class="headline" fxLayoutAlign="start" fxFlex>
+    {{yardName}} Yard
+  </div>
+  <div *ngIf="isDeploy" fxLayout="row" fxFlex>
+    <form fxLayout="column" [formGroup]="assetAddressForm" fxFlex>
+      <br>
+      <div fxLayout="row" class="mat-subheading-2" fxLayoutAlign="start" fxFlex>
+        Deploying Unit No. {{assetId}}
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field  fxFlex="50"> 
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" type="text">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" type="text">
+        </mat-form-field> 
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">   
+        <mat-form-field fxFlex>
+          <mat-label>Province / State</mat-label>
+          <mat-select formControlName="province">
+            <mat-optgroup *ngFor="let group of stateGroups" [label]="group.name">
+              <mat-option *ngFor="let state of group.states" [value]="state.value">
+                {{state.value}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Postal / Zip Code</mat-label>
+          <input matInput formControlName="postal" type="text">
+        </mat-form-field> 
+      </div>
+      <div fxLayoutAlign="end center" fxLayoutGap="10px">
+        <div>
+          <a class="blue-link" mat-button (click)="cancelDeploy()">Cancel</a>
+        </div>     
+        <div *ngIf="!isFound">
+          <button mat-raised-button color="primary" (click)="lookup()">Lookup</button>
+        </div>
+        <div *ngIf="isFound && !isUpdateMap">
+          <button mat-raised-button color="primary" disabled>Add to Map</button>
+        </div>
+        <div *ngIf="isFound && isUpdateMap">
+          <button mat-raised-button color="primary" (click)="addToMap()">Add to Map</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!isDeploy" fxLayoutAlign="start center" fxFlex>
+    <mat-form-field fxFlex>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="unit_number">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+        <td mat-cell *matCellDef="let row">{{row.unit_number}}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> 
+          {{row.status}} 
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="deploy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row"> 
+          <button mat-button color="primary" (click)="deploy(row)">
+            Deploy
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr class="custom-element-row" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 25]"></mat-paginator>
+  </div>
+</div>

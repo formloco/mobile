@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
 
-import { AppState } from "../../../model/state"
-
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
@@ -16,15 +14,13 @@ import { environment } from '../../../../environments/environment'
 })
 export class SettingsComponent implements OnInit {
 
-  @Input() state: AppState
-
   prefs
   pin = environment.pin
 
   settingsForm: FormGroup
 
   constructor(
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private idbCrudService: IdbCrudService) { 
     this.settingsForm = this.formBuilder.group({
@@ -50,7 +46,7 @@ export class SettingsComponent implements OnInit {
     this.prefs.pin = obj.pin
     this.idbCrudService.put('prefs', this.prefs)
 
-    this._snackBar.open("Settings Saved!", '', {
+    this.snackBar.open("Settings Saved!", '', {
       duration: 3000,
       verticalPosition: 'bottom'
     })

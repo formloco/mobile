@@ -1,0 +1,16 @@
+<div fxLayoutAlign="end center" class="icon-pointer" (click)="dialogRef.close()">
+  <mat-icon>close</mat-icon>
+</div>
+<div fxLayoutAlign="center center">
+  <mat-form-field fxFlex>
+    <input matInput type="text" [formControl]="id">
+  </mat-form-field>
+</div>
+<div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
+  <div>
+    <button (click)="update()" mat-stroked-button color="primary">Save</button>
+  </div>
+  <div>
+    <button (click)="delete()" mat-stroked-button color="warn">Delete</button>
+  </div>
+</div>

@@ -1,17 +1,41 @@
-<div class="column" fxFlexFill>
-  <mat-sidenav-container class="list-container" [ngStyle]="{'background-color': appService.canvasBackground, 'style.height.px': myInnerHeight }" (backdropClick)="close('backdrop')">
-    <mat-sidenav #sidenav (keydown.escape)="close('escape')" class="list-menu" mode="over" [(opened)]="appService.isListMenu"
-      [fixedInViewport]="true" [fixedTopGap]=55>
-      <app-form-lists (selectChild)=selectChild($event) [state]=state></app-form-lists>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <app-list-run *ngIf="state.childPage === 'list'" [state]=state (openLists)=openLists()></app-list-run>
-      <app-data *ngIf="state.childPage === 'data'" [state]=state></app-data>
-      <app-data-forms *ngIf="state.childPage === 'data-forms'" (selectChild)=selectChild($event) [state]=state></app-data-forms>
-      <app-settings *ngIf="state.childPage === 'settings'" [state]=state></app-settings>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+
+<div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
+  <div class="header">
+    <mat-toolbar>
+      <span>{{ childPageLabel$ | async }}</span>
+      <span class="toolbar-spacer"></span>
+      <div fxLayoutGap="25px" fxLayoutAlign="space-around center">
+        <mat-icon class="hand" (click)="settings()">settings</mat-icon>
+        <mat-icon class="hand" (click)="openNotifications(1)">border_color</mat-icon>
+        <mat-icon class="hand" (click)="openNotifications(0)" matBadge="{{notificationCount$ | async}}"
+          matBadgeColor="accent">notifications</mat-icon>
+        <button color="primary" (click)="signout()" mat-flat-button>Sign Out</button>
+      </div>
+    </mat-toolbar>
+  </div>
+
+  <div class="content">
+    <mat-sidenav-container class="list-container"
+      [ngStyle]="{'background-color': (background$ | async), 'style.height.px': myInnerHeight }"
+      (backdropClick)="close('backdrop')">
+      <mat-sidenav #sidenav (keydown.escape)="close('escape')" class="list-menu" mode="over"
+        [(opened)]="appService.isListMenu" [fixedInViewport]="true" [fixedTopGap]=55>
+        <app-form-lists (selectList)=selectList()></app-form-lists>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="content-full">
+          <app-list-run *ngIf="(childPage$ | async) === 'list'"></app-list-run>
+          <app-data *ngIf="(childPage$ | async) === 'data'"></app-data>
+          <app-forms *ngIf="(childPage$ | async) === 'forms'" (selectData)=selectPage()></app-forms>
+          <app-list-forms *ngIf="(childPage$ | async) === 'list-forms'" (selectData)=selectPage()></app-list-forms>
+          <app-data-forms *ngIf="(childPage$ | async) === 'data-forms'" (selectData)=selectPage()></app-data-forms>
+          <app-settings *ngIf="(childPage$ | async) === 'settings'"></app-settings>
+          <app-email-list *ngIf="(childPage$ | async) === 'email'"></app-email-list>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  <div class="footer">
+    <app-menu></app-menu>
+  </div>
 </div>
-<footer>
-  <app-menu [state]=state (selectChild)=selectChild($event)></app-menu>
-</footer>

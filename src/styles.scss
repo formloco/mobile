@@ -1,11 +1,11 @@
-@use '~@angular/material' as mat;
 @import './styles-app';
-@include mat.core();
+@import "~@angular/material/theming";
+@include mat-core();
 
-$angular-primary: mat.define-palette(mat.$light-blue-palette, 300, 100, 900);
-$angular-accent: mat.define-palette(mat.$orange-palette, 300, 100, 400);
-$angular-warn: mat.define-palette(mat.$red-palette, 300);
-$angular-default-theme: mat.define-light-theme(
+$angular-primary: mat-palette($mat-light-blue, 300, 100, 900);
+$angular-accent: mat-palette($mat-orange, 300, 100, 400);
+$angular-warn: mat-palette($mat-red, 300);
+$angular-default-theme: mat-light-theme(
   (
     color: (
       primary: $angular-primary,
@@ -14,9 +14,9 @@ $angular-default-theme: mat.define-light-theme(
     ),
   )
 );
-@include mat.all-component-themes($angular-default-theme);
+@include angular-material-theme($angular-default-theme);
 
-$angular-dark-theme: mat.define-dark-theme(
+$angular-dark-theme: mat-dark-theme(
   (
     color: (
       primary: $angular-primary,
@@ -26,10 +26,35 @@ $angular-dark-theme: mat.define-dark-theme(
   )
 );
 .darkMode {
-  @include mat.all-component-colors($angular-dark-theme);
+  @include angular-material-color($angular-dark-theme);
 }
 
 html, body { height: 100%; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden;}
 
+@import "~@angular/cdk/overlay-prebuilt.css";
 
+.picker-wrapper.sc-ion-picker-md {
+  background-color:#424242;
+  color:#959595;
+}
 
+.select-panel {
+  margin-left: 16px;
+  min-width: 100% !important;
+}
+
+.right-aligned-header > .mat-content {
+  justify-content: space-between;
+}
+
+.mat-content > mat-panel-title, .mat-content > mat-panel-description {
+flex: 0 0 auto;
+}
+
+.right-aligned-header > .mat-content {
+  justify-content: space-between;
+}
+
+.mat-content > mat-panel-title, .mat-content > mat-panel-description {
+flex: 0 0 auto;
+}

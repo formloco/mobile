@@ -1,18 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, Output, EventEmitter } from '@angular/core'
 
-import { AppState } from "../../../model/state"
-
-import * as uuid from 'uuid'
-
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog'
-
-import { FormControl, Validators, FormGroup, FormBuilder } from "@angular/forms"
+import { Observable } from 'rxjs'
+import { Validators, FormGroup, FormBuilder } from "@angular/forms"
 
 import { AppService } from "../../../service/app.service"
+import { FormService } from "../../../service/form.service"
+import { ApiService } from "../../../service/api.service"
 
-import { DataService } from "../../../service/data.service"
-
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
+import { Store, Select } from '@ngxs/store'
+import { AuthState } from '../../../state/auth/auth.state'
+import { DeviceState } from '../../../state/device/device.state'
+import { SetChildPage, SetChildPageLabel , SetLookupListName } from '../../../state/auth/auth-state.actions'
 
 import { environment } from '../../../../environments/environment'
 
@@ -21,51 +19,52 @@ import { environment } from '../../../../environments/environment'
   templateUrl: './form-lists.component.html',
   styleUrls: ['./form-lists.component.scss']
 })
-export class FormListsComponent implements OnInit {
+export class FormListsComponent {
 
-  @Input() state: AppState
+  @Select(AuthState.lookupListNames) lookupListNames$: Observable<any>
+  @Select(DeviceState.background) background$: Observable<string>
+
   @Output() selectChild = new EventEmitter<any>()
 
   token
+  lookupLists
   isLookupOpen = false
 
   lookupListForm: FormGroup
+  tenant = environment.tenant
 
   constructor(
-    private dialog: MatDialog,
+    private store: Store,
     public appService: AppService,
     private formBuilder: FormBuilder,
-    private dataService: DataService,
-    private idbCrudService: IdbCrudService) {
+    private formService: FormService,
+    private apiService: ApiService) {
     this.lookupListForm = this.formBuilder.group({
       lookupListName: ['', Validators.required]
     })
   }
 
-  ngOnInit(): void {
-    this.state.childPageLabel = 'Administration - Form Lists'
-  }
-
   createLookuplist() {
     let form = this.appService.createList(this.lookupListForm.get('lookupListName').value)
-    this.appService.createForm(form).subscribe(res => {
+    this.formService.createForm(form).subscribe(res => {
       this.closeOverlay()
       this.lookupListForm.reset()
   
-      this.dataService.getLists({tenant_id: this.state.tenant["tenant_id"]}).subscribe(lists => {
+      this.apiService.getLists({tenant_id: this.tenant.tenant_id}).subscribe(lists => {
         this.appService.lookupLists = lists
-        console.log(this.appService.lookupLists)
       })
     })
   }
 
-  run(formObj) {
-    console.log(this.state)
+  run(name) {
+    this.store.dispatch(new SetLookupListName(name))
+    this.store.dispatch(new SetChildPage('list'))
+    this.store.dispatch(new SetChildPageLabel('Form Lists'))
+    const lookupListArray = this.store.selectSnapshot(AuthState.lookupListData)
+    const lookupList = lookupListArray.find(list => list["name"] == name)
+    if (lookupList) this.appService.dataSource.data = lookupList["rows"]
+    else this.appService.dataSource.data = []
     this.appService.isListMenu = false
-    this.state.childPage = 'list'
-    this.state.childPageLabel = formObj.name
-    this.state.selectedForm = formObj
-    this.appService.dataSource.data = this.state.selectedForm["rows"]
   }
 
   closeOverlay() {

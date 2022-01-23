@@ -1,25 +1,45 @@
+<div class="padding" fxLayout="row">
+  <div fxLayoutAlign="start center">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <img src="assets/parrot.svg" height="42px">
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <img *ngIf="(isDarkMode$ | async)" src="assets/logo-dark.png" height="90px">
+        <img *ngIf="!(isDarkMode$ | async)" src="assets/logo-light.png" height="90px">
+      </button>
+      <button mat-menu-item>{{version}}</button>
+    </mat-menu>
+  </div>
+  <span class="toolbar-spacer"></span>
+  <div fxLayoutAlign="space-around center">
+    <button (click)="getEmail()" mat-stroked-button color="primary" fxFlex>Reset Password</button>
+  </div>
+</div>
 <div fxLayout="column">
   <form class="container-padding" [formGroup]="idForm">
     <div fxLayout="column">
-      <br>
       <div class="text-color text-center">
         <div><img src="assets/logo.svg"></div>
-        <br><br>
-        <h2>Welcome!</h2>
-        <h3>Please introduce yourself</h3>
       </div>
       <br>
-      <mat-form-field class="text-color" appearance="outline" fxFlex>
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Name" formControlName="name" type="text" required>
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Company Email</mat-label>
+        <input matInput placeholder="Company Email" formControlName="email" type="text" required>
         <mat-error>
-          Name is required!
+          Proper email is required!
         </mat-error>
       </mat-form-field>
-      <br>
-      <div fxLayoutAlign="center">
-        <mat-icon *ngIf="!idForm.valid" class="icon-196px text-color">fingerprint</mat-icon>
-        <mat-icon *ngIf="idForm.valid" class="icon-196px-action" (click)="save()">fingerprint</mat-icon>
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+        <mat-error>
+          Password is required!
+        </mat-error>
+      </mat-form-field>
+      <div class="hand" fxLayoutAlign="center">
+        <mat-icon *ngIf="!idForm.valid" class="icon-169px text-color">fingerprint</mat-icon>
+        <mat-icon *ngIf="idForm.valid" class="icon-169px-action" (click)="save()">fingerprint</mat-icon>
       </div>
     </div>
   </form>

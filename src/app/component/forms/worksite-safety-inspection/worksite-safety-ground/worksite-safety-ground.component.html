@@ -1,0 +1,56 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="groundForm">
+    <div class="text-color radio-center">{{label.DoesTheProjectInvolveGroundDisturbance}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="DoesTheProjectInvolveGroundDisturbance">
+        <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isGroundwork$ | async)">
+      <div class="text-color radio-center">{{label.GroundDisturbanceChecklistIsInPlace}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="GroundDisturbanceChecklistIsInPlace">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.GroundDisturbanceChecklistIsInPlace,'GroundDisturbanceChecklistIsInPlace')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.OneCallNotificationHasBeenRegistered}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="OneCallNotificationHasBeenRegistered">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.OneCallNotificationHasBeenRegistered,'OneCallNotificationHasBeenRegistered')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed}}
+      </div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed,'AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined,'ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.ThirdPartyLineLocatesCompletedWithinTheSearchArea}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ThirdPartyLineLocatesCompletedWithinTheSearchArea">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ThirdPartyLineLocatesCompletedWithinTheSearchArea,'ThirdPartyLineLocatesCompletedWithinTheSearchArea')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.AllRequiredCrossingOrProximityAgreementsInPlace}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="AllRequiredCrossingOrProximityAgreementsInPlace">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.AllRequiredCrossingOrProximityAgreementsInPlace,'AllRequiredCrossingOrProximityAgreementsInPlace')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+  </form>
+</div>

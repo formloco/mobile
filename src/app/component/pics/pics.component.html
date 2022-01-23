@@ -1,0 +1,11 @@
+<div class="mat-headline" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayoutAlign="start center">{{ (selectedForm$ | async).name | splitCamelCase }}</div>
+  <div fxLayoutAlign="start center" class="icon-pointer" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </div>
+</div>
+<ul class="list-unstyled">
+  <li *ngFor="let src of (pics$ | async); let idx = index">
+    <img [src]="src" height="100" width="100" (click)="selectPhoto(idx)">
+  </li>
+</ul>

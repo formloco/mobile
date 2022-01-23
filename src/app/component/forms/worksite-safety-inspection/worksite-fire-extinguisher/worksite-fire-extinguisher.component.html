@@ -1,0 +1,62 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="fireExtinguisherForm">
+    <div class="text-color radio-center">{{label.TwentyPoundMinimumFireExtinguisherAvailable}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="TwentyPoundMinimumFireExtinguisherAvailable">
+        <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isFireExtinguisher$ | async)">
+      <div class="text-color radio-center">{{label.FireExtinguisherInspected}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherInspected">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherInspected,'FireExtinguisherInspected')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherVisibleUnobstructed}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherVisibleUnobstructed">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherVisibleUnobstructed,'FireExtinguisherVisibleUnobstructed')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherCharged}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherCharged">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherCharged,'FireExtinguisherCharged')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherSafetyPinSecured}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherSafetyPinSecured">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherSafetyPinSecured,'FireExtinguisherSafetyPinSecured')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherOperatingInstructions}}s</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherOperatingInstructions">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherOperatingInstructions,'FireExtinguisherOperatingInstructions')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherNoVisibleDamage}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherNoVisibleDamage">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherNoVisibleDamage,'FireExtinguisherNoVisibleDamage')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.FireExtinguisherCertification}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="FireExtinguisherCertification">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.FireExtinguisherCertification,'FireExtinguisherCertification')" value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+  </form>
+</div>

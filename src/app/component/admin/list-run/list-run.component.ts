@@ -1,15 +1,19 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core'
-
-import { AppState } from "../../../model/state"
+import { Component } from '@angular/core'
 
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
+import { MatDialogConfig, MatDialog } from "@angular/material/dialog"
+
+import { Store, Select } from '@ngxs/store'
+import { AuthState } from '../../../state/auth/auth.state'
+
+import { Observable } from 'rxjs'
 
 import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
-import { DataService } from "../../../service/data.service"
+import { ApiService } from "../../../service/api.service"
 import { SuccessService } from "../../../service/success.service"
 
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
+import { ListEditComponent } from '../list-edit/list-edit.component'
 
 import { LIST_FORM } from '../../../model/forms'
 
@@ -20,110 +24,57 @@ import { LIST_FORM } from '../../../model/forms'
 })
 export class ListRunComponent {
 
-  @Input() state: AppState
-
+  @Select(AuthState.lookupListName) lookupListName$: Observable<string>
   runForm: FormGroup
 
-  id = new FormControl('');
+  id = new FormControl('')
 
   user
   data
   allData
   selectedIdx
+  lookupLists
   isSync = false
   LIST_FORM = LIST_FORM
-
-  myInnerHeight = window.innerHeight
 
   displayedColumns: string[] = ['id']
 
   constructor(
+    private store: Store,
+    private dialog: MatDialog,
     public appService: AppService,
+    private apiService: ApiService,
     public authService: AuthService,
-    private dataService: DataService,
     private formBuilder: FormBuilder,
-    private successService: SuccessService,
-    private idbCrudService: IdbCrudService) {
+    private successService: SuccessService) {
     this.runForm = this.formBuilder.group({
       item: ['', Validators.required]
     })
   }
 
   edit(idx, element) {
-    this.selectedIdx = idx
-    this.id.setValue(element.data)
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.width = '100%'
+    dialogConfig.data = { id: idx, element: element }
+    const dialogRef = this.dialog.open(ListEditComponent, dialogConfig)
   }
 
   save() {
-    let dataObj = []
-    let userCreated = { email: this.appService.tenant.email, date_created: new Date() }
-
-    dataObj.push(null)
-    dataObj.push(JSON.stringify(userCreated))
-    dataObj.push(new Date())
-    dataObj.push(new Date())
-    dataObj.push(this.runForm.controls['item'].value)
-    this.LIST_FORM["form_id"] = this.state.selectedForm["form_id"]
-    this.LIST_FORM["is_published"] = true
-    this.LIST_FORM["is_data"] = true
-
-    this.runForm.controls['item'].reset()
-
     let obj = {
-      data: dataObj,
-      columns: this.LIST_FORM["columns"],
-      user: this.appService.tenant,
-      formObj: this.LIST_FORM,
-      type: 'dynamic',
-      name: this.state.selectedForm.name
+      value: this.runForm.controls['item'].value,
+      name: this.store.selectSnapshot(AuthState.lookupListName)
     }
-    console.log(obj)
-    this.dataService.saveList(obj).subscribe(res => {this.getCloud()})
-  }
-
-  update(idx) {
-    let obj = {
-      id: this.appService.dataSource.data[idx]["id"],
-      form_id: this.state.selectedForm["form_id"],
-      tenant_id: this.state["tenant"]["tenant_id"],
-      params: ` data = '` + this.id.value + `'`
-    }
-    this.dataService.update(obj).subscribe(data => {
-      this.data = data
-      this.appService.dataSource.data = this.data.rows
-      this.successService.popSnackbar(this.data.message)
-      this.selectedIdx = null
+    this.apiService.saveList(obj).subscribe((data:any) => {
+      this.runForm.controls['item'].reset()
+      this.appService.dataSource = data.rows
+      this.successService.popSnackbar('Item Saved')
     })
   }
 
-  delete(idx) {
-    let obj = {
-      id: this.appService.dataSource.data[idx]["id"],
-      form_id: this.state.selectedForm["form_id"],
-      tenant_id: this.state["tenant"]["tenant_id"]
-    }
-    this.dataService.delete(obj).subscribe(data => {
-      this.data = data
-      this.successService.popSnackbar(this.data.message)
-      this.selectedIdx = null
-      this.getCloud()
-    })
-  }
-
-  getCloud() {
-    let obj = {
-      form_id: this.state.selectedForm["form_id"],
-      tenant_id: this.state.tenant["tenant_id"]
-    }
-    this.dataService.getData(obj).subscribe(data => {
-      this.data = data
-      this.appService.dataSource.data = this.data
-      this.appService.dataSource.sort
-    })
-  }
-
-  openList() {
-    this.appService.isListMenu = true;
+  openMenu() {
+    this.runForm.reset()
+    this.selectedIdx = undefined
+    this.appService.isListMenu = true
   }
 
 }

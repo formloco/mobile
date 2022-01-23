@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form class="header-form" [formGroup]="discrepancyForm">
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <mat-label>Discrepancies</mat-label>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" matInput formControlName="Discrepancy" placeholder="The following discrepancies were noted" fxFlex></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+

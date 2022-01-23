@@ -1,0 +1,45 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form fxLayout="column" [formGroup]="confinedSpaceForm">
+    <div class="text-color radio-center">{{label.DoesTheProjectInvolveConfinedSpaceEntry}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="DoesTheProjectInvolveConfinedSpaceEntry">
+        <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <span *ngIf="(isConfinedSpace$ | async)">
+      <div class="text-color radio-center">{{label.ConfinedSpacePermitIssued}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ConfinedSpacePermitIssued">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ConfinedSpacePermitIssued,'ConfinedSpacePermitIssued')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.ConfinedSpaceSafetyTraining}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="ConfinedSpaceSafetyTraining">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.ConfinedSpaceSafetyTraining,'ConfinedSpaceSafetyTraining')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.SafetyWatchInPlace}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="SafetyWatchInPlace">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.SafetyWatchInPlace,'SafetyWatchInPlace')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">{{label.RescuePlanAvailable}}</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="RescuePlanAvailable">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button (click)="openComment(label.RescuePlanAvailable,'RescuePlanAvailable')"
+            value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </span>
+  </form>
+</div>
