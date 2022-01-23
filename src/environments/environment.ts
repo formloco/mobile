@@ -11,8 +11,9 @@ export const environment = {
   formUrl: 'https://api.formloco.com/form/',
   emailUrl: 'https://api.formloco.com/email/',
   assetUrl: 'https://api.formloco.com/asset/',
-  messageUrl: 'https://forms.summitearth.com/message/',
   notificationUrl: 'https://api.formloco.com/notification/',
+  
+  messageUrl: 'https://localhost:4200/message/',
   signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 

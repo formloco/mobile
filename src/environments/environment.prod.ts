@@ -8,8 +8,9 @@ export const environment = {
   formUrl: 'https://api.formloco.com/form/',
   emailUrl: 'https://api.formloco.com/email/',
   assetUrl: 'https://api.formloco.com/asset/',
-  messageUrl: 'https://forms.summitearth.com/message/',
-  notificationUrl: 'https://mobile.formloco.com/notification/',
+  notificationUrl: 'https://api.formloco.com/notification/',
+
+  messageUrl: 'https://mobile.formloco.com/message/',
   signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 

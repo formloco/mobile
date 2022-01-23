@@ -12,6 +12,7 @@ export const environment = {
   emailUrl: 'http://localhost:9003/email/',
   assetUrl: 'http://localhost:9005/asset/',
   notificationUrl: 'http://localhost:9004/notification/',
+  
   signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
   messageUrl: 'http://localhost:4200/message/',
