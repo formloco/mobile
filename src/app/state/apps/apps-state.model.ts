@@ -37,3 +37,9 @@ export enum IdbName {
   formloco = 'formlocoMobileDB',
   rumzer = 'rumzerMobileDB'
 }
+
+export enum Email {
+  summit = 'HSE@summitearth.com',
+  formloco = 'poly@formloco.com',
+  rumzer = 'rumzerbot@rumzer.com'
+}
