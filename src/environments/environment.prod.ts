@@ -1,4 +1,4 @@
-import { Branding, Tenant, IdbName, Email } from '../app/state/apps/apps-state.model'
+import { Branding, Tenant, IdbName, Email, Pin } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: true,
@@ -21,5 +21,5 @@ export const environment = {
   logo: Branding.formloco,
   idbName: IdbName.formloco,
   version: 'January 25, 2022',
-  pin: '999999'
+  pin: Pin.formloco
 }

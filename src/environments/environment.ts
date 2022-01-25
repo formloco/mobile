@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Branding, Tenant } from '../app/state/apps/apps-state.model'
+import { Branding, Tenant, IdbName, Email, Pin } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
@@ -14,17 +14,17 @@ export const environment = {
   notificationUrl: 'https://api.formloco.com/notification/',
 
   messageUrl: 'https://mobile.formloco.com/message/',
-  signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
+  signinUrl: 'https://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl: 'https://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 
-  tenant: { email: 'polly@formloco.com', 
+  tenant: { email: Email.formloco, 
             tenant_id: Tenant.formloco,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
   logo: Branding.formloco,
   version: 'Development',
-  idbName: 'formlocoMobileDB',
-  pin: '999999'
+  idbName: IdbName.formloco,
+  pin: Pin.formloco
 };
 
 /*

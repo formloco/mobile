@@ -43,3 +43,9 @@ export enum Email {
   formloco = 'poly@formloco.com',
   rumzer = 'rumzerbot@rumzer.com'
 }
+
+export enum Pin {
+  summit = '999999',
+  formloco = '111111',
+  rumzer = '333333'
+}
