@@ -12,10 +12,10 @@ export const environment = {
   emailUrl: 'https://api.formloco.com/email/',
   assetUrl: 'https://api.formloco.com/asset/',
   notificationUrl: 'https://api.formloco.com/notification/',
-  
-  messageUrl: 'https://localhost:4200/message/',
-  signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+
+  messageUrl: 'https://mobile.formloco.com/message/',
+  signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 
   tenant: { email: 'polly@formloco.com', 
             tenant_id: Tenant.formloco,

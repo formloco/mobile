@@ -11,15 +11,15 @@ export const environment = {
   notificationUrl: 'https://api.formloco.com/notification/',
 
   messageUrl: 'https://mobile.formloco.com/message/',
-  signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
+  signinUrl: 'https://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl: 'https://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
 
   tenant: { email: 'rumzerbot@rumzer.com', 
             tenant_id: Tenant.rumzer,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.rumzer,
-  idbName: IdbName.rumzer,
-  version: 'January 23, 2022',
+  logo: Branding.formloco,
+  idbName: IdbName.formloco,
+  version: 'January 25, 2022',
   pin: '999999'
 }
