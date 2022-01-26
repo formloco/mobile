@@ -65,7 +65,6 @@ export class NotificationOpenComponent implements OnInit{
 
   ngOnInit() {
     const tt = this.store.selectSnapshot(NotificationState.notificationOpen)
-    console.log(tt)
     this.user = this.store.selectSnapshot(AuthState.user)
   }
 

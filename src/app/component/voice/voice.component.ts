@@ -75,7 +75,6 @@ export class VoiceComponent implements OnInit {
   }
 
   save(): void {
-    console.log(this.input.nativeElement.value)
     this.store.dispatch(new SetTranscription(this.input.nativeElement.value)) 
     this.dialogRef.close()
   }

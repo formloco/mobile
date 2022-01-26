@@ -135,9 +135,6 @@
           "configurations": {
             "prod": {
               "browserTarget": "mobile-forms:build:production"
-            },
-            "local": {
-              "browserTarget": "mobile-forms:build:local"
             }
           }
         },

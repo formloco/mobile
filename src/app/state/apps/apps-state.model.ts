@@ -26,26 +26,54 @@ export enum Branding {
   rumzer = 'assets/logo-rumzer.svg'
 }
 
-export enum Tenant {
-  summit = 'summit',
-  formloco = 'formloco',
-  rumzer = 'rumzer'
+export enum Formloco {
+  pin = '111111',
+  tenant = 'formloco',
+  idbName = 'formlocoMobileDB',
+  email = 'poly@formloco.com',
+  logo = 'assets/logo-light.png',
+  apiUrl = 'https://api.formloco.com/api/',
+  authUrl = 'https://api.formloco.com/auth/',
+  formUrl = 'https://api.formloco.com/form/',
+  emailUrl = 'https://api.formloco.com/email/',
+  assetUrl = 'https://api.formloco.com/asset/',
+  messageUrl = 'https://mobile.formloco.com/message/',
+  notificationUrl = 'https://api.formloco.com/notification/',
+  signinUrl = 'https://mobile.formloco.com/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl = 'https://mobile.formloco.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
 
-export enum IdbName {
-  summit = 'summitMobileDB',
-  formloco = 'formlocoMobileDB',
-  rumzer = 'rumzerMobileDB'
+export enum Summit {
+  pin = '999999',
+  tenant = 'summmit',
+  idbName = 'summitEarthDB',
+  email = 'HSE@Summitearth.com',
+  logo = 'assets/logo-summit.svg',
+  apiUrl = 'https://forms.summitearth.com/api/',
+  authUrl = 'https://forms.summitearth.com/auth/',
+  formUrl = 'https://forms.summitearth.com/form/',
+  emailUrl = 'https://forms.summitearth.com/email/',
+  assetUrl = 'https://forms.summitearth.com/asset/',
+  messageUrl = 'https://forms.summitearth.com/message/',
+  notificationUrl = 'https://forms.summitearth.com/notification/',
+  signinUrl = 'https://forms.summitearth.com/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl = 'https://forms.summitearth.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
 
-export enum Email {
-  summit = 'HSE@summitearth.com',
-  formloco = 'poly@formloco.com',
-  rumzer = 'rumzerbot@rumzer.com'
+export enum Rumzer {
+  pin = '333333',
+  tenant = 'rumzer',
+  idbName = 'rumzerMobileDB',
+  email = 'rumzerbot@rumzer.com',
+  logo = 'assets/logo-rumzer.svg',
+  apiUrl = 'https://api.formloco.com/api/',
+  authUrl = 'https://api.formloco.com/auth/',
+  formUrl = 'https://api.formloco.com/form/',
+  emailUrl = 'https://api.formloco.com/email/',
+  assetUrl = 'https://api.formloco.com/asset/',
+  notificationUrl = 'https://api.formloco.com/notification/',
+  messageUrl = 'https://mobile.formloco.com/message/',
+  signinUrl = 'https://mobile.formloco.com/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl = 'https://mobile.formloco.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
 
-export enum Pin {
-  summit = '999999',
-  formloco = '111111',
-  rumzer = '333333'
-}

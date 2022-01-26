@@ -37,7 +37,6 @@ export class ActionSpotCheckSafetyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('got here',this.form.correctiveAction.CorrectiveActionRequired)
     this.correctiveAction.controls['CorrectiveActionRequired'].setValue(this.form.correctiveAction.CorrectiveActionRequired)
   }
 
