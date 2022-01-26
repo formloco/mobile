@@ -10,6 +10,7 @@ import { Observable } from 'rxjs'
 
 import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
+import { ErrorService } from "../../../service/error.service"
 
 import { EmailEditComponent } from '../email-edit/email-edit.component'
 
@@ -38,12 +39,13 @@ export class EmailListComponent implements OnInit{
     private dialog: MatDialog,
     public appService: AppService,
     public authService: AuthService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private errorService: ErrorService) {
     this.emailForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      worker: [''],
-      supervisor: ['']
+      name: [null, Validators.compose([Validators.required])],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
+      worker: [null],
+      supervisor: [null]
     })
   }
 
@@ -63,8 +65,16 @@ export class EmailListComponent implements OnInit{
     let obj = Object.assign(this.emailForm.value)
     this.authService.create(obj).subscribe(data => {
       this.data = data
-      this.data.sort()
-      this.appService.dataSource.data = this.data
+      if (this.data.rows.length == 0)
+        this.errorService.popSnackbar(this.data.msg)
+      else {
+        this.emailForm.reset()
+        Object.keys(this.emailForm.controls).forEach((key) => {
+          const control = this.emailForm.controls[key];
+          control.setErrors(null);
+      });
+        this.appService.dataSource.data = this.data.rows
+      }
     })
   }
 

@@ -54,7 +54,6 @@ export class AssetMapComponent implements OnInit {
     private bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
-    // console.log('got here'),this.assetMarker$.subscribe((markers:any) => {console.log(markers)})
   }
 
   closePrevInfo() {

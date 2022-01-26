@@ -23,7 +23,6 @@ export class AppsComponent implements OnInit {
     private assetService: AssetService) { }
 
   ngOnInit(): void {
-    console.log('got here')
     this.assetService.initializeApp()
   }
 

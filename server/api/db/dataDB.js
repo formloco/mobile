@@ -21,7 +21,6 @@ const pool = new Pool({
 })
 
 function buildPDFReport(docID, form_id, pdfPath, dataID, pics, signDate, comments) {
-  console.log(docID, form_id, pdfPath, dataID, pics)
   if (docID == 'vehicle-inspection') {
     vehicleInspectionPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
       if (err) return err
@@ -41,7 +40,6 @@ function buildPDFReport(docID, form_id, pdfPath, dataID, pics, signDate, comment
   }
     
   if (docID == 'meaningful-site-tour') {
-    console.log('here')
     meaningfulSiteTourPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
       if (err) return err
     }
@@ -69,9 +67,8 @@ const formReadSQL = async (form_id, data_id) => {
 }
 
 const formSignSQL = async (data) => {
-  console.log('here',data)
   let client = await pool.connect()
-  console.log(client)
+
   await client.query('UPDATE notification SET date_signed = $1, signed = true, email_signed = $2, signed_name = $3 WHERE id = $4', [new Date().toLocaleString("en-US", {timeZone: "America/Edmonton"}), data["email"], data["name"], data["notificationID"]])
 
   let comment = await client.query('SELECT comment FROM notification WHERE id = $1', [data["notificationID"]])

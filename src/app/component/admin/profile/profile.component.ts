@@ -53,7 +53,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.store.selectSnapshot(AuthState.user))
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
       if (this.prefs.length > 0) {

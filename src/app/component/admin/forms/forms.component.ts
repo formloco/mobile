@@ -99,7 +99,6 @@ export class FormsComponent {
   }
 
   publish(formObj, event) {
-    console.log(formObj)
     this.formService.publishForm({ form_id: formObj.form_id, is_published: event.checked }).subscribe((response:any) => {
       this.appService.setFormState(response.rows)
       this.successService.popSnackbar(response.message)

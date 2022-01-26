@@ -1,30 +1,37 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Branding, Tenant, IdbName, Email, Pin } from '../app/state/apps/apps-state.model'
+import { Formloco } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
 
-  apiUrl: 'https://api.formloco.com/api/',
-  authUrl: 'https://api.formloco.com/auth/',
-  formUrl: 'https://api.formloco.com/form/',
-  emailUrl: 'https://api.formloco.com/email/',
-  assetUrl: 'https://api.formloco.com/asset/',
-  notificationUrl: 'https://api.formloco.com/notification/',
+  // apiUrl: 'http://localhost:9001/api/',
+  // authUrl: 'http://localhost:9000/auth/',
+  // formUrl: 'http://localhost:9002/form/',
+  // emailUrl: 'http://localhost:9003/email/',
+  // assetUrl: 'http://localhost:9005/asset/',
+  // notificationUrl: 'http://localhost:9004/notification/',
 
-  messageUrl: 'https://mobile.formloco.com/message/',
-  signinUrl: 'https://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'https://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
+  apiUrl: Formloco.apiUrl,
+  authUrl: Formloco.authUrl,
+  formUrl: Formloco.formUrl,
+  emailUrl: Formloco.emailUrl,
+  assetUrl: Formloco.assetUrl,
+  notificationUrl: Formloco.notificationUrl,
 
-  tenant: { email: Email.formloco, 
-            tenant_id: Tenant.formloco,
+  signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
+  redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+  messageUrl: 'http://localhost:4200/message/',
+  
+  tenant: { email: Formloco.email, 
+            tenant_id: Formloco.tenant,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.formloco,
+  logo: Formloco.logo,
   version: 'Development',
-  idbName: IdbName.formloco,
-  pin: Pin.formloco
+  idbName: Formloco.idbName,
+  pin: Formloco.pin
 };
 
 /*

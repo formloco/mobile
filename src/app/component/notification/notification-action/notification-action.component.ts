@@ -38,16 +38,13 @@ export class NotificationActionComponent implements OnInit{
   ) { }
 
   ngOnInit() {
-    console.log(this.data)
     const notification = this.store.selectSnapshot(NotificationState.notification)
-    console.log(notification)
     this.idbCrudService.readAll('form').subscribe((forms:any) => {
 
       const form = forms.find(f => f.form_id == notification.form_id)
       this.store.dispatch(new SetSelectedForm(form))
 
       this.idbCrudService.readAll('pics').subscribe((pics:any) => {
-        console.log(pics)
         this.picArray = pics.find(p => p.id == notification.pdf)
         if (this.picArray) this.store.dispatch(new SetPics(this.picArray["pics"]))
       })

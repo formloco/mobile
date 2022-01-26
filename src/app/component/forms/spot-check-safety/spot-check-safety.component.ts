@@ -244,9 +244,7 @@ export class SpotCheckSafetyComponent implements OnInit {
           emailTo: notificationObj.supervisor.email,
           emailFrom: notificationObj.worker.email
         }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => {
-          console.log('message sent')
-        })
+        this.emailService.sendNotificationEmail(obj).subscribe(() => {})
       })
       const pics = this.store.selectSnapshot(DeviceState.pics)
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
