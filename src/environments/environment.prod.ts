@@ -40,6 +40,6 @@ export const environment = {
   },
   logo: Summit.logo,
   idbName: Summit.idbName,
-  version: 'January 25, 2022',
+  version: 'January 26, 2022',
   pin: Summit.pin
 }
