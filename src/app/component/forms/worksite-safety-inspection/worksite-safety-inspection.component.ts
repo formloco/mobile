@@ -37,7 +37,7 @@ import { SetNotificationOpen } from '../../../state/notification/notification-st
 export class WorksiteSafetyInspectionComponent implements OnInit {
 
   @Select(WorksiteSafetyInspectionState.isWorksiteSafetyHeaderValid) isWorksiteSafetyHeaderValid$: Observable<boolean>
-  
+
   pics
   formDataID
   step = 0
@@ -183,6 +183,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.select(AuthState.formData).subscribe(data => {
+      if (data) this.setFormData(data)
+    })
     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(true))
   }
 
@@ -197,6 +200,109 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
 
   prevStep() {
     this.step--
+  }
+
+  setFormData(data) {
+    if (data.header) {
+      this.headerForm.controls['Date'].setValue(data.header.Date)
+      this.headerForm.controls['Client'].setValue(data.header.Date)
+      this.headerForm.controls['Location'].setValue(data.header.Date)
+      this.headerForm.controls['LSDUWI'].setValue(data.header.Date)
+      this.headerForm.controls['Latitude'].setValue(data.header.Date)
+      this.headerForm.controls['Longitude'].setValue(data.header.Date)
+      this.headerForm.controls['SupervisorPhone'].setValue(data.header.Date)
+      this.headerForm.controls['JobNumber'].setValue(data.header.Date)
+      this.headerForm.controls['Division'].setValue(data.header.Date)
+      this.headerForm.controls['STARSSiteNumber'].setValue(data.header.Date)
+      this.headerForm.controls['ScopeOfWork'].setValue(data.header.Date)
+    }
+    if (data.hazard) {
+      this.hazardForm.controls['SiteHazardAssessmentCompleted'].setValue(data.hazard.SiteHazardAssessmentCompleted)
+      this.hazardForm.controls['ScopeOfWorkClearlyDefined'].setValue(data.hazard.ScopeOfWorkClearlyDefined)
+      this.hazardForm.controls['PotentialHazardsAndMitigationRequirementsIdentified'].setValue(data.hazard.PotentialHazardsAndMitigationRequirementsIdentified)
+      this.hazardForm.controls['SummitHealthAndSafetyManualAvailable'].setValue(data.hazard.SummitHealthAndSafetyManualAvailable)
+      this.hazardForm.controls['OccupationalHealthAndSafetyLegislationAvailable'].setValue(data.hazard.OccupationalHealthAndSafetyLegislationAvailable)
+      this.hazardForm.controls['DailySafetyMeetingsConductedDocumented'].setValue(data.hazard.DailySafetyMeetingsConductedDocumented)
+      this.hazardForm.controls['AllSitePersonalTrainingAndSafetyTickets'].setValue(data.hazard.AllSitePersonalTrainingAndSafetyTickets)
+      this.hazardForm.controls['H2SPersonalGasMonitorsOnsiteHaveBeenBumped'].setValue(data.hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped)
+      this.hazardForm.controls['AllSitePersonnelSiteSpecificWearingPPE'].setValue(data.hazard.AllSitePersonnelSiteSpecificWearingPPE)
+    }
+    if (data.jobsite) {
+      this.jobsiteForm.controls['WorkAreaClearlyIdentified'].setValue(data.jobsite.WorkAreaClearlyIdentified)
+      this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
+      this.jobsiteForm.controls['SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns'].setValue(data.jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns)
+      this.jobsiteForm.controls['AllOpenExcavationsAreClearlyMarked'].setValue(data.jobsite.AllOpenExcavationsAreClearlyMarked)
+      this.jobsiteForm.controls['PublicAccessToTheSiteControlled'].setValue(data.jobsite.PublicAccessToTheSiteControlled)
+      this.jobsiteForm.controls['PrimeContractorClearlyIdentifiedWithSignage'].setValue(data.jobsite.PrimeContractorClearlyIdentifiedWithSignage)
+      this.jobsiteForm.controls['IsThereEmergencyEquipmentOnSite'].setValue(data.jobsite.IsThereEmergencyEquipmentOnSite)
+      this.jobsiteForm.controls['FirstAidKitAvailable'].setValue(data.jobsite.FirstAidKitAvailable)
+      this.jobsiteForm.controls['BlanketsAndStretcherAvailable'].setValue(data.jobsite.BlanketsAndStretcherAvailable)
+      this.jobsiteForm.controls['EyeWashBottleAvailable'].setValue(data.jobsite.EyeWashBottleAvailable)
+      this.jobsiteForm.controls['SpillKitAvailable'].setValue(data.jobsite.SpillKitAvailable)
+    }
+    if (data.fireExtinguisher) {
+      this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherInspected'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherVisibleUnobstructed'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherCharged'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherSafetyPinSecured'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherOperatingInstructions'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherNoVisibleDamage'].setValue(data.fireExtinguisher.SpillKitAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherCertification'].setValue(data.fireExtinguisherSpillKitAvailable)
+
+    }
+    if (data.erpPlanning) {
+      this.erpPlanningForm.controls['EmergencyResponsePlanOnSite'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['MusterPointsIdentified'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['STARSNumber'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['ERPIncludesDirectionsToNearestHospital'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['ERPResponderRolesAndResponsibilitiesIdentified'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['CellularOrRadioCoverageConfirmed'].setValue(data.erpPlanning.SpillKitAvailable)
+    }
+    if (data.groundForm) {
+      this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].setValue(data.ground.DoesTheProjectInvolveGroundDisturbance)
+      this.groundForm.controls['GroundDisturbanceChecklistIsInPlace'].setValue(data.ground.GroundDisturbanceChecklistIsInPlace)
+      this.groundForm.controls['OneCallNotificationHasBeenRegistered'].setValue(data.ground.OneCallNotificationHasBeenRegistered)
+      this.groundForm.controls['AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed'].setValue(data.ground.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed)
+      this.groundForm.controls['ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined'].setValue(data.ground.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined)
+      this.groundForm.controls['ThirdPartyLineLocatesCompletedWithinTheSearchArea'].setValue(data.ground.ThirdPartyLineLocatesCompletedWithinTheSearchArea)
+      this.groundForm.controls['AllRequiredCrossingOrProximityAgreementsInPlace'].setValue(data.ground.AllRequiredCrossingOrProximityAgreementsInPlace)
+    }
+    if (data.confinedSpace) {
+      this.confinedSpaceForm.controls['DoesTheProjectInvolveConfinedSpaceEntry'].setValue(data.confinedSpace.DoesTheProjectInvolveConfinedSpaceEntry)
+      this.confinedSpaceForm.controls['ConfinedSpacePermitIssued'].setValue(data.confinedSpace.ConfinedSpacePermitIssued)
+      this.confinedSpaceForm.controls['ConfinedSpaceSafetyTraining'].setValue(data.confinedSpace.ConfinedSpaceSafetyTraining)
+      this.confinedSpaceForm.controls['SafetyWatchInPlace'].setValue(data.confinedSpace.SafetyWatchInPlace)
+      this.confinedSpaceForm.controls['RescuePlanAvailable'].setValue(data.confinedSpace.RescuePlanAvailable)
+    }
+    if (data.hotWork) {
+      this.hotWorkForm.controls['DoesTheProjectInvolveHotWork'].setValue(data.hotWork.DoesTheProjectInvolveHotWork)
+      this.hotWorkForm.controls['HotWorkPermitIssued'].setValue(data.hotWork.HotWorkPermitIssued)
+      this.hotWorkForm.controls['FireHazardsIdentifiedControls'].setValue(data.hotWork.FireHazardsIdentifiedControls)
+      this.hotWorkForm.controls['FireSafetyWatchAvailable'].setValue(data.hotWork.FireSafetyWatchAvailable)
+    }
+    if (data.equipment) {
+      this.equipmentForm.controls['ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects'].setValue(data.equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects)
+      this.equipmentForm.controls['InteriorOfVehicleKeptTidyAndClean'].setValue(data.equipment.InteriorOfVehicleKeptTidyAndClean)
+      this.equipmentForm.controls['VehicleWindshieldFreeOfMajorChipsAndCracks'].setValue(data.equipment.VehicleWindshieldFreeOfMajorChipsAndCracks)
+      this.equipmentForm.controls['DailyPreUseVehicleInspectionCompleted'].setValue(data.equipment.DailyPreUseVehicleInspectionCompleted)
+      this.equipmentForm.controls['EquipmentPreUseInspectionCompleted'].setValue(data.equipment.EquipmentPreUseInspectionCompleted)
+      this.equipmentForm.controls['CargoIinternalAndExternalProperlyStowedAndSecured'].setValue(data.equipment.CargoIinternalAndExternalProperlyStowedAndSecured)
+      this.equipmentForm.controls['HornIsInProperWorkingCondition'].setValue(data.equipment.HornIsInProperWorkingCondition)
+      this.equipmentForm.controls['HeadlightsAreInProperWorkingCondition'].setValue(data.equipment.HeadlightsAreInProperWorkingCondition)
+      this.equipmentForm.controls['SignalLightsAreInProperWorkingCondition'].setValue(data.equipment.SignalLightsAreInProperWorkingCondition)
+      this.equipmentForm.controls['EmergencyWarningStrobeLightEquippedOnVehicle'].setValue(data.equipment.EmergencyWarningStrobeLightEquippedOnVehicle)
+      this.equipmentForm.controls['SafetyBuggyWhipEquippedOnVehicle'].setValue(data.equipment.SafetyBuggyWhipEquippedOnVehicle)
+      this.equipmentForm.controls['FirstAidKitEquippedInVehicle'].setValue(data.equipment.FirstAidKitEquippedInVehicle)
+      this.equipmentForm.controls['EmergencySurvivalKitEquippedInVehicle'].setValue(data.equipment.EmergencySurvivalKitEquippedInVehicle)
+      this.equipmentForm.controls['OtherCommentsKeyPositiveFindings'].setValue(data.equipment.OtherCommentsKeyPositiveFindings)
+    }
+    if (data.discrepancy) {
+      this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
+    }
+    if (data.comment) {
+      this.commentForm.controls['Discrepancy'].setValue(data.comment.CommentsAndRequiredActionItems)
+    }
   }
 
 
@@ -270,9 +376,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         name: form["name"],
         worker: worker,
         supervisor: supervisor,
-        description: 'Worksite Safety Inspection, '+_moment().format('MMM D, h:mA'),
+        description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
         message: message,
-        subject: 'New Worksite Safety Inspection for '+this.headerForm.controls['Client'].value+', '+new Date(),
+        subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + new Date(),
         form_id: form["form_id"],
         data_id: this.formDataID,
         pdf: 'worksite-safety-inspection' + this.formDataID
@@ -308,7 +414,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
           emailTo: notificationObj.supervisor.email,
           emailFrom: notificationObj.worker.email
         }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => {})
+        this.emailService.sendNotificationEmail(obj).subscribe(() => { })
       })
       const pics = this.store.selectSnapshot(DeviceState.pics)
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
