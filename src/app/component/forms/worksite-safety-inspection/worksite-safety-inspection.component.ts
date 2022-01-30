@@ -53,6 +53,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   equipmentForm: FormGroup
   confinedSpaceForm: FormGroup
   hotWorkForm: FormGroup
+  keyPositiveFindingsForm: FormGroup
   discrepancyForm: FormGroup
   commentForm: FormGroup
 
@@ -171,7 +172,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       EmergencyWarningStrobeLightEquippedOnVehicle: [null],
       SafetyBuggyWhipEquippedOnVehicle: [null],
       FirstAidKitEquippedInVehicle: [null],
-      EmergencySurvivalKitEquippedInVehicle: [null],
+      EmergencySurvivalKitEquippedInVehicle: [null]
+    })
+    this.keyPositiveFindingsForm = this.formBuilder.group({
       OtherCommentsKeyPositiveFindings: [null]
     })
     this.discrepancyForm = this.formBuilder.group({
@@ -295,16 +298,17 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.equipmentForm.controls['SafetyBuggyWhipEquippedOnVehicle'].setValue(data.equipment.SafetyBuggyWhipEquippedOnVehicle)
       this.equipmentForm.controls['FirstAidKitEquippedInVehicle'].setValue(data.equipment.FirstAidKitEquippedInVehicle)
       this.equipmentForm.controls['EmergencySurvivalKitEquippedInVehicle'].setValue(data.equipment.EmergencySurvivalKitEquippedInVehicle)
-      this.equipmentForm.controls['OtherCommentsKeyPositiveFindings'].setValue(data.equipment.OtherCommentsKeyPositiveFindings)
+    }
+    if (data.keyPositiveFindings) {
+      this.keyPositiveFindingsForm.controls['OtherCommentsKeyPositiveFindings'].setValue(data.keyPositiveFindings.OtherCommentsKeyPositiveFindings)
     }
     if (data.discrepancy) {
       this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
     }
     if (data.comment) {
-      this.commentForm.controls['Discrepancy'].setValue(data.comment.CommentsAndRequiredActionItems)
+      this.commentForm.controls['CommentsAndRequiredActionItems'].setValue(data.comment.CommentsAndRequiredActionItems)
     }
   }
-
 
   submitForm() {
     let dataObj = []
@@ -328,9 +332,10 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       confinedSpace: this.confinedSpaceForm.value,
       hotWork: this.hotWorkForm.value,
       equipment: this.equipmentForm.value,
+      keyPositiveFindings: this.keyPositiveFindingsForm.value,
       discrepancy: this.discrepancyForm.value,
       hazard: this.hazardForm.value,
-      comment: this.hazardForm.value
+      comment: this.commentForm.value
     }
 
     dataObj.push(null)
@@ -395,6 +400,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         this.hotWorkForm.reset()
         this.equipmentForm.reset()
         this.discrepancyForm.reset()
+        this.keyPositiveFindingsForm.reset()
         this.commentForm.reset()
         this.store.dispatch(new SetPage('home'))
         this.store.dispatch(new SetChildPage('Forms'))

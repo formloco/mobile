@@ -42,13 +42,13 @@ export class WorksiteSafetyGroundComponent implements OnInit {
   
     toggle(toggle) {
       this.store.dispatch(new SetIsGroundwork(toggle))
-      if (toggle) {
-        const comments:any = this.store.selectSnapshot(CommentState.commentsByType)
-        if (comments.length > 0) this.bottomSheet.open(BottomSheetWorksiteSafetyInspectionComponent)
-      }
-      if (!toggle) {
-        this.openComment(this.label.DoesTheProjectInvolveGroundDisturbance, 'DoesTheProjectInvolveGroundDisturbance')
-      }
+      // if (toggle) {
+      //   const comments:any = this.store.selectSnapshot(CommentState.commentsByType)
+      //   if (comments.length > 0) this.bottomSheet.open(BottomSheetWorksiteSafetyInspectionComponent)
+      // }
+      // if (!toggle) {
+      //   this.openComment(this.label.DoesTheProjectInvolveGroundDisturbance, 'DoesTheProjectInvolveGroundDisturbance')
+      // }
     }
   
     openComment(label, field) {

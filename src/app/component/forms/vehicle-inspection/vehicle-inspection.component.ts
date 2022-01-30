@@ -77,7 +77,9 @@ export class VehicleInspectionComponent implements OnInit {
       Make: [],
       Model: [],
       Year: [],
-      RegistrationDate: []
+      RegistrationDate: [],
+      CurrentRegistrationInVehicle: [],
+      CurrentInsuranceInVehicle: []
     })
     this.detailForm = this.formBuilder.group({
       IgnitionKey: [],
@@ -171,6 +173,8 @@ export class VehicleInspectionComponent implements OnInit {
       this.headerForm.controls['Make'].setValue(data.header.Make)
       this.headerForm.controls['Model'].setValue(data.header.Model)
       this.headerForm.controls['Year'].setValue(data.header.Year)
+      this.headerForm.controls['CurrentRegistrationInVehicle'].setValue(data.header.CurrentRegistrationInVehicle)
+      this.headerForm.controls['CurrentInsuranceInVehicle'].setValue(data.header.CurrentInsuranceInVehicle)
       this.headerForm.controls['RegistrationDate'].setValue(data.header.RegistrationDate)
     }
 
