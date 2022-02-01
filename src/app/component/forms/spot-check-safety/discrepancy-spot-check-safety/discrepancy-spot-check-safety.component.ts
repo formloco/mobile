@@ -18,6 +18,7 @@ export class DiscrepancySpotCheckSafetyComponent {
 
   ngOnInit(): void {
     this.store.select(CommentState.comments).subscribe((comments:any) => {
+      console.log(comments)
       let commentStr = ''
       comments.forEach(comment => {
         commentStr = commentStr + comment.label + ': ' + comment.text + ', '

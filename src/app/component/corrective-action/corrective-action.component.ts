@@ -34,19 +34,22 @@ export class CorrectiveActionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const correctiveActions = this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
-    const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
-    if (correctiveAction.length > 0) {
-      this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
-      this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
-      this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
-      this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].setValue(correctiveAction[0].dateCompleted)
-      this.correctiveActionForm.controls['PersonResonsible'].setValue(correctiveAction[0].signature)
-    }
+    this.store.select(CorrectiveActionState.correctiveActions).subscribe((correctiveActions:any) => {
+      console.log(correctiveActions)
+      // const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
+      // if (correctiveAction.length > 0) {
+      //   this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
+      //   this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
+      //   this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
+      //   this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].setValue(correctiveAction[0].dateCompleted)
+      //   this.correctiveActionForm.controls['PersonResonsible'].setValue(correctiveAction[0].signature)
+      // }
+    })
+    
+    
   }
 
   save() {
-    debugger
     const correctiveActions = _.cloneDeep(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     const correctiveActionIdx = correctiveActions.findIndex(c => c.field == this.data.field)
     
