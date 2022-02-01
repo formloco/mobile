@@ -1,25 +1,45 @@
-import { Branding, Tenant, IdbName } from '../app/state/apps/apps-state.model'
+import { Formloco, Summit, Rumzer } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: true,
 
-  apiUrl: 'https://api.formloco.com/api/',
-  authUrl: 'https://api.formloco.com/auth/',
-  formUrl: 'https://api.formloco.com/form/',
-  emailUrl: 'https://api.formloco.com/email/',
-  assetUrl: 'https://api.formloco.com/asset/',
-  notificationUrl: 'https://api.formloco.com/notification/',
+  // apiUrl: Formloco.apiUrl,
+  // authUrl: Formloco.authUrl,
+  // formUrl: Formloco.formUrl,
+  // emailUrl: Formloco.emailUrl,
+  // assetUrl: Formloco.assetUrl,
+  // notificationUrl: Formloco.notificationUrl,
 
-  messageUrl: 'https://mobile.formloco.com/message/',
-  signinUrl: 'http://mobile.formloco.com/notification/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://mobile.formloco.com/notification/O451fd2702f54a00b1007f6e80b32e45/',
+  // messageUrl: Formloco.messageUrl,
+  // signinUrl: Formloco.signinUrl,
+  // redirectForgotPasswordUrl: Formloco.redirectForgotPasswordUrl,
 
-  tenant: { email: 'rumzerbot@rumzer.com', 
-            tenant_id: Tenant.rumzer,
+  // tenant: { email: Formloco.email, 
+  //           tenant_id: Formloco.tenant,
+  //           assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
+  // },
+  // logo: Formloco.logo,
+  // idbName: Formloco.idbName,
+  // version: 'January 26, 2022',
+  // pin: Formloco.pin
+
+  apiUrl: Summit.apiUrl,
+  authUrl: Summit.authUrl,
+  formUrl: Summit.formUrl,
+  emailUrl: Summit.emailUrl,
+  assetUrl: Summit.assetUrl,
+  notificationUrl: Summit.notificationUrl,
+
+  messageUrl: Summit.messageUrl,
+  signinUrl: Summit.signinUrl,
+  redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+
+  tenant: { email: Summit.email, 
+            tenant_id: Summit.tenant,
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
-  logo: Branding.rumzer,
-  idbName: IdbName.rumzer,
-  version: 'January 23, 2022',
-  pin: '999999'
+  logo: Summit.logo,
+  idbName: Summit.idbName,
+  version: 'January 26, 2022',
+  pin: Summit.pin
 }

@@ -89,7 +89,6 @@ export class SpeechRecognitionService {
             });
           } else {
             interimContent += event.results[i][0].transcript;
-            // console.log('interim transcript', event, interimContent);
             this.ngZone.run(() => {
               observer.next({
                 event: SpeechEvent.InterimContent,
@@ -107,7 +106,7 @@ export class SpeechRecognitionService {
       this.recognition.onerror = (event) => {
         // tslint:disable-next-line:no-any
         const eventError: string = (event as any).error;
-        console.log('error', eventError);
+
         let error: SpeechError;
         switch (eventError) {
           case 'no-speech':

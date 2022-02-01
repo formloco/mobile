@@ -10,7 +10,7 @@ app.options('*', cors())
 app.use(cors())
 app.use(routes)
  
-app.listen(9001, () => console.log('data api listening on port 9001!'))
+app.listen(9001, () => console.log('api listening on port 9001!'))
  
 module.exports = {
   app

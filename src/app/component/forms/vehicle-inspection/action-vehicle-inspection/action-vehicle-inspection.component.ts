@@ -57,7 +57,6 @@ export class ActionVehicleInspectionComponent implements OnInit {
   signForm() {
     const user = this.store.selectSnapshot(AuthState.user)
     const notification = this.store.selectSnapshot(NotificationState.notification)
-    console.log(notification)
     let obj = {
       docID: 'vehicle-inspection',
       notificationID: notification.id,

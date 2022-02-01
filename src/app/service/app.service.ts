@@ -64,10 +64,6 @@ export class AppService {
     notifications.forEach(element => {
       if (element.email_signed) this.notificationSigned.push(element)
       else this.notificationOpen.push(element)
-      // element.comment.forEach(ele => {
-      //   console.log(ele)
-      //   // ele.message = JSON.stringify(ele.message).replace("{", "").replace("\"", "").replace("\"", "").replace("\"", "").replace("\"", "").replace("}", "")
-      // })
     })
   }
 
@@ -209,7 +205,6 @@ export class AppService {
       this.notificationOpen.forEach(element => {
         if (element.read === false) count = count + 1
       })
-      console.log(count)
       this.store.dispatch(new SetNotificationAdminCount(count))
     })
   }

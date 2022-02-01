@@ -3,9 +3,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { v4: uuidv4 } = require('uuid')
 
-const loadConfig = require('../../config')
-loadConfig()
-console.log(process.env)
 const pool = new Pool({
   user: process.env.DBUSER,
   host: process.env.HOST,
@@ -13,14 +10,13 @@ const pool = new Pool({
   password: process.env.PASSWORD,
   port: process.env.PORT
 })
-console.log(pool)
+
 const emailRegisterSQL = async (data) => {
-  console.log('here',data)
+  
   const client = await pool.connect()
-console.log(data)
   let obj = {}
   let checkEmail = await client.query('SELECT * FROM email WHERE email = $1', [data["email"]])
-console.log(checkEmail)
+
   // account registration
   if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === null) {
 
@@ -36,7 +32,6 @@ console.log(checkEmail)
 
   // account registered, new device
   if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === true) {
-    console.log('got over here')
     const emailPassword = await client.query('SELECT password FROM public.email WHERE email = $1', [data["email"]])
     
     if (emailPassword.rowCount === 1) {
@@ -119,14 +114,20 @@ const passwordResetSQL = async (data) => {
 
 const emailCreateSQL = async (data) => {
   const client = await pool.connect()
+
+  let obj = {}
   let checkEmail = await client.query('SELECT email FROM email WHERE email = $1', [data["email"]])
 
   if (checkEmail.rowCount !== 1) {
     await client.query('INSERT INTO email(name, email, worker, supervisor) VALUES ($1, $2, $3, $4)', [data["name"], data["email"], data["worker"], data["supervisor"]])
+    const list = await client.query(`SELECT name, email, worker, supervisor, enabled FROM email`)
+    obj = {rows: list.rows, msg: 'Email created'}
   }
-  const list = await client.query(`SELECT name, email, worker, supervisor FROM email`)
+  else obj = {rows: [], msg: 'Email already exists'}
+
   client.release()
-  return list.rows
+
+  return obj
 }
 
 const emailEnableSQL = async (data) => {
@@ -154,14 +155,6 @@ const permissionGetSQL = async (data) => {
   client.release()
   return list.rows
 }
-
-// const permissionSetSQL = async (data) => {
-//   console.log(data)
-//   const client = await pool.connect()
-//   await client.query('UPDATE public.email SET manager = $1 WHERE email = $2', [data["permission"], data["email"]])
-//   client.release()
-//   return
-// }
 
 module.exports = {
   userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL

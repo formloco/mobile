@@ -84,7 +84,6 @@ const formPublishSQL = async (data) => {
   await client.query('UPDATE public.form SET is_published = $1 WHERE form_id = $2', [data["is_published"], data["form_id"]])
   client.release()
   const forms = await client.query(`SELECT * FROM public.form WHERE date_archived is null AND is_list = false AND type = 'custom'`)
-  console.log(forms.rows)
   return forms.rows
 }
 

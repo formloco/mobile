@@ -39,7 +39,6 @@ export class ListEditComponent implements OnInit {
       value: this.id.value
     }
     this.apiService.update(obj).subscribe((data:any) => {
-      console.log(data)
       this.appService.dataSource = data.rows
       this.dialogRef.close()
       this.successService.popSnackbar('Item updated')

@@ -54,7 +54,7 @@ export class ActionMeaningfulSiteTourComponent implements OnInit {
       email: user.email,
       name: user.name
     }
-    console.log(obj)
+
     this.apiService.signForm(obj).subscribe((res:any) => {
       this.appService.initializeMyNotifications(user.email)
       this.store.dispatch(new SetPage('home'))

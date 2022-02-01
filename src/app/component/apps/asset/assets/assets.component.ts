@@ -75,7 +75,6 @@ export class AssetsComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(AssetState.assets).subscribe((assets: Asset[]) => {
-      console.log(assets)
       this.dataSource = new MatTableDataSource(assets)
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

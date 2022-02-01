@@ -101,7 +101,6 @@ export class AssetYardComponent implements OnInit {
       city: this.assetAddressForm.value.city,
       address: this.assetAddressForm.value.address
     }
-    console.log(obj)
     this.assetService.addToMap(obj).subscribe(response => {
       this.getAssets();
       this.refreshMarkers.emit();
