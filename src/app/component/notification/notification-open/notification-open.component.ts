@@ -26,6 +26,7 @@ import { NotificationState } from '../../../state/notification/notification.stat
 import { SetNotification, SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 
 import { PicsComponent } from '../../pics/pics.component'
+import { CameraComponent } from '../../camera/camera.component'
 
 @Component({
   selector: 'app-notification-open',
@@ -153,6 +154,16 @@ export class NotificationOpenComponent implements OnInit{
 
   openImage() {
     this.bottomSheet.open(PicsComponent)
+  }
+
+  snapShot() {
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.height = '100%'
+    dialogConfig.width = '100%'
+    dialogConfig.maxWidth = '100vw',
+    dialogConfig.maxHeight = '100vh',
+    dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
+    this.dialog.open(CameraComponent, dialogConfig)
   }
 
   setRead(notification) {
