@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core"
 
 import * as _ from 'lodash'
 
-import { FormBuilder, FormGroup } from "@angular/forms"
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from "@angular/material/dialog"
 
 import { Store } from '@ngxs/store'
@@ -30,7 +30,7 @@ export class CommentComponent implements OnInit {
     public dialogRef: MatDialogRef<CommentComponent>,
     public appService: AppService) {
     this.commentForm = this.formBuilder.group({
-      comment: []
+      comment: ['', Validators.required]
     })
   }
 

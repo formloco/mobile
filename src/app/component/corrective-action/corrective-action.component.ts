@@ -34,22 +34,20 @@ export class CorrectiveActionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(CorrectiveActionState.correctiveActions).subscribe((correctiveActions:any) => {
-      console.log(correctiveActions)
-      // const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
-      // if (correctiveAction.length > 0) {
-      //   this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
-      //   this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
-      //   this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
-      //   this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].setValue(correctiveAction[0].dateCompleted)
-      //   this.correctiveActionForm.controls['PersonResonsible'].setValue(correctiveAction[0].signature)
-      // }
-    })
+    const correctiveActions = this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+    const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
     
-    
+    if (correctiveAction.length > 0) {
+      this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
+      this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
+      this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
+      this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].setValue(correctiveAction[0].dateCompleted)
+      this.correctiveActionForm.controls['PersonResonsible'].setValue(correctiveAction[0].signature)
+    }
   }
 
   save() {
+    debugger
     const correctiveActions = _.cloneDeep(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     const correctiveActionIdx = correctiveActions.findIndex(c => c.field == this.data.field)
     
@@ -66,10 +64,10 @@ export class CorrectiveActionComponent implements OnInit {
       })
     else {
       correctiveActions[correctiveActionIdx].dateToComplete = this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value
-      correctiveActions[correctiveActionIdx].correctiveActionRequired = correctiveActions[correctiveActionIdx].correctiveActionRequired + this.correctiveActionForm.controls['CorrectiveActionRequired'].value
-      correctiveActions[correctiveActionIdx].personResponsible = correctiveActions[correctiveActionIdx].personResponsible + this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].value
+      correctiveActions[correctiveActionIdx].correctiveActionRequired = this.correctiveActionForm.controls['CorrectiveActionRequired'].value
+      correctiveActions[correctiveActionIdx].personResponsible = this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].value
       correctiveActions[correctiveActionIdx].dateCompleted = this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value
-      correctiveActions[correctiveActionIdx].signature = correctiveActions[correctiveActionIdx].signature + this.correctiveActionForm.controls['PersonResonsible'].value
+      correctiveActions[correctiveActionIdx].signature = this.correctiveActionForm.controls['PersonResonsible'].value
     }  
     
     this.store.dispatch(new SetCorrectiveActions(correctiveActions))
