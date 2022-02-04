@@ -248,8 +248,7 @@ import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-
     BottomSheetWorksiteSafetyInspectionComponent,
     DiscrepancySpotCheckSafetyComponent,
     BottomSheetCommentComponent,
-    CorrectiveActionComponent
-    BottomSheetCommentComponent,
+    CorrectiveActionComponent,
     WorksiteKeyPositiveFindingComponent
   ],
   imports: [
