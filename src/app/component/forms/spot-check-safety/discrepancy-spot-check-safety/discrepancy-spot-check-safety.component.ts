@@ -28,7 +28,6 @@ export class DiscrepancySpotCheckSafetyComponent {
 
   ngOnInit(): void {
     this.store.select(CommentState.comments).subscribe((comments:any) => {
-      console.log(comments)
 
       this.discrepancyComments = comments
 
