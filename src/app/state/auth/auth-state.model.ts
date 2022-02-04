@@ -22,6 +22,7 @@ export interface AuthStateModel {
   childPageLabel?: string
   selectedVoiceFieldLabel?: string
   formLabels?: any[]
+  formData?: {}
   forms?: any[]
   currentFormId?: string
 }

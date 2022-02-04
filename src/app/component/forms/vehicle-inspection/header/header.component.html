@@ -21,7 +21,8 @@
         <input type="text" placeholder="Select or Enter Supervisor Name" matInput
           [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
         <mat-autocomplete #autoSupervisors="matAutocomplete" required>
-          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async" [value]="supervisor.name" required>
+          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async"
+            [value]="supervisor.name" required>
             {{supervisor.name}}
           </mat-option>
         </mat-autocomplete>
@@ -69,7 +70,21 @@
         <mat-label>Vehicle Mileage Reading (KM)</mat-label>
         <input matInput placeholder="Vehicle Mileage Reading (KM)" formControlName="Mileage" type="number" required>
       </mat-form-field>
-      <ion-label position="stacked">Registration Expiry Date</ion-label>
+      <div class="text-color radio-center">Current Registration is in the vehicle</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="CurrentRegistrationInVehicle">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="text-color radio-center">Current Insurance (pink slip) in vehicle</div>
+      <div class="text-color radio-margin" fxLayoutAlign="center center">
+        <mat-radio-group formControlName="CurrentInsuranceInVehicle">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>      
+      <ion-label position="stacked">Insurance Expiry Date</ion-label>
       <ion-datetime displayFormat="MMM DD, YYYY" formControlName="RegistrationDate" max="2025-12-31">
       </ion-datetime>
       <mat-divider></mat-divider>

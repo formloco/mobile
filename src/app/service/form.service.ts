@@ -14,6 +14,10 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
+  getForm(obj) {
+    return this.http.get(this.formUrl + obj.form_id+'/'+obj.data_id+'/')
+  }
+
   getForms(obj) {
     return this.http.post(this.formUrl + 'forms/', obj)
   }

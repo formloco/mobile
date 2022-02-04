@@ -21,7 +21,7 @@ import { NotificationService } from "../../../service/notification.service"
 
 import { AuthState } from "../../../state/auth/auth.state"
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetSelectedForm } from '../../../state/auth/auth-state.actions'
+import { SetSelectedForm, SetPage, SetFormData } from '../../../state/auth/auth-state.actions'
 import { NotificationState } from '../../../state/notification/notification.state'
 import { SetNotification, SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 
@@ -43,6 +43,7 @@ export class NotificationOpenComponent implements OnInit{
   data
   user
   sendTo
+  formData
   picArray = []
   customExpandedHeight: string = '80px'
 
@@ -64,7 +65,6 @@ export class NotificationOpenComponent implements OnInit{
   }
 
   ngOnInit() {
-    const tt = this.store.selectSnapshot(NotificationState.notificationOpen)
     this.user = this.store.selectSnapshot(AuthState.user)
   }
 
@@ -148,6 +148,18 @@ export class NotificationOpenComponent implements OnInit{
   openPdf(notification) {
     this.store.dispatch(new SetNotification(notification))
     this.pdf.emit()
+  }
+
+  openForm(notification) {
+    const selectedFormId = notification.form_name.toLowerCase().replace(/\s/g, "-")
+    this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(data => { 
+      this.formData = data
+      const forms:any = this.store.selectSnapshot(AuthState.forms)
+      const form = forms.filter(f => f.id === selectedFormId)
+      this.store.dispatch(new SetSelectedForm(form[0]))
+      this.store.dispatch(new SetFormData(this.formData.data))
+      this.store.dispatch(new SetPage('form'))
+    })
   }
 
   openImage() {

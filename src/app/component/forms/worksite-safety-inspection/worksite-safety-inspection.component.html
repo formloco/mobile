@@ -97,7 +97,7 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 6" (opened)="setStep(6)">
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 7" (opened)="setStep(7)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
         Hot Work
@@ -110,7 +110,7 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 7" (opened)="setStep(7)">
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 8" (opened)="setStep(8)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
         Summit Vehicles & Equipment
@@ -123,7 +123,21 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 8" (opened)="setStep(8)">
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 9" (opened)="setStep(9)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title class="text-color">
+        Key Positive Findings
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-worksite-key-positive-finding [keyPositiveFindingsForm]=keyPositiveFindingsForm></app-worksite-key-positive-finding>
+    <br>
+    <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 10" (opened)="setStep(10)">
     <mat-expansion-panel-header>
       <mat-panel-title class="text-color">
         Discrepancies
@@ -136,7 +150,7 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 9" (opened)="setStep(9)">
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 11" (opened)="setStep(11)">
     <mat-expansion-panel-header>
       <mat-panel-title class="text-color">
         Action Items Required
@@ -149,7 +163,7 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 10" (opened)="setStep(10)">
+  <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 12" (opened)="setStep(12)">
     <mat-expansion-panel-header>
       <mat-panel-title class="text-color">
         Signature

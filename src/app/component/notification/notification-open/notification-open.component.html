@@ -28,13 +28,16 @@
           <mat-icon class="material-icons-outlined" (click)="sendMessage(i)">send</mat-icon>
         </button>
       </div>
-      <div fxLayoutGap="20px">
+      <div fxLayoutAlign="space-between center" fxLayoutGap="30px">
         <button color="primary" mat-mini-fab>
           <mat-icon class="material-icons-outlined" (click)="openPdf(notification)">picture_as_pdf</mat-icon>
         </button>
-        <button *ngIf="picArray?.length > 0" color="primary" mat-mini-fab>
-          <mat-icon class="material-icons-outlined" (click)="openImage(notification)">perm_media</mat-icon>
+        <button color="primary" mat-mini-fab>
+          <mat-icon class="material-icons-outlined" (click)="openForm(notification)">dynamic_form</mat-icon>
         </button>
+        <!-- <button color="primary" mat-mini-fab>
+          <mat-icon class="material-icons-outlined" (click)="openImage(notification)">perm_media</mat-icon>
+        </button> -->
         <button *ngIf="notification.email_from !== user?.email" color="primary" mat-mini-fab>
           <mat-icon class="material-icons-outlined" (click)="openSign(notification)">border_color</mat-icon>
         </button>

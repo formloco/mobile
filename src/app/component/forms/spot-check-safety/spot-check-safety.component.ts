@@ -130,6 +130,9 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.select(AuthState.formData).subscribe(data => {
+      if (data) this.setFormData(data)
+    })
   }
 
   setStep(index: number) {
@@ -142,6 +145,85 @@ export class SpotCheckSafetyComponent implements OnInit {
 
   prevStep() {
     this.step--
+  }
+
+  setFormData(data) {
+    if (data.header) { 
+      this.headerForm.controls['Date'].setValue(data.header.Date)
+      this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
+      this.headerForm.controls['EmployeeName'].setValue(data.header.EmployeeName)
+      this.headerForm.controls['Location'].setValue(data.header.Location)
+      this.headerForm.controls['JobDescription'].setValue(data.header.JobDescription)
+    }
+    if (data.hazard) { 
+      this.headerForm.controls['InspectionFrequency'].setValue(data.hazard.InspectionFrequency)
+      this.headerForm.controls['HazardAssessmentSystem'].setValue(data.hazard.HazardAssessmentSystem)
+      this.headerForm.controls['HazardComments'].setValue(data.hazard.HazardComments)
+    }
+
+    if (data.rules) { 
+      this.rulesForm.controls['Procedures'].setValue(data.rules.Procedures)
+      this.rulesForm.controls['EmergencyPlan'].setValue(data.rules.EmergencyPlan)
+      this.rulesForm.controls['RulesComments'].setValue(data.rules.RulesComments)
+    }
+
+    if (data.incident) { 
+      this.incidentForm.controls['IncidentReporting'].setValue(data.incident.IncidentReporting)
+      this.incidentForm.controls['NearMissReporting'].setValue(data.incident.NearMissReporting)
+      this.incidentForm.controls['ProblemFixed'].setValue(data.incident.ProblemFixed)
+      this.incidentForm.controls['SolvingIssues'].setValue(data.incident.SolvingIssues)
+      this.incidentForm.controls['IncidentComments'].setValue(data.incident.IncidentComments)
+    }
+
+    if (data.communication) { 
+      this.communicationForm.controls['SafetyOrientation'].setValue(data.communication.SafetyOrientation)
+      this.communicationForm.controls['SafetyMeetingFrequency'].setValue(data.communication.SafetyMeetingFrequency)
+      this.communicationForm.controls['AppropriateTraining'].setValue(data.communication.AppropriateTraining)
+      this.communicationForm.controls['FirstAidTraining'].setValue(data.communication.FirstAidTraining)
+      this.communicationForm.controls['H2STraining'].setValue(data.communication.H2STraining)
+      this.communicationForm.controls['WHMISTraining'].setValue(data.communication.WHMISTraining)
+      this.communicationForm.controls['TDGTraining'].setValue(data.communication.TDGTraining)
+      this.communicationForm.controls['GroundDisturbanceTraining'].setValue(data.communication.GroundDisturbanceTraining)
+      this.communicationForm.controls['EGSOCSOTraining'].setValue(data.communication.EGSOCSOTraining)
+      this.communicationForm.controls['JobSpecificTraining'].setValue(data.communication.JobSpecificTraining)
+      this.communicationForm.controls['CommunicationComments'].setValue(data.communication.CommunicationComments)
+    }
+
+    if (data.personalEquipment) { 
+      this.personalEquipmentForm.controls['PPEAvailable'].setValue(data.personalEquipment.PPEAvailable)
+      this.personalEquipmentForm.controls['HardHat'].setValue(data.personalEquipment.HardHat)
+      this.personalEquipmentForm.controls['SafetyGlasses'].setValue(data.personalEquipment.SafetyGlasses)
+      this.personalEquipmentForm.controls['Footwear'].setValue(data.personalEquipment.Footwear)
+      this.personalEquipmentForm.controls['ProtectiveClothing'].setValue(data.personalEquipment.ProtectiveClothing)
+      this.personalEquipmentForm.controls['HearingProtection'].setValue(data.personalEquipmentHearingProtection)
+      this.personalEquipmentForm.controls['RespiratoryProtection'].setValue(data.personalEquipment.RespiratoryProtection)
+      this.personalEquipmentForm.controls['PersonalGasMonitor'].setValue(data.personalEquipment.PersonalGasMonitor)
+      this.personalEquipmentForm.controls['CommunicationEquipment'].setValue(data.personalEquipment.CommunicationEquipment)
+      this.personalEquipmentForm.controls['OtherEquipment'].setValue(data.personalEquipment.OtherEquipment)
+      this.personalEquipmentForm.controls['PersonalEquipmentComments'].setValue(data.personalEquipment.PersonalEquipmentComments)
+    }
+ 
+    if (data.safetyEquipment) { 
+      this.safetyEquipmentForm.controls['SafetyEquipmentAvailable'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['FireFightingEquipment'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['RotatingEquimentGuards'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['FirstAidKit'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['FallArrestEquipment'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['EmergencySystems'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['Other'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+    }
+
+    if (data.personalEquipment) { 
+      this.personalEquipmentForm.controls['InspectionFrequency'].setValue(data.personalEquipment.PersonalEquipmentComments)
+      this.personalEquipmentForm.controls['HazardAssessmentSystem'].setValue(data.personalEquipment.PersonalEquipmentComments)
+      this.personalEquipmentForm.controls['HazardComments'].setValue(data.personalEquipment.PersonalEquipmentComments)
+    }
+
+    if (data.discrepancy) { 
+      this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
+    }
+  
   }
 
   submitForm() {

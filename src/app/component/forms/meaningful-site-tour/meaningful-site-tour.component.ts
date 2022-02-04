@@ -49,10 +49,10 @@ export class MeaningfulSiteTourComponent implements OnInit {
     private emailService: EmailService,
     private idbCrudService: IdbCrudService,
     private autoCompleteService: AutoCompleteService,
-    private notificationService: NotificationService) { 
+    private notificationService: NotificationService) {
     this.headerForm = this.formBuilder.group({
-      Date: [null,Validators.required],
-      Name: [null,Validators.required],
+      Date: [null, Validators.required],
+      Name: [null, Validators.required],
       Location: [],
       SiteOrientation: [],
       DailySafetyMeeting: [],
@@ -76,18 +76,47 @@ export class MeaningfulSiteTourComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.select(AuthState.formData).subscribe(data => {
+      if (data) this.setFormData(data)
+    })
   }
 
   setStep(index: number) {
     this.step = index;
   }
-  
+
   nextStep() {
     this.step++
   }
 
   prevStep() {
     this.step--
+  }
+
+  setFormData(data) {
+    if (data.header) {
+      this.headerForm.controls['Date'].setValue(data.header.Date)
+      this.headerForm.controls['Location'].setValue(data.header.Location)
+      this.headerForm.controls['SiteOrientation'].setValue(data.header.SiteOrientation)
+      this.headerForm.controls['DailySafetyMeeting'].setValue(data.header.DailySafetyMeeting)
+      this.headerForm.controls['SiteTour'].setValue(data.header.SiteTour)
+      this.headerForm.controls['SiteTourWithWorker'].setValue(data.header.SiteTourWithWorker)
+      this.headerForm.controls['ReviewDiscuss'].setValue(data.header.ReviewDiscuss)
+      this.headerForm.controls['PositiveInterventionRecognition'].setValue(data.header.PositiveInterventionRecognition)
+      this.headerForm.controls['EngageWithContractors'].setValue(data.header.EngageWithContractors)
+      this.headerForm.controls['HousekeepingInspection'].setValue(data.header.HousekeepingInspection)
+      this.headerForm.controls['CompleteBBO'].setValue(data.header.CompleteBBO)
+      this.headerForm.controls['OpenTeamDiscussion'].setValue(data.header.OpenTeamDiscussion)
+      this.headerForm.controls['SafetyAlert'].setValue(data.header.SafetyAlert)
+      this.headerForm.controls['ProvideFeedback'].setValue(data.header.ProvideFeedback)
+      this.headerForm.controls['FormalAuditInspection'].setValue(data.header.FormalAuditInspection)
+    }
+
+    if (data.notes) {
+      this.notesForm.controls['PositiveObservations'].setValue(data.notes.PositiveObservations)
+      this.notesForm.controls['ImprovementOpportunities'].setValue(data.notes.ImprovementOpportunities)
+      this.notesForm.controls['FeedbackSummary'].setValue(data.notes.FeedbackSummary)
+    }
   }
 
   submitForm() {
@@ -125,7 +154,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       user: userCreated,
       formObj: this.MEANINGFUL_SITE_TOUR,
       type: 'custom',
-      date: new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}),
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       name: form["name"],
       pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
@@ -148,9 +177,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
         name: form["name"],
         worker: worker,
         supervisor: supervisor,
-        description: 'Meaningful Site Tour '+_moment().format('MMM D, h:mA'),
-        message: 'Meaningful site tour completed for '+this.headerForm.controls['Name'].value,
-        subject: 'New Meaningful Site Tour from '+this.headerForm.controls['Name'].value+', '+new Date(),
+        description: 'Meaningful Site Tour ' + _moment().format('MMM D, h:mA'),
+        message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
+        subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + new Date(),
         form_id: form["form_id"],
         data_id: this.formDataID,
         pdf: 'meaningful-site-tour' + this.formDataID
@@ -178,7 +207,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
           emailTo: notificationObj.supervisor.email,
           emailFrom: notificationObj.worker.email
         }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => {})
+        this.emailService.sendNotificationEmail(obj).subscribe(() => { })
       })
       const pics = this.store.selectSnapshot(DeviceState.pics)
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)

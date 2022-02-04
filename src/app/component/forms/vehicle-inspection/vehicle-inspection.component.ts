@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import * as _moment from 'moment'
 
 import { Observable } from 'rxjs'
@@ -35,7 +35,7 @@ import { SetNotificationOpen } from '../../../state/notification/notification-st
   templateUrl: './vehicle-inspection.component.html',
   styleUrls: ['./vehicle-inspection.component.scss']
 })
-export class VehicleInspectionComponent {
+export class VehicleInspectionComponent implements OnInit {
 
   @Select(VehicleInspectionState.isHeaderValid) isHeaderValid$: Observable<boolean>
 
@@ -77,7 +77,9 @@ export class VehicleInspectionComponent {
       Make: [],
       Model: [],
       Year: [],
-      RegistrationDate: []
+      RegistrationDate: [],
+      CurrentRegistrationInVehicle: [],
+      CurrentInsuranceInVehicle: []
     })
     this.detailForm = this.formBuilder.group({
       IgnitionKey: [],
@@ -136,6 +138,12 @@ export class VehicleInspectionComponent {
     })
   }
 
+  ngOnInit(): void {
+    this.store.select(AuthState.formData).subscribe(data => {
+      if (data) this.setFormData(data)
+    })
+  }
+
   setStep(index: number) {
     this.step = index;
   }
@@ -154,6 +162,79 @@ export class VehicleInspectionComponent {
     this.step--
   }
 
+  setFormData(data) {
+    if (data.header) {
+      this.headerForm.controls['Date'].setValue(data.header.Date)
+      this.headerForm.controls['Worker'].setValue(data.header.Worker)
+      this.headerForm.controls['Supervisor'].setValue(data.header.Supervisor)
+      this.headerForm.controls['Stakeholder'].setValue(data.header.Stakeholder)
+      this.headerForm.controls['Division'].setValue(data.header.Division)
+      this.headerForm.controls['Mileage'].setValue(data.header.Mileage)
+      this.headerForm.controls['Make'].setValue(data.header.Make)
+      this.headerForm.controls['Model'].setValue(data.header.Model)
+      this.headerForm.controls['Year'].setValue(data.header.Year)
+      this.headerForm.controls['CurrentRegistrationInVehicle'].setValue(data.header.CurrentRegistrationInVehicle)
+      this.headerForm.controls['CurrentInsuranceInVehicle'].setValue(data.header.CurrentInsuranceInVehicle)
+      this.headerForm.controls['RegistrationDate'].setValue(data.header.RegistrationDate)
+    }
+
+    if (data.detail) {
+      this.detailForm.controls['IgnitionKey'].setValue(data.detail.Year)
+      this.detailForm.controls['IgnitionKeyComments'].setValue(data.detail.Year)
+      this.detailForm.controls['OilLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['OilLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['WasherFluidLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['WasherFluidLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['CoolantLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['CoolantLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['PowerSteeringFluidLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['PowerSteeringFluidLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['AirGauge'].setValue(data.detail.Year)
+      this.detailForm.controls['AirGaugeComments'].setValue(data.detail.Year)
+      this.detailForm.controls['Horn'].setValue(data.detail.Year)
+      this.detailForm.controls['HornComments'].setValue(data.detail.Year)
+      this.detailForm.controls['HeaterDefroster'].setValue(data.detail.Year)
+      this.detailForm.controls['HeaterDefrosterComments'].setValue(data.detail.Year)
+      this.detailForm.controls['WindshieldWipersWashers'].setValue(data.detail.Year)
+      this.detailForm.controls['WindshieldWipersWashersComments'].setValue(data.detail.Year)
+      this.detailForm.controls['AllSignalLights'].setValue(data.detail.Year)
+      this.detailForm.controls['AllSignalLightsComments'].setValue(data.detail.Year)
+      this.detailForm.controls['InteriorLights'].setValue(data.detail.Year)
+      this.detailForm.controls['InteriorLightsComments'].setValue(data.detail.Year)
+      this.detailForm.controls['MirrorsDamageAdjustments'].setValue(data.detail.Year)
+      this.detailForm.controls['MirrorsDamageAdjustmentsComments'].setValue(data.detail.Year)
+      this.detailForm.controls['WindshieldVisibility'].setValue(data.detail.Year)
+      this.detailForm.controls['WindshieldVisibilityComments'].setValue(data.detail.Year)
+      this.detailForm.controls['VisualInspectionExterior'].setValue(data.detail.Year)
+      this.detailForm.controls['VisualInspectionExteriorComments'].setValue(data.detail.Year)
+      this.detailForm.controls['InsideEngineCompartment'].setValue(data.detail.Year)
+      this.detailForm.controls['InsideEngineCompartmentComments'].setValue(data.detail.Year)
+      this.detailForm.controls['TransmissionFluidLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['TransmissionFluidLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['HighlightSignal4wayTailBackup'].setValue(data.detail.Year)
+      this.detailForm.controls['FuelLevel'].setValue(data.detail.Year)
+      this.detailForm.controls['FuelLevelComments'].setValue(data.detail.Year)
+      this.detailForm.controls['FirstAidKit'].setValue(data.detail.Year)
+      this.detailForm.controls['FirstAidKitComments'].setValue(data.detail.Year)
+      this.detailForm.controls['FireExtinguisher'].setValue(data.detail.Year)
+      this.detailForm.controls['FireExtinguisherComments'].setValue(data.detail.Year)
+      this.detailForm.controls['SurvivalKit'].setValue(data.detail.Year)
+      this.detailForm.controls['SurvivalKitComments'].setValue(data.detail.Year)
+      this.detailForm.controls['FuelKey'].setValue(data.detail.Year)
+      this.detailForm.controls['FuelKeyComments'].setValue(data.detail.Year)
+      this.detailForm.controls['TwoWayRadio'].setValue(data.detail.Year)
+      this.detailForm.controls['TwoWayRadioComments'].setValue(data.detail.Year)
+      this.detailForm.controls['Tires'].setValue(data.detail.Year)
+      this.detailForm.controls['TiresComments'].setValue(data.detail.Year)
+      this.detailForm.controls['SpillKit'].setValue(data.detail.Year)
+      this.detailForm.controls['SpillKitComments'].setValue(data.detail.Year)
+    }
+
+    if (data.discrepancy) {
+      this.discrepancyForm.controls['SpillKitComments'].setValue(data.discrepancy.Discrepancy)
+    }
+
+  }
   submitForm() {
 
     let dataObj = []
@@ -182,7 +263,7 @@ export class VehicleInspectionComponent {
     dataObj.push(new Date())
     dataObj.push(null)
     dataObj.push(JSON.stringify(data))
-    
+
     this.VEHICLE_INSPECTION["form_id"] = form["form_id"]
     this.VEHICLE_INSPECTION["is_published"] = true
     this.VEHICLE_INSPECTION["is_data"] = true
@@ -204,30 +285,30 @@ export class VehicleInspectionComponent {
       let worker = workers.find(worker => worker.name === header.Worker)
       if (!worker) {
         worker["name"] = header.Worker
-        worker["email"] = header.Worker.charAt(0)+header.Worker.slice(header.Worker.indexOf(' ')+1)+'@summitearth.com'
+        worker["email"] = header.Worker.charAt(0) + header.Worker.slice(header.Worker.indexOf(' ') + 1) + '@summitearth.com'
       }
       let supervisor = supervisors.find(supervisor => supervisor.name === header.Supervisor)
       if (!supervisor) {
         supervisor["name"] = header.Supervisor
-        supervisor["email"] = header.Supervisor.charAt(0)+header.Supervisor.slice(header.Supervisor.indexOf(' ')+1)+'@summitearth.com'
+        supervisor["email"] = header.Supervisor.charAt(0) + header.Supervisor.slice(header.Supervisor.indexOf(' ') + 1) + '@summitearth.com'
       }
       let message = this.discrepancyForm.value
-      
+
       if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
 
       let notificationObj = {
         name: form["name"],
         worker: worker,
         supervisor: supervisor,
-        description: 'Vehicle Inspection, '+_moment().format('MMM D, h:mA'),
-        subject: 'New Vehicle Inspection from '+header.Worker+', '+new Date(),
+        description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
+        subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + new Date(),
         message: message.Discrepancy,
         form_id: form["form_id"],
         data_id: this.formDataID,
         pdf: 'vehicle-inspection' + this.formDataID
       }
-      
-      this.notificationService.createNotification(notificationObj).subscribe((myNotifications:any) => {
+
+      this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
         this.headerForm.reset()
         this.detailForm.reset()
         this.discrepancyForm.reset()
@@ -240,7 +321,7 @@ export class VehicleInspectionComponent {
         this.autoCompleteService.workersControl.setValue('')
         this.autoCompleteService.supervisorsControl.setValue('')
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
-       
+
         this.snackBar.open(myNotifications.message, 'Success', {
           duration: 3000,
           verticalPosition: 'bottom'
@@ -253,13 +334,13 @@ export class VehicleInspectionComponent {
           emailTo: notificationObj.supervisor.email,
           emailFrom: notificationObj.worker.email
         }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => {})
+        this.emailService.sendNotificationEmail(obj).subscribe(() => { })
       })
-      const pics  = this.store.selectSnapshot(DeviceState.pics)
+      const pics = this.store.selectSnapshot(DeviceState.pics)
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
-  
+
       const picObj = {
-        id: selectedForm["id"]+this.formDataID,
+        id: selectedForm["id"] + this.formDataID,
         pics: pics
       }
       this.idbCrudService.put('pics', picObj)

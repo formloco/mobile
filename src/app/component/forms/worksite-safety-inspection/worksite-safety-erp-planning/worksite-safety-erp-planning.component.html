@@ -5,6 +5,7 @@
       <mat-radio-group formControlName="EmergencyResponsePlanOnSite">
         <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
         <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <span *ngIf="(isErpPlanning$ | async)">
@@ -27,6 +28,7 @@
         <mat-radio-group formControlName="STARSNumber">
           <mat-radio-button value="yes">Yes</mat-radio-button>
           <mat-radio-button (click)="openComment(label.STARSNumber,'STARSNumber')" value="no">No</mat-radio-button>
+          <mat-radio-button value="na">N/A</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">ERP responder roles and <br>responsibilities identified</div>
@@ -43,6 +45,7 @@
       <mat-radio-group formControlName="CellularOrRadioCoverageConfirmed">
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button (click)="openComment(label.CellularOrRadioCoverageConfirmed,'CellularOrRadioCoverageConfirmed')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
   </form>

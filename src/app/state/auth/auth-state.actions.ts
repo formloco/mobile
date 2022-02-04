@@ -110,4 +110,9 @@ export class SetCurrentFormId {
   constructor(public currentFormId: string) {}
 }
 
+export class SetFormData {
+  static type = '[Auth] SetFormData'
+  constructor(public formData: {}) {}
+}
+
 

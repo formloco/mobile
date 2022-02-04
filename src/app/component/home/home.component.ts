@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectForm(form) {
+    console.log(form)
     this.store.dispatch(new SetSelectedForm(form))
     this.store.dispatch(new SetPage('form'))
   }
