@@ -13,7 +13,7 @@ import { SetApp } from '../../state/apps/apps-state.actions'
 import { APPS } from '../../state/apps/apps-state.model'
 
 import { AuthState } from '../../state/auth/auth.state'
-import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel } from '../../state/auth/auth-state.actions'
+import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData } from '../../state/auth/auth-state.actions'
 import { SetAppPage } from '../../state/apps/apps-state.actions'
 import { DeviceState } from '../../state/device/device.state'
 
@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectForm(form) {
+    this.store.dispatch(new SetFormData([]))
     this.store.dispatch(new SetSelectedForm(form))
     this.store.dispatch(new SetPage('form'))
   }
