@@ -150,6 +150,7 @@ import { ActionSpotCheckSafetyComponent } from './component/forms/spot-check-saf
 import { ActionWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/action-worksite-safety-inspection/action-worksite-safety-inspection.component';
 import { DiscrepancySpotCheckSafetyComponent } from './component/forms/spot-check-safety/discrepancy-spot-check-safety/discrepancy-spot-check-safety.component';
 import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component';
+import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component';
 import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component';
 
 @NgModule({
@@ -246,6 +247,8 @@ import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-
     ActionWorksiteSafetyInspectionComponent,
     BottomSheetWorksiteSafetyInspectionComponent,
     DiscrepancySpotCheckSafetyComponent,
+    BottomSheetCommentComponent,
+    CorrectiveActionComponent
     BottomSheetCommentComponent,
     WorksiteKeyPositiveFindingComponent
   ],

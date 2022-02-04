@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from "@angular/core"
 
 import * as _ from 'lodash'
 
-import { FormBuilder, FormGroup } from "@angular/forms"
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from "@angular/material/dialog"
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from "@angular/material/dialog"
 
 import { Store } from '@ngxs/store'
 
@@ -11,6 +11,7 @@ import { SetComments } from './state/comment.actions'
 import { CommentState } from './state/comment.state'
 
 import { AppService } from "../../service/app.service"
+import { CorrectiveActionComponent } from "../corrective-action/corrective-action.component"
 
 @Component({
   selector: 'app-comment',
@@ -29,7 +30,7 @@ export class CommentComponent implements OnInit {
     public dialogRef: MatDialogRef<CommentComponent>,
     public appService: AppService) {
     this.commentForm = this.formBuilder.group({
-      comment: []
+      comment: ['', Validators.required]
     })
   }
 
@@ -60,4 +61,13 @@ export class CommentComponent implements OnInit {
     this.appService.popVoiceDialog(this.commentForm, 'comment', this.data.label)
   }
 
+  openCorrectiveActionDialog() {
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.maxWidth = '100vw'
+    dialogConfig.maxHeight = '100vh'
+    dialogConfig.width = '100vw'
+    dialogConfig.height = '100vh'
+    dialogConfig.data = { title: this.data.label, label: this.data.label, field: this.data.field, type: this.data.type }
+    this.dialog.open(CorrectiveActionComponent, dialogConfig)
+  }
 }

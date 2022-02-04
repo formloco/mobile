@@ -1,0 +1,14 @@
+.mat-list-item-font {
+    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+    color: #959595 !important;
+}
+
+.mat-list-item-linked {
+    color: #4fc3f7 !important;
+    text-decoration: underline;
+    margin-right: 4vw;
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-line {
+    white-space: pre-wrap;
+}
