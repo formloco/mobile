@@ -1,6 +1,8 @@
 import { Component, Inject } from "@angular/core"
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 
+import * as _ from 'lodash'
+
 import { Observable } from 'rxjs'
 import { Store, Select } from '@ngxs/store'
 import { DeviceState } from '../../state/device/device.state'
@@ -24,11 +26,10 @@ export class PicDeleteComponent {
   ) { }
 
   deletePhoto() {
-    this.pics = this.store.selectSnapshot(DeviceState.pics)
-    this.pics.splice(this.data,1)
+    this.pics = _.cloneDeep(this.store.selectSnapshot(DeviceState.pics))
+    this.pics.splice(this.data, 1)
     this.store.dispatch(new SetPics(this.pics))
-    // this.stateService.state.pics.splice(this.data,1)
-    // this.dialogRef.close()
+    this.dialogRef.close()
   }
 
 }

@@ -23,8 +23,6 @@ export class CameraComponent {
   @Select(DeviceState.pics) pics$: Observable<[]>
 
   public webcamImage: WebcamImage = null;
-
-  // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
 
   public get triggerObservable(): Observable<void> {
@@ -43,7 +41,7 @@ export class CameraComponent {
     private bottomSheet: MatBottomSheet,
     public viewContainerRef: ViewContainerRef,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CameraComponent>) { }
+    public dialogRef: MatDialogRef<CameraComponent>) {}
 
   public triggerSnapshot(): void {
     this.trigger.next();

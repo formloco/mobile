@@ -1,6 +1,6 @@
 <div class="mat-headline" fxLayout="row" fxLayoutAlign="space-between center">
-  <div fxLayoutAlign="start center">{{ data | splitCamelCase }}</div>
-  <div fxLayoutAlign="start center" class="icon-pointer" (click)="dialogRef.close()">
+  <div fxLayoutAlign="start center">{{ data.name }}</div>
+  <div fxLayoutAlign="start center" class="icon-pointer hand" (click)="dialogRef.close()">
     <mat-icon>close</mat-icon>
   </div>
 </div>
@@ -9,8 +9,8 @@
     (imageCapture)="handleImage($event)" [imageQuality]="1"></webcam>
 </div>
 <div [ngClass]="((pics$ | async).length > 0 ? 'float-left':'float')" *ngIf="!isDelete">
-  <mat-icon (click)="triggerSnapshot()" class="icon-120px-action">radio_button_checked</mat-icon>
+  <mat-icon (click)="triggerSnapshot()" class="icon-120px-action hand">radio_button_checked</mat-icon>
 </div>
 <div *ngIf="(pics$ | async).length > 0" class="float-right">
-  <mat-icon color="primary" class="material-icons-outlined icon-select-files" (click)="showPhotos()" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>
+  <mat-icon color="primary" class="material-icons-outlined icon-select-files hand" (click)="showPhotos()" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs'
 
+import * as _ from 'lodash'
+
 import { ActivatedRoute, Params } from '@angular/router'
 
 import { Store, Select } from '@ngxs/store'
@@ -79,7 +81,7 @@ export class LayoutComponent implements OnInit {
   }
 
   setUser(darkClassName, darkModeToggle) {
-    let user = this.store.selectSnapshot(AuthState.userIdb)
+    let user = _.cloneDeep(this.store.selectSnapshot(AuthState.userIdb))
     user.isDarkMode = darkModeToggle
     this.idbCrudService.put('prefs', { id: 1, user: user })
     this.appService.setMode(darkClassName)

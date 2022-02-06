@@ -158,7 +158,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       name: form["name"],
       pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
-
+console.log(obj)
     this.apiService.save(obj).subscribe(idObj => {
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)

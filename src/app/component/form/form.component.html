@@ -24,11 +24,11 @@
 <div class="footer">
   <mat-toolbar>
     <button mat-icon-button (click)="snapShot()">
-      <mat-icon class="form-icon text-color">photo_camera</mat-icon>
+      <mat-icon class="form-icon text-color hand">photo_camera</mat-icon>
     </button>
     <span class="toolbar-spacer"></span>
     <button *ngIf="(pics$ | async).length > 0" mat-icon-button (click)="showPhotos()">
-      <mat-icon class="form-icon text-color" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>
+      <mat-icon class="form-icon text-color hand" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>
     </button>
   </mat-toolbar>
 </div>
