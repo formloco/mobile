@@ -2,7 +2,7 @@ import { Formloco, Summit, Rumzer } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: true,
-
+  kioske: false,
   // apiUrl: Formloco.apiUrl,
   // authUrl: Formloco.authUrl,
   // formUrl: Formloco.formUrl,

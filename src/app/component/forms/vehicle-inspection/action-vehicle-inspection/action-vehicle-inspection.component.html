@@ -30,7 +30,14 @@
   </mat-form-field>
 </form>
 
-<div fxLayout="column" class="hand" fxLayoutAlign="space-around center">
+<div *ngif="!kioske" fxLayout="column" class="hand" fxLayoutAlign="space-around center">
+  <mat-icon class="icon-169px-action" (click)="signForm()">fingerprint</mat-icon>
+  <div class="text-color bottom-padding">
+    <mat-label>Press to Sign</mat-label>
+  </div>
+</div>
+
+<div *ngif="kioske" fxLayout="column" class="hand" fxLayoutAlign="space-around center">
   <mat-icon class="icon-169px-action" (click)="signForm()">fingerprint</mat-icon>
   <div class="text-color bottom-padding">
     <mat-label>Press to Sign</mat-label>

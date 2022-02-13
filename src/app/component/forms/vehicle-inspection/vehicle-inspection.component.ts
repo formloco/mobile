@@ -235,6 +235,7 @@ export class VehicleInspectionComponent implements OnInit {
     }
 
   }
+  
   submitForm() {
 
     let dataObj = []

@@ -7,6 +7,7 @@ export interface NotificationStateModel {
   notificationMyCount?: number
   notificationAdminCount?: number
   notificationTab?: number
+  notificationIdx?: number
 }
 export interface NotificationModel {
   id?: number
@@ -21,6 +22,7 @@ export interface NotificationModel {
   read?: boolean
   description?: string
   pdf?: string
+  open?: boolean
   picurl?: string
   comment?: Comment[]
   correctiveAction?: boolean

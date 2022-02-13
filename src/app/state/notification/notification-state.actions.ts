@@ -40,4 +40,10 @@ export class SetNotificationAllSigned {
   constructor(public notificationAllSigned: NotificationModel) {}
 }
 
+export class SetNotificationIdx {
+  static type = '[Notification] SetNotificationIdx'
+  constructor(public notificationIdx: number) {}
+}
+
+
 

@@ -41,6 +41,7 @@ export class FormsComponent {
   apps = APPS
   forms = FORMS 
   lists: any = LISTS
+  kioske = environment.kioske
   tenant = environment.tenant
 
   constructor(
@@ -78,10 +79,9 @@ export class FormsComponent {
         tenant_id: this.tenant["tenant_id"],
         user_created: userCreated
       }
-      // forms are taken from local json and registered to the database
-      this.formService.registerForm(obj).subscribe((form_id: any) => {
 
-      })
+      // forms are taken from local json and registered to the database
+      this.formService.registerForm(obj).subscribe(_ => {})
 
     } else this.errorService.popSnackbar('Form is not Configured')
 

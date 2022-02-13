@@ -25,10 +25,15 @@ export enum Branding {
   formloco = 'assets/logo-light.png',
   rumzer = 'assets/logo-rumzer.svg'
 }
-
+// https://www.linkedin.com/company/fromloco
 export enum Formloco {
   pin = '111111',
   tenant = 'formloco',
+  linkedinUrl = 'https://www.linkedin.com/in/formloco',
+  githubUrl = 'https://github.com/formloco/',
+  kioskeEmail = 'brock@formloco.com',
+  designerUrl = 'https://form369.formloco.com/',
+  kioskePassword = 'simple',
   idbName = 'formlocoMobileDB',
   email = 'poly@formloco.com',
   logo = 'assets/logo-light.png',
@@ -47,6 +52,8 @@ export enum Summit {
   pin = '999999',
   tenant = 'summmit',
   idbName = 'summitEarthDB',
+  kioskeEmail = 'brock@formloco.com',
+  kioskePassword = 'simple',
   email = 'HSE@Summitearth.com',
   logo = 'assets/logo-summit.svg',
   apiUrl = 'https://forms.summitearth.com/api/',
@@ -64,6 +71,8 @@ export enum Rumzer {
   pin = '333333',
   tenant = 'rumzer',
   idbName = 'rumzerMobileDB',
+  kioskeEmail = 'brock@formloco.com',
+  kioskePassword = 'simple',
   email = 'rumzerbot@rumzer.com',
   logo = 'assets/logo-rumzer.svg',
   apiUrl = 'https://api.formloco.com/api/',

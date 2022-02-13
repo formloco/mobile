@@ -26,6 +26,9 @@
     <button mat-icon-button (click)="snapShot()">
       <mat-icon class="form-icon text-color hand">photo_camera</mat-icon>
     </button>
+    <button *ngIf="(childPage$ | async) == 'notification'"  mat-icon-button (click)="openPdf()">
+      <mat-icon class="form-icon text-color hand">picture_as_pdf</mat-icon>
+    </button>
     <span class="toolbar-spacer"></span>
     <button *ngIf="(pics$ | async).length > 0" mat-icon-button (click)="showPhotos()">
       <mat-icon class="form-icon text-color hand" matBadge="{{ (pics$ | async)?.length }}" matBadgeColor="warn">perm_media</mat-icon>

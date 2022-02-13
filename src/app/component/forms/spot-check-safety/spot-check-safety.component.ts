@@ -23,16 +23,23 @@ import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
 
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 
+import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state';
+
 @Component({
   selector: 'app-spot-check-safety',
   templateUrl: './spot-check-safety.component.html',
   styleUrls: ['./spot-check-safety.component.scss']
 })
+
 export class SpotCheckSafetyComponent implements OnInit {
 
   pics
+  formData
   formDataID
   step = 0
+  isEdit = false
+
+  kioske = environment.kioske
 
   headerForm: FormGroup
   hazardForm: FormGroup
@@ -58,11 +65,11 @@ export class SpotCheckSafetyComponent implements OnInit {
     private autoCompleteService: AutoCompleteService,
     private notificationService: NotificationService) {
     this.headerForm = this.formBuilder.group({
-      Date: [null,Validators.required],
-      CompanyName: [null,Validators.required],
-      EmployeeName: [null,Validators.required],
-      Location: [null,Validators.required],
-      JobDescription: [null,Validators.required]
+      Date: [null, Validators.required],
+      CompanyName: [null, Validators.required],
+      EmployeeName: [null, Validators.required],
+      Location: [null, Validators.required],
+      JobDescription: [null, Validators.required]
     })
     this.hazardForm = this.formBuilder.group({
       InspectionFrequency: [],
@@ -117,21 +124,18 @@ export class SpotCheckSafetyComponent implements OnInit {
       Other: [],
       SafetyEquipmentComments: []
     })
-    this.correctiveActionForm = this.formBuilder.group({
-      CorrectiveActionRequired: [],
-      DateCorrectiveActionToBeCompleted: [],
-      PersonResonsibleCorrectiveAction: [],
-      DateCorrectiveActionCompleted: [],
-      PersonResonsible: []
-    })
     this.discrepancyForm = this.formBuilder.group({
       Discrepancy: [null, Validators.required]
     })
   }
 
   ngOnInit(): void {
-    this.store.select(AuthState.formData).subscribe(data => {
-      if (data) this.setFormData(data)
+    this.store.select(AuthState.formData).subscribe(formData => {
+      this.formData = formData
+      if (formData["data"]) {
+        this.isEdit = true
+        this.setFormData(formData["data"])
+      }
     })
   }
 
@@ -148,26 +152,28 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
-    if (data.header) { 
+    if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
       this.headerForm.controls['EmployeeName'].setValue(data.header.EmployeeName)
       this.headerForm.controls['Location'].setValue(data.header.Location)
       this.headerForm.controls['JobDescription'].setValue(data.header.JobDescription)
+      this.autoCompleteService.workersControl.setValue(data.header.Worker)
+      this.autoCompleteService.supervisorsControl.setValue(data.header.Supervisor)
     }
-    if (data.hazard) { 
-      this.headerForm.controls['InspectionFrequency'].setValue(data.hazard.InspectionFrequency)
-      this.headerForm.controls['HazardAssessmentSystem'].setValue(data.hazard.HazardAssessmentSystem)
-      this.headerForm.controls['HazardComments'].setValue(data.hazard.HazardComments)
+    if (data.hazard) {
+      this.hazardForm.controls['InspectionFrequency'].setValue(data.hazard.InspectionFrequency)
+      this.hazardForm.controls['HazardAssessmentSystem'].setValue(data.hazard.HazardAssessmentSystem)
+      this.hazardForm.controls['HazardComments'].setValue(data.hazard.HazardComments)
     }
 
-    if (data.rules) { 
+    if (data.rules) {
       this.rulesForm.controls['Procedures'].setValue(data.rules.Procedures)
       this.rulesForm.controls['EmergencyPlan'].setValue(data.rules.EmergencyPlan)
       this.rulesForm.controls['RulesComments'].setValue(data.rules.RulesComments)
     }
 
-    if (data.incident) { 
+    if (data.incident) {
       this.incidentForm.controls['IncidentReporting'].setValue(data.incident.IncidentReporting)
       this.incidentForm.controls['NearMissReporting'].setValue(data.incident.NearMissReporting)
       this.incidentForm.controls['ProblemFixed'].setValue(data.incident.ProblemFixed)
@@ -175,7 +181,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.incidentForm.controls['IncidentComments'].setValue(data.incident.IncidentComments)
     }
 
-    if (data.communication) { 
+    if (data.communication) {
       this.communicationForm.controls['SafetyOrientation'].setValue(data.communication.SafetyOrientation)
       this.communicationForm.controls['SafetyMeetingFrequency'].setValue(data.communication.SafetyMeetingFrequency)
       this.communicationForm.controls['AppropriateTraining'].setValue(data.communication.AppropriateTraining)
@@ -189,7 +195,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.communicationForm.controls['CommunicationComments'].setValue(data.communication.CommunicationComments)
     }
 
-    if (data.personalEquipment) { 
+    if (data.personalEquipment) {
       this.personalEquipmentForm.controls['PPEAvailable'].setValue(data.personalEquipment.PPEAvailable)
       this.personalEquipmentForm.controls['HardHat'].setValue(data.personalEquipment.HardHat)
       this.personalEquipmentForm.controls['SafetyGlasses'].setValue(data.personalEquipment.SafetyGlasses)
@@ -202,8 +208,8 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.personalEquipmentForm.controls['OtherEquipment'].setValue(data.personalEquipment.OtherEquipment)
       this.personalEquipmentForm.controls['PersonalEquipmentComments'].setValue(data.personalEquipment.PersonalEquipmentComments)
     }
- 
-    if (data.safetyEquipment) { 
+
+    if (data.safetyEquipment) {
       this.safetyEquipmentForm.controls['SafetyEquipmentAvailable'].setValue(data.safetyEquipment.PersonalEquipmentComments)
       this.safetyEquipmentForm.controls['FireFightingEquipment'].setValue(data.safetyEquipment.PersonalEquipmentComments)
       this.safetyEquipmentForm.controls['RotatingEquimentGuards'].setValue(data.safetyEquipment.PersonalEquipmentComments)
@@ -214,19 +220,52 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.PersonalEquipmentComments)
     }
 
-    if (data.personalEquipment) { 
-      this.personalEquipmentForm.controls['InspectionFrequency'].setValue(data.personalEquipment.PersonalEquipmentComments)
-      this.personalEquipmentForm.controls['HazardAssessmentSystem'].setValue(data.personalEquipment.PersonalEquipmentComments)
-      this.personalEquipmentForm.controls['HazardComments'].setValue(data.personalEquipment.PersonalEquipmentComments)
-    }
-
-    if (data.discrepancy) { 
+    if (data.discrepancy) {
       this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
     }
-  
+console.log(data)
+  }
+
+  updateForm() {
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+
+    let header = this.headerForm.value
+    header.Worker = this.autoCompleteService.workersControl.value
+    header.Supervisor = this.autoCompleteService.supervisorsControl.value
+
+    let data = {
+      header: header,
+      hazard: this.hazardForm.value,
+      rules: this.rulesForm.value,
+      incident: this.incidentForm.value,
+      communication: this.communicationForm.value,
+      personalEquipment: this.personalEquipmentForm.value,
+      safetyEquipment: this.safetyEquipmentForm.value,
+      discrepancyComments: this.discrepancyForm.value,
+      correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+    }
+
+    const obj = {
+      id: form["id"],
+      data: data,
+      data_id: this.formData["id"],
+      form_id: form["form_id"],
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      pics: this.store.selectSnapshot(DeviceState.pics)
+      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+    }
+    this.apiService.update(obj).subscribe((res) => {
+      this.resetForm()
+      this.snackBar.open(res["data"].message, 'Success', {
+        duration: 3000,
+        verticalPosition: 'bottom'
+      })
+    })
+
   }
 
   submitForm() {
+    console.log(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
@@ -247,7 +286,8 @@ export class SpotCheckSafetyComponent implements OnInit {
       communication: this.communicationForm.value,
       personalEquipment: this.personalEquipmentForm.value,
       safetyEquipment: this.safetyEquipmentForm.value,
-      correctiveAction: this.correctiveActionForm.value
+      discrepancyComments: this.discrepancyForm.value,
+      correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
     dataObj.push(null)
@@ -268,9 +308,12 @@ export class SpotCheckSafetyComponent implements OnInit {
       formObj: this.SPOT_CHECK_SAFETY,
       type: 'custom',
       name: form["name"],
-      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
-    }
+      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics)),
+      location: data.header.Location,
+      correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
 
+    }
+console.log(obj)
     this.apiService.save(obj).subscribe(idObj => {
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)
@@ -290,28 +333,16 @@ export class SpotCheckSafetyComponent implements OnInit {
         name: form["name"],
         worker: worker,
         supervisor: supervisor,
-        description: 'Spot Check Safety, '+_moment().format('MMM D, h:mA'),
-        message: 'Spot Check Safety completed for '+this.headerForm.controls['CompanyName'].value+', '+this.headerForm.controls['Location'].value,
-        subject: 'New Spot Check Safety from '+header.Worker+', '+new Date(),
+        description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
+        message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
+        subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
         form_id: form["form_id"],
         data_id: this.formDataID,
         pdf: 'spot-check-safety' + this.formDataID
       }
 
       this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
-        this.headerForm.reset()
-        this.hazardForm.reset()
-        this.rulesForm.reset()
-        this.incidentForm.reset()
-        this.communicationForm.reset()
-        this.personalEquipmentForm.reset()
-        this.safetyEquipmentForm.reset()
-        this.correctiveActionForm.reset()
-        this.store.dispatch(new SetPage('home'))
-        this.store.dispatch(new SetChildPage('Forms'))
-        this.store.dispatch(new SetPics([]))
-        this.autoCompleteService.workersControl.setValue('')
-        this.autoCompleteService.supervisorsControl.setValue('')
+        this.resetForm()
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
         this.snackBar.open(myNotifications.message, 'Success', {
@@ -326,7 +357,7 @@ export class SpotCheckSafetyComponent implements OnInit {
           emailTo: notificationObj.supervisor.email,
           emailFrom: notificationObj.worker.email
         }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => {})
+        this.emailService.sendNotificationEmail(obj).subscribe(() => { })
       })
       const pics = this.store.selectSnapshot(DeviceState.pics)
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
@@ -337,5 +368,20 @@ export class SpotCheckSafetyComponent implements OnInit {
       }
       this.idbCrudService.put('pics', picObj)
     })
+  }
+
+  resetForm() {
+    this.headerForm.reset()
+    this.hazardForm.reset()
+    this.rulesForm.reset()
+    this.incidentForm.reset()
+    this.communicationForm.reset()
+    this.personalEquipmentForm.reset()
+    this.safetyEquipmentForm.reset()
+    this.store.dispatch(new SetPage('home'))
+    this.store.dispatch(new SetChildPage('Forms'))
+    this.store.dispatch(new SetPics([]))
+    this.autoCompleteService.workersControl.setValue('')
+    this.autoCompleteService.supervisorsControl.setValue('')
   }
 }

@@ -115,4 +115,9 @@ export class SetFormData {
   constructor(public formData: {}) {}
 }
 
+export class SetNotificationId {
+  static type = '[Auth] SetNotificationId'
+  constructor(public notificationId: number) {}
+}
+
 

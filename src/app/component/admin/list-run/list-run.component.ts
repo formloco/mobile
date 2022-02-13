@@ -17,6 +17,8 @@ import { ListEditComponent } from '../list-edit/list-edit.component'
 
 import { LIST_FORM } from '../../../model/forms'
 
+import { environment } from '../../../../environments/environment'
+
 @Component({
   selector: 'app-list-run',
   templateUrl: './list-run.component.html',
@@ -24,10 +26,12 @@ import { LIST_FORM } from '../../../model/forms'
 })
 export class ListRunComponent {
 
+  kioske = environment.kioske
+
   @Select(AuthState.lookupListName) lookupListName$: Observable<string>
   runForm: FormGroup
 
-  id = new FormControl('')
+  id = new FormControl({value: null, disabled: this.kioske})
 
   user
   data

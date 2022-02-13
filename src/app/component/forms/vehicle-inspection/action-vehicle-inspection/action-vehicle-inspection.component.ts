@@ -11,6 +11,8 @@ import { SetPage, SetChildPageLabel } from '../../../../state/auth/auth-state.ac
 import { AppService } from "../../../../service/app.service"
 import { ApiService } from "../../../../service/api.service"
 
+import { environment } from '../../../../../environments/environment'
+
 @Component({
   selector: 'app-action-vehicle-inspection',
   templateUrl: './action-vehicle-inspection.component.html',
@@ -22,7 +24,8 @@ export class ActionVehicleInspectionComponent implements OnInit {
   @Output() close = new EventEmitter()
 
   details
-
+  kioske = environment.kioske
+  
   discrepancyForm: FormGroup
 
   constructor(

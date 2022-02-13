@@ -20,14 +20,14 @@
     <div class="publish" fxLayoutAlign="space-between center">
       <div fxLayout="column" fxLayoutGap="15px">
         <div>
-          <mat-slide-toggle (change)="publish(formObj, $event)" color="primary" [checked]=formObj.is_published>
+          <mat-slide-toggle (change)="publish(formObj, $event)" color="primary" [checked]=formObj.is_published [disabled]="kioske">
           </mat-slide-toggle>&nbsp;&nbsp;
           <span class="action-label-pub" *ngIf="formObj.is_published">Published</span>
           <span class="action-label-pub" *ngIf="!formObj.is_published">Unpublished</span>  
         </div>
       </div>
       <div>
-        <mat-slide-toggle (change)="setPermission(formObj,$event)" color="primary" [checked]=formObj.is_manager>
+        <mat-slide-toggle (change)="setPermission(formObj,$event)" color="primary" [checked]=formObj.is_manager [disabled]="kioske">
         </mat-slide-toggle>&nbsp;&nbsp;
         <span class="action-label-pub" *ngIf="formObj.is_manager">Manager Only</span>
         <span class="action-label-pub" *ngIf="!formObj.is_manager">Everyone</span> 

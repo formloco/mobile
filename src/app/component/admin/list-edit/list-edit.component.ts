@@ -9,6 +9,7 @@ import { SuccessService } from "../../../service/success.service"
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-list-edit',
@@ -17,7 +18,9 @@ import { AuthState } from '../../../state/auth/auth.state'
 })
 export class ListEditComponent implements OnInit {
 
-  id = new FormControl('')
+  kioske = environment.kioske
+
+  id = new FormControl({value: null, disabled: this.kioske})
 
   constructor(
     private store: Store,

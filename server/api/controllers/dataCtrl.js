@@ -42,7 +42,7 @@ const createData = async(req, res) => {
 const updateData = async(req, res) => {
   try {
     let data = await dataUpdate(req.body)
-    res.status(201).json({rows: data})
+    res.status(201).json({data})
   } catch(e) {
     res.sendStatus(500)
   }

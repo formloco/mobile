@@ -9,6 +9,11 @@ import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
 
+import { SetPage, SetIsSignIn, SetChildPageLabel, SetChildPage } from '../../state/auth/auth-state.actions'
+
+
+import { environment } from '../../../environments/environment'
+
 @Component({
   selector: 'app-layout-admin',
   templateUrl: './layout-admin.component.html',
@@ -20,6 +25,8 @@ export class LayoutAdminComponent implements OnInit {
   @Select(DeviceState.background) background$: Observable<string>
   @Select(DeviceState.screenWidth) screenWidth$: Observable<string>
 
+  kioske = environment.kioske
+
   constructor(
     private store: Store,
     public appService: AppService,
@@ -27,6 +34,13 @@ export class LayoutAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.kioske) {
+      this.store.dispatch(new SetPage('admin'))
+      this.store.dispatch(new SetChildPage('forms'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
+      this.store.dispatch(new SetIsSignIn(true))
+      this.appService.initializeAdminNotifications()
+    }
   }
 
   changeTheme() {

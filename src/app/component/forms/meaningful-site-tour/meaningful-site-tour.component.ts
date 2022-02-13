@@ -31,13 +31,16 @@ import { SetNotificationOpen } from '../../../state/notification/notification-st
 export class MeaningfulSiteTourComponent implements OnInit {
 
   pics
+  formData
   formDataID
   step = 0
+  isEdit = false
 
   headerForm: FormGroup
   notesForm: FormGroup
 
   messageUrl = environment.messageUrl
+  kioske = environment.kioske
 
   MEANINGFUL_SITE_TOUR = MEANINGFUL_SITE_TOUR
 
@@ -76,8 +79,13 @@ export class MeaningfulSiteTourComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(AuthState.formData).subscribe(data => {
-      if (data) this.setFormData(data)
+    this.store.select(AuthState.formData).subscribe(formData => {
+      this.formData = formData
+      console.log(formData)
+      if (formData["data"]) {
+        this.isEdit = true
+        this.setFormData(formData["data"])
+      }
     })
   }
 
@@ -93,9 +101,19 @@ export class MeaningfulSiteTourComponent implements OnInit {
     this.step--
   }
 
+  showSnackBar(msg) {
+    this.snackBar.open(msg.message, 'Success', {
+      duration: 3000,
+      verticalPosition: 'bottom'
+    })
+  }
+
   setFormData(data) {
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
+      this.headerForm.controls['Name'].setValue(data.header.Name)
+      this.autoCompleteService.workersControl.setValue(data.header.Worker)
+      this.autoCompleteService.supervisorsControl.setValue(data.header.Supervisor)
       this.headerForm.controls['Location'].setValue(data.header.Location)
       this.headerForm.controls['SiteOrientation'].setValue(data.header.SiteOrientation)
       this.headerForm.controls['DailySafetyMeeting'].setValue(data.header.DailySafetyMeeting)
@@ -119,6 +137,34 @@ export class MeaningfulSiteTourComponent implements OnInit {
     }
   }
 
+  updateForm() {
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+
+    let header = this.headerForm.value
+    header.Worker = this.autoCompleteService.workersControl.value
+    header.Supervisor = this.autoCompleteService.supervisorsControl.value
+
+    let data = {
+      header: header,
+      notes: this.notesForm.value
+    }
+    
+    const obj = {
+      id: form["id"],
+      data: data,
+      data_id: this.formData["id"],
+      form_id: form["form_id"],
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+    }
+    this.apiService.update(obj).subscribe((res) => {
+      this.snackBar.open(res["data"].message, 'Success', {
+        duration: 3000,
+        verticalPosition: 'bottom'
+      })
+    })
+  }
+
   submitForm() {
     let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
@@ -136,7 +182,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       header: header,
       notes: this.notesForm.value
     }
-
+    
     dataObj.push(null)
     dataObj.push(JSON.stringify(userCreated))
     dataObj.push(new Date())
@@ -158,7 +204,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       name: form["name"],
       pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
-console.log(obj)
+  
     this.apiService.save(obj).subscribe(idObj => {
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)
@@ -195,10 +241,8 @@ console.log(obj)
         this.autoCompleteService.supervisorsControl.setValue('')
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
-        this.snackBar.open(myNotifications.message, 'Success', {
-          duration: 3000,
-          verticalPosition: 'bottom'
-        })
+        this.showSnackBar(myNotifications.message) 
+
         const obj = {
           toName: notificationObj.supervisor.name,
           messageID: myNotifications.data[0]["id"],
@@ -219,4 +263,5 @@ console.log(obj)
       this.idbCrudService.put('pics', picObj)
     })
   }
+  
 }

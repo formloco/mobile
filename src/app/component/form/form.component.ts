@@ -11,9 +11,11 @@ import { CameraComponent } from '../camera/camera.component'
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
+import { NotificationState } from '../../state/notification/notification.state'
 import { SetPage, SetChildPage, SetChildPageLabel } from '../../state/auth/auth-state.actions'
 
 import { environment } from '../../../environments/environment'
+import { ApiService } from "../../service/api.service"
 
 @Component({
   selector: 'app-form',
@@ -24,6 +26,7 @@ export class FormComponent {
 
   @Select(DeviceState.pics) pics$: Observable<[]>
   @Select(AuthState.selectedForm) selectedForm$: Observable<any>
+  @Select(AuthState.childPage) childPage$: Observable<any>
 
   runForm: FormGroup
 
@@ -36,12 +39,21 @@ export class FormComponent {
     private store: Store,
     private fb: FormBuilder,
     private dialog: MatDialog,
+    private apiService: ApiService,
     private bottomSheet: MatBottomSheet) {
     this.runForm = this.fb.group({})
+    console.log("got here")
+  }
+
+  openPdf() {
+    const notification = this.store.selectSnapshot(NotificationState.notification)
+    this.apiService.getPDF(notification.pdf)
   }
 
   close() {
     const page = this.store.selectSnapshot(AuthState.page)
+    const childPage = this.store.selectSnapshot(AuthState.childPage)
+
     if (page == 'form') {
       this.store.dispatch(new SetPage('home'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
@@ -51,6 +63,11 @@ export class FormComponent {
       this.store.dispatch(new SetChildPage('forms'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
     }
+    if (childPage == 'notification') {
+      const childPage = this.store.selectSnapshot(AuthState.childPage)
+      this.store.dispatch(new SetPage(childPage))
+      this.store.dispatch(new SetChildPageLabel('Notifications'))
+    }
   }
 
   snapShot() {
@@ -58,8 +75,8 @@ export class FormComponent {
     dialogConfig.height = '100%'
     dialogConfig.width = '100%'
     dialogConfig.maxWidth = '100vw',
-    dialogConfig.maxHeight = '100vh',
-    dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
+      dialogConfig.maxHeight = '100vh',
+      dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
     this.dialog.open(CameraComponent, dialogConfig)
   }
 
@@ -78,5 +95,5 @@ export class FormComponent {
   showPhotos() {
     this.bottomSheet.open(PicsComponent)
   }
-  
+
 }

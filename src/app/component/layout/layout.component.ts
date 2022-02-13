@@ -18,6 +18,8 @@ import { DeviceState } from '../../state/device/device.state'
 import { SetPage, SetChildPageLabel } from '../../state/auth/auth-state.actions'
 import { SetNotificationOpen, SetNotificationTab } from '../../state/notification/notification-state.actions'
 
+import { environment } from '../../../environments/environment'
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -25,11 +27,12 @@ import { SetNotificationOpen, SetNotificationTab } from '../../state/notificatio
 })
 export class LayoutComponent implements OnInit {
 
+  prefs
+  kioske = environment.kioske
+
   @Select(AuthState.page) page$: Observable<string>
   @Select(DeviceState.background) background$: Observable<string>
   @Select(DeviceState.screenWidth) screenWidth$: Observable<string>
-
-  prefs
 
   constructor(
     private store: Store,
@@ -46,7 +49,7 @@ export class LayoutComponent implements OnInit {
           openNotifications = notifications.filter(not => not.date_signed === null)
           this.store.dispatch(new SetNotificationOpen(openNotifications))
           this.store.dispatch(new SetPage('notification'))
-          this.store.dispatch(new SetChildPageLabel('Notifications'))
+          this.store.dispatch(new SetChildPageLabel('forms'))
           this.store.dispatch(new SetNotificationTab(0))
         })
       }
@@ -58,7 +61,10 @@ export class LayoutComponent implements OnInit {
             this.store.dispatch(new SetChildPageLabel('Forms'))
           }
           else {
-            this.store.dispatch(new SetPage('identify'))
+            if (!this.kioske)
+              this.store.dispatch(new SetPage('identify'))
+            else
+              this.store.dispatch(new SetPage('kioske'))
           }
         })
       }

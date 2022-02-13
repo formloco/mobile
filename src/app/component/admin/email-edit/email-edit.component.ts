@@ -9,6 +9,7 @@ import { SuccessService } from "../../../service/success.service"
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-email-edit',
@@ -16,6 +17,8 @@ import { AuthState } from '../../../state/auth/auth.state'
   styleUrls: ['./email-edit.component.scss']
 })
 export class EmailEditComponent implements OnInit {
+
+  kioske = environment.kioske
 
   id
   enabled
@@ -25,8 +28,8 @@ export class EmailEditComponent implements OnInit {
   disabledName
   disabledEmail
 
-  name = new FormControl('', [Validators.required])
-  email = new FormControl('', [Validators.required, Validators.email])
+  name = new FormControl({value: null, disabled: this.kioske}, [Validators.required])
+  email = new FormControl({value: null, disabled: this.kioske}, [Validators.required, Validators.email])
 
   constructor(
     private store: Store,
@@ -38,6 +41,7 @@ export class EmailEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.kioske)
     this.id = this.appService.dataSource.data[this.data.idx]["id"]
     this.admin = this.appService.dataSource.data[this.data.idx]["admin"]
     this.worker = this.appService.dataSource.data[this.data.idx]["worker"]

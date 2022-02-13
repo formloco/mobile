@@ -51,6 +51,11 @@ export class NotificationState {
     return state.notificationTab
   }
 
+  @Selector()
+  static notificationIdx(state: NotificationStateModel): number {
+    return state.notificationIdx
+  }
+
   @Action(NotificationActions.SetNotification)
   onSetNotification(ctx: StateContext<NotificationStateModel>, { notification }: NotificationActions.SetNotification) {
     ctx.patchState({
@@ -104,6 +109,13 @@ export class NotificationState {
   onSetNotificationTab(ctx: StateContext<NotificationStateModel>, { notificationTab }: NotificationActions.SetNotificationTab) {
     ctx.patchState({
       notificationTab: notificationTab
+    })
+  }
+
+  @Action(NotificationActions.SetNotificationIdx)
+  onSetNotificationIdx(ctx: StateContext<NotificationStateModel>, { notificationIdx }: NotificationActions.SetNotificationIdx) {
+    ctx.patchState({
+      notificationIdx: notificationIdx
     })
   }
   

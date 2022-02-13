@@ -14,6 +14,8 @@ import { ErrorService } from "../../../service/error.service"
 
 import { EmailEditComponent } from '../email-edit/email-edit.component'
 
+import { environment } from '../../../../environments/environment'
+
 @Component({
   selector: 'app-email-list',
   templateUrl: './email-list.component.html',
@@ -23,6 +25,8 @@ export class EmailListComponent implements OnInit{
 
   @Select(AuthState.lookupListName) lookupListName$: Observable<string>
   emailForm: FormGroup
+
+  kioske = environment.kioske
 
   user
   data
@@ -42,10 +46,10 @@ export class EmailListComponent implements OnInit{
     private formBuilder: FormBuilder,
     private errorService: ErrorService) {
     this.emailForm = this.formBuilder.group({
-      name: [null, Validators.compose([Validators.required])],
-      email: [null, Validators.compose([Validators.required, Validators.email])],
-      worker: [null],
-      supervisor: [null]
+      name: [{value: null, disabled: this.kioske}, Validators.compose([Validators.required])],
+      email: [{value: null, disabled: this.kioske}, Validators.compose([Validators.required, Validators.email])],
+      worker: [{value: null, disabled: this.kioske}],
+      supervisor: [{value: null, disabled: this.kioske}]
     })
   }
 

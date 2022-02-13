@@ -25,5 +25,6 @@ export interface AuthStateModel {
   formData?: {}
   forms?: any[]
   currentFormId?: string
+  notificationId?: number
 }
           

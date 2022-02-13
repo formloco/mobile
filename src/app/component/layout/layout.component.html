@@ -5,6 +5,7 @@
       <app-identification *ngIf="(page$ | async) === 'identify'"></app-identification>
       <app-apps *ngIf="(page$ | async) === 'apps'"></app-apps>
       <app-form *ngIf="(page$ | async) === 'form'"></app-form>
+      <app-kioske *ngIf="(page$ | async) === 'kioske'"></app-kioske>
       <app-home *ngIf="(page$ | async) === 'home'"></app-home>
       <app-notification *ngIf="(page$ | async) === 'notification'"></app-notification>
       <app-admin (changeTheme)=changeTheme($event) *ngIf="(page$ | async) === 'admin'"></app-admin>

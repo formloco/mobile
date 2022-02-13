@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { MatSidenav } from '@angular/material/sidenav'
 
 import { FormBuilder, FormGroup } from '@angular/forms'
+import { Router } from '@angular/router'
 
 import { Store, Select } from '@ngxs/store'
 import { FORMS } from "../../model/forms"
@@ -60,10 +61,13 @@ export class AdminComponent implements OnInit {
   isLookuplist = true
   isListMenu
 
+  kioske = environment.kioske
   tenant = environment.tenant
+  signinUrl = environment.signinUrl
 
   constructor(
     private store: Store,
+    private router: Router,
     public appService: AppService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
@@ -74,6 +78,7 @@ export class AdminComponent implements OnInit {
     }
   
   ngOnInit() {
+    // if (this.kioske) this.router.navigate([this.signinUrl])
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
       if (this.prefs.length > 0) {
@@ -132,7 +137,7 @@ export class AdminComponent implements OnInit {
       const user = this.store.selectSnapshot(AuthState.user)
     }
     this.store.dispatch(new SetPage('notification'))
-    this.store.dispatch(new SetChildPageLabel('Notifications'))
+    this.store.dispatch(new SetChildPageLabel('Forms'))
     this.store.dispatch(new SetNotificationTab(tabIndex))
   }
 

@@ -47,7 +47,6 @@ export class CorrectiveActionComponent implements OnInit {
   }
 
   save() {
-    debugger
     const correctiveActions = _.cloneDeep(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     const correctiveActionIdx = correctiveActions.findIndex(c => c.field == this.data.field)
     

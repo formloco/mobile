@@ -5,15 +5,21 @@ import { Formloco } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
+  kioske: true,
+  designerUrl: Formloco.designerUrl,
+  linkedinUrl: Formloco.linkedinUrl,
+  githubUrl: Formloco.githubUrl,
+  kioskeEmail: Formloco.kioskeEmail,
+  kioskePassword: Formloco.kioskePassword,
 
-  // apiUrl: 'http://localhost:9001/api/',
+  apiUrl: 'http://localhost:9001/api/',
   // authUrl: 'http://localhost:9000/auth/',
   // formUrl: 'http://localhost:9002/form/',
   // emailUrl: 'http://localhost:9003/email/',
   // assetUrl: 'http://localhost:9005/asset/',
   // notificationUrl: 'http://localhost:9004/notification/',
 
-  apiUrl: Formloco.apiUrl,
+  // apiUrl: Formloco.apiUrl,
   authUrl: Formloco.authUrl,
   formUrl: Formloco.formUrl,
   emailUrl: Formloco.emailUrl,

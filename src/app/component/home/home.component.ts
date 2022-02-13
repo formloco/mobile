@@ -2,18 +2,20 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core'
 
 import { Observable } from 'rxjs'
 
+import { AppService } from "../../service/app.service"
 import { NotificationService } from '../../service/notification.service'
 
 import { environment } from '../../../environments/environment'
 
 import { Store, Select } from '@ngxs/store'
+import { Router } from '@angular/router'
 
 import { AppsState } from '../../state/apps/apps.state'
 import { SetApp } from '../../state/apps/apps-state.actions'
 import { APPS } from '../../state/apps/apps-state.model'
 
 import { AuthState } from '../../state/auth/auth.state'
-import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData } from '../../state/auth/auth-state.actions'
+import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData, SetChildPage } from '../../state/auth/auth-state.actions'
 import { SetAppPage } from '../../state/apps/apps-state.actions'
 import { DeviceState } from '../../state/device/device.state'
 
@@ -46,11 +48,15 @@ export class HomeComponent implements OnInit {
   checkform
   notificationCount
 
+  kioske = environment.kioske
   tenant = environment.tenant
   version = environment.version
+  signinUrl = environment.signinUrl
 
   constructor(
     private store: Store,
+    private router: Router,
+    public appService: AppService,
     private idbPersistenceService: IdbPersistenceService,
     private notificationService: NotificationService) { }
 
@@ -71,6 +77,7 @@ export class HomeComponent implements OnInit {
   selectForm(form) {
     this.store.dispatch(new SetFormData([]))
     this.store.dispatch(new SetSelectedForm(form))
+    this.store.dispatch(new SetChildPage(null))
     this.store.dispatch(new SetPage('form'))
   }
 
@@ -105,7 +112,7 @@ export class HomeComponent implements OnInit {
       })
     }
     this.store.dispatch(new SetPage('notification'))
-    this.store.dispatch(new SetChildPageLabel('Notifications'))
+    this.store.dispatch(new SetChildPageLabel('Forms'))
     this.store.dispatch(new SetNotificationTab(tabIndex))
   }
 
@@ -116,5 +123,14 @@ export class HomeComponent implements OnInit {
   upGradeIndexDB() {
     this.idbPersistenceService.deleteDb()
   }
+
+  // openAdmin() {
+  //   this.store.dispatch(new SetPage('admin'))
+  //   this.store.dispatch(new SetChildPage('forms'))
+  //   this.store.dispatch(new SetChildPageLabel('Forms'))
+  //   this.store.dispatch(new SetIsSignIn(true))
+  //   this.appService.initializeAdminNotifications()
+  //   this.router.navigate([this.signinUrl])
+  // }
 
 }

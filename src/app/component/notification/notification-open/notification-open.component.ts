@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core'
 
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 
+import * as _ from 'lodash'
 import { Observable } from 'rxjs'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -21,9 +22,9 @@ import { NotificationService } from "../../../service/notification.service"
 
 import { AuthState } from "../../../state/auth/auth.state"
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetSelectedForm, SetPage, SetFormData } from '../../../state/auth/auth-state.actions'
+import { SetSelectedForm, SetPage, SetFormData, SetChildPage } from '../../../state/auth/auth-state.actions'
 import { NotificationState } from '../../../state/notification/notification.state'
-import { SetNotification, SetNotificationOpen } from '../../../state/notification/notification-state.actions'
+import { SetNotification, SetNotificationIdx } from '../../../state/notification/notification-state.actions'
 
 import { PicsComponent } from '../../pics/pics.component'
 import { CameraComponent } from '../../camera/camera.component'
@@ -38,7 +39,9 @@ export class NotificationOpenComponent implements OnInit{
   @Output() pdf = new EventEmitter<any>()
 
   @Select(NotificationState.notificationOpen) notificationOpen$: Observable<string>
+  @Select(NotificationState.notificationIdx) notificationIdx$: Observable<number>
 
+  kioske = environment.kioske
   messageUrl = environment.messageUrl
 
   data
@@ -61,7 +64,7 @@ export class NotificationOpenComponent implements OnInit{
     private idbCrudService: IdbCrudService,
     private notificationService: NotificationService) {
     this.messageForm = this.fb.group({
-      message: ['', [Validators.required]]
+      message: [{value: null, disabled: this.kioske}, [Validators.required]]
     })
   }
 
@@ -120,12 +123,13 @@ export class NotificationOpenComponent implements OnInit{
     this.idbCrudService.readAll('form').subscribe((forms:any) => {
       const form = forms.find(f => f.form_id == notification.form_id)
       this.store.dispatch(new SetSelectedForm(form))
-      this.idbCrudService.readAll('pics').subscribe((pics:any) => {
-        if (pics[0].length > 0) {
-          this.picArray = pics[0].find(p => p.id == notification.pdf)
-          this.store.dispatch(new SetPics(this.picArray["pics"]))
-        }
-      })
+      // this.idbCrudService.readAll('pics').subscribe((pics:any) => {
+      //   console.log(pics)
+      //   if (pics[0].length > 0) {
+      //     this.picArray = pics[0].find(p => p.id == notification.pdf)
+      //     this.store.dispatch(new SetPics(this.picArray["pics"]))
+      //   }
+      // })
     })
   }
 
@@ -151,14 +155,18 @@ export class NotificationOpenComponent implements OnInit{
     this.pdf.emit()
   }
 
-  openForm(notification) {
+  openForm(notification, idx) {
+    this.store.dispatch(new SetNotification(notification))
+    this.store.dispatch(new SetNotificationIdx(idx))
+    const page = this.store.selectSnapshot(AuthState.page)
+    const childPage = this.store.selectSnapshot(AuthState.childPage)
     const selectedFormId = notification.form_name.toLowerCase().replace(/\s/g, "-")
     this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(data => { 
-      this.formData = data
       const forms:any = this.store.selectSnapshot(AuthState.forms)
       const form = forms.filter(f => f.id === selectedFormId)
       this.store.dispatch(new SetSelectedForm(form[0]))
-      this.store.dispatch(new SetFormData(this.formData.data))
+      this.store.dispatch(new SetFormData(data))
+      this.store.dispatch(new SetChildPage('notification'))
       this.store.dispatch(new SetPage('form'))
     })
   }

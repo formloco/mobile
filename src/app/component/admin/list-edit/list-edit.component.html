@@ -8,9 +8,9 @@
 </div>
 <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
   <div>
-    <button (click)="update()" mat-stroked-button color="primary">Save</button>
+    <button (click)="update()" mat-stroked-button color="primary" [disabled]="kioske">Save</button>
   </div>
   <div>
-    <button (click)="delete()" mat-stroked-button color="warn">Delete</button>
+    <button (click)="delete()" mat-stroked-button color="warn" [disabled]="kioske">Delete</button>
   </div>
 </div>

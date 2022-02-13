@@ -1,0 +1,33 @@
+<div fxLayout="column">
+  <form class="container-padding">
+    <div fxLayout="column">
+      <div class="text-color text-center">
+        <div><img src="{{logo}}"></div>
+      </div>
+      <br>
+      <div class="mat-headline text-color" fxLayoutAlign="center">Digitalize Your Business</div>
+      <div class="hand" fxLayoutAlign="center">
+        <mat-icon class="icon-169px-action" (click)="continue()">fingerprint</mat-icon>
+      </div>
+      <div class="mat-headline text-color" fxLayoutAlign="center">Take a Test Drive</div>
+      <br>
+      <a mat-stroked-button href='{{designerUrl}}' target="blank" color="primary">
+        Got a form to Digitialize?
+      </a>
+    </div>
+  </form>
+</div>
+<div class="footer">
+  <mat-toolbar>
+    <a mat-button href='mailto:{{kioskeEmail}}' target="blank" color="primary">
+      email
+    </a>
+    <span class="toolbar-spacer"></span>
+    <a mat-button href='{{githubUrl}}' target="blank" color="primary">
+      github
+    </a>
+    <a mat-button href='{{linkedinUrl}}' target="blank" color="primary">
+      linkedin
+    </a>
+  </mat-toolbar>
+</div>

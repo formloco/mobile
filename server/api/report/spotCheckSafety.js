@@ -58,6 +58,12 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
   let safetyEquipment = formData.rows[0]["data"]["safetyEquipment"]
   let correctiveAction = formData.rows[0]["data"]["correctiveAction"]
   
+  if (correctiveAction) {
+    let correctiveActions = []
+    for (let j = 0; j < correctiveAction.length; j++) {
+      correctiveActions.push(correctiveActions[j].date_completed, correctiveActions[j].type, data.header.location, correctiveActions[j].label, correctiveActions[j].corrective_action)
+    }
+  }
 
   if (hazard.InspectionFrequency == 'na' || hazard.InspectionFrequency == null) {
     InspectionFrequencyNA = '√',
@@ -723,7 +729,7 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
           widths: ['*', 25, 25, 25],
           body: [
             [{text: 'Hazard Identification and Control', style: 'tableHeader'}, {text:'N/A', style: 'tableHeader', alignment: 'center'},{text: 'U', style: 'tableHeader', alignment: 'center'},{text:'S', style: 'tableHeader', alignment: 'center'}],
-            ['Are equipment and vehicles inspected, and at what frequency? (Examples and documentation)', {text: InspectionFrequencyNA, alignment: 'center'}, {text: InspectionFrequencyU, alignment: 'center'}, {text: InspectionFrequencyS, alignment: 'center'}],
+            // ['Are equipment and vehicles inspected, and at what frequency? (Examples and documentation)', {text: InspectionFrequencyNA, alignment: 'center'}, {text: InspectionFrequencyU, alignment: 'center'}, {text: InspectionFrequencyS, alignment: 'center'}],
             ['Are there written emergency plans available and communicated to personnel on the work site?', {text: HazardAssessmentSystemNA, alignment: 'center'}, {text: HazardAssessmentSystemU, alignment: 'center'}, {text: HazardAssessmentSystemS, alignment: 'center'}],
             [{colSpan: 4, text: 'Comments\n'+ HazardComments}]
           ]
@@ -735,8 +741,8 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
           widths: ['*', 25, 25, 25],
           body: [
             [{text:'Rules and Work Procedure', style: 'tableHeader'}, {text:'N/A', style: 'tableHeader', alignment: 'center'},{text: 'U', style: 'tableHeader', alignment: 'center'},{text:'S', style: 'tableHeader', alignment: 'center'}],
-            ['Are there procedures for high risk or critical work? Are they available and used?', {text: ProceduresNA, alignment: 'center'}, {text: ProceduresU, alignment: 'center'}, {text: ProceduresS, alignment: 'center'}],
-            ['Are there written emergency plans available and communicated to personnel on the work site?', {text: EmergencyPlanNA, alignment: 'center'}, {text: EmergencyPlanU, alignment: 'center'}, {text: EmergencyPlanS, alignment: 'center'}],
+            // ['Are there procedures for high risk or critical work? Are they available and used?', {text: ProceduresNA, alignment: 'center'}, {text: ProceduresU, alignment: 'center'}, {text: ProceduresS, alignment: 'center'}],
+            // ['Are there written emergency plans available and communicated to personnel on the work site?', {text: EmergencyPlanNA, alignment: 'center'}, {text: EmergencyPlanU, alignment: 'center'}, {text: EmergencyPlanS, alignment: 'center'}],
             [{colSpan: 4, text: 'Comments\n'+ RulesComments}]
           ]
         }
@@ -747,9 +753,9 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
           widths: ['*', 25, 25, 25],
           body: [
             [{text:'Incident Reporting', style: 'tableHeader'}, {text:'N/A', style: 'tableHeader', alignment: 'center'},{text: 'U', style: 'tableHeader', alignment: 'center'},{text:'S', style: 'tableHeader', alignment: 'center'}],
-            ['Is there an Incident reporting process in place? (Briefly explain)', {text: IncidentReportingNA, alignment: 'center'}, {text: IncidentReportingU, alignment: 'center'}, {text: IncidentReportingS, alignment: 'center'}],
+            // ['Is there an Incident reporting process in place? (Briefly explain)', {text: IncidentReportingNA, alignment: 'center'}, {text: IncidentReportingU, alignment: 'center'}, {text: IncidentReportingS, alignment: 'center'}],
             ['Is there a near miss/incident reporting form which includes follow-up?', {text: NearMissReportingNA, alignment: 'center'}, {text: NearMissReportingU, alignment: 'center'}, {text: NearMissReportingS, alignment: 'center'}],
-            ['Are incidents reported and was the problem fixed the last time there was a near miss or incident?', {text: ProblemFixedNA, alignment: 'center'},{text: ProblemFixedU, alignment: 'center'},{text: ProblemFixedS, alignment: 'center'}],
+            // ['Are incidents reported and was the problem fixed the last time there was a near miss or incident?', {text: ProblemFixedNA, alignment: 'center'},{text: ProblemFixedU, alignment: 'center'},{text: ProblemFixedS, alignment: 'center'}],
             ['Are management and workers involved in solving the issues?', {text: SolvingIssuesNA, alignment: 'center'}, {text: SolvingIssuesU, alignment: 'center'}, {text: SolvingIssuesS, alignment: 'center'}],
             [{colSpan: 4, text: 'Comments\n'+ IncidentComments}]
           ]
@@ -763,7 +769,7 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
             [{text:'Communication/Training', style: 'tableHeader'}, {text:'N/A', style: 'tableHeader', alignment: 'center'},{text: 'U', style: 'tableHeader', alignment: 'center'},{text:'S', style: 'tableHeader', alignment: 'center'}],
             ['Have you received a safety orientation (When and what)', {text: SafetyOrientationNA, alignment: 'center'}, {text: SafetyOrientationU, alignment: 'center'}, {text: SafetyOrientationS, alignment: 'center'}],
             ['How often are safety meetings held (Show examples and documentation)', {text: SafetyMeetingFrequencyNA, alignment: 'center'}, {text: SafetyMeetingFrequencyU, alignment: 'center'}, {text: SafetyMeetingFrequencyS, alignment: 'center'}],
-            ['Is the appropriate training in place', {text: AppropriateTrainingNA, alignment: 'center'}, {text: AppropriateTrainingU, alignment: 'center'}, {text: AppropriateTrainingS, alignment: 'center'}],
+            // ['Is the appropriate training in place', {text: AppropriateTrainingNA, alignment: 'center'}, {text: AppropriateTrainingU, alignment: 'center'}, {text: AppropriateTrainingS, alignment: 'center'}],
             ['First aid training', {text: FirstAidTrainingNA, alignment: 'center'}, {text: FirstAidTrainingU, alignment: 'center'}, {text: FirstAidTrainingS, alignment: 'center'}],
             ['H2S training', {text: H2STrainingNA, alignment: 'center'}, {text: H2STrainingU, alignment: 'center'}, {text: H2STrainingS, alignment: 'center'}],
             ['WHMIS training', {text: WHMISTrainingNA, alignment: 'center'}, {text: WHMISTrainingU, alignment: 'center'}, {text: WHMISTrainingS, alignment: 'center'}],
@@ -814,42 +820,11 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
       },
       '\n\n',
       {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Corrective action required: \n\n' + correctiveAction.CorrectiveActionRequired
-          }
-        ]
-      },
-      '\n\n',
-      {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Date for corrective actions to be completed: \n\n' + correctiveAction.DateCorrectiveActionToBeCompleted
-          }
-        ]
-      },
-      '\n\n',
-      {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Person(s) responsible for corrective actions: \n\n' + correctiveAction.PersonResonsibleCorrectiveAction
-          }
-        ]
-      },
-      '\n\n',
-      {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Date corrective actions were complete \n\n' + correctiveAction.DateCorrectiveActionCompleted
-          },
-          {
-            text: 'Signature of person responsible \n\n' + correctiveAction.PersonResonsible
-          }
-        ]
+        style: 'tableExample',
+        table: {
+          widths: ['*', '*', '*', 25, 25],
+          body: correctiveAction
+        }
       },
       '\n\n',
       {

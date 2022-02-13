@@ -105,7 +105,6 @@ export class AuthState {
   static formLabels(state: AuthStateModel): {} {
     return state.formLabels
   }
-
   
   @Selector()
   static selectedVoiceFieldLabel(state: AuthStateModel): {} {
@@ -116,6 +115,13 @@ export class AuthState {
   static formData(state: AuthStateModel): {} {
     return state.formData
   }
+
+  @Selector()
+  static notificationId(state: AuthStateModel): {} {
+    return state.notificationId
+  }
+
+  notificationId
 
   @Action(AuthActions.SetIsIdentified)
   onSetIsIdentified(ctx: StateContext<AuthStateModel>, { isIdentified }: AuthActions.SetIsIdentified) {
@@ -272,6 +278,14 @@ export class AuthState {
       formData: formData
     });
   }
+
+  @Action(AuthActions.SetNotificationId)
+  onSetNotificationId(ctx: StateContext<AuthStateModel>, { notificationId }: AuthActions.SetNotificationId) {
+    ctx.patchState({
+      notificationId: notificationId
+    });
+  }
+  
   
 }
 

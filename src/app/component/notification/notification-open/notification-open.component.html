@@ -1,5 +1,5 @@
 <mat-accordion multi [togglePosition]="'before'" *ngFor="let notification of (notificationOpen$ | async);  index as i">
-  <mat-expansion-panel (click)="setNotificationMessage(notification)" class="accordion-padding">
+  <mat-expansion-panel (click)="setNotificationMessage(notification)" class="accordion-padding" [expanded]="i == (notificationIdx$ | async)">
     <mat-expansion-panel-header (click)="setRead(notification)">
       <mat-panel-title fxLayoutAlign="start center" fxLayoutGap="10px">
         <mat-icon *ngIf="!notification.read" class="material-icons-outlined icon-orange">mark_as_unread</mat-icon>
@@ -24,8 +24,11 @@
     </form>
     <div fxLayoutAlign="space-between center">
       <div>
-        <button color="primary" mat-mini-fab [disabled]="!messageForm.valid">
+        <button *ngIf="!kioske" color="primary" mat-mini-fab [disabled]="!messageForm.valid">
           <mat-icon class="material-icons-outlined" (click)="sendMessage(i)">send</mat-icon>
+        </button>
+        <button *ngIf="kioske" color="primary" mat-mini-fab [disabled]="kioske">
+          <mat-icon class="material-icons-outlined">send</mat-icon>
         </button>
       </div>
       <div fxLayoutGap="30px">
@@ -33,7 +36,7 @@
           <mat-icon class="material-icons-outlined" (click)="openPdf(notification)">picture_as_pdf</mat-icon>
         </button>
         <button color="primary" mat-mini-fab>
-          <mat-icon class="material-icons-outlined" (click)="openForm(notification)">dynamic_form</mat-icon>
+          <mat-icon class="material-icons-outlined" (click)="openForm(notification, i)">dynamic_form</mat-icon>
         </button>
         <button *ngIf="notification.email_from !== user?.email" color="primary" mat-mini-fab>
           <mat-icon class="material-icons-outlined" (click)="openSign(notification)">border_color</mat-icon>

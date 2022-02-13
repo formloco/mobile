@@ -10,6 +10,7 @@ import { SetPage, SetChildPageLabel } from '../../../../state/auth/auth-state.ac
 
 import { AppService } from "../../../../service/app.service"
 import { ApiService } from "../../../../service/api.service"
+import { environment } from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-action-spot-check-safety',
@@ -22,7 +23,8 @@ export class ActionSpotCheckSafetyComponent implements OnInit {
   @Output() close = new EventEmitter()
 
   details
-
+  kioske = environment.kioske
+  
   correctiveAction: FormGroup
 
   constructor(

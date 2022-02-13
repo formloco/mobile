@@ -152,6 +152,7 @@ import { DiscrepancySpotCheckSafetyComponent } from './component/forms/spot-chec
 import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component';
 import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component';
 import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component';
+import { KioskeComponent } from './component/admin/kioske/kioske.component';
 
 @NgModule({
   declarations: [
@@ -249,7 +250,8 @@ import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-
     DiscrepancySpotCheckSafetyComponent,
     BottomSheetCommentComponent,
     CorrectiveActionComponent,
-    WorksiteKeyPositiveFindingComponent
+    WorksiteKeyPositiveFindingComponent,
+    KioskeComponent
   ],
   imports: [
     BrowserModule,

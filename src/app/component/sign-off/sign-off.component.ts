@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core'
 
+import { environment } from '../../../environments/environment'
+
 @Component({
   selector: 'app-sign-off',
   templateUrl: './sign-off.component.html',
@@ -8,6 +10,9 @@ import { Component, Output, EventEmitter } from '@angular/core'
 export class SignOffComponent {
 
   @Output() submitForm = new EventEmitter<any>()
+
+  isEdit = false
+  kioske = environment.kioske
 
   constructor() { }
 

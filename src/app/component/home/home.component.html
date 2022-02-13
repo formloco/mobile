@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <div fxLayoutAlign="start center">
+  <div *ngIf="!kioske" fxLayoutAlign="start center">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <img src="assets/parrot.svg" height="42px">
     </button>
@@ -8,12 +8,21 @@
       <button mat-menu-item (click)="upGradeIndexDB()">UpGrade</button>
     </mat-menu>
   </div>
+  <div *ngIf="kioske" fxLayoutAlign="start center">
+    <button mat-icon-button>
+      <img src="assets/parrot.svg" height="42px"> 
+    </button>
+    <div class="text-color">formloco</div>
+  </div>
   <span class="toolbar-spacer"></span>
-  <div fxLayoutGap="20px" fxLayoutAlign="space-around center">
-    <mat-icon class="hand text-color" (click)="openNotifications(1)">border_color</mat-icon>
-    <mat-icon class="hand text-color" (click)="openNotifications(0)" matBadge="{{notificationCount$ | async}}"
-      matBadgeColor="accent">notifications</mat-icon>
-    <mat-icon class="hand text-color" (click)="openProfile()">person</mat-icon>
+  <div class="text-color" fxLayoutAlign="space-around center">
+    <a *ngIf="kioske" mat-icon-button (click)="openNotifications(0)" target="blank" color="primary">
+      <mat-icon class="material-icons-outlined" matBadge="{{notificationCount$ | async}}">dynamic_form</mat-icon>
+    </a>
+    <mat-icon *ngIf="!kioske" class="hand" (click)="openProfile()">person</mat-icon>
+    <a *ngIf="kioske" mat-icon-button href='{{signinUrl}}' target="blank" color="primary">
+      <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>
+    </a>
   </div>
 </mat-toolbar>
 <div class="form-padding" *ngFor="let formObj of (forms$ | async)">
@@ -24,6 +33,17 @@
       </div>
       <mat-card-title class="text-color">{{ formObj.name }}</mat-card-title>
       <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
+<div *ngIf="kioske" class="footer">
+  <mat-card class="custom hand">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon color="primary" class="form-icon text-color material-icons-outlined">phone_android</mat-icon>
+      </div>
+      <mat-card-title class="primary-color">Sign up Now!</mat-card-title>
+      <mat-card-subtitle class="primary-color">Get Mobile - Get Digitalized</mat-card-subtitle>
     </mat-card-header>
   </mat-card>
 </div>
