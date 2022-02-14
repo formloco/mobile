@@ -42,7 +42,6 @@ export class FormComponent {
     private apiService: ApiService,
     private bottomSheet: MatBottomSheet) {
     this.runForm = this.fb.group({})
-    console.log("got here")
   }
 
   openPdf() {

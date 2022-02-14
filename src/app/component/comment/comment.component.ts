@@ -12,6 +12,7 @@ import { CommentState } from './state/comment.state'
 
 import { AppService } from "../../service/app.service"
 import { CorrectiveActionComponent } from "../corrective-action/corrective-action.component"
+import { CorrectiveActionState } from "../corrective-action/state/corrective-action.state"
 
 @Component({
   selector: 'app-comment',
@@ -54,7 +55,20 @@ export class CommentComponent implements OnInit {
     else comments[commentIdx].text = comments[commentIdx].text + this.commentForm.controls['comment'].value
       
     this.store.dispatch(new SetComments(comments))
-    this.dialogRef.close()
+    this.dialogRef.close(true)
+  }
+
+  delete() {
+    const comments = _.cloneDeep(this.store.selectSnapshot(CommentState.comments))
+    const commentIdx = comments.findIndex(c => c.field == this.data.field)
+    const correctiveActions = _.cloneDeep(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
+    const correctiveActionsIdx = correctiveActions.findIndex(c => c.field == this.data.field)
+  
+    if (commentIdx != -1) comments.splice(commentIdx, 1)
+    if (correctiveActionsIdx != -1) comments.splice(correctiveActionsIdx, 1)
+    console.log(comments)
+    this.store.dispatch(new SetComments(comments))
+    this.dialogRef.close(false)
   }
 
   openVoice() {

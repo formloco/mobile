@@ -34,6 +34,11 @@ export class CommentState {
     return state.type
   }
 
+  @Selector()
+  static commentLabel(state: CommentStateModel) { 
+    return state.label
+  }
+
   @Action(CommentActions.SetComments)
   onSetComment(ctx: StateContext<CommentStateModel>, { comments }: CommentActions.SetComments) {
     ctx.patchState({
@@ -62,6 +67,14 @@ export class CommentState {
     // comments.indexOf(c => c.type === type);
     ctx.patchState({
       type: type
+    });
+  }
+
+  
+  @Action(CommentActions.SetLabel)
+  onSetLabel(ctx: StateContext<CommentStateModel>, { label }: CommentActions.SetLabel) {
+    ctx.patchState({
+      label: label
     });
   }
 

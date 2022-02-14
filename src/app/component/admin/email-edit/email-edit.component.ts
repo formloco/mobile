@@ -41,7 +41,6 @@ export class EmailEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.kioske)
     this.id = this.appService.dataSource.data[this.data.idx]["id"]
     this.admin = this.appService.dataSource.data[this.data.idx]["admin"]
     this.worker = this.appService.dataSource.data[this.data.idx]["worker"]

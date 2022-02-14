@@ -81,7 +81,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
-      console.log(formData)
       if (formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])

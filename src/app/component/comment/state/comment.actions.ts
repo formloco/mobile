@@ -15,6 +15,11 @@ export class SetText {
   constructor(public text: string) {}
 }
 
+export class SetLabel {
+  static type = '[CommentStateModel] SetLabel'
+  constructor(public label: string) {}
+}
+
 export class SetTypeFilter {
   static type = '[CommentStateModel] SetTypeFilter'
   constructor(public type: string) {}

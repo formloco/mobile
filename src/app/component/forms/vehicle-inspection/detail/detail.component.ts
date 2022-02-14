@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 import { AppService } from "../../../../service/app.service"
+import { CommentComponent } from '../../../comment/comment.component'
 
-import { DetailCommentsComponent } from '../detail-comments/detail-comments.component'
+// import { DetailCommentsComponent } from '../detail-comments/detail-comments.component'
 
 import { Store } from '@ngxs/store'
 import { VehicleInspectionState } from '../state/vehicle-inspection.state'
@@ -28,24 +29,12 @@ export class DetailComponent {
     private dialog: MatDialog,
     public appService: AppService) { }
 
-  setCheckboxes() {
-    const selectedComments = this.store.selectSnapshot(VehicleInspectionState.selectedComments)
-    selectedComments.forEach(element => {
-      this.detailForm.controls[element].patchValue(true)
-    });
-  }
-
-  openComments(fieldName) {
+  openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
-    dialogConfig.minHeight = 400
-    dialogConfig.minWidth = window.innerWidth
-    dialogConfig.data = {
-      detailForm: this.detailForm,
-      fieldName: fieldName,
-      formControlName: fieldName+'Comments'
-    };
-    const dialogRef = this.dialog.open(DetailCommentsComponent, dialogConfig).afterClosed().subscribe(() => {
-      this.setCheckboxes()
+    dialogConfig.width = '100%'
+    dialogConfig.data = { title: label, label: label, field: field, type: 'isVehicleInspection' }
+    this.dialog.open(CommentComponent, dialogConfig).afterClosed().subscribe((isSave) => {
+      this.detailForm.controls[field].patchValue(isSave)
     })
   }
 

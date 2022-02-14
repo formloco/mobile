@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DescrepancyComponent } from './discrepancy.component';
+import { DiscrepancyComponent } from './discrepancy.component';
 
-describe('DescrepancyComponent', () => {
-  let component: DescrepancyComponent;
-  let fixture: ComponentFixture<DescrepancyComponent>;
+describe('DiscrepancyComponent', () => {
+  let component: DiscrepancyComponent;
+  let fixture: ComponentFixture<DiscrepancyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DescrepancyComponent ]
+      declarations: [ DiscrepancyComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DescrepancyComponent);
+    fixture = TestBed.createComponent(DiscrepancyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

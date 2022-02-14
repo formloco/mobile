@@ -16,10 +16,12 @@
   </div>
   <span class="toolbar-spacer"></span>
   <div class="text-color" fxLayoutAlign="space-around center">
-    <a *ngIf="kioske" mat-icon-button (click)="openNotifications(0)" target="blank" color="primary">
-      <mat-icon class="material-icons-outlined" matBadge="{{notificationCount$ | async}}">dynamic_form</mat-icon>
+    <a mat-icon-button (click)="openNotifications(0)" color="primary">
+      <mat-icon class="material-icons-outlined" matBadge="{{notificationCount$ | async}}">notifications</mat-icon>
     </a>
-    <mat-icon *ngIf="!kioske" class="hand" (click)="openProfile()">person</mat-icon>
+    <a *ngIf="!kioske" mat-icon-button (click)="openProfile()" color="primary">
+      <mat-icon class="material-icons-outlined">person</mat-icon>
+    </a>
     <a *ngIf="kioske" mat-icon-button href='{{signinUrl}}' target="blank" color="primary">
       <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>
     </a>

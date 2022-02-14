@@ -124,7 +124,6 @@ export class NotificationOpenComponent implements OnInit{
       const form = forms.find(f => f.form_id == notification.form_id)
       this.store.dispatch(new SetSelectedForm(form))
       // this.idbCrudService.readAll('pics').subscribe((pics:any) => {
-      //   console.log(pics)
       //   if (pics[0].length > 0) {
       //     this.picArray = pics[0].find(p => p.id == notification.pdf)
       //     this.store.dispatch(new SetPics(this.picArray["pics"]))

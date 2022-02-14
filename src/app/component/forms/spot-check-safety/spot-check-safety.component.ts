@@ -21,9 +21,12 @@ import { DeviceState } from '../../../state/device/device.state'
 import { SetPics } from '../../../state/device/device-state.actions'
 import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
 
+import { SetComments } from '../../comment/state/comment.actions'
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
-
+// import { SetCorrectiveActions } from '../../../state/notification/notification-state.actions'
+import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions';
 import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state';
+
 
 @Component({
   selector: 'app-spot-check-safety',
@@ -220,10 +223,16 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.PersonalEquipmentComments)
     }
 
-    if (data.discrepancy) {
-      this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
+    // if (data.discrepancyComments.Discrepancy) {
+    //   this.store.dispatch(new SetComments(data.correctiveAction))
+    //   this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancyComments.Discrepancy)
+    // }
+console.log(data,data.correctiveAction)
+    if (data.correctiveAction) {
+      this.store.dispatch(new SetComments(data.correctiveAction))
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
     }
-console.log(data)
+
   }
 
   updateForm() {
@@ -265,7 +274,6 @@ console.log(data)
   }
 
   submitForm() {
-    console.log(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
@@ -313,7 +321,7 @@ console.log(data)
       correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
 
     }
-console.log(obj)
+
     this.apiService.save(obj).subscribe(idObj => {
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)

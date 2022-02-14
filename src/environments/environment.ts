@@ -5,7 +5,7 @@ import { Formloco } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
-  kioske: true,
+  kioske: false,
   designerUrl: Formloco.designerUrl,
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,

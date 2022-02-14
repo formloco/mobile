@@ -14,7 +14,6 @@ import { FormBuilder, FormGroup } from "@angular/forms"
 
 import { MatSnackBar } from '@angular/material/snack-bar'
 
-import { VEHICLE_INSPECTION } from './state/vehicle-inspection-state.model'
 
 import { environment } from '../../../../environments/environment'
 
@@ -24,11 +23,18 @@ import { DeviceState } from '../../../state/device/device.state'
 
 import { VehicleInspectionState } from './state/vehicle-inspection.state'
 import { SetIsHeaderValid } from './state/vehicle-inspection-state.actions'
+import { VEHICLE_INSPECTION, LABEL } from './state/vehicle-inspection-state.model'
 
 import { SetPics } from '../../../state/device/device-state.actions'
 import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
 
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
+
+import { CommentState } from '../../comment/state/comment.state'
+import { SetLabel, SetComments } from '../../comment/state/comment.actions'
+
+import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state'
+import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions' 
 
 @Component({
   selector: 'app-vehicle-inspection',
@@ -133,9 +139,9 @@ export class VehicleInspectionComponent implements OnInit {
       SpillKit: [],
       SpillKitComments: []
     })
-    this.discrepancyForm = this.formBuilder.group({
-      Discrepancy: [null]
-    })
+    // this.discrepancyForm = this.formBuilder.group({
+    //   Discrepancy: [null]
+    // })
   }
 
   ngOnInit(): void {
@@ -230,8 +236,12 @@ export class VehicleInspectionComponent implements OnInit {
       this.detailForm.controls['SpillKitComments'].setValue(data.detail.Year)
     }
 
-    if (data.discrepancy) {
-      this.discrepancyForm.controls['SpillKitComments'].setValue(data.discrepancy.Discrepancy)
+    if (data.comments) {
+      this.store.dispatch(new SetComments(data.comments))
+    }
+
+    if (data.correctiveActions) {
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
     }
 
   }
@@ -255,7 +265,8 @@ export class VehicleInspectionComponent implements OnInit {
     let data = {
       header: header,
       detail: this.detailForm.value,
-      discrepancy: this.discrepancyForm.value
+      comments: this.store.selectSnapshot(CommentState.comments),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
     dataObj.push(null)
@@ -280,6 +291,7 @@ export class VehicleInspectionComponent implements OnInit {
     }
 
     this.apiService.save(obj).subscribe(idObj => {
+      
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)
       const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
@@ -359,7 +371,9 @@ export class VehicleInspectionComponent implements OnInit {
       && header.Division != null
       && header.Mileage != null
       && header.Year != null
-      && header.RegistrationDate != null) this.store.dispatch(new SetIsHeaderValid(true))
+      && header.RegistrationDate != null) 
+    this.store.dispatch(new SetLabel(LABEL))
+      this.store.dispatch(new SetIsHeaderValid(true))
   }
 
 }
