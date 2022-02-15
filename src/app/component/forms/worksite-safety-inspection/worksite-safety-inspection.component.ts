@@ -28,6 +28,11 @@ import { SetPics } from '../../../state/device/device-state.actions'
 import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
 
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
+import { CommentState } from '../../comment/state/comment.state'
+import { SetComments } from '../../comment/state/comment.actions'
+
+import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state'
+import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions'
 
 @Component({
   selector: 'app-worksite-safety-inspection',
@@ -39,6 +44,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   @Select(WorksiteSafetyInspectionState.isWorksiteSafetyHeaderValid) isWorksiteSafetyHeaderValid$: Observable<boolean>
 
   pics
+  isEdit = false
+  formData
   formDataID
   step = 0
   history = []
@@ -186,9 +193,16 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(AuthState.formData).subscribe(data => {
-      if (data) this.setFormData(data)
+    this.store.select(AuthState.formData).subscribe(formData => {
+      this.formData = formData
+      if (formData["data"]) {
+        this.isEdit = true
+        this.setFormData(formData["data"])
+      }
     })
+    // this.store.select(AuthState.formData).subscribe(data => {
+    //   if (data) this.setFormData(data)
+    // })
     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(true))
   }
 
@@ -302,12 +316,61 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     if (data.keyPositiveFindings) {
       this.keyPositiveFindingsForm.controls['OtherCommentsKeyPositiveFindings'].setValue(data.keyPositiveFindings.OtherCommentsKeyPositiveFindings)
     }
-    if (data.discrepancy) {
-      this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancy.Discrepancy)
-    }
+
     if (data.comment) {
       this.commentForm.controls['CommentsAndRequiredActionItems'].setValue(data.comment.CommentsAndRequiredActionItems)
     }
+
+    if (data.comments) {
+      this.store.dispatch(new SetComments(data.comments))
+    }
+
+    if (data.correctiveActions) {
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
+    }
+  }
+
+  updateForm() {
+    // const user = this.store.selectSnapshot(AuthState.user)
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+
+    let header = this.headerForm.value
+    header.Worker = this.autoCompleteService.workersControl.value
+    header.Supervisor = this.autoCompleteService.supervisorsControl.value
+
+    let data = {
+      header: header,
+      erpPlanning: this.erpPlanningForm.value,
+      jobsite: this.jobsiteForm.value,
+      fireExtinguisher: this.fireExtinguisherForm.value,
+      ground: this.groundForm.value,
+      confinedSpace: this.confinedSpaceForm.value,
+      hotWork: this.hotWorkForm.value,
+      equipment: this.equipmentForm.value,
+      keyPositiveFindings: this.keyPositiveFindingsForm.value,
+      comments: this.store.selectSnapshot(CommentState.comments),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
+      hazard: this.hazardForm.value,
+      comment: this.commentForm.value
+    }
+
+    const obj = {
+      id: form["id"],
+      data: data,
+      data_id: this.formData["id"],
+      form_id: form["form_id"],
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      pics: this.store.selectSnapshot(DeviceState.pics)
+      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+    }
+    this.apiService.update(obj).subscribe((res) => {
+      this.resetForm()
+      this.snackBar.open(res["data"].message, 'Success', {
+        duration: 3000,
+        verticalPosition: 'bottom'
+      })
+    })
+
   }
 
   submitForm() {
@@ -333,7 +396,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       hotWork: this.hotWorkForm.value,
       equipment: this.equipmentForm.value,
       keyPositiveFindings: this.keyPositiveFindingsForm.value,
-      discrepancy: this.discrepancyForm.value,
+      comments: this.store.selectSnapshot(CommentState.comments),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
       hazard: this.hazardForm.value,
       comment: this.commentForm.value
     }
@@ -390,24 +454,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       }
 
       this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
-        this.headerForm.reset()
-        this.erpPlanningForm.reset()
-        this.hazardForm.reset()
-        this.jobsiteForm.reset()
-        this.fireExtinguisherForm.reset()
-        this.groundForm.reset()
-        this.confinedSpaceForm.reset()
-        this.hotWorkForm.reset()
-        this.equipmentForm.reset()
-        this.discrepancyForm.reset()
-        this.keyPositiveFindingsForm.reset()
-        this.commentForm.reset()
-        this.store.dispatch(new SetPage('home'))
-        this.store.dispatch(new SetChildPage('Forms'))
-        this.store.dispatch(new SetPics([]))
-        this.autoCompleteService.workersControl.setValue('')
-        this.autoCompleteService.supervisorsControl.setValue('')
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
+        this.resetForm()
 
         this.snackBar.open(myNotifications.message, 'Success', {
           duration: 3000,
@@ -443,6 +491,26 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       && header.Division != null
       && header.JobNumber != null
       && header.ScopeOfWork != null) this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
+  }
+
+  resetForm() {
+    this.headerForm.reset()
+    this.erpPlanningForm.reset()
+    this.hazardForm.reset()
+    this.jobsiteForm.reset()
+    this.fireExtinguisherForm.reset()
+    this.groundForm.reset()
+    this.confinedSpaceForm.reset()
+    this.hotWorkForm.reset()
+    this.equipmentForm.reset()
+    this.discrepancyForm.reset()
+    this.keyPositiveFindingsForm.reset()
+    this.commentForm.reset()
+    this.store.dispatch(new SetPage('home'))
+    this.store.dispatch(new SetChildPage('Forms'))
+    this.store.dispatch(new SetPics([]))
+    this.autoCompleteService.workersControl.setValue('')
+    this.autoCompleteService.supervisorsControl.setValue('')
   }
 
 }

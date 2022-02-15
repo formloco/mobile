@@ -17,6 +17,7 @@ import { environment } from '../../../../environments/environment'
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
+import { CommentState } from '../../comment/state/comment.state'
 
 import { SetPics } from '../../../state/device/device-state.actions'
 import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
@@ -223,13 +224,11 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.PersonalEquipmentComments)
     }
 
-    // if (data.discrepancyComments.Discrepancy) {
-    //   this.store.dispatch(new SetComments(data.correctiveAction))
-    //   this.discrepancyForm.controls['Discrepancy'].setValue(data.discrepancyComments.Discrepancy)
-    // }
-console.log(data,data.correctiveAction)
+    if (data.comments) {
+      this.store.dispatch(new SetComments(data.comments))
+    }
+
     if (data.correctiveAction) {
-      this.store.dispatch(new SetComments(data.correctiveAction))
       this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
     }
 
@@ -251,7 +250,8 @@ console.log(data,data.correctiveAction)
       personalEquipment: this.personalEquipmentForm.value,
       safetyEquipment: this.safetyEquipmentForm.value,
       discrepancyComments: this.discrepancyForm.value,
-      correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+      comments: this.store.selectSnapshot(CommentState.comments),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
     const obj = {

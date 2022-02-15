@@ -82,7 +82,6 @@ import { WorksiteSafetyJobsiteComponent } from './component/forms/worksite-safet
 import { WorksiteSafetyCommentsComponent } from './component/forms/worksite-safety-inspection/worksite-safety-comments/worksite-safety-comments.component'
 import { WorksiteSafetyEquipmentComponent } from './component/forms/worksite-safety-inspection/worksite-safety-equipment/worksite-safety-equipment.component'
 import { WorksiteSafetyErpPlanningComponent } from './component/forms/worksite-safety-inspection/worksite-safety-erp-planning/worksite-safety-erp-planning.component'
-// import { WorksiteSafetyDiscrepancyComponent } from './component/forms/worksite-safety-inspection/worksite-safety-discrepancy/worksite-safety-discrepancy.component'
 import { WorksiteFireExtinguisherComponent } from './component/forms/worksite-safety-inspection/worksite-fire-extinguisher/worksite-fire-extinguisher.component'
 import { WorksiteSafetyConfinedSpaceComponent } from './component/forms/worksite-safety-inspection/worksite-safety-confined-space/worksite-safety-confined-space.component'
 import { WorksiteSafetyHotWorkComponent } from './component/forms/worksite-safety-inspection/worksite-safety-hot-work/worksite-safety-hot-work.component'
@@ -148,7 +147,6 @@ import { SpotCheckSafetyHeaderComponent } from './component/forms/spot-check-saf
 import { ActionMeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/action-meaningful-site-tour/action-meaningful-site-tour.component';
 import { ActionSpotCheckSafetyComponent } from './component/forms/spot-check-safety/action-spot-check-safety/action-spot-check-safety.component';
 import { ActionWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/action-worksite-safety-inspection/action-worksite-safety-inspection.component';
-// import { DiscrepancySpotCheckSafetyComponent } from './component/forms/spot-check-safety/discrepancy-spot-check-safety/discrepancy-spot-check-safety.component';
 import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component';
 import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component';
 import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component';
@@ -215,7 +213,6 @@ import { KioskeComponent } from './component/admin/kioske/kioske.component';
     WorksiteSafetyCommentsComponent,
     WorksiteSafetyEquipmentComponent,
     WorksiteSafetyErpPlanningComponent,
-    // WorksiteSafetyDiscrepancyComponent,
     WorksiteFireExtinguisherComponent,
     WorksiteSafetyConfinedSpaceComponent,
     WorksiteSafetyHotWorkComponent,
@@ -247,7 +244,6 @@ import { KioskeComponent } from './component/admin/kioske/kioske.component';
     ActionSpotCheckSafetyComponent,
     ActionWorksiteSafetyInspectionComponent,
     BottomSheetWorksiteSafetyInspectionComponent,
-    // DiscrepancySpotCheckSafetyComponent,
     BottomSheetCommentComponent,
     CorrectiveActionComponent,
     WorksiteKeyPositiveFindingComponent,

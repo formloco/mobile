@@ -14,7 +14,6 @@ import { FormBuilder, FormGroup } from "@angular/forms"
 
 import { MatSnackBar } from '@angular/material/snack-bar'
 
-
 import { environment } from '../../../../environments/environment'
 
 import { Store, Select } from '@ngxs/store'
@@ -46,6 +45,7 @@ export class VehicleInspectionComponent implements OnInit {
   @Select(VehicleInspectionState.isHeaderValid) isHeaderValid$: Observable<boolean>
 
   pics
+  formData
   formDataID
   step = 0
   history = []
@@ -57,9 +57,11 @@ export class VehicleInspectionComponent implements OnInit {
 
   VEHICLE_INSPECTION = VEHICLE_INSPECTION
 
+  isEdit = false
   isPanelOpen = false
 
   apiURL = environment.apiUrl
+  kioske = environment.kioske
   messageUrl = environment.messageUrl
   tenant_id = environment.tenant.tenant_id
 
@@ -145,8 +147,14 @@ export class VehicleInspectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(AuthState.formData).subscribe(data => {
-      if (data) this.setFormData(data)
+    // console.log(this.headerForm.valid,this.isEdit, this.kioske)
+    this.store.select(AuthState.formData).subscribe((data:any) => {
+      this.formData = data
+      console.log(this.formData)
+      if (this.formData.length > 0) {
+        this.isEdit = true
+        this.setFormData(data)
+      }
     })
   }
 
@@ -245,9 +253,40 @@ export class VehicleInspectionComponent implements OnInit {
     }
 
   }
+
+  updateForm() {
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+
+    let header = this.headerForm.value
+    header.Make = this.autoCompleteService.makesControl.value
+    header.Model = this.autoCompleteService.modelsControl.value
+    header.Worker = this.autoCompleteService.workersControl.value
+    header.Supervisor = this.autoCompleteService.supervisorsControl.value
+
+    let data = {
+      header: header,
+      detail: this.detailForm.value,
+      comments: this.store.selectSnapshot(CommentState.comments),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+    }
+    
+    const obj = {
+      id: form["id"],
+      data: data,
+      data_id: this.formData["id"],
+      form_id: form["form_id"],
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+    }
+    this.apiService.update(obj).subscribe((res) => {
+      this.snackBar.open(res["data"].message, 'Success', {
+        duration: 3000,
+        verticalPosition: 'bottom'
+      })
+    })
+  }
   
   submitForm() {
-
     let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
@@ -371,9 +410,11 @@ export class VehicleInspectionComponent implements OnInit {
       && header.Division != null
       && header.Mileage != null
       && header.Year != null
-      && header.RegistrationDate != null) 
-    this.store.dispatch(new SetLabel(LABEL))
-      this.store.dispatch(new SetIsHeaderValid(true))
+      && header.RegistrationDate != null) {
+        this.store.dispatch(new SetLabel(LABEL))
+        this.store.dispatch(new SetIsHeaderValid(true))
+      }
+    
   }
 
 }

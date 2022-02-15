@@ -227,10 +227,11 @@ const dataUpdateSQL = async (dataObj) => {
 
   // store base64 for update to document later
   if (dataObj.pics.length > 0) {
-
     fs.mkdir(directory, (err) => {
       if (err) return
     })
+
+    // let pics = JSON.parse(dataObj["pics"])
 
     dataObj.pics.forEach((element) => {
       let base64Data = `"` + element.slice(24)

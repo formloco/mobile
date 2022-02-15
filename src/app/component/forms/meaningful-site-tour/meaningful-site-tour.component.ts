@@ -72,15 +72,16 @@ export class MeaningfulSiteTourComponent implements OnInit {
       FormalAuditInspection: []
     })
     this.notesForm = this.formBuilder.group({
-      PositiveObservations: [],
-      ImprovementOpportunities: [],
-      FeedbackSummary: []
+      PositiveObservations: [null, Validators.required],
+      ImprovementOpportunities: [null, Validators.required],
+      FeedbackSummary: [null, Validators.required]
     })
   }
 
   ngOnInit(): void {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
+      console.log(this.formData)
       if (formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
@@ -154,7 +155,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
       data_id: this.formData["id"],
       form_id: form["form_id"],
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
-      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+      pics: this.store.selectSnapshot(DeviceState.pics)
+
+      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
     this.apiService.update(obj).subscribe((res) => {
       this.snackBar.open(res["data"].message, 'Success', {
