@@ -19,29 +19,28 @@ const pool = new Pool({
   port: process.env.PORT
 })
 
-function buildPDFReport(docID, form_id, pdfPath, dataID, pics, signDate, comments) {
+function buildPDFReport(docID, form_id, pdfPath, dataID, signDate, comments) {
 
   if (docID == 'vehicle-inspection') {
-    vehicleInspectionPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
+    vehicleInspectionPDF(form_id, pdfPath, dataID, signDate, comments), (err) => {
       if (err) return err
     }
   }
 
   if (docID == 'worksite-safety-inspection') {
-    worksiteSafetyInspectionPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
+    worksiteSafetyInspectionPDF(form_id, pdfPath, dataID, signDate, comments), (err) => {
       if (err) return err
     }
   }
 
   if (docID == 'spot-check-safety') {
-    
-    spotCheckSafetyPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
+    spotCheckSafetyPDF(form_id, pdfPath, dataID, signDate, comments), (err) => {
       if (err) return err
     }
   }
 
   if (docID == 'meaningful-site-tour') {
-    meaningfulSiteTourPDF(form_id, pdfPath, dataID, pics, signDate, comments), (err) => {
+    meaningfulSiteTourPDF(form_id, pdfPath, dataID, signDate, comments), (err) => {
       if (err) return err
     }
   }
@@ -142,52 +141,43 @@ const dataCreateSQL = async (dataObj) => {
   const dataID = newFormID["rows"]["0"]["id"]
 
   if (dataObj.correctiveActions && dataObj.correctiveActions.length > 0) {
-
     dataObj.correctiveActions.forEach(action => {
-      client.query(`INSERT INTO inspection(form_id, data_id, corrective_action, corrective_action_label, type, location, date_requested, date_completed, person_responsible) VALUES ( '` + dataObj["formObj"]["form_id"] + `', ` + dataID + `, '` + action["correctiveActionRequired"] + `', '` + action["label"] + `', '` + action["type"] + `', '` + dataObj.location + `', '` + action["dateToComplete"] + `', '` + action["dateCompleted"] + `', '` + action["personResponsible"] + `')`)
+      client.query(`INSERT INTO inspection(form_id, data_id, action_item, corrective_action, corrective_action_label, type, location, date_requested, date_completed, person_responsible) VALUES ( '` + dataObj["formObj"]["form_id"] + `', ` + dataID + `, '` + action["actionItem"] + `', '` + `, '` + action["correctiveActionRequired"] + `', '` + action["label"] + `', '` + action["type"] + `', '` + dataObj.location + `', '` + action["dateToComplete"] + `', '` + action["dateCompleted"] + `', '` + action["personResponsible"] + `')`)
     })
-
   }
 
   // ensure form meta data is set to is_data = true
   await client.query(`UPDATE form SET is_data = true WHERE form_id = '` + dataObj["formObj"]["form_id"] + `'`)
 
-  // pdfPath for database link
-  const pdfPath = docPath + docID + dataID + '.pdf'
+  const path = docPath + docID + dataID
   const pdfLink = dataObj.formObj.form.id + dataID + '.pdf'
 
   // update form data with path to pdf
   await client.query(`UPDATE "` + dataObj["formObj"]["form_id"] + `" SET pdf = '` + pdfLink + `' WHERE id = ` + dataID)
-
-  let pics = JSON.parse(dataObj["pics"])
-
-  // store base64 for update to document later
-  if (pics.length > 0) {
-    fs.mkdir(docPath + docID + dataID, (err) => {
-
-      if (err) return err
-
-      // write image file
-      pics.forEach((element, index) => {
-        let imgData = JSON.stringify(element)
-        let base64Data = `"` + imgData.slice(24)
-        const buffer = Buffer.from(base64Data, "base64")
-        let cnt = index + 1
-        fs.writeFile(docPath + docID + dataID + '/' + cnt, buffer, (err) => {
-          if (err) return err
-        })
-      })
-    })
-  }
 
   const comments = [{
     "date": dataObj["date"],
     "message": "Created by " + dataObj["user"]["email"]
   }]
 
-  client.release()
+  // store base64 for update to document later
+  if (dataObj["pics"].length > 0) {
+    fs.mkdir(docPath + docID + dataID, (err) => {
 
-  buildPDFReport(docID, dataObj["formObj"]["form_id"], pdfPath, dataID, pics, null, comments)
+      if (err) return err
+      // write image file
+      dataObj["pics"].forEach((element, index) => {
+        let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
+        const buffer = Buffer.from(base64Data, "base64")
+        fs.writeFile(path + '/' + index + '.jpeg', buffer, (err) => {
+          if (err) return err
+        })
+      })
+      buildPDFReport(docID, dataObj["formObj"]["form_id"], path, dataID, null, comments)
+    })
+  } else buildPDFReport(docID, dataObj["formObj"]["form_id"], path, dataID, null, comments)
+  
+  client.release()
 
   return dataID
 }
@@ -208,49 +198,44 @@ const dataUpdateSQL = async (dataObj) => {
 
   const docId = dataObj.data.id
   if (dataObj.data.correctiveAction && dataObj.data.correctiveAction.length > 0) {
-    await client.query(`DELETE inspection WHERE form_id = '` + form.form_id + `')`)
+    await client.query(`DELETE inspection WHERE data_id = '` + dataObj.data_id + `')`)
 
     for (let j = 0; j < dataObj.data.correctiveAction.length; j++) {
-      await client.query(`INSERT INTO inspection(form_id, data_id, corrective_action, corrective_action_label, type, location, date_requested, date_completed, person_responsible) VALUES ( '` + dataObj["formObj"]["form_id"] + `', ` + dataObj.data_id + `, '` + action["correctiveActionRequired"] + `', '` + action["label"] + `', '` + action["type"] + `', '` + dataObj.location + `', '` + action["dateToComplete"] + `', '` + action["dateCompleted"] + `', '` + action["personResponsible"] + `')`)
+      await client.query(`INSERT INTO inspection(form_id, data_id, action_item, corrective_action, corrective_action_label, type, location, date_requested, date_completed, person_responsible) VALUES ( '` + dataObj["formObj"]["form_id"] + `', ` + dataObj.data_id + `, '` + action["actionItem"] + `', '` + action["correctiveActionRequired"] + `', '` + action["label"] + `', '` + action["type"] + `', '` + dataObj.location + `', '` + action["dateToComplete"] + `', '` + action["dateCompleted"] + `', '` + action["personResponsible"] + `')`)
     }
   }
 
   client.release()
 
-  const directory = docPath + dataObj.id + dataObj.data_id
+  const path = docPath + dataObj.id + dataObj.data_id
 
-  let count = 0
-  fs.readdir(directory, (err, files) => {
+  fs.readdir(path, (err, files) => {
     if (err) return;
-    count = files.length
-  });
+    let count = files.length + 1
 
-  // store base64 for update to document later
-  if (dataObj.pics.length > 0) {
-    fs.mkdir(directory, (err) => {
-      if (err) return
-    })
-
-    // let pics = JSON.parse(dataObj["pics"])
-
-    dataObj.pics.forEach((element) => {
-      let base64Data = `"` + element.slice(24)
-      const buffer = Buffer.from(base64Data, "base64")
-      fs.writeFile(directory + '/' + count, buffer, (err) => {
+    // store base64 for update to document later
+    if (dataObj.pics.length > 0) {
+      fs.mkdir(path, (err) => {
         if (err) return
       })
 
-    })
-  }
-
-  const pdfPath = docPath + dataObj.id + dataObj.data_id + '.pdf'
+      dataObj.pics.forEach((element) => {
+        let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
+        const buffer = Buffer.from(base64Data, "base64")
+        fs.writeFile(path + '/' + count + '.jpeg', buffer, (err) => {
+          if (err) return
+        })
+        count = count + 1
+      })
+    }
+  });
 
   const comments = [{
     "date": dataObj.data.header.Date,
     "message": "Updated by " + dataObj.data.header.Worker
   }]
 
-  buildPDFReport(dataObj.id, dataObj.form_id, pdfPath, dataObj.data_id, dataObj.pics, null, comments)
+  buildPDFReport(dataObj.id, dataObj.form_id, path, dataObj.data_id, null, comments)
 
   return { message: 'Report Update Successful' }
 }

@@ -34,6 +34,7 @@ export class CorrectiveActionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data.actionItem)
     const correctiveActions = this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
     
@@ -54,6 +55,7 @@ export class CorrectiveActionComponent implements OnInit {
       correctiveActions.push({
         label: this.data.label,
         dateToComplete: this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value,
+        actionItem: this.data.actionItem,
         correctiveActionRequired: this.correctiveActionForm.controls['CorrectiveActionRequired'].value,
         personResponsible: this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].value,
         dateCompleted: this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value,

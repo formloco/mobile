@@ -22,7 +22,7 @@ const pool = new Pool({
   port: process.env.PORT
 })
 
-async function vehicleInspectionPDF(formID, pdfPath, docID, pics, signDate, comments) {
+async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -39,18 +39,54 @@ async function vehicleInspectionPDF(formID, pdfPath, docID, pics, signDate, comm
       messages.push(str)
     }
   }
-  
-  let images = []
-  for (let j = 0; j < pics.length; j++) {
-    images.push({image: pics[j], width: 500})
-  }
-  
-  let client = await pool.connect()
-  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [docID])
 
+  let images = []
+  fs.readdir(path, (err, files) => {
+    if (err) return;
+    if (files && files.length > 0) {
+      for (let j = 0; j < files.length; j++) {
+        const img = path + '/' + files[j]
+        images.push({ image: img, width: 500 })
+      }
+    }
+  })
+
+  let client = await pool.connect()
+  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [dataID])
+  // let inspection = await client.query(`SELECT * FROM inspection WHERE data_id = $1`, [dataID])
+
+  console.log(formData.rows[0]["data"])
   let header = formData.rows[0]["data"]["header"]
   let detail = formData.rows[0]["data"]["detail"]
-  let descrepancy = formData.rows[0]["data"]["discrepancy"]["Discrepancy"]
+
+  // let inspectionArray = []
+  // let inspections = 'No Inspection Data'
+
+  // const inspectionHeader = {
+  //   header: {
+  //     col_1: { text: 'Inspection Completed', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
+  //     col_2: { text: 'Type', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
+  //     col_3: { text: 'Action Items', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
+  //     col_4: { text: 'Corrective Action', style: 'tableHeader', alignment: 'center' },
+  //     col_5: { text: 'Corrective Action Date', style: 'tableHeader', alignment: 'center' },
+  //   }
+  // }
+
+  // for (let key in inspection.rows) {
+  //   if (inspection.rows.hasOwnProperty(key)) {
+  //     const data = inspectionData[key];
+  //     const row = new Array();
+  //     row.push(null);
+  //     row.push(data.type);
+  //     row.push(data.corrective_action_label);
+  //     row.push(data.corrective_action);
+  //     row.push(data.action_item);
+  //     inspectionArray.push(row);
+  //   }
+  // }
+
+  // if (inspectionArray.length == 0) {let inspections = 'No Inspection Data'}
+  // let descrepancy = formData.rows[0]["data"]["discrepancy"]["Discrepancy"]
 
   IgnitionKey = detail.IgnitionKey ? '√ Ignition Key' : 'Ignition Key'
   FuelKey = detail.FuelKey ? '√ Fuel Key, if used' : 'Fuel Key, if used'
@@ -162,7 +198,14 @@ async function vehicleInspectionPDF(formID, pdfPath, docID, pics, signDate, comm
       '\nAs you drive, continually check for any strange smells, sounds, vibrations, or Anything that does not feel right.\n',
       '\n**Vehicles should be serviced as per manufacturer’s recommendations and repairs made only by competent accredited personnel.\n',
       '\nFor monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
-      '\nThe following discrepancies were noted: ' + descrepancy + '\n\n',
+      '\n\n',
+      // {
+      //   alignment: 'justify',
+      //   text: 'Inspection Action Items', style: 'subheader'
+      // },
+      // '\n',
+      //   inspections,
+      // '\n',
       {
         alignment: 'justify',
         columns: [
@@ -220,7 +263,7 @@ async function vehicleInspectionPDF(formID, pdfPath, docID, pics, signDate, comm
 
   // create pdf
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
-  pdfDoc.pipe(fs.createWriteStream(pdfPath))
+  pdfDoc.pipe(fs.createWriteStream(path + '.pdf'))
   pdfDoc.end()
 
   // update form data with path to pdf

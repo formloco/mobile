@@ -19,7 +19,7 @@ import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
 
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 
@@ -81,7 +81,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
-      console.log(this.formData)
       if (formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
@@ -156,10 +155,11 @@ export class MeaningfulSiteTourComponent implements OnInit {
       form_id: form["form_id"],
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       pics: this.store.selectSnapshot(DeviceState.pics)
-
-      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
     this.apiService.update(obj).subscribe((res) => {
+      this.resetForm()
+      this.store.dispatch(new SetPage('notification'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
       this.snackBar.open(res["data"].message, 'Success', {
         duration: 3000,
         verticalPosition: 'bottom'
@@ -204,7 +204,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       type: 'custom',
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       name: form["name"],
-      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+      pics: this.store.selectSnapshot(DeviceState.pics)
     }
   
     this.apiService.save(obj).subscribe(idObj => {
@@ -234,13 +234,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
       }
 
       this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
-        this.headerForm.reset()
-        this.notesForm.reset()
+        this.resetForm()
         this.store.dispatch(new SetPage('home'))
         this.store.dispatch(new SetChildPage('Forms'))
-        this.store.dispatch(new SetPics([]))
-        this.autoCompleteService.workersControl.setValue('')
-        this.autoCompleteService.supervisorsControl.setValue('')
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
         this.showSnackBar(myNotifications.message) 
@@ -255,15 +251,16 @@ export class MeaningfulSiteTourComponent implements OnInit {
         }
         this.emailService.sendNotificationEmail(obj).subscribe(() => { })
       })
-      const pics = this.store.selectSnapshot(DeviceState.pics)
-      const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
-
-      const picObj = {
-        id: selectedForm["id"] + this.formDataID,
-        pics: pics
-      }
-      this.idbCrudService.put('pics', picObj)
+      this.idbCrudService.put('pics', [])
     })
+  }
+
+  resetForm() {
+    this.headerForm.reset()
+    this.notesForm.reset()
+    this.store.dispatch(new SetPics([]))
+    this.autoCompleteService.workersControl.setValue('')
+    this.autoCompleteService.supervisorsControl.setValue('')
   }
   
 }

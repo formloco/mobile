@@ -49,7 +49,7 @@ export class CommunicationTrainingComponent implements OnInit {
   }
 
   toggle(field) {
-    this.store.dispatch(new SetIsAppropriateTraining(false))
+    // this.store.dispatch(new SetIsAppropriateTraining(false))
     this.commentService.bottomSheetComment(field, this.communicationForm)
   }
 

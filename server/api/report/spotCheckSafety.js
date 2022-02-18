@@ -22,7 +22,7 @@ const pool = new Pool({
   port: process.env.PORT
 })
 
-async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, comments) {
+async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -41,9 +41,15 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
   }
 
   let images = []
-  for (let j = 0; j < pics.length; j++) {
-    images.push({ image: pics[j], width: 500 })
-  }
+  fs.readdir(path, (err, files) => {
+    if (err) return;
+    if (files && files.length > 0) {
+      for (let j = 0; j < files.length; j++) {
+        const img = path + '/' + files[j]
+        images.push({ image: img, width: 500 })
+      }
+    }
+  })
 
   let client = await pool.connect()
 
@@ -62,14 +68,14 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction);
 
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]]);
-  
+  console.log(allFormData)
   allFormData.forEach(haz => {
-    if (haz[1]) {
+    if (haz[1] === 'unsatisfactory') {
       data.push(haz[0]+'U', '√')
       data.push(haz[0]+'NA', '')
       data.push(haz[0]+'S', '')
     }
-    else if (haz[1] === false) {
+    else if (haz[1] === 'satisfactory') {
       data.push(haz[0]+'S', '√')
       data.push(haz[0]+'NA', '')
       data.push(haz[0]+'U', '')
@@ -297,7 +303,7 @@ async function spotCheckSafetyPDF(formID, pdfPath, docID, pics, signDate, commen
   // create pdf
   // console.log(docDefinition)
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
-  pdfDoc.pipe(fs.createWriteStream(pdfPath))
+  pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()
 
   // update form data with path to pdf

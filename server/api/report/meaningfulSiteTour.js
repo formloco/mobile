@@ -22,7 +22,7 @@ const pool = new Pool({
   port: process.env.PORT
 })
 
-async function meaningfulSiteTourPDF(formID, pdfPath, docID, pics, signDate, comments) {
+async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -41,9 +41,15 @@ async function meaningfulSiteTourPDF(formID, pdfPath, docID, pics, signDate, com
   }
 
   let images = []
-  for (let j = 0; j < pics.length; j++) {
-    images.push({ image: pics[j], width: 500 })
-  }
+  fs.readdir(path, (err, files) => {
+    if (err) return;
+    if (files && files.length > 0) {
+      for (let j = 0; j < files.length; j++) {
+        const img = path + '/' + files[j]
+        images.push({ image: img, width: 500 })
+      }
+    }
+  })
 
   let client = await pool.connect()
   let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [docID])
@@ -146,9 +152,9 @@ async function meaningfulSiteTourPDF(formID, pdfPath, docID, pics, signDate, com
   }
 
   // create pdf
-  console.log(docDefinition)
+  // console.log(docDefinition)
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
-  pdfDoc.pipe(fs.createWriteStream(pdfPath))
+  pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()
 
   // update form data with path to pdf

@@ -5,7 +5,7 @@
     <div class="text-color radio-center">Have you received a safety orientation (When and what)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyOrientation">
-        <mat-radio-button (click)="toggle('SafetyOrientation')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button
           (click)="openComment('Have you received a safety orientation (When and what)','SafetyOrientation')"
           value="unsatisfactory">U</mat-radio-button>
@@ -15,7 +15,7 @@
     <div class="text-color radio-center">How often are safety meetings held</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyMeetingFrequency">
-        <mat-radio-button (click)="toggle('SafetyEquipmentAvailable')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button
           (click)="openComment('How often are safety meetings held (Show examples and documentation)','SafetyMeetingFrequency')"
           value="unsatisfactory">U</mat-radio-button>

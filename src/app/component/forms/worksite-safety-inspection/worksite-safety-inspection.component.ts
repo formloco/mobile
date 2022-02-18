@@ -25,7 +25,7 @@ import { WorksiteSafetyInspectionState } from './state/worksite-safety-inspectio
 import { SetIsWorksiteSafetyHeaderValid } from './state/worksite-safety-inspection-state.actions'
 
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 import { CommentState } from '../../comment/state/comment.state'
@@ -200,9 +200,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         this.setFormData(formData["data"])
       }
     })
-    // this.store.select(AuthState.formData).subscribe(data => {
-    //   if (data) this.setFormData(data)
-    // })
     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(true))
   }
 
@@ -222,16 +219,19 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   setFormData(data) {
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
-      this.headerForm.controls['Client'].setValue(data.header.Date)
-      this.headerForm.controls['Location'].setValue(data.header.Date)
-      this.headerForm.controls['LSDUWI'].setValue(data.header.Date)
-      this.headerForm.controls['Latitude'].setValue(data.header.Date)
-      this.headerForm.controls['Longitude'].setValue(data.header.Date)
-      this.headerForm.controls['SupervisorPhone'].setValue(data.header.Date)
-      this.headerForm.controls['JobNumber'].setValue(data.header.Date)
-      this.headerForm.controls['Division'].setValue(data.header.Date)
-      this.headerForm.controls['STARSSiteNumber'].setValue(data.header.Date)
-      this.headerForm.controls['ScopeOfWork'].setValue(data.header.Date)
+      this.headerForm.controls['Client'].setValue(data.header.Client)
+      this.headerForm.controls['Location'].setValue(data.header.Location)
+      this.headerForm.controls['LSDUWI'].setValue(data.header.LSDUWI)
+      this.headerForm.controls['Latitude'].setValue(data.header.Latitude)
+      this.headerForm.controls['Longitude'].setValue(data.header.Longitude)
+      this.headerForm.controls['SupervisorPhone'].setValue(data.header.SupervisorPhone)
+      this.headerForm.controls['JobNumber'].setValue(data.header.JobNumber)
+      this.headerForm.controls['Division'].setValue(data.header.Division)
+      this.headerForm.controls['STARSSiteNumber'].setValue(data.header.STARSSiteNumber)
+      this.headerForm.controls['ScopeOfWork'].setValue(data.header.ScopeOfWork)
+      this.autoCompleteService.clientsControl.setValue(data.header.Client)
+      this.autoCompleteService.workersControl.setValue(data.header.Worker)
+      this.autoCompleteService.supervisorsControl.setValue(data.header.Supervisor)
     }
     if (data.hazard) {
       this.hazardForm.controls['SiteHazardAssessmentCompleted'].setValue(data.hazard.SiteHazardAssessmentCompleted)
@@ -258,25 +258,25 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.jobsiteForm.controls['SpillKitAvailable'].setValue(data.jobsite.SpillKitAvailable)
     }
     if (data.fireExtinguisher) {
-      this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherInspected'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherVisibleUnobstructed'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherCharged'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherSafetyPinSecured'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherOperatingInstructions'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherNoVisibleDamage'].setValue(data.fireExtinguisher.SpillKitAvailable)
-      this.fireExtinguisherForm.controls['FireExtinguisherCertification'].setValue(data.fireExtinguisherSpillKitAvailable)
+      this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].setValue(data.fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable)
+      this.fireExtinguisherForm.controls['FireExtinguisherInspected'].setValue(data.fireExtinguisher.FireExtinguisherInspected)
+      this.fireExtinguisherForm.controls['FireExtinguisherVisibleUnobstructed'].setValue(data.fireExtinguisher.FireExtinguisherVisibleUnobstructed)
+      this.fireExtinguisherForm.controls['FireExtinguisherCharged'].setValue(data.fireExtinguisher.FireExtinguisherCharged)
+      this.fireExtinguisherForm.controls['FireExtinguisherSafetyPinSecured'].setValue(data.fireExtinguisher.FireExtinguisherSafetyPinSecured)
+      this.fireExtinguisherForm.controls['FireExtinguisherOperatingInstructions'].setValue(data.fireExtinguisher.FireExtinguisherOperatingInstructions)
+      this.fireExtinguisherForm.controls['FireExtinguisherNoVisibleDamage'].setValue(data.fireExtinguisher.FireExtinguisherNoVisibleDamage)
+      this.fireExtinguisherForm.controls['FireExtinguisherCertification'].setValue(data.fireExtinguisher.FireExtinguisherCertification)
 
     }
     if (data.erpPlanning) {
-      this.erpPlanningForm.controls['EmergencyResponsePlanOnSite'].setValue(data.erpPlanning.SpillKitAvailable)
-      this.erpPlanningForm.controls['MusterPointsIdentified'].setValue(data.erpPlanning.SpillKitAvailable)
-      this.erpPlanningForm.controls['STARSNumber'].setValue(data.erpPlanning.SpillKitAvailable)
-      this.erpPlanningForm.controls['ERPIncludesDirectionsToNearestHospital'].setValue(data.erpPlanning.SpillKitAvailable)
-      this.erpPlanningForm.controls['ERPResponderRolesAndResponsibilitiesIdentified'].setValue(data.erpPlanning.SpillKitAvailable)
-      this.erpPlanningForm.controls['CellularOrRadioCoverageConfirmed'].setValue(data.erpPlanning.SpillKitAvailable)
+      this.erpPlanningForm.controls['EmergencyResponsePlanOnSite'].setValue(data.erpPlanning.EmergencyResponsePlanOnSite)
+      this.erpPlanningForm.controls['MusterPointsIdentified'].setValue(data.erpPlanning.MusterPointsIdentified)
+      this.erpPlanningForm.controls['STARSNumber'].setValue(data.erpPlanning.STARSNumber)
+      this.erpPlanningForm.controls['ERPIncludesDirectionsToNearestHospital'].setValue(data.erpPlanning.ERPIncludesDirectionsToNearestHospital)
+      this.erpPlanningForm.controls['ERPResponderRolesAndResponsibilitiesIdentified'].setValue(data.erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified)
+      this.erpPlanningForm.controls['CellularOrRadioCoverageConfirmed'].setValue(data.erpPlanning.CellularOrRadioCoverageConfirmed)
     }
-    if (data.groundForm) {
+    if (data.ground) {
       this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].setValue(data.ground.DoesTheProjectInvolveGroundDisturbance)
       this.groundForm.controls['GroundDisturbanceChecklistIsInPlace'].setValue(data.ground.GroundDisturbanceChecklistIsInPlace)
       this.groundForm.controls['OneCallNotificationHasBeenRegistered'].setValue(data.ground.OneCallNotificationHasBeenRegistered)
@@ -331,7 +331,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   }
 
   updateForm() {
-    // const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
 
     let header = this.headerForm.value
@@ -361,10 +360,11 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       form_id: form["form_id"],
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       pics: this.store.selectSnapshot(DeviceState.pics)
-      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
     this.apiService.update(obj).subscribe((res) => {
       this.resetForm()
+      this.store.dispatch(new SetPage('notification'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
       this.snackBar.open(res["data"].message, 'Success', {
         duration: 3000,
         verticalPosition: 'bottom'
@@ -383,6 +383,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
 
     let header = this.headerForm.value
+    header.Client = this.autoCompleteService.clientsControl.value
     header.Worker = this.autoCompleteService.workersControl.value
     header.Supervisor = this.autoCompleteService.supervisorsControl.value
 
@@ -420,7 +421,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       formObj: this.WORKSITE_SAFETY_INSPECTION,
       type: 'custom',
       name: form["name"],
-      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
+      pics: this.store.selectSnapshot(DeviceState.pics)
     }
 
     this.apiService.save(obj).subscribe(idObj => {
@@ -456,7 +457,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
         this.resetForm()
-
+        this.store.dispatch(new SetPage('home'))
+        this.store.dispatch(new SetChildPage('Forms'))
         this.snackBar.open(myNotifications.message, 'Success', {
           duration: 3000,
           verticalPosition: 'bottom'
@@ -490,7 +492,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       && header.SupervisorPhone != null
       && header.Division != null
       && header.JobNumber != null
-      && header.ScopeOfWork != null) this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
+      && header.ScopeOfWork != null) 
+      this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
   }
 
   resetForm() {
@@ -506,8 +509,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     this.discrepancyForm.reset()
     this.keyPositiveFindingsForm.reset()
     this.commentForm.reset()
-    this.store.dispatch(new SetPage('home'))
-    this.store.dispatch(new SetChildPage('Forms'))
     this.store.dispatch(new SetPics([]))
     this.autoCompleteService.workersControl.setValue('')
     this.autoCompleteService.supervisorsControl.setValue('')

@@ -1,10 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter, NgZone } from '@angular/core'
-
-import { Observable } from 'rxjs'
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 
 import { MatDialog } from "@angular/material/dialog"
 
-import { Store, Select } from '@ngxs/store'
+import { Store } from '@ngxs/store'
 
 import { AppService } from "../../../../service/app.service"
 import { AuthState } from '../../../../state/auth/auth.state'
@@ -17,9 +15,6 @@ import { SpeechRecognitionService } from "../../../../service/speech-recognition
   styleUrls: ['./worksite-safety-header.component.scss']
 })
 export class WorksiteSafetyHeaderComponent implements OnInit {
-
-  @Select(AuthState.childPageLabel) formLabels$: Observable<string>
-  @Select(AuthState.isSignIn) isSignIn$: Observable<string>
 
   @Input() headerForm
   @Output() checkValidHeader = new EventEmitter<any>()

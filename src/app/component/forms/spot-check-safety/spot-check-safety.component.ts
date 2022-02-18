@@ -20,11 +20,10 @@ import { DeviceState } from '../../../state/device/device.state'
 import { CommentState } from '../../comment/state/comment.state'
 
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetPage, SetChildPage } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 import { SetComments } from '../../comment/state/comment.actions'
 import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
-// import { SetCorrectiveActions } from '../../../state/notification/notification-state.actions'
 import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions';
 import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state';
 
@@ -156,6 +155,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
+    console.log(data)
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
@@ -205,7 +205,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.personalEquipmentForm.controls['SafetyGlasses'].setValue(data.personalEquipment.SafetyGlasses)
       this.personalEquipmentForm.controls['Footwear'].setValue(data.personalEquipment.Footwear)
       this.personalEquipmentForm.controls['ProtectiveClothing'].setValue(data.personalEquipment.ProtectiveClothing)
-      this.personalEquipmentForm.controls['HearingProtection'].setValue(data.personalEquipmentHearingProtection)
+      this.personalEquipmentForm.controls['HearingProtection'].setValue(data.personalEquipment.HearingProtection)
       this.personalEquipmentForm.controls['RespiratoryProtection'].setValue(data.personalEquipment.RespiratoryProtection)
       this.personalEquipmentForm.controls['PersonalGasMonitor'].setValue(data.personalEquipment.PersonalGasMonitor)
       this.personalEquipmentForm.controls['CommunicationEquipment'].setValue(data.personalEquipment.CommunicationEquipment)
@@ -214,14 +214,14 @@ export class SpotCheckSafetyComponent implements OnInit {
     }
 
     if (data.safetyEquipment) {
-      this.safetyEquipmentForm.controls['SafetyEquipmentAvailable'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['FireFightingEquipment'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['RotatingEquimentGuards'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['FirstAidKit'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['FallArrestEquipment'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['EmergencySystems'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['Other'].setValue(data.safetyEquipment.PersonalEquipmentComments)
-      this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.PersonalEquipmentComments)
+      this.safetyEquipmentForm.controls['SafetyEquipmentAvailable'].setValue(data.safetyEquipment.SafetyEquipmentAvailable)
+      this.safetyEquipmentForm.controls['FireFightingEquipment'].setValue(data.safetyEquipment.FireFightingEquipment)
+      this.safetyEquipmentForm.controls['RotatingEquimentGuards'].setValue(data.safetyEquipment.RotatingEquimentGuards)
+      this.safetyEquipmentForm.controls['FirstAidKit'].setValue(data.safetyEquipment.FirstAidKit)
+      this.safetyEquipmentForm.controls['FallArrestEquipment'].setValue(data.safetyEquipment.FallArrestEquipment)
+      this.safetyEquipmentForm.controls['EmergencySystems'].setValue(data.safetyEquipment.EmergencySystems)
+      this.safetyEquipmentForm.controls['Other'].setValue(data.safetyEquipment.Other)
+      this.safetyEquipmentForm.controls['SafetyEquipmentComments'].setValue(data.safetyEquipment.SafetyEquipmentComments)
     }
 
     if (data.comments) {
@@ -261,10 +261,11 @@ export class SpotCheckSafetyComponent implements OnInit {
       form_id: form["form_id"],
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       pics: this.store.selectSnapshot(DeviceState.pics)
-      // pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics))
     }
     this.apiService.update(obj).subscribe((res) => {
       this.resetForm()
+      this.store.dispatch(new SetPage('notification'))
+      this.store.dispatch(new SetChildPageLabel('Forms'))
       this.snackBar.open(res["data"].message, 'Success', {
         duration: 3000,
         verticalPosition: 'bottom'
@@ -297,7 +298,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       discrepancyComments: this.discrepancyForm.value,
       correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
-
+console.log(data)
     dataObj.push(null)
     dataObj.push(JSON.stringify(userCreated))
     dataObj.push(new Date())
@@ -316,7 +317,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       formObj: this.SPOT_CHECK_SAFETY,
       type: 'custom',
       name: form["name"],
-      pics: JSON.stringify(this.store.selectSnapshot(DeviceState.pics)),
+      pics: this.store.selectSnapshot(DeviceState.pics),
       location: data.header.Location,
       correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
 
@@ -351,6 +352,8 @@ export class SpotCheckSafetyComponent implements OnInit {
 
       this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
         this.resetForm()
+        this.store.dispatch(new SetPage('home'))
+        this.store.dispatch(new SetChildPage('Forms'))
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
         this.snackBar.open(myNotifications.message, 'Success', {
@@ -386,10 +389,9 @@ export class SpotCheckSafetyComponent implements OnInit {
     this.communicationForm.reset()
     this.personalEquipmentForm.reset()
     this.safetyEquipmentForm.reset()
-    this.store.dispatch(new SetPage('home'))
-    this.store.dispatch(new SetChildPage('Forms'))
     this.store.dispatch(new SetPics([]))
     this.autoCompleteService.workersControl.setValue('')
     this.autoCompleteService.supervisorsControl.setValue('')
   }
+
 }

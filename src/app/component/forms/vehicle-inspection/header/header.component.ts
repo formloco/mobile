@@ -23,9 +23,6 @@ export class HeaderComponent implements OnInit {
   customDayShortNames = ['s\u00f8n', 'man', 'tir', 'ons', 'tor', 'fre', 'l\u00f8r'];
   customPickerOptions: any;
 
-  makeControl = new FormControl()
-  modelControl = new FormControl()
-
   years: string[] = []
   makes: string[] = []
   models: string[] = []
