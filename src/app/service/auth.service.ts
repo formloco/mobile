@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core'
 
+import { Store } from '@ngxs/store'
+import { AuthState } from '../state/auth/auth.state'
+
 import { HttpClient } from '@angular/common/http'
 
 import { environment } from '../../environments/environment'
@@ -9,16 +12,24 @@ import { environment } from '../../environments/environment'
 })
 export class AuthService {
 
+  tenant
   authUrl = environment.authUrl;
   loginStatus = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private store: Store,
+    private http: HttpClient) { 
+    this.tenant = this.store.selectSnapshot(AuthState.tenant)
+  }
 
   token() {
     return this.http.get(this.authUrl+'token/')
   }
 
   user(email) {
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+
+    console.log(this.tenant, tenant)
     return this.http.post(this.authUrl+'user/', email)
   }
 
@@ -52,6 +63,14 @@ export class AuthService {
 
   getPermissions(obj) {
     return this.http.post(this.authUrl+'permissions/', obj)
+  }
+
+  signupEmail(obj) {
+    return this.http.post(this.authUrl+'email/', obj)
+  }
+
+  getTenant(obj) {
+    return this.http.post(this.authUrl+'tenant/', obj)
   }
 
 }

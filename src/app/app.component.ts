@@ -14,8 +14,10 @@ import { IdbCrudService } from "./service-idb/idb-crud.service"
 
 import { Store } from '@ngxs/store'
 import { SetScreenSize, SetScreenWidth } from './state/device/device-state.actions'
-import { SetUserIdb, SetPage } from './state/auth/auth-state.actions'
+import { SetUserIdb, SetPage, SetTenant } from './state/auth/auth-state.actions'
 import { SetBackground, SetIsDarkMode } from './state/device/device-state.actions'
+
+import { environment } from '../environments/environment'
 
 @Component({
   selector: 'app-root',
@@ -25,6 +27,9 @@ import { SetBackground, SetIsDarkMode } from './state/device/device-state.action
 export class AppComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') className = 'darkMode'
+
+  kioske = environment.kioske
+  tenant = environment.tenant
 
   destroyed = new Subject<void>();
   title = 'MOBILE FORMS'
@@ -67,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new SetTenant(this.tenant))
     this.authService.token().subscribe(token => {
       this.token = token
       localStorage.setItem('formToken', this.token.token)
@@ -79,12 +85,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
         this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
-        this.appService.initializeUser(this.prefs[0]["user"]["email"])
       }
       else {
         this.setMode('darkMode')
-        this.store.dispatch(new SetPage('identify'))
-        this.store.dispatch(new SetIsDarkMode(true)) 
+        this.store.dispatch(new SetIsDarkMode(true))
+
+        if (this.kioske) this.store.dispatch(new SetPage('kioske'))
+        else this.store.dispatch(new SetPage('identify'))
       }
     })
   }

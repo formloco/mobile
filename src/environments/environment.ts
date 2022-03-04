@@ -5,23 +5,24 @@ import { Formloco } from '../app/state/apps/apps-state.model'
 
 export const environment = {
   production: false,
-  kioske: false,
-  designerUrl: Formloco.designerUrl,
+  kioske: true,
+  // designUrl: Formloco.designUrl,
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
   kioskeEmail: Formloco.kioskeEmail,
   kioskePassword: Formloco.kioskePassword,
-
+  kioskeTenant: Formloco.kioskeTenant,
+  designUrl: 'http://localhost:4201',
   // apiUrl: 'http://localhost:9001/api/',
-  // authUrl: 'http://localhost:9000/auth/',
-  // formUrl: 'http://localhost:9002/form/',
+  authUrl: 'http://localhost:9000/auth/',
+  formUrl: 'http://localhost:9002/form/',
   // emailUrl: 'http://localhost:9003/email/',
   // assetUrl: 'http://localhost:9005/asset/',
   // notificationUrl: 'http://localhost:9004/notification/',
 
   apiUrl: Formloco.apiUrl,
-  authUrl: Formloco.authUrl,
-  formUrl: Formloco.formUrl,
+  // authUrl: Formloco.authUrl,
+  // formUrl: Formloco.formUrl,
   emailUrl: Formloco.emailUrl,
   assetUrl: Formloco.assetUrl,
   notificationUrl: Formloco.notificationUrl,
@@ -35,7 +36,7 @@ export const environment = {
             assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
   },
   logo: Formloco.logo,
-  version: 'Development',
+  version: '2.0',
   idbName: Formloco.idbName,
   pin: Formloco.pin
 };

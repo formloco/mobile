@@ -42,33 +42,35 @@ export class LayoutComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params: Params) => {
-      if (params && params.email && Object.keys(params.email).length) {
-        this.notificationService.getMyNotifications({ email: params.email }).subscribe((notifications: any) => {
-          let openNotifications: any = []
-          openNotifications = notifications.filter(not => not.date_signed === null)
-          this.store.dispatch(new SetNotificationOpen(openNotifications))
-          this.store.dispatch(new SetPage('notification'))
-          this.store.dispatch(new SetChildPageLabel('forms'))
-          this.store.dispatch(new SetNotificationTab(0))
-        })
-      }
-      else {
-        this.idbCrudService.readAll('prefs').subscribe(prefs => {
-          this.prefs = prefs
-          if (this.prefs.length > 0) {
-            this.store.dispatch(new SetPage('home'))
-            this.store.dispatch(new SetChildPageLabel('Forms'))
-          }
-          else {
-            if (!this.kioske)
-              this.store.dispatch(new SetPage('identify'))
-            else
-              this.store.dispatch(new SetPage('kioske'))
-          }
-        })
-      }
-    })
+    console.log(this.kioske)
+    if (this.kioske) {
+      this.store.dispatch(new SetPage('kioske'))
+    }
+    else {
+      this.route.queryParams.subscribe((params: Params) => {
+        if (params && params.email && Object.keys(params.email).length) {
+          this.notificationService.getMyNotifications({ email: params.email }).subscribe((notifications: any) => {
+            let openNotifications: any = []
+            openNotifications = notifications.filter(not => not.date_signed === null)
+            this.store.dispatch(new SetNotificationOpen(openNotifications))
+            this.store.dispatch(new SetPage('notification'))
+            this.store.dispatch(new SetChildPageLabel('forms'))
+            this.store.dispatch(new SetNotificationTab(0))
+          })
+        }
+        else if (!this.kioske) {
+          this.idbCrudService.readAll('prefs').subscribe(prefs => {
+            this.prefs = prefs
+            if (this.prefs.length > 0) {
+              this.store.dispatch(new SetPage('home'))
+              this.store.dispatch(new SetChildPageLabel('Forms'))
+            }
+            else this.store.dispatch(new SetPage('identify'))
+          })
+        }
+      })
+    }
+    
   }
 
   changeTheme() {

@@ -1,8 +1,10 @@
 <div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
   <mat-toolbar>
-    <span>Admin - Signin</span>
+    <span class="text-color"><mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>&nbsp;Admin</span>
     <span class="toolbar-spacer"></span>
-    <mat-slide-toggle [checked]="isDarkMode$ | async" color="primary" (click)="toggleTheme()"></mat-slide-toggle>
+    <button (click)=close() mat-icon-button>
+      <mat-icon class="text-color">close</mat-icon>
+    </button>
   </mat-toolbar>
   <div class="top-margin text-color" fxLayout="column" fxLayoutAlign="center center">
     <div fxLayout="row" fxLayoutAlign="space-between">
@@ -19,10 +21,10 @@
         </mat-form-field>
       </div>
       <div mat-dialog-actions fxLayoutAlign="center" fxLayout="row" fxLayoutGap="1rem">
-        <button (click)="goHome()" mat-stroked-button color="primary">
+        <button (click)=close() mat-stroked-button color="primary">
           CANCEL
         </button>
-        <button (click)="loginPIN()" mat-raised-button color="primary" [disabled]="!pinForm.valid">
+        <button (click)=loginPIN() mat-raised-button color="primary" [disabled]="!pinForm.valid">
           OK
         </button>
       </div>

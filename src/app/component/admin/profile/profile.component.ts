@@ -35,8 +35,6 @@ export class ProfileComponent implements OnInit {
   email
   token
   hide = true
-
-  signinUrl = environment.signinUrl
   
   passwordForm: FormGroup;
 

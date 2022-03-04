@@ -2,6 +2,8 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core'
 
 import { Observable } from 'rxjs'
 
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
+
 import { AppService } from "../../service/app.service"
 import { NotificationService } from '../../service/notification.service'
 
@@ -23,6 +25,8 @@ import { NotificationState } from '../../state/notification/notification.state'
 import { SetNotificationTab, SetNotificationMyCount, SetNotificationOpen } from '../../state/notification/notification-state.actions'
 
 import { IdbPersistenceService } from '../../service-idb/idb-persistence.service';
+
+import { SignupComponent } from "../admin/signup/signup.component"
 
 @Component({
   selector: 'app-home',
@@ -52,11 +56,13 @@ export class HomeComponent implements OnInit {
   tenant = environment.tenant
   version = environment.version
   signinUrl = environment.signinUrl
+  designUrl = environment.designUrl
 
   constructor(
     private store: Store,
     private router: Router,
     public appService: AppService,
+    private bottomSheet: MatBottomSheet,
     private idbPersistenceService: IdbPersistenceService,
     private notificationService: NotificationService) { }
 
@@ -94,6 +100,10 @@ export class HomeComponent implements OnInit {
   signin() {
     this.store.dispatch(new SetPage('pin'))
     this.store.dispatch(new SetIsSignIn(true))
+  }
+
+  signup() {
+    this.bottomSheet.open(SignupComponent)
   }
 
   toggleTheme() {

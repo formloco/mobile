@@ -1,0 +1,59 @@
+<div class="header">
+  <mat-toolbar>
+    Why Us?
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon class="text-color">close</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="content">
+  <div class="card__header">
+    <h1 class="text-color">Mobile Digitalization</h1>
+    <h2 class="card__subtitle">Simple, hassle-free business digitalization</h2>
+    <div fxLayoutAlign="center">
+      <img src="assets/formlocoMap.svg" width="300px">
+    </div>
+  </div>
+  <div class="card__body_pink">
+    <h2 class="card__title card__title--dark">Mission</h2>
+    <div class="card__text card__text--dark">
+      formloco is committed to providing simple, hassle-free, compelling business digitalization products and services.
+    </div>
+    <h2 class="card__title card__title--dark">Mobile Platform</h2>
+    <div class="card__text card__text--dark">
+      Collect, digitialize and memorialize with formloco mobile.
+    </div>
+    <h2 class="card__title card__title--dark">Memorialize Your Work</h2>
+    <div class="card__text card__text--dark">
+      Auto-generate signed PDF documents with form data, pictures and history.
+    </div>
+    <h2 class="card__title card__title--dark">Real-time Notifications</h2>
+    <div class="card__text card__text--dark">
+      Stay intouch with your team and sign-off on your work quickly.
+    </div>
+    <h2 class="card__title card__title--dark">Smart Forms</h2>
+    <div class="card__text card__text--dark">
+      Update smart form content with notes and pictures over time until sign-off.
+    </div>
+    <h2 class="card__title card__title--dark">Flexible Deployment</h2>
+    <div class="card__text card__text--dark">
+      formloco runs everywhere, deploy on our cloud or your provider or internally.
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <mat-toolbar>
+    <a class="green" (click)="signup()" mat-stroked-button>
+      <mat-icon>rocket_launch</mat-icon>&nbsp;Deploy Now!
+    </a>
+    <span class="toolbar-spacer"></span>
+    <button (click)="contact()" mat-stroked-button color="primary">
+      contact
+    </button>
+    <a mat-button href='{{githubUrl}}' target="blank" color="primary">
+      github
+    </a>
+  </mat-toolbar>
+</div>

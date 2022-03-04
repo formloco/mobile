@@ -20,6 +20,10 @@ export class EmailService {
   forgotPassword(obj) {
     return this.http.post(this.emailUrl + 'forgot/password/', obj)
   }
+
+  signup(obj) {
+    return this.http.post(this.emailUrl + 'signup', obj)
+  }
   
 }
 

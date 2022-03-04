@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt  = require('bcryptjs')
 
-const { userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL } = require('../db/authDB')
+const { userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL, emailSignupSQL, tenantFetchSQL } = require('../db/authDB')
 
 const tokenTemp = async() => {
   try {
@@ -94,6 +94,23 @@ const permissionGet = async(data) => {
   }
 }
 
+const emailSignup = async(data) => {
+  try {
+    return await emailSignupSQL(data)
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const tenantFetch = async(data) => {
+  try {
+    let rows = await tenantFetchSQL(data)
+    return rows
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
 module.exports = {
-  tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet
+  tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch
 }

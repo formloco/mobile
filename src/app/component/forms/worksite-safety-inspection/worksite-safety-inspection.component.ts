@@ -77,7 +77,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
 
   apiURL = environment.apiUrl
   messageUrl = environment.messageUrl
-  tenant_id = environment.tenant.tenant_id
 
   constructor(
     private store: Store,

@@ -58,12 +58,12 @@ export class PinComponent {
     else this.errorService.popSnackbar('Incorrect PIN')
   }
 
-  goHome() {
-    this.router.navigate([''])
-  }
-
   toggleTheme() {
     this.changeTheme.emit()
+  }
+
+  close() {
+    this.store.dispatch(new SetPage('home'))
   }
 
 }

@@ -1,5 +1,5 @@
 
-const { tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet } = require('../services')
+const { tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch } = require('../services')
 
 const tempToken = async(req, res) => {
   try {
@@ -95,6 +95,27 @@ const getPermission = async(req, res) => {
   }
 }
 
+const signupEmail = async(req, res) => {
+  try {
+    let data = await emailSignup(req.body)
+    let code = 201
+    if (!data) code = 406
+    res.status(code).json(data)
+  } catch(e) {
+    res.sendStatus(500)
+  }
+}
+
+const fetchTenant = async(req, res) => {
+  try {
+    let data = await tenantFetch(req.body)
+    let code = 201
+    res.status(code).json(data)
+  } catch(e) {
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
-  tempToken, fetchUser, resetEmail, resetPassword, disableEmail, enableEmail, updateEmail, createEmail, registerEmail, getPermission
+  tempToken, fetchUser, resetEmail, resetPassword, disableEmail, enableEmail, updateEmail, createEmail, registerEmail, getPermission, signupEmail, fetchTenant
 }

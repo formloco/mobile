@@ -1,0 +1,85 @@
+<div class="header">
+  <mat-toolbar>
+    Pricing
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon class="text-color">close</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="content">
+  <div class="card__header">
+    <h1 class="text-color">Join our community</h1>
+    <h2 class="card__subtitle">Simple, hassle-free pricing</h2>
+  </div>
+  <div class="card__body_pink">
+    <h2 class="card__title card__title--dark">Professional Subscription</h2>
+    <div class="card__text card__text--dark">
+      <span class="card__text--price-amount">$69</span>
+      <span class="card__text--price-desc">&nbsp;per month</span>
+    </div>
+    <br>
+    <div fxFlexLayout="center" fxLayoutGap="20px">
+      <a (click)="signup()" mat-flat-button color="primary">
+        <mat-icon>rocket_launch</mat-icon>&nbsp;Signup Now!
+      </a>
+    </div>
+    
+    <div class="card__text card__text--dark">
+      <ul>
+        <li>5000 Notifications</li>
+        <li>Unlimited Role-based Users</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card__body_yellow">
+    <h2 class="card__title card__title--dark">Free Subscription</h2>
+    <div class="card__text card__text--dark">
+      <span class="card__text--price-amount">$0</span>
+      <span class="card__text--price-desc">&nbsp; per month</span>
+    </div>
+    <br>
+    <a (click)="signup()" mat-flat-button color="primary">
+      <mat-icon>rocket_launch</mat-icon>&nbsp;Signup Now!
+    </a>
+    <div class="card__text card__text--dark">
+      <ul>
+        <li>1000 Notifications</li>
+        <li>100 Role-based Users</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card__body_green">
+    <h2 class="card__title card__title--dark">Enterprise Subscription</h2>
+    <div class="card__text card__text--dark">
+      <p class="card__text--price-desc">starting at&nbsp;</p>
+    </div>
+    <div class="card__text card__text--dark">
+      <span class="card__text--price-amount">$139</span>
+      <span class="card__text--price-desc">&nbsp;per month</span>
+    </div>
+    <br>
+    <a (click)="contact()" mat-flat-button color="primary">
+      Contact Us!
+    </a>
+    <div class="card__text card__text--dark">
+      <ul>
+        <li>50,000 Notifications</li>
+        <li>Unlimited Role-based Users</li>
+        <li>Company Deployment</li>
+        <li>Third Party Integration</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <mat-toolbar>
+    <span class="toolbar-spacer"></span>
+    <button (click)="contact()" mat-stroked-button color="primary">
+      contact
+    </button>
+    <a mat-button href='{{githubUrl}}' target="blank" color="primary">
+      github
+    </a>
+  </mat-toolbar>
+</div>

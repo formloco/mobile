@@ -63,7 +63,6 @@ export class VehicleInspectionComponent implements OnInit {
   apiURL = environment.apiUrl
   kioske = environment.kioske
   messageUrl = environment.messageUrl
-  tenant_id = environment.tenant.tenant_id
 
   constructor(
     private store: Store,

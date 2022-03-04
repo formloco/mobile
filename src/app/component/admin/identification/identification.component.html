@@ -1,21 +1,11 @@
-<div class="padding" fxLayout="row">
-  <div fxLayoutAlign="space-around center">
-    <button (click)="getEmail()" mat-stroked-button color="primary" fxFlex>Reset Password</button>
+<div *ngIf="kioske" class="padding" fxLayout="row">
+  <div class="text-color mat-h1" fxLayoutAlign="space-around center">
+    Sign In
   </div>
   <span class="toolbar-spacer"></span>
-  <div fxLayoutAlign="start center">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <img src="assets/parrot.svg" height="42px">
-    </button>
-    <mat-menu #menu="matMenu">
-      <!-- <button mat-menu-item>
-        <img *ngIf="(isDarkMode$ | async)" src="{{branding.logoDark}}" height="90px">
-        <img *ngIf="!(isDarkMode$ | async)" src="{{branding.logoLight}}" height="90px">
-      </button> -->
-      <button mat-menu-item>{{version}}</button>
-      <button mat-menu-item (click)="upGradeIndexDB()">UpGrade</button>
-    </mat-menu>
-  </div>
+  <button mat-icon-button (click)="close()">
+    <mat-icon class="text-color">close</mat-icon>
+  </button>
 </div>
 <div fxLayout="column">
   <form class="container-padding" [formGroup]="idForm">
@@ -44,4 +34,8 @@
       </div>
     </div>
   </form>
+  <br>
+  <div>
+    <button (click)="getEmail()" mat-stroked-button color="primary" fxFlex>Reset Password</button>
+  </div>
 </div>

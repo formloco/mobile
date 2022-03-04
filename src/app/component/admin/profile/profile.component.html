@@ -14,11 +14,6 @@
       <span *ngIf="(isDarkMode$ | async)">&nbsp;&nbsp;Dark Mode</span>
       <span *ngIf="!(isDarkMode$ | async)">&nbsp;&nbsp;Light Mode</span>
     </div>
-    <div *ngIf="(user$ | async)?.admin" fxLayoutAlign="start center">
-      <a mat-button href='{{signinUrl}}' target="blank" color="primary">
-        <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon> Admin
-      </a>
-    </div>
   </div>
   <form fxLayout="column" class="container-padding text-color" [formGroup]="passwordForm" fxLayoutGap="10px">
     <div class="text-color">

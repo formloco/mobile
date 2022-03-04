@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 
 import { AgmCoreModule } from '@agm/core'
+// import { NgxPayPalModule } from 'ngx-paypal'
 
 import { environment } from '../environments/environment'
 
@@ -50,6 +51,8 @@ import { AdminComponent } from './component/admin/admin.component'
 import { DataComponent } from './component/admin/data/data.component'
 import { MenuComponent } from './component/admin/menu/menu.component'
 import { FormsComponent } from './component/admin/forms/forms.component'
+import { KioskeComponent } from './component/admin/kioske/kioske.component'
+import { SignupComponent } from './component/admin/signup/signup.component'
 import { ProfileComponent } from './component/admin/profile/profile.component'
 import { ListRunComponent } from './component/admin/list-run/list-run.component'
 import { SettingsComponent } from './component/admin/settings/settings.component'
@@ -150,7 +153,10 @@ import { ActionWorksiteSafetyInspectionComponent } from './component/forms/works
 import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component';
 import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component';
 import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component';
-import { KioskeComponent } from './component/admin/kioske/kioske.component';
+import { PricingComponent } from './component/pricing/pricing.component';
+import { WhyusComponent } from './component/whyus/whyus.component';
+import { ContactComponent } from './component/contact/contact.component';
+import { TermsComponent } from './component/terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -247,7 +253,12 @@ import { KioskeComponent } from './component/admin/kioske/kioske.component';
     BottomSheetCommentComponent,
     CorrectiveActionComponent,
     WorksiteKeyPositiveFindingComponent,
-    KioskeComponent
+    KioskeComponent,
+    SignupComponent,
+    PricingComponent,
+    WhyusComponent,
+    ContactComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,
@@ -267,7 +278,8 @@ import { KioskeComponent } from './component/admin/kioske/kioske.component';
       apiKey: 'AIzaSyDEK9wfZGXuXO0B4_6itSKnFgh__N0AYcw'
     }),
     IonicModule.forRoot(),
-    NgxsModule.forRoot(States, { developmentMode: !environment.production })
+    NgxsModule.forRoot(States, { developmentMode: !environment.production }),
+    // NgxPayPalModule
   ],
   entryComponents: [
     VoiceComponent,

@@ -4,11 +4,13 @@ export const environment = {
   production: true,
   
   kioske: false,
-  designerUrl: Formloco.designerUrl,
+  designUrl: Formloco.designUrl,
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
   kioskeEmail: Formloco.kioskeEmail,
   kioskePassword: Formloco.kioskePassword,
+  kioskeTenant: Formloco.kioskeTenant,
+
   apiUrl: Formloco.apiUrl,
   authUrl: Formloco.authUrl,
   formUrl: Formloco.formUrl,

@@ -50,17 +50,17 @@ export class AppService {
 
   apiUrl = environment.apiUrl
   tenant = environment.tenant
-  
+
   LIST_FORM = LIST_FORM
 
-  private notificationOpen:any = []
-  private notificationSigned:any = []
+  private notificationOpen: any = []
+  private notificationSigned: any = []
 
   private setNotifications(data) {
     this.notificationOpen = []
     this.notificationSigned = []
-    const notifications:any = data
-  
+    const notifications: any = data
+
     notifications.forEach(element => {
       if (element.email_signed) this.notificationSigned.push(element)
       else this.notificationOpen.push(element)
@@ -74,12 +74,12 @@ export class AppService {
     dialogConfig.height = '100%'
     dialogConfig.width = '100%'
     dialogConfig.maxWidth = '100vw',
-    dialogConfig.maxHeight = '100vh',
-    this.dialog.open(VoiceComponent, dialogConfig).afterClosed().subscribe(() => {
-      form.controls[formField].setValue(this.store.selectSnapshot(DeviceState.transcription))
-    })
+      dialogConfig.maxHeight = '100vh',
+      this.dialog.open(VoiceComponent, dialogConfig).afterClosed().subscribe(() => {
+        form.controls[formField].setValue(this.store.selectSnapshot(DeviceState.transcription))
+      })
   }
-  
+
   constructor(
     private store: Store,
     private http: HttpClient,
@@ -97,7 +97,7 @@ export class AppService {
   }
 
   getCloud() {
-    return this.http.get(this.apiUrl  + this.tenant.tenant_id + '/' + this.store.selectSnapshot(AuthState.selectedForm["form_id"]) + '/')
+    return this.http.get(this.apiUrl + this.tenant.tenant_id + '/' + this.store.selectSnapshot(AuthState.selectedForm["form_id"]) + '/')
   }
 
   createList(listName) {
@@ -127,8 +127,9 @@ export class AppService {
 
   initializeUser(email) {
     // get lookuplists array and dispatch to lookuplist state
-    this.apiService.getLists({ tenant_id: this.tenant.tenant_id }).subscribe(lists => {
-      const lookupLists:any = lists
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    this.apiService.getLists({ tenant_id: tenant.tenant_id }).subscribe(lists => {
+      const lookupLists: any = lists
       LISTS.forEach(element => {
         if (lookupLists.filter(list => list.name != element))
           lookupLists.push({ name: element, rows: [] })
@@ -136,16 +137,16 @@ export class AppService {
       this.store.dispatch(new SetLookupListData(lookupLists))
     })
     // get worker and supervisor lists and dispatch to state
-    this.apiService.getEmailList({ tenant_id: this.tenant.tenant_id }).subscribe(lists => {
-      const emailList:any = lists
+    this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
+      const emailList: any = lists
       let workers: any[] = []
       let supervisors: any[] = []
       emailList.forEach(element => {
         if (element.worker) {
-          workers.push({name: element.name, email:element.email})
+          workers.push({ name: element.name, email: element.email })
         }
         if (element.supervisor) {
-          supervisors.push({name: element.name, email:element.email})
+          supervisors.push({ name: element.name, email: element.email })
         }
       })
       workers.sort()
@@ -154,12 +155,12 @@ export class AppService {
       this.store.dispatch(new SetSupervisors(supervisors))
     })
 
-    this.authService.user({ email: email }).subscribe((data:any) => {
+    this.authService.user({ email: email }).subscribe((data: any) => {
       this.store.dispatch(new SetUser(data))
     })
-    
+
     // email is used to list of registered forms with permissions
-    this.formService.getForms({ email: email }).subscribe((forms:any) => {
+    this.formService.getForms({ email: email }).subscribe((forms: any) => {
       this.setFormState(forms)
     })
 
@@ -178,11 +179,11 @@ export class AppService {
       }
       this.idbCrudService.put('form', form[0])
     })
-    this.idbCrudService.readAll('form').subscribe((forms:any) => {
+    this.idbCrudService.readAll('form').subscribe((forms: any) => {
       this.store.dispatch(new SetForms(forms))
     })
   }
-  
+
 
   initializeMyNotifications(email) {
     this.notificationService.getMyNotifications({ email: email }).subscribe(data => {
@@ -221,5 +222,21 @@ export class AppService {
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
     }
   }
+
+  // initializeUserKioske(email) {
+  //   const tenant = this.store.selectSnapshot(AuthState.tenant)
+  //   // this.authService.user({ email: email }).subscribe((data: any) => {
+  //   //   this.store.dispatch(new SetUser(data))
+  //   // })
+
+  //   // email is used to list of registered forms with permissions
+  //   this.formService.getForms({ tenant_id: tenant_id, email: email }).subscribe((forms: any) => {
+  //     console.log(forms)
+  //     this.setFormState(forms)
+  //   })
+
+  //   this.initializeMyNotifications(email)
+
+  // }
 
 }

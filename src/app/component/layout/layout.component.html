@@ -2,6 +2,8 @@
   <div>
     <div [fxFlex]="screenWidth$ | async">
       <app-pin *ngIf="(page$ | async) === 'pin'"></app-pin>
+      <app-whyus *ngIf="(page$ | async) === 'whyus'"></app-whyus>
+      <app-pricing *ngIf="(page$ | async) === 'pricing'"></app-pricing>
       <app-identification *ngIf="(page$ | async) === 'identify'"></app-identification>
       <app-apps *ngIf="(page$ | async) === 'apps'"></app-apps>
       <app-form *ngIf="(page$ | async) === 'form'"></app-form>

@@ -1,33 +1,54 @@
-<div fxLayout="column">
+<div class="header">
+  <mat-toolbar>
+    <div fxLayoutGap="15px">
+      <button (click)="whyus()" mat-stroked-button color="primary">
+        Why Us?
+      </button>
+      <button (click)="pricing()" mat-stroked-button color="primary">
+        Pricing
+      </button>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <button (click)="signin()"  mat-stroked-button color="primary">
+      Sign In
+    </button>
+  </mat-toolbar>
+</div>
+<div class="content">
   <form class="container-padding">
+    <br>
     <div fxLayout="column">
       <div class="text-color text-center">
-        <div><img src="{{logo}}"></div>
+        <div><img style="width:400px;" src="{{logo}}"></div>
       </div>
       <br>
-      <div class="mat-headline text-color" fxLayoutAlign="center">Digitalize Your Business</div>
       <div class="hand" fxLayoutAlign="center">
-        <mat-icon class="icon-169px-action" (click)="continue()">fingerprint</mat-icon>
+        <mat-icon class="icon-169px-action" (click)="testdrive()">fingerprint</mat-icon>
       </div>
       <div class="mat-headline text-color" fxLayoutAlign="center">Take a Test Drive</div>
       <br>
-      <a mat-stroked-button href='{{designerUrl}}' target="blank" color="primary">
-        Got a form to Digitialize?
-      </a>
+      <div class="hand" fxLayoutAlign="center">
+        <a href='{{designUrl}}'>
+          <mat-icon color="accent" class="icon-169px">fingerprint</mat-icon>
+        </a>
+      </div>
+      <div class="mat-headline text-color" fxLayoutAlign="center">Got a Doc to Digitialize?</div>
     </div>
   </form>
 </div>
 <div class="footer">
   <mat-toolbar>
-    <a mat-button href='mailto:{{kioskeEmail}}' target="blank" color="primary">
-      email
-    </a>
+    <div class="hand" fxLayoutGap="15px">
+      <a class="green" (click)="signup()" mat-stroked-button>
+        <mat-icon>rocket_launch</mat-icon>&nbsp;Signup
+      </a>
+    </div>
     <span class="toolbar-spacer"></span>
+    <button (click)="contact()" mat-stroked-button color="primary">
+      Contact
+    </button> 
     <a mat-button href='{{githubUrl}}' target="blank" color="primary">
-      github
-    </a>
-    <a mat-button href='{{linkedinUrl}}' target="blank" color="primary">
-      linkedin
+      Github
     </a>
   </mat-toolbar>
 </div>

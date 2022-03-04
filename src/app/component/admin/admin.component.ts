@@ -123,9 +123,9 @@ export class AdminComponent implements OnInit {
 
   signout() {
     this.store.dispatch(new SetPage('home'))
-    this.store.dispatch(new SetChildPageLabel('Forms'))
+    // this.store.dispatch(new SetChildPageLabel('Forms'))
     this.store.dispatch(new SetIsSignIn(false))
-    location.reload()
+    // location.reload()
   }
 
   // toggleTheme() {

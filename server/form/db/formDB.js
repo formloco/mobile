@@ -11,23 +11,31 @@ const pool = new Pool({
 })
 
 const formsReadSQL = async (data) => {
+
+  pool.options.database = data["tenant_id"]
   let client = await pool.connect()
-  const forms = await client.query(`SELECT name, form_id, is_published, is_manager FROM public.form WHERE date_archived is null AND is_list = false`)
-  
-  const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
-  const manager = permissions.rows[0].manager
+
   let userForms = []
-  forms.rows.forEach(form => {
-    if (!form.manager) userForms.push(form)
-    else if (form.manager === manager) userForms.push(form)
-  })
+  const forms = await client.query(`SELECT name, form_id, is_published, is_manager FROM public.form WHERE date_archived is null AND is_list = false`)
+
+  if (forms.rowCount > 0) {
+    const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
+
+    const manager = permissions.rows[0].manager
+
+    forms.rows.forEach(form => {
+      if (!form.manager) userForms.push(form)
+      else if (form.manager === manager) userForms.push(form)
+    })
+  }
+  
   client.release()
   return userForms
 }
 
 const formReadSQL = async (form_id, data_id) => {
   let client = await pool.connect()
-  const data = await client.query(`SELECT * FROM "$1" WHERE id = $2`,[form_id, data_id])
+  const data = await client.query(`SELECT * FROM "$1" WHERE id = $2`, [form_id, data_id])
   client.release()
   return data.rows
 }
@@ -55,7 +63,7 @@ const formRegisterSQL = async (data) => {
   let form = await client.query(`SELECT form_id FROM public.form WHERE name = '` + data["name"] + `' AND date_archived is null`)
 
   if (form.rowCount === 0) {
-    
+
     form_id = uuidv4()
     formJSON = JSON.stringify(data["formObj"])
     columns = JSON.stringify(data["formObj"]["form"]["columns"])
@@ -63,7 +71,7 @@ const formRegisterSQL = async (data) => {
 
     columns = columns.replace(/`/g, "'")
     columns = columns.replace(/"/g, "")
-    
+
     await client.query(`CREATE SEQUENCE IF NOT EXISTS form_id_seq`)
     await client.query(`CREATE TABLE IF NOT EXISTS public.form ("id" int4 NOT NULL DEFAULT nextval('form_id_seq'::regclass),form_id uuid, tenant_id uuid, name varchar, form jsonb, pin varchar, date_last_access timestamp DEFAULT now(), date_created timestamp DEFAULT now(), date_archived timestamp, user_created jsonb, user_updated jsonb, user_archive int4, is_data bool, is_list bool, type varchar, is_published bool, is_manager bool, PRIMARY KEY ("id"))`)
     await client.query(`INSERT INTO public.form(form_id, name, type, form, tenant_id, is_manager, is_data, is_published, is_list,  pin, user_created) VALUES ( '` + form_id + `', '` + data["name"] + `', 'custom', '` + formJSON + `', '` + data["tenant_id"] + `', ` + false + `, ` + false + `, ` + false + `, ` + false + `, '369', '` + userCreated + `')`)

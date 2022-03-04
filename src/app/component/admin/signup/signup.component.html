@@ -1,0 +1,69 @@
+<div fxLayout="column">
+  <div class="text-color mat-h1" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>Signup</div>
+    <div fxLayoutGap="20px">
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="container-padding">
+    <div *ngIf="step === 0" fxLayout="column">
+      <form [formGroup]="emailSignupForm">
+        <div fxLayout="column" class="form-padding">
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Email Address</mat-label>
+            <input matInput placeholder="Email" formControlName="email" type="text" required>
+            <mat-error>
+              Email address is required!
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" formControlName="password" type="password" required>
+            <mat-error>
+              Password is required!
+            </mat-error>
+          </mat-form-field>
+          <button (click)="signupEmail()" mat-stroked-button color="primary">
+            Signup
+          </button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="step === 1" fxLayout="column" fxLayoutAlign="center">
+      <div>
+        <app-terms></app-terms>
+      </div>
+      <div class="text-color">
+        <mat-checkbox (change)="checkTerms($event.checked)" color="primary" [checked]="terms">Accept terms and conditions</mat-checkbox>
+      </div>
+      <h3 class="text-color">Monthly Subscription</h3>
+      <div class="text-color">
+        <mat-radio-group (change)="selectSubscription()" [(ngModel)]="subscription">
+          <mat-radio-button value="paypal">Credit Card</mat-radio-button>
+          <mat-radio-button value="invoice">Invoice or EFT</mat-radio-button>
+          <mat-radio-button value="free">Free</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <br>
+      <div>
+        <button (click)="step = 2" mat-stroked-button color="primary" fxFlex [disabled]="notContinue">
+          Continue
+        </button>
+      </div>
+      <br><br>
+    </div>
+    <div *ngIf="step === 2" fxLayout="column" fxLayoutAlign="center">
+      <div *ngIf="subscription === 'invoice'">
+        <iframe frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/formloco/form/MonthlySubscriptionInvoiceEFT/formperma/DPyidrkamlSTiR52sfYCU82m7h2MZZzREanwDfrQQy4'></iframe>
+      </div>
+      <div *ngIf="subscription === 'paypal'">
+        <iframe frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/formloco/form/contactus/formperma/4cYAlnbRcWnLrjP9pBkPFnCCTKGrtP6gHMrEsteGIow'></iframe>
+      </div>
+      <div *ngIf="subscription === 'free'">
+        <iframe frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/formloco/form/FreeSubscription/formperma/ekqZGlUJ2Q6fESOo2EYdj6y13302mqTvK895Wb6_hx0'></iframe>
+      </div>
+    </div>
+  </div>
+</div>

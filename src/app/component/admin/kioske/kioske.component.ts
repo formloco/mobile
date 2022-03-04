@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
+
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { environment } from '../../../../environments/environment'
 
@@ -10,6 +12,8 @@ import { Store } from '@ngxs/store'
 import { SetPage, SetUserIdb, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 
+import { SignupComponent } from "../signup/signup.component"
+import { ContactComponent } from "../../contact/contact.component"
 
 @Component({
   selector: 'app-kioske',
@@ -19,9 +23,11 @@ import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 export class KioskeComponent {
 
   logo = environment.logo
+  tenant = environment.tenant
+  version = environment.version
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
-  designerUrl = environment.designerUrl
+  designUrl = environment.designUrl
   kioskeEmail = environment.kioskeEmail
   kioskePassword = environment.kioskePassword
 
@@ -29,33 +35,43 @@ export class KioskeComponent {
     private store: Store,
     public appService: AppService,
     private authService: AuthService,
+    private bottomSheet: MatBottomSheet,
     private idbCrudService: IdbCrudService) { }
 
-  contact() {
-  }
-
-  continue() {
+  testdrive() {
     const obj = {
       email: this.kioskeEmail,
       password: this.kioskePassword
     }
-    this.authService.register(obj).subscribe(_ => {
+    let userObj = {
+      isDarkMode: true,
+      email: this.kioskeEmail
+    }
+    this.store.dispatch(new SetPage('home'))
+    this.store.dispatch(new SetUserIdb(userObj))
+    this.store.dispatch(new SetIsDarkMode(true))
+    this.store.dispatch(new SetChildPageLabel('Forms'))
+    this.appService.initializeUser(this.kioskeEmail)
+  }
 
-      let userObj = {
-        isDarkMode: true,
-        email: this.kioskeEmail
-      }
-      let obj = {
-        user: userObj
-      }
-      this.idbCrudService.put('prefs', obj)
-      this.store.dispatch(new SetPage('home'))
-      this.store.dispatch(new SetUserIdb(userObj))
-      this.store.dispatch(new SetIsDarkMode(true))
-      this.store.dispatch(new SetChildPageLabel('Forms'))
+  contact() {
+    this.bottomSheet.open(ContactComponent)
+  }
 
-      this.appService.initializeUser(this.kioskeEmail)
-    })
+  signin() {
+    this.store.dispatch(new SetPage('identify'))
+  }
+
+  signup() {
+    this.bottomSheet.open(SignupComponent)
+  }
+
+  pricing() {
+    this.store.dispatch(new SetPage('pricing'))
+  }
+
+  whyus() {
+    this.store.dispatch(new SetPage('whyus'))
   }
 
 }
