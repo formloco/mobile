@@ -20,6 +20,7 @@ export interface AuthStateModel {
   dataPage?: string;
   childPage?: string
   childPageLabel?: string
+  childPageIcon?: string
   selectedVoiceFieldLabel?: string
   formLabels?: any[]
   formData?: {}

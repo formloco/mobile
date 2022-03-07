@@ -11,7 +11,7 @@ import { FORMS } from "../../model/forms"
 import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
 import { NotificationState } from '../../state/notification/notification.state'
-import { SetPage, SetChildPage, SetChildPageLabel, SetIsSignIn, SetEmailList } from '../../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetChildPageLabel, SetIsSignIn, SetEmailList, SetChildPageIcon } from '../../state/auth/auth-state.actions'
 import { SetNotificationTab } from '../../state/notification/notification-state.actions'
 import { SetForms } from '../../state/auth/auth-state.actions'
 
@@ -35,6 +35,8 @@ export class AdminComponent implements OnInit {
 
   @Select(AuthState.page) page$: Observable<string>
   @Select(AuthState.childPage) childPage$: Observable<string>
+  
+  @Select(AuthState.childPageIcon) childPageIcon$: Observable<string>
   @Select(AuthState.childPageLabel) childPageLabel$: Observable<string>
   @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
   @Select(DeviceState.background) background$: Observable<string>
@@ -62,7 +64,7 @@ export class AdminComponent implements OnInit {
   isListMenu
 
   kioske = environment.kioske
-  tenant = environment.tenant
+
   signinUrl = environment.signinUrl
 
   constructor(
@@ -78,7 +80,8 @@ export class AdminComponent implements OnInit {
     }
   
   ngOnInit() {
-    // if (this.kioske) this.router.navigate([this.signinUrl])
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
       if (this.prefs.length > 0) {
@@ -95,7 +98,7 @@ export class AdminComponent implements OnInit {
     // this.idbCrudService.readAll('form').subscribe((forms:any) => {
     //   this.store.dispatch(new SetForms(forms))
     // })
-    this.apiService.getEmailList({ tenant_id: this.tenant.tenant_id }).subscribe(lists => {
+    this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
       const emailLists:any = lists
       emailLists.sort((a, b) => a.name.localeCompare(b.name))
       this.store.dispatch(new SetEmailList(emailLists))
@@ -116,9 +119,18 @@ export class AdminComponent implements OnInit {
 
   selectPage() {
     const childPage = this.store.selectSnapshot(AuthState.childPage)
-    if ( childPage === 'list-forms') this.appService.isListMenu = true
-    if ( childPage === 'data-forms') this.store.dispatch(new SetChildPage('data'))
-    if ( childPage === 'forms') this.store.dispatch(new SetChildPage('forms'))
+    if ( childPage === 'list-forms') {
+      this.store.dispatch(new SetChildPageIcon('list_alt'))
+      this.appService.isListMenu = true
+    }
+    if ( childPage === 'data-forms') {
+      this.store.dispatch(new SetChildPageIcon('table_chart'))
+      this.store.dispatch(new SetChildPage('data'))
+    }
+    if ( childPage === 'forms') {
+      this.store.dispatch(new SetChildPageIcon('dynamic_form'))
+      this.store.dispatch(new SetChildPage('forms'))
+    }
   }
 
   signout() {

@@ -34,7 +34,6 @@ export class CorrectiveActionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data.actionItem)
     const correctiveActions = this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
     

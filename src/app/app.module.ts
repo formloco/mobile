@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 
 import { AgmCoreModule } from '@agm/core'
-// import { NgxPayPalModule } from 'ngx-paypal'
 
 import { environment } from '../environments/environment'
 
@@ -19,9 +18,6 @@ import { AppComponent } from './app.component'
 import { PipeModule } from './pipe/pipe.module'
 
 import { Device } from '@ionic-native/device/ngx'
-
-// apps
-import { AppsComponent } from './component/apps/apps.component'
 
 // state management
 import { NgxsModule } from '@ngxs/store'
@@ -126,14 +122,6 @@ import { ListFormsComponent } from './component/admin/list-forms/list-forms.comp
 import { LabelsComponent } from './component/admin/labels/labels.component'
 import { LabelComponent } from './component/admin/label/label.component'
 
-// assets
-import { AssetComponent } from './component/apps/asset/asset/asset.component'
-import { AssetsComponent } from './component/apps/asset/assets/assets.component'
-import { AssetLogComponent } from './component/apps/asset/asset-log/asset-log.component'
-import { AssetVitalsComponent } from './component/apps/asset/asset-vitals/asset-vitals.component'
-import { AssetMapComponent } from './component/apps/asset/asset-map/asset-map.component'
-import { AssetMenuComponent } from './component/apps/asset/asset-menu/asset-menu.component'
-
 // meaningful site tour
 import { MeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour.component'
 import { MeaningfulSiteTourHeaderComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-header/meaningful-site-tour-header.component'
@@ -226,13 +214,6 @@ import { TermsComponent } from './component/terms/terms.component';
     VoiceComponent,
     LabelsComponent,
     LabelComponent,
-    AppsComponent,
-    AssetComponent,
-    AssetVitalsComponent,
-    AssetLogComponent,
-    AssetMapComponent,
-    AssetMenuComponent,
-    AssetsComponent,
     CommentComponent,
     MeaningfulSiteTourComponent,
     MeaningfulSiteTourNotesComponent,

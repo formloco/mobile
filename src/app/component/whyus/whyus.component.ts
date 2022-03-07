@@ -7,6 +7,7 @@ import { SetPage } from '../../state/auth/auth-state.actions'
 
 import { environment } from '../../../environments/environment'
 
+import { SignupComponent } from "../admin/signup/signup.component"
 import { ContactComponent } from "../contact/contact.component"
 
 @Component({
@@ -25,7 +26,9 @@ export class WhyusComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  signup() {}
+  signup() {
+    this.bottomSheet.open(SignupComponent)
+  }
 
   close() {
     this.store.dispatch(new SetPage('kioske'))

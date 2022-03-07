@@ -85,6 +85,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
         this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
+
+        if (!this.kioske)
+          this.appService.initializeUser(this.prefs[0]["user"]['email'], false)
       }
       else {
         this.setMode('darkMode')

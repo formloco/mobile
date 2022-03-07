@@ -66,7 +66,6 @@ export class CommentComponent implements OnInit {
   
     if (commentIdx != -1) comments.splice(commentIdx, 1)
     if (correctiveActionsIdx != -1) comments.splice(correctiveActionsIdx, 1)
-    console.log(comments)
     this.store.dispatch(new SetComments(comments))
     this.dialogRef.close(false)
   }

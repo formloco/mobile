@@ -13,7 +13,7 @@ import { environment } from '../../../../environments/environment'
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
-import { SetPage, SetChildPage, SetChildPageLabel, SetIsSignIn } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetChildPageLabel, SetIsSignIn, SetChildPageIcon } from '../../../state/auth/auth-state.actions'
 
 @Component({
   selector: 'app-pin',
@@ -52,6 +52,7 @@ export class PinComponent {
       this.store.dispatch(new SetPage('admin'))
       this.store.dispatch(new SetChildPage('forms'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
+      this.store.dispatch(new SetChildPageIcon('dynamic_form'))
       this.store.dispatch(new SetIsSignIn(true))
       this.appService.initializeAdminNotifications()
     }

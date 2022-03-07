@@ -121,7 +121,11 @@ export class AuthState {
     return state.notificationId
   }
 
-  notificationId
+  @Selector()
+  static childPageIcon(state: AuthStateModel): {} {
+    return state.childPageIcon
+  }
+  
 
   @Action(AuthActions.SetIsIdentified)
   onSetIsIdentified(ctx: StateContext<AuthStateModel>, { isIdentified }: AuthActions.SetIsIdentified) {
@@ -285,6 +289,14 @@ export class AuthState {
       notificationId: notificationId
     });
   }
+
+  @Action(AuthActions.SetChildPageIcon)
+  onSetChildPageIcon(ctx: StateContext<AuthStateModel>, { childPageIcon }: AuthActions.SetChildPageIcon) {
+    ctx.patchState({
+      childPageIcon: childPageIcon
+    });
+  }
+  
   
   
 }

@@ -55,7 +55,6 @@ async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
   let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [dataID])
   // let inspection = await client.query(`SELECT * FROM inspection WHERE data_id = $1`, [dataID])
 
-  console.log(formData.rows[0]["data"])
   let header = formData.rows[0]["data"]["header"]
   let detail = formData.rows[0]["data"]["detail"]
 

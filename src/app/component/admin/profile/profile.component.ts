@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   email
   token
   hide = true
+  kioske = environment.kioske
   
   passwordForm: FormGroup;
 

@@ -12,13 +12,8 @@ import { environment } from '../../../environments/environment'
 import { Store, Select } from '@ngxs/store'
 import { Router } from '@angular/router'
 
-import { AppsState } from '../../state/apps/apps.state'
-import { SetApp } from '../../state/apps/apps-state.actions'
-import { APPS } from '../../state/apps/apps-state.model'
-
 import { AuthState } from '../../state/auth/auth.state'
 import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData, SetChildPage } from '../../state/auth/auth-state.actions'
-import { SetAppPage } from '../../state/apps/apps-state.actions'
 import { DeviceState } from '../../state/device/device.state'
 
 import { NotificationState } from '../../state/notification/notification.state'
@@ -37,23 +32,20 @@ export class HomeComponent implements OnInit {
 
   @Output() changeTheme = new EventEmitter()
 
-  @Select(AppsState.apps) apps$: Observable<any[]>
-
   @Select(AuthState.isSignIn) isSignIn$: Observable<boolean>
   @Select(AuthState.forms) forms$: Observable<any[]>
   @Select(DeviceState.background) background$: Observable<string>
   @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
+  @Select(AuthState.user) user$: Observable<any>
   @Select(AuthState.childPageLabel) childPageLabel$: Observable<string>
   @Select(NotificationState.notificationMyCount) notificationCount$: Observable<number>
 
-  apps = APPS
   form
   prefs
   checkform
   notificationCount
 
   kioske = environment.kioske
-  tenant = environment.tenant
   version = environment.version
   signinUrl = environment.signinUrl
   designUrl = environment.designUrl
@@ -87,12 +79,6 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new SetPage('form'))
   }
 
-  selectApp(app) {
-    this.store.dispatch(new SetApp(app)) // app obj
-    this.store.dispatch(new SetPage('apps')) // set in layout
-    this.store.dispatch(new SetAppPage('map'))
-  }
-
   goPIN() {
     this.store.dispatch(new SetPage('pin'))
   }
@@ -112,7 +98,7 @@ export class HomeComponent implements OnInit {
 
   openNotifications(tabIndex) {
     if (tabIndex === 0) {
-      const user = this.store.selectSnapshot(AuthState.user)
+      const user = this.store.selectSnapshot(AuthState.userIdb)
       this.notificationService.getMyNotifications({ email: user.email }).subscribe((notifications: any) => {
         let openNotifications: any = []
         notifications.forEach(element => {
@@ -122,7 +108,7 @@ export class HomeComponent implements OnInit {
       })
     }
     this.store.dispatch(new SetPage('notification'))
-    this.store.dispatch(new SetChildPageLabel('Forms'))
+    this.store.dispatch(new SetChildPageLabel('Notifications'))
     this.store.dispatch(new SetNotificationTab(tabIndex))
   }
 
@@ -133,14 +119,5 @@ export class HomeComponent implements OnInit {
   upGradeIndexDB() {
     this.idbPersistenceService.deleteDb()
   }
-
-  // openAdmin() {
-  //   this.store.dispatch(new SetPage('admin'))
-  //   this.store.dispatch(new SetChildPage('forms'))
-  //   this.store.dispatch(new SetChildPageLabel('Forms'))
-  //   this.store.dispatch(new SetIsSignIn(true))
-  //   this.appService.initializeAdminNotifications()
-  //   this.router.navigate([this.signinUrl])
-  // }
 
 }

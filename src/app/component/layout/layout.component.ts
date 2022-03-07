@@ -42,7 +42,6 @@ export class LayoutComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    console.log(this.kioske)
     if (this.kioske) {
       this.store.dispatch(new SetPage('kioske'))
     }

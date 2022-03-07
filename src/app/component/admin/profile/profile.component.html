@@ -22,10 +22,10 @@
     <mat-form-field class="text-color" appearance="outline" fxFlex>
       <mat-label class="text-color">Password</mat-label>
       <input class="text-color" matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
-        formControlName="password" required>
+        formControlName="password" required [readonly]="kioske">
       <mat-icon class="hand" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
-    <button (click)="resetPassword()" color="primary" mat-flat-button>
+    <button (click)="resetPassword()" color="primary" mat-flat-button [disabled]="kioske">
       Reset Password
     </button>
   </form>

@@ -14,7 +14,10 @@
         <input matInput type="text" formControlName="item" placeholder="Enter new List Item" required>
       </mat-form-field>
     </form>
-    <button mat-raised-button (click)="save()" color="primary" [disabled]="!runForm.valid" runForm.type="submit">
+    <button *ngIf="kioske" mat-raised-button (click)="save()" color="primary" [disabled]=true runForm.type="submit">
+      Add Item to List
+    </button>
+    <button *ngIf="!kioske" mat-raised-button (click)="save()" color="primary" [disabled]="!runForm.valid" runForm.type="submit">
       Add Item to List
     </button>
   </div>

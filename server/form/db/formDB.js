@@ -2,17 +2,15 @@ const fs = require('fs')
 const { Pool } = require('pg')
 const { v4: uuidv4 } = require('uuid')
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
 const formsReadSQL = async (data) => {
-
-  pool.options.database = data["tenant_id"]
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  
   let client = await pool.connect()
 
   let userForms = []
@@ -21,42 +19,69 @@ const formsReadSQL = async (data) => {
   if (forms.rowCount > 0) {
     const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
 
-    const manager = permissions.rows[0].manager
+    let manager
+    if (permissions.rowCount > 0)
+      manager = permissions.rows[0].manager
 
     forms.rows.forEach(form => {
       if (!form.manager) userForms.push(form)
       else if (form.manager === manager) userForms.push(form)
     })
   }
-  
+
   client.release()
+  await pool.end()
   return userForms
 }
 
 const formReadSQL = async (form_id, data_id) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+
   let client = await pool.connect()
   const data = await client.query(`SELECT * FROM "$1" WHERE id = $2`, [form_id, data_id])
   client.release()
+  await pool.end()
   return data.rows
 }
 
 const formCreateSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+
   let client = await pool.connect()
 
-  let formJSON = JSON.stringify(data["form"])
-  let userCreated = JSON.stringify(data["user_created"])
+  let formJSON = JSON.stringify(data['form'])
+  let userCreated = JSON.stringify(data['user_created'])
 
-  if (data["name"] == null) data["name"] = ''
+  if (data['name'] == null) data['name'] = ''
 
   let form = await client.query(`INSERT INTO public.form(form_id, name, type, form, tenant_id, is_data, is_published, is_list, pin, user_created) VALUES ( '` + data["form_id"] + `', '` + data["name"] + `', '` + data["type"] + `', '` + formJSON + `', '` + data["tenant_id"] + `', ` + data["is_data"] + `, ` + data["is_published"] + `, ` + data["is_list"] + `, '` + data["form"]["pin"] + `', '` + userCreated + `') returning id`)
 
   client.release()
-
+  await pool.end()
   return form.rows
 }
 
 // takes form structure from client and updates database
 const formRegisterSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
 
   client = await pool.connect()
 
@@ -65,9 +90,9 @@ const formRegisterSQL = async (data) => {
   if (form.rowCount === 0) {
 
     form_id = uuidv4()
-    formJSON = JSON.stringify(data["formObj"])
-    columns = JSON.stringify(data["formObj"]["form"]["columns"])
-    userCreated = JSON.stringify(data["user_created"])
+    formJSON = JSON.stringify(data['formObj'])
+    columns = JSON.stringify(data['formObj']['form']['columns'])
+    userCreated = JSON.stringify(data['user_created'])
 
     columns = columns.replace(/`/g, "'")
     columns = columns.replace(/"/g, "")
@@ -81,6 +106,7 @@ const formRegisterSQL = async (data) => {
   else form_id = form.rows[0].form_id
 
   client.release()
+  await pool.end()
 
   let obj = { form_id: form_id }
 
@@ -88,18 +114,39 @@ const formRegisterSQL = async (data) => {
 }
 
 const formPublishSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+
   let client = await pool.connect()
   await client.query('UPDATE public.form SET is_published = $1 WHERE form_id = $2', [data["is_published"], data["form_id"]])
-  client.release()
+  
   const forms = await client.query(`SELECT * FROM public.form WHERE date_archived is null AND is_list = false AND type = 'custom'`)
+  
+  client.release()
+  await pool.end()
   return forms.rows
 }
 
 const formPermissionSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+
   let client = await pool.connect()
   await client.query('UPDATE public.form SET is_manager = $1 WHERE form_id = $2', [data["is_manager"], data["form_id"]])
   const forms = await client.query(`SELECT * FROM public.form WHERE date_archived is null AND is_list = false`)
   client.release()
+
+  await pool.end()
   return forms.rows
 }
 

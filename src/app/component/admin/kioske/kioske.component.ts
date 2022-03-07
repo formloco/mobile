@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 
+import { Router } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
@@ -23,7 +24,6 @@ import { ContactComponent } from "../../contact/contact.component"
 export class KioskeComponent {
 
   logo = environment.logo
-  tenant = environment.tenant
   version = environment.version
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
@@ -33,6 +33,7 @@ export class KioskeComponent {
 
   constructor(
     private store: Store,
+    private router: Router,
     public appService: AppService,
     private authService: AuthService,
     private bottomSheet: MatBottomSheet,
@@ -47,11 +48,15 @@ export class KioskeComponent {
       isDarkMode: true,
       email: this.kioskeEmail
     }
+    // store user to state rather than indexedDb. 
+    // reason: when app running in kioske=false
+    // it looks to indexedDb to see if user has been validated
+    // then checks user against email list to see if still valid
     this.store.dispatch(new SetPage('home'))
     this.store.dispatch(new SetUserIdb(userObj))
     this.store.dispatch(new SetIsDarkMode(true))
     this.store.dispatch(new SetChildPageLabel('Forms'))
-    this.appService.initializeUser(this.kioskeEmail)
+    this.appService.initializeUser(this.kioskeEmail, false)
   }
 
   contact() {
@@ -59,6 +64,7 @@ export class KioskeComponent {
   }
 
   signin() {
+    // this.router.navigate(['signin'])
     this.store.dispatch(new SetPage('identify'))
   }
 

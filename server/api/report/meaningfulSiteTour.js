@@ -152,7 +152,6 @@ async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
   }
 
   // create pdf
-  // console.log(docDefinition)
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
   pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()

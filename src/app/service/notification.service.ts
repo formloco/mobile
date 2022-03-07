@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 import { Store } from '@ngxs/store'
+import { AuthState } from '../state/auth/auth.state'
 
 import { environment } from '../../environments/environment'
 
@@ -44,23 +45,36 @@ export class NotificationService {
     return this.http.post(this.notificationUrl, notificationObj)
   }
 
+  addTenantId(obj) {
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    obj["tenant_id"] = tenant.tenant_id
+    return obj 
+  }
+
   getAllNotifications() {
-    return this.http.get(this.notificationUrl)
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    const obj = { tenant_id: tenant.tenant_id }
+    return this.http.post(this.notificationUrl, obj)
   }
 
   getMyNotifications(obj) {
-    return this.http.get(this.notificationUrl + obj.email + '/')
+    obj = this.addTenantId(obj)
+    return this.http.post(this.notificationUrl + obj.email + '/', obj)
   }
 
   getMyNotificationCount(email) {
-    return this.http.get(this.notificationUrl + 'count/' + email + '/')
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    const obj = { tenant_id: tenant.tenant_id }
+    return this.http.post(this.notificationUrl + 'count/' + email + '/', obj)
   }
 
   updateNotificationMessage(obj) {
+    obj = this.addTenantId(obj)
     return this.http.put(this.notificationUrl, obj)
   }
 
   updateNotificationRead(obj) {
+    obj = this.addTenantId(obj)
     return this.http.put(this.notificationUrl+'read/', obj)
   }
 

@@ -194,7 +194,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   ngOnInit() {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
-      if (formData["data"]) {
+      if (this.formData && formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
       }

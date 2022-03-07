@@ -6,11 +6,11 @@ const { notificationAll, notificationMy, notificationCount, notificationCreate, 
 const router = express.Router()
 
 //notification
-router.get('/notification/', VerifyToken, notificationAll)
+router.post('/notification/', VerifyToken, notificationAll)
 
-router.get('/notification/:email/', VerifyToken, notificationMy)
+router.post('/notification/:email/', VerifyToken, notificationMy)
 
-router.get('/notification/count/:email/', VerifyToken, notificationCount)
+router.post('/notification/count/:email/', VerifyToken, notificationCount)
 
 router.post('/notification/', VerifyToken, notificationCreate)
 

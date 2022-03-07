@@ -120,4 +120,9 @@ export class SetNotificationId {
   constructor(public notificationId: number) {}
 }
 
+export class SetChildPageIcon {
+  static type = '[Auth] SetChildPageIcon'
+  constructor(public childPageIcon: string) {}
+}
+
 

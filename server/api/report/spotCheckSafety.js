@@ -63,12 +63,12 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
   let personalEquipment = formData.rows[0]["data"]["personalEquipment"]
   let safetyEquipment = formData.rows[0]["data"]["safetyEquipment"]
   let correctiveAction = formData.rows[0]["data"]["correctiveAction"]
-  console.log(correctiveAction)
+
   const data = []
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction);
 
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]]);
-  console.log(allFormData)
+  
   allFormData.forEach(haz => {
     if (haz[1] === 'unsatisfactory') {
       data.push(haz[0]+'U', '√')
@@ -91,7 +91,6 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
       data.push(haz[0]+'U', '')
     }
   })
-// console.log(data)
 
   const docDefinition = {
     content: [
@@ -301,7 +300,6 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
   }
 
   // create pdf
-  // console.log(docDefinition)
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
   pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()

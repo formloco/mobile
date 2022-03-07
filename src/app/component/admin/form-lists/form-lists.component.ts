@@ -31,7 +31,6 @@ export class FormListsComponent {
   isLookupOpen = false
 
   lookupListForm: FormGroup
-  tenant = environment.tenant
 
   constructor(
     private store: Store,
@@ -49,8 +48,8 @@ export class FormListsComponent {
     this.formService.createForm(form).subscribe(res => {
       this.closeOverlay()
       this.lookupListForm.reset()
-  
-      this.apiService.getLists({tenant_id: this.tenant.tenant_id}).subscribe(lists => {
+      const tenant = this.store.selectSnapshot(AuthState.tenant)
+      this.apiService.getLists({tenant_id: tenant.tenant_id}).subscribe(lists => {
         this.appService.lookupLists = lists
       })
     })

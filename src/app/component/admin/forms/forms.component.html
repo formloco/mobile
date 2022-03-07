@@ -35,14 +35,3 @@
     </div>
   </mat-card>
 </div>
-<div class="form-padding" *ngFor="let app of apps">
-  <mat-card class="custom hand" (click)=selectApp(app)>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon class="form-icon text-color material-icons-outlined">{{ app.icon }}</mat-icon>
-      </div>
-      <mat-card-title class="text-color">{{ app.name }}</mat-card-title>
-      <mat-card-subtitle>{{ app.description }}</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-</div>

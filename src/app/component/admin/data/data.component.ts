@@ -9,8 +9,6 @@ import { saveAs } from 'file-saver'
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 
-import { environment } from '../../../../environments/environment'
-
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
@@ -26,8 +24,6 @@ export class DataComponent implements OnInit {
 
   isData = false
 
-  tenant = environment.tenant
-
   constructor(
     private store: Store,
     private apiService: ApiService,
@@ -41,10 +37,11 @@ export class DataComponent implements OnInit {
     this.idbCrudService.readAll('form').subscribe(forms => {
       this.forms = forms
       const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
+      const tenant = this.store.selectSnapshot(AuthState.tenant)
       let form = this.forms.filter(f => f.id === selectedForm["id"])
       let obj = {
         form_id: form[0]["form_id"],
-        tenant_id: this.tenant["tenant_id"]
+        tenant_id: tenant["tenant_id"]
       }
       this.apiService.getData(obj).subscribe(data => {
         this.records = data

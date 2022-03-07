@@ -33,8 +33,6 @@ export class FormComponent {
   form
   step = 0
 
-  tenant = environment.tenant
-
   constructor(
     private store: Store,
     private fb: FormBuilder,
@@ -53,7 +51,7 @@ export class FormComponent {
     const page = this.store.selectSnapshot(AuthState.page)
     const childPage = this.store.selectSnapshot(AuthState.childPage)
 
-    if (page == 'form') {
+    if (childPage === null) {
       this.store.dispatch(new SetPage('home'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
     }

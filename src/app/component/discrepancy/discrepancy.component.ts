@@ -33,7 +33,6 @@ export class DiscrepancyComponent {
   }
 
   openCorrectiveActionDialog(comment) {
-    console.log(comment)
     const dialogConfig = new MatDialogConfig()
     dialogConfig.maxWidth = '100vw'
     dialogConfig.maxHeight = '100vh'

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 
-import { environment } from '../../environments/environment'
+import { Store } from '@ngxs/store'
+import { AuthState } from '../state/auth/auth.state'
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,13 @@ import { environment } from '../../environments/environment'
 export class TransformRunService {
 
   columnArray = []
-  tenant = environment.tenant
 
-  constructor() { }
+  constructor(
+    private store: Store) { }
 
   public parseDataCloud(formValues, form) {
     
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
     let formArray = Object.entries(formValues)
     
     if (formArray.length > 0) {
@@ -30,7 +32,7 @@ export class TransformRunService {
           data.push(element[1])
       })
       data.unshift(new Date())
-      data.unshift(this.tenant.email)
+      data.unshift(tenant.email)
       return data
     }
   }

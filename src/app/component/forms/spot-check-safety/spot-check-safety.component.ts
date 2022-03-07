@@ -135,7 +135,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
-      if (formData["data"]) {
+      if (this.formData && formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
       }
@@ -155,7 +155,6 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
-    console.log(data)
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
@@ -298,7 +297,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       discrepancyComments: this.discrepancyForm.value,
       correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
-console.log(data)
+
     dataObj.push(null)
     dataObj.push(JSON.stringify(userCreated))
     dataObj.push(new Date())

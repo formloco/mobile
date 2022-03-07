@@ -1,26 +1,26 @@
 const { allNotificationSQL, myNotificationSQL, countNotificationSQL, createNotificationSQL, updateNotificationSQL, updateReadSQL } = require('../db/notificationDB')
 
-const allNotification = async() => {
+const allNotification = async(req) => {
   try {
-    let data = await allNotificationSQL()
+    let data = await allNotificationSQL(req)
     return data
   } catch(e) {
     throw new Error(e.message)
   }
 }
 
-const myNotification = async(email) => {
+const myNotification = async(req) => {
   try {
-    let data = await myNotificationSQL(email)
+    let data = await myNotificationSQL(req)
     return data
   } catch(e) {
     throw new Error(e.message)
   }
 }
 
-const countNotification = async(email) => {
+const countNotification = async(req) => {
   try {
-    let data = await countNotificationSQL(email)
+    let data = await countNotificationSQL(req)
     return data
   } catch(e) {
     throw new Error(e.message)

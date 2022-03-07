@@ -148,7 +148,7 @@ export class VehicleInspectionComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
-      if (formData["data"]) {
+      if (this.formData && formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
       }
@@ -268,7 +268,7 @@ export class VehicleInspectionComponent implements OnInit {
       comments: this.store.selectSnapshot(CommentState.comments),
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
-console.log(data)
+
     const obj = {
       id: form["id"],
       data: data,

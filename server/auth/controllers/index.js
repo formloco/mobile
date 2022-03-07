@@ -13,7 +13,9 @@ const tempToken = async(req, res) => {
 const fetchUser = async(req, res) => {
   try {
     let data = await userFetch(req.body)
-    res.status(201).json(data)
+    let code = 201
+    if (!data.row) code = 405
+    res.status(code).json(data)
   } catch(e) {
     res.sendStatus(500)
   }
@@ -110,6 +112,7 @@ const fetchTenant = async(req, res) => {
   try {
     let data = await tenantFetch(req.body)
     let code = 201
+    if (!data) code = 401
     res.status(code).json(data)
   } catch(e) {
     res.sendStatus(500)

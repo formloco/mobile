@@ -14,6 +14,9 @@
     <a mat-icon-button (click)="signin()" color="primary">
       <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>
     </a>
+    <a *ngIf="kioske" mat-icon-button color="primary" href="{{homeUrl}}">
+      <mat-icon class="material-icons-outlined">home</mat-icon>
+    </a>
   </div>
 </mat-toolbar>
 <div class="form-padding" *ngFor="let formObj of (forms$ | async)">
@@ -29,30 +32,19 @@
 </div>
 <div class="footer">
   <mat-toolbar>
-    <div *ngIf="kioske">
-      <a class="green" (click)="signup()" mat-stroked-button>
-        <mat-icon>rocket_launch</mat-icon>&nbsp;Signup
+    <!-- <div *ngIf="kioske"> -->
+      <a *ngIf="!(isSignIn$ | async)" class="green" (click)="signup()" mat-stroked-button>
+        <mat-icon>rocket_launch</mat-icon>&nbsp;Sign Up!
       </a>
-    </div>
-    <div *ngIf="!kioske" fxLayoutAlign="space-around center">
+    <!-- </div> -->
+    <div *ngIf="!kioske && (isSignIn$ | async)" fxLayoutAlign="space-around center">
       <img src="assets/parrot.svg" height="28px">&nbsp;<span class="mat-small text-color">{{version}}</span> 
     </div>
     <span class="toolbar-spacer"></span>
     <div fxLayoutAlign="space-around center" fxLayoutGap="20px">
-      <a mat-stroked-button color="accent" href="{{designUrl}}">
+      <a mat-stroked-button color="accent" href="{{designUrl}}?email=(user | async)?.email)">
         <mat-icon>design_services</mat-icon>&nbsp;Design
       </a>
     </div>
   </mat-toolbar>
 </div>
-<!-- <div class="form-padding" *ngFor="let app of apps">
-  <mat-card class="custom hand" (click)=selectApp(app)>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon class="form-icon text-color material-icons-outlined">{{ app.icon }}</mat-icon>
-      </div>
-      <mat-card-title class="text-color">{{ app.name }}</mat-card-title>
-      <mat-card-subtitle>{{ app.description }}</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-</div> -->

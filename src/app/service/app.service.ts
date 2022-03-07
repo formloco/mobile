@@ -50,6 +50,7 @@ export class AppService {
 
   apiUrl = environment.apiUrl
   tenant = environment.tenant
+  kioske = environment.kioske
 
   LIST_FORM = LIST_FORM
 
@@ -97,10 +98,12 @@ export class AppService {
   }
 
   getCloud() {
-    return this.http.get(this.apiUrl + this.tenant.tenant_id + '/' + this.store.selectSnapshot(AuthState.selectedForm["form_id"]) + '/')
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    return this.http.get(this.apiUrl + tenant.tenant_id + '/' + this.store.selectSnapshot(AuthState.selectedForm["form_id"]) + '/')
   }
 
   createList(listName) {
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
     this.LIST_FORM.form.name = listName
     let userCreated = { email: 'polly@formloco.com', date_created: new Date() }
 
@@ -109,7 +112,7 @@ export class AppService {
       name: listName,
       form: this.LIST_FORM.form,
       form_id: uuid.v4(),
-      tenant_id: this.tenant.tenant_id,
+      tenant_id: tenant.tenant_id,
       date_created: new Date(),
       date_last_access: new Date(),
       user_created: userCreated,
@@ -125,46 +128,53 @@ export class AppService {
     return this.idbCrudService.put('data', obj)
   }
 
-  initializeUser(email) {
+  initializeUser(email, tenantLogin) {
+    console.log('sds')
     // get lookuplists array and dispatch to lookuplist state
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    this.apiService.getLists({ tenant_id: tenant.tenant_id }).subscribe(lists => {
-      const lookupLists: any = lists
-      LISTS.forEach(element => {
-        if (lookupLists.filter(list => list.name != element))
-          lookupLists.push({ name: element, rows: [] })
+    const tenant = this.store.select(AuthState.tenant).subscribe(tenant => {
+      this.apiService.getLists({ tenant_id: tenant.tenant_id }).subscribe(lists => {
+        const lookupLists: any = lists
+        LISTS.forEach(element => {
+          if (lookupLists.filter(list => list.name != element))
+            lookupLists.push({ name: element, rows: [] })
+        })
+        this.store.dispatch(new SetLookupListData(lookupLists))
       })
-      this.store.dispatch(new SetLookupListData(lookupLists))
-    })
-    // get worker and supervisor lists and dispatch to state
-    this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
-      const emailList: any = lists
-      let workers: any[] = []
-      let supervisors: any[] = []
-      emailList.forEach(element => {
-        if (element.worker) {
-          workers.push({ name: element.name, email: element.email })
-        }
-        if (element.supervisor) {
-          supervisors.push({ name: element.name, email: element.email })
-        }
+      // get worker and supervisor lists and dispatch to state
+      this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
+        const emailList: any = lists
+        let workers: any[] = []
+        let supervisors: any[] = []
+        emailList.forEach(element => {
+          if (element.worker) {
+            workers.push({ name: element.name, email: element.email })
+          }
+          if (element.supervisor) {
+            supervisors.push({ name: element.name, email: element.email })
+          }
+        })
+
+        workers.sort()
+        supervisors.sort()
+        this.store.dispatch(new SetWorkers(workers))
+        this.store.dispatch(new SetSupervisors(supervisors))
       })
-      workers.sort()
-      supervisors.sort()
-      this.store.dispatch(new SetWorkers(workers))
-      this.store.dispatch(new SetSupervisors(supervisors))
+  
+      // email is used to list of registered forms with permissions
+      if (!tenantLogin) {
+        this.formService.getForms({ email: email }).subscribe((forms: any) => {
+          this.setFormState(forms)
+        })
+      }
+      else {
+        this.formService.getForms({ email: email }).subscribe((forms: any) => {
+          this.idbCrudService.clear('form')
+          this.store.dispatch(new SetForms(forms))
+          this.idbCrudService.put('form', forms)
+        })
+      }
+      this.initializeMyNotifications(email)
     })
-
-    this.authService.user({ email: email }).subscribe((data: any) => {
-      this.store.dispatch(new SetUser(data))
-    })
-
-    // email is used to list of registered forms with permissions
-    this.formService.getForms({ email: email }).subscribe((forms: any) => {
-      this.setFormState(forms)
-    })
-
-    this.initializeMyNotifications(email)
   }
 
   // uses FORMS const to set forms state
@@ -186,6 +196,7 @@ export class AppService {
 
 
   initializeMyNotifications(email) {
+    console.log('got here')
     this.notificationService.getMyNotifications({ email: email }).subscribe(data => {
       this.setNotifications(data)
       this.store.dispatch(new SetNotificationOpen(this.notificationOpen))
@@ -222,21 +233,5 @@ export class AppService {
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
     }
   }
-
-  // initializeUserKioske(email) {
-  //   const tenant = this.store.selectSnapshot(AuthState.tenant)
-  //   // this.authService.user({ email: email }).subscribe((data: any) => {
-  //   //   this.store.dispatch(new SetUser(data))
-  //   // })
-
-  //   // email is used to list of registered forms with permissions
-  //   this.formService.getForms({ tenant_id: tenant_id, email: email }).subscribe((forms: any) => {
-  //     console.log(forms)
-  //     this.setFormState(forms)
-  //   })
-
-  //   this.initializeMyNotifications(email)
-
-  // }
 
 }

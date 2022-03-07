@@ -16,7 +16,6 @@ import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { Store, Select } from '@ngxs/store'
 import { LISTS, FORMS } from "../../../model/forms"
-import { APPS } from '../../../state/apps/apps-state.model'
 
 import { VEHICLE_INSPECTION } from '../../forms/vehicle-inspection/state/vehicle-inspection-state.model'
 import { MEANINGFUL_SITE_TOUR } from '../../forms/meaningful-site-tour/state/meaningful-site-tour.model'
@@ -25,7 +24,6 @@ import { SPOT_CHECK_SAFETY } from '../../forms/spot-check-safety/state/spot-chec
 
 import { SetSelectedForm, SetLookupListNames, SetForms } from '../../../state/auth/auth-state.actions'
 import { SetPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
-import { SetApp, SetAppPage } from '../../../state/apps/apps-state.actions'
 import { AuthState } from '../../../state/auth/auth.state'
 
 @Component({
@@ -38,11 +36,9 @@ export class FormsComponent {
   @Select(AuthState.forms) forms$: Observable<any[]>
 
   form
-  apps = APPS
   forms = FORMS 
   lists: any = LISTS
   kioske = environment.kioske
-  tenant = environment.tenant
 
   constructor(
     private store: Store,
@@ -54,6 +50,8 @@ export class FormsComponent {
 
   selectForm(form) {
     let formObj = null
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+
     if (form.id === 'vehicle-inspection') {
       formObj = VEHICLE_INSPECTION
     }
@@ -66,17 +64,18 @@ export class FormsComponent {
     if (form.id === 'spot-check-safety') {
       formObj = SPOT_CHECK_SAFETY
     }
+
     if (formObj !== null) {
       this.store.dispatch(new SetSelectedForm(form))
       this.store.dispatch(new SetChildPageLabel(form.name))
-      this.store.dispatch(new SetPage('form-admin'))
+      this.store.dispatch(new SetPage('form'))
 
-      let userCreated = { email: this.tenant.email, date_created: new Date() }
+      let userCreated = { email: tenant.email, date_created: new Date() }
 
       let obj = {
         name: form.name,
         formObj: formObj,
-        tenant_id: this.tenant["tenant_id"],
+        tenant_id: tenant["tenant_id"],
         user_created: userCreated
       }
 
@@ -90,12 +89,6 @@ export class FormsComponent {
   selectSharedLists() {
     this.store.dispatch(new SetLookupListNames(this.lists))
     this.appService.isListMenu = true
-  }
-
-  selectApp(app) {
-    this.store.dispatch(new SetApp(app)) // app obj
-    this.store.dispatch(new SetPage('apps')) // set in layout
-    this.store.dispatch(new SetAppPage('map'))
   }
 
   publish(formObj, event) {

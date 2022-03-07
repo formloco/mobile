@@ -2,14 +2,15 @@
 <div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
   <div class="header">
     <mat-toolbar>
-      <span>{{ childPageLabel$ | async }}</span>
+      <mat-icon color="primary" class="material-icons-outlined">{{ childPageIcon$ | async }}</mat-icon>
+      <div class="primary-color">&nbsp;{{ childPageLabel$ | async }}</div>
       <span class="toolbar-spacer"></span>
       <div fxLayoutGap="25px" fxLayoutAlign="space-around center">
-        <mat-icon class="hand" (click)="settings()">settings</mat-icon>
-        <mat-icon class="hand" (click)="openNotifications(1)">border_color</mat-icon>
-        <mat-icon class="hand" (click)="openNotifications(0)" matBadge="{{notificationCount$ | async}}"
+        <mat-icon class="hand material-icons-outlined" (click)="openNotifications(1)">border_color</mat-icon>
+        <mat-icon class="hand material-icons-outlined" (click)="openNotifications(0)" matBadge="{{notificationCount$ | async}}"
           matBadgeColor="accent">notifications</mat-icon>
-        <button color="primary" (click)="signout()" mat-flat-button>Sign Out</button>
+        <!-- <mat-icon class="hand material-icons-outlined" (click)="settings()">password</mat-icon> -->
+        <button color="primary" (click)="signout()" mat-icon-button><mat-icon class="material-icons-outlined">logout</mat-icon></button>
       </div>
     </mat-toolbar>
   </div>

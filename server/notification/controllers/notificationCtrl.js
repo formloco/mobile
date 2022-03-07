@@ -3,7 +3,7 @@ const { allNotification, myNotification, countNotification, createNotification, 
 
 const notificationAll = async(req, res) => {
   try{
-    let data = await allNotification()
+    let data = await allNotification(req)
     res.status(201).json(data)
   }catch(e){
     res.sendStatus(500)
@@ -12,7 +12,7 @@ const notificationAll = async(req, res) => {
 
 const notificationMy = async(req, res) => {
   try{
-    let data = await myNotification(req.params.email)
+    let data = await myNotification(req)
     res.status(201).json(data)
   }catch(e){
     res.sendStatus(500)
@@ -21,7 +21,7 @@ const notificationMy = async(req, res) => {
 
 const notificationCount = async(req, res) => {
   try{
-    let data = await countNotification(req.params.email)
+    let data = await countNotification(req)
     res.status(201).json(data)
   }catch(e){
     res.sendStatus(500)

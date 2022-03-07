@@ -3,47 +3,74 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { v4: uuidv4 } = require('uuid')
 
-const loadConfig = require('../../config')
-loadConfig()
+// const loadConfig = require('../../config')
+// loadConfig()
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
-const allNotificationSQL = async () => {
-
+const allNotificationSQL = async (req) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: req.body.tenant_id,
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
 
   const allNotifications = await client.query(`SELECT * FROM public.notification`)
 
   client.release()
+  await pool.end()
   return allNotifications.rows
 }
 
-const myNotificationSQL = async (email) => {
+const myNotificationSQL = async (req) => {
+  const email = req.params.email
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: req.body.tenant_id,
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
+console.log(client)
+  const emailID = await client.query('Select id from public.email WHERE email = $1', [email])
+  console.log(emailID)
+  console.log('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailID.rows[0].id])
 
-    const emailID = await client.query('Select id from public.email WHERE email = $1', [email])
-    const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailID.rows[0].id])
-
-    client.release()
+  const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailID.rows[0].id])
+  console.log('epe',myNotifications.rows)
+  client.release()
+  await pool.end()
   return myNotifications.rows
 }
 
-const countNotificationSQL = async (email) => {
+const countNotificationSQL = async (req) => {
+  const email = req.params.email
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: req.body.tenant_id,
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
-    const emailID = await client.query('Select id from public.email WHERE email = $1', [email])
-    const myNotifications = await client.query('Select count(*) FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 AND read = false', [emailID.rows[0].id])
+  const emailID = await client.query('Select id from public.email WHERE email = $1', [email])
+  const myNotifications = await client.query('Select count(*) FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 AND read = false', [emailID.rows[0].id])
 
-    client.release()
+  client.release()
+  await pool.end()
   return myNotifications.rows[0]
 }
 
 const createNotificationSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
   const comment = JSON.stringify(data["comment"])
 
@@ -61,28 +88,36 @@ const createNotificationSQL = async (data) => {
   const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailFromID.rows[0].id])
 
   client.release()
+  await pool.end()
   return myNotifications.rows
 }
 
 const updateNotificationSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
 
   messages = []
-  
+
   const toRow = await client.query('Select name from public.email WHERE email = $1', [data["email_to"]])
   const fromRow = await client.query('Select id, name from public.email WHERE email = $1', [data["email_from"]])
 
   let commentRow = await client.query('Select comment FROM public.notification WHERE id = $1', [data["notificationID"]])
-  
+
   messages = commentRow.rows[0].comment
-  
+
   const messageObj = {
     to: toRow.rows[0]["name"],
     from: fromRow.rows[0]["name"],
     date: data["date"],
     message: data["message"]
   }
-  
+
   messages.push(messageObj)
 
   const notificationID = await client.query('UPDATE public.notification SET comment = ($1), read = false WHERE id = ($2) RETURNING ID', [JSON.stringify(messages), data["notificationID"]])
@@ -96,15 +131,24 @@ const updateNotificationSQL = async (data) => {
     notifications: myNotifications.rows
   }
 
+  await pool.end()
   return obj
 }
 
 const updateReadSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
   const client = await pool.connect()
 
   await client.query('UPDATE public.notification SET read = true WHERE id = ($1)', [data["notificationID"]])
 
   client.release()
+  await pool.end()
   return
 
 }

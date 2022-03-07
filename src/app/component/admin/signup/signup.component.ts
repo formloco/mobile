@@ -77,7 +77,6 @@ export class SignupComponent {
   }
 
   selectSubscription() {
-    console.log(this.terms, this.subscription)
     if (this.terms) this.notContinue = false
     else this.notContinue = true
   }
