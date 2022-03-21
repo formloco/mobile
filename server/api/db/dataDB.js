@@ -48,32 +48,63 @@ function buildPDFReport(docID, form_id, pdfPath, dataID, signDate, comments) {
 }
 
 const dataReadSQL = async (tenant_id, form_id) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
   let data = []
   let tableExist = await client.query(`SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename  = '` + form_id + `')`)
   if (tableExist.rows[0].exists) {
     let formData = await client.query(`SELECT * FROM "` + form_id + `" ORDER BY id`)
     data = formData.rows
   }
+
+  client.release()
+  await pool.end()
+
   return data
 }
 
-const formReadSQL = async (form_id, data_id) => {
-  let client = await pool.connect()
+const formReadSQL = async (tenant_id, form_id, data_id) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: tenant_id,
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
   let formData = await client.query(`SELECT * FROM "` + form_id + `" WHERE id = $1`, [data_id])
 
   client.release()
+  await pool.end()
+
   return formData.rows[0]
 }
 
 const formSignSQL = async (data) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
 
   await client.query('UPDATE notification SET date_signed = $1, signed = true, email_signed = $2, signed_name = $3 WHERE id = $4', [new Date().toLocaleString("en-US", { timeZone: "America/Edmonton" }), data["email"], data["name"], data["notificationID"]])
 
   let comment = await client.query('SELECT comment FROM notification WHERE id = $1', [data["notificationID"]])
   let comments = comment.rows[0]["comment"]
+
   client.release()
+  await pool.end()
 
   const pdfPath = docPath + data["docName"] + '.pdf'
 
@@ -100,7 +131,14 @@ const formSignSQL = async (data) => {
 
 const dataCreateSQL = async (dataObj) => {
 
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
 
   const docID = dataObj["formObj"]["form"]["id"]
 
@@ -178,6 +216,7 @@ const dataCreateSQL = async (dataObj) => {
   } else buildPDFReport(docID, dataObj["formObj"]["form_id"], path, dataID, null, comments)
   
   client.release()
+  await pool.end()
 
   return dataID
 }
@@ -185,14 +224,21 @@ const dataCreateSQL = async (dataObj) => {
 // updates list item
 const dataUpdateSQL = async (dataObj) => {
 
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
   if (!dataObj.data)
     return { message: 'Nothing to Update' }
 
   let formJSON = JSON.stringify(dataObj.data)
   // escape single quote
   formJSON = formJSON.replace(/'/g, "''")
-
-  let client = await pool.connect()
 
   await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + formJSON + `' WHERE id = ` + dataObj.data_id)
 
@@ -206,6 +252,7 @@ const dataUpdateSQL = async (dataObj) => {
   }
 
   client.release()
+  await pool.end()
 
   const path = docPath + dataObj.id + dataObj.data_id
 
@@ -242,15 +289,34 @@ const dataUpdateSQL = async (dataObj) => {
 
 // deletes list item
 const dataDeleteSQL = async (data) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+  
   const form = await client.query('SELECT form_id FROM form WHERE name = $1', [data["name"]])
   await client.query(`DELETE FROM "` + form.rows[0]["form_id"] + `" WHERE id = ` + data["id"])
   let updatedData = await client.query(`SELECT * FROM "` + form.rows[0]["form_id"] + `"`)
+  
+  client.release()
+  await pool.end()
+
   return updatedData.rows
 }
 
 const listsGetSQL = async (data) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
 
   let listArray = []
 
@@ -267,24 +333,48 @@ const listsGetSQL = async (data) => {
     }
     listArray.push({ name: lists.rows[i].name, form_id: lists.rows[i].form_id, rows: listRows })
   }
+
   client.release()
+  await pool.end()
 
   return listArray
 }
 
 const emailsGetSQL = async (data) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
   const list = await client.query(`SELECT * FROM email`)
+
   client.release()
+  await pool.end()
+
   return list.rows
 }
 
 const listSaveSQL = async (data) => {
-  let client = await pool.connect()
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: data['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
   const form = await client.query('SELECT form_id FROM form WHERE name = $1', [data["name"]])
   await client.query(`INSERT INTO "` + form.rows[0]["form_id"] + `" (data) VALUES ('` + data["value"] + `')`)
   let updatedData = await client.query(`SELECT * FROM "` + form.rows[0]["form_id"] + `"`)
+  
   client.release()
+  await pool.end()
+
   return updatedData.rows
 }
 

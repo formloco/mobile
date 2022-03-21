@@ -37,7 +37,8 @@ export class HttpConfig implements HttpInterceptor {
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
-        this.errorService.popSnackbar(error.error.message);
+        const msg = "Whoa, something went wrong"
+        this.errorService.popSnackbar(msg);
         return throwError(error);
       })
     );

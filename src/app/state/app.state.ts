@@ -23,13 +23,11 @@ export enum Formloco {
   tenant = 'formloco',
   linkedinUrl = 'https://www.linkedin.com/in/formloco',
   githubUrl = 'https://github.com/formloco/',
-  kioskeEmail = 'brock@formloco.com',
   designUrl = 'https://design.formloco.com/',
-  kioskePassword = 'simple',
-  kioskeTenant = 'formloco',
   idbName = 'formlocoMobileDB',
-  email = 'poly@formloco.com',
+  email = 'brock@formloco.com',
   logo = 'assets/logo-light.png',
+  homeUrl = 'https://formloco.com/',
   apiUrl = 'https://api.formloco.com/api/',
   authUrl = 'https://api.formloco.com/auth/',
   formUrl = 'https://api.formloco.com/form/',
@@ -60,6 +58,9 @@ export enum Summit {
   signinUrl = 'https://forms.summitearth.com/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl = 'https://forms.summitearth.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
+
+export enum SummitForms {
+  pin = '333333'}
 
 export enum Rumzer {
   pin = '333333',

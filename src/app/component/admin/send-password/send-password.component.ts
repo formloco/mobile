@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
@@ -12,13 +12,12 @@ import { environment } from '../../../../environments/environment'
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { SetPage } from '../../../state/auth/auth-state.actions'
-
 @Component({
   selector: 'app-send-password',
   templateUrl: './send-password.component.html',
   styleUrls: ['./send-password.component.scss']
 })
-export class SendPasswordComponent implements OnInit {
+export class SendPasswordComponent {
 
   @Select(AuthState.childPage) childPage$: Observable<string>
 
@@ -31,14 +30,10 @@ export class SendPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private emailService: EmailService,
     private errorService: ErrorService,
-    private successService: SuccessService
-    ) { 
+    private successService: SuccessService) { 
     this.emailForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]]
     })
-  }
-
-  ngOnInit(): void {
   }
 
   forgotPasswordEmail() {

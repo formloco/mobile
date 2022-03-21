@@ -1,0 +1,47 @@
+<div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
+  <mat-toolbar>
+    <mat-icon class="material-icons-outlined text-color">admin_panel_settings</mat-icon>&nbsp;<span class="text-color">Admin</span> 
+    <span class="toolbar-spacer"></span>
+    <button (click)=close() mat-icon-button>
+      <mat-icon class="text-color">close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <br>
+  <form [formGroup]="signinForm">
+    <div fxLayout="column" class="padding20 text-color">
+      <div class="text-color text-center">
+        <div><img src="{{logo}}"></div>
+      </div>
+      <br>
+      <mat-form-field class="text-color" appearance="outline" fxFlex>
+        <mat-label>Company Email</mat-label>
+        <input matInput placeholder="Company Email" formControlName="email" type="text" required>
+        <mat-error>
+          Proper email is required!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter Password" formControlName="password" type="password" required>
+        <mat-error>
+          Password is required!
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayoutAlign="center" fxLayoutGap="20px">
+      <button (click)=close() mat-stroked-button color="primary">
+        CANCEL
+      </button>
+      <button (click)=signin() mat-raised-button color="primary" [disabled]="!signinForm.valid">
+        OK
+      </button>
+    </div>
+  </form>
+  <br>
+  <div fxLayoutAlign="center" class="text-color">
+    <h3>Forgot Password?</h3>
+  </div>
+  <div class="padding20">
+    <button (click)="forgotPasswordEmail" mat-stroked-button color="primary" fxFlex>Email Password Reset</button>
+  </div>
+</div>

@@ -12,7 +12,7 @@ import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
-import { User } from '../../../model/auth'
+import { User } from '../../../state/auth/auth-state.model'
 import { DeviceState } from '../../../state/device/device.state'
 import { SetPage } from '../../../state/auth/auth-state.actions'
 
@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
   @Select(DeviceState.background) background$: Observable<string>
   @Select(AuthState.user) user$: Observable<User>
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
   
   @Output() changeTheme = new EventEmitter()
 

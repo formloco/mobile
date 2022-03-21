@@ -1,5 +1,5 @@
 <div *ngIf="kioske" class="padding" fxLayout="row">
-  <div class="text-color mat-h1" fxLayoutAlign="space-around center">
+  <div class="text-color mat-h1">
     Sign In
   </div>
   <span class="toolbar-spacer"></span>
@@ -30,7 +30,7 @@
       </mat-form-field>
       <div class="hand" fxLayoutAlign="center">
         <mat-icon *ngIf="!idForm.valid" class="icon-169px text-color">fingerprint</mat-icon>
-        <mat-icon *ngIf="idForm.valid" class="icon-169px-action" (click)="save()">fingerprint</mat-icon>
+        <mat-icon *ngIf="idForm.valid" class="icon-169px-action" (click)="signin()">fingerprint</mat-icon>
       </div>
     </div>
   </form>

@@ -40,6 +40,11 @@ export class MenuComponent {
       this.store.dispatch(new SetChildPageIcon('dynamic_form'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
     }
+
+    if (child === 'sdk') {
+      this.store.dispatch(new SetChildPageIcon('settings_applications'))
+      this.store.dispatch(new SetChildPageLabel('SDK'))
+    }
       
     this.store.dispatch(new SetChildPage(child))
   }

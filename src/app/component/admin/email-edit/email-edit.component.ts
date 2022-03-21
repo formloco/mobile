@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core'
 
+import { Observable } from 'rxjs'
+
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 import { FormControl, Validators } from '@angular/forms'
 
@@ -7,10 +9,8 @@ import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
 import { SuccessService } from "../../../service/success.service"
 
-import { Store } from '@ngxs/store'
+import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
-import { environment } from '../../../../environments/environment'
-
 @Component({
   selector: 'app-email-edit',
   templateUrl: './email-edit.component.html',
@@ -18,18 +18,18 @@ import { environment } from '../../../../environments/environment'
 })
 export class EmailEditComponent implements OnInit {
 
-  kioske = environment.kioske
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
 
   id
+  name
+  email
+  kioske
   enabled
   admin
   worker
   supervisor
   disabledName
   disabledEmail
-
-  name = new FormControl({value: null, disabled: this.kioske}, [Validators.required])
-  email = new FormControl({value: null, disabled: this.kioske}, [Validators.required, Validators.email])
 
   constructor(
     private store: Store,
@@ -38,9 +38,15 @@ export class EmailEditComponent implements OnInit {
     private successService: SuccessService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EmailEditComponent>
-  ) { }
+  ) { 
+
+  }
 
   ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.name = new FormControl({value: null, disabled: this.kioske}, [Validators.required])
+    this.email = new FormControl({value: null, disabled: this.kioske}, [Validators.required, Validators.email])
+  
     this.id = this.appService.dataSource.data[this.data.idx]["id"]
     this.admin = this.appService.dataSource.data[this.data.idx]["admin"]
     this.worker = this.appService.dataSource.data[this.data.idx]["worker"]

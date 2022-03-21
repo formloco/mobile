@@ -29,6 +29,7 @@
     "@ionic-native/device": "^5.36.0",
     "@ionic/angular": "^5.6.13",
     "@ionic/pwa-elements": "^3.0.2",
+    "@ngxs-labs/select-snapshot": "^4.0.0",
     "@ngxs/store": "^3.7.2",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "@zxing/browser": "0.0.9",

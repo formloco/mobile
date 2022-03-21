@@ -10,7 +10,6 @@ import { SetPage, SetChildPageLabel } from '../../../../state/auth/auth-state.ac
 
 import { AppService } from "../../../../service/app.service"
 import { ApiService } from "../../../../service/api.service"
-import { environment } from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-action-worksite-safety-inspection',
@@ -23,7 +22,7 @@ export class ActionWorksiteSafetyInspectionComponent implements OnInit {
   @Output() close = new EventEmitter()
 
   details
-  kioske = environment.kioske
+  kioske
 
   discrepancyForm: FormGroup
 
@@ -39,6 +38,7 @@ export class ActionWorksiteSafetyInspectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
     this.discrepancyForm.controls['Discrepancy'].setValue(this.form.discrepancy.Discrepancy)
   }
 

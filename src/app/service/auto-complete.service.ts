@@ -23,13 +23,13 @@ export class AutoCompleteService {
   public filteredSupervisors$: Observable<any[]>
   private _filterSupervisors(value: any): any[] {
     const filterValue = value.toLowerCase()
-    return this.supervisors.filter(supervisor => supervisor["name"].toLowerCase().includes(filterValue))
+    return this.supervisors.filter(supervisor => supervisor["name"]?.toLowerCase().includes(filterValue))
   }
 
   public filteredWorkers$: Observable<any[]>
   private _filterWorkers(value: any): any[] {
     const filterValue = value.toLowerCase()
-    return this.workers.filter(worker => worker["name"].toLowerCase().includes(filterValue))
+    return this.workers.filter(worker => worker["name"]?.toLowerCase().includes(filterValue))
   }
 
   public filteredMakes$: Observable<any[]>

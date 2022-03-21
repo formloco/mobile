@@ -44,6 +44,7 @@ import { CommentComponent } from './component/comment/comment.component'
 // admin
 import { PinComponent } from './component/admin/pin/pin.component'
 import { AdminComponent } from './component/admin/admin.component'
+import { SdkComponent } from './component/admin/sdk/sdk.component'
 import { DataComponent } from './component/admin/data/data.component'
 import { MenuComponent } from './component/admin/menu/menu.component'
 import { FormsComponent } from './component/admin/forms/forms.component'
@@ -145,6 +146,8 @@ import { PricingComponent } from './component/pricing/pricing.component';
 import { WhyusComponent } from './component/whyus/whyus.component';
 import { ContactComponent } from './component/contact/contact.component';
 import { TermsComponent } from './component/terms/terms.component';
+import { SigninComponent } from './component/admin/signin/signin.component';
+import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
 
 @NgModule({
   declarations: [
@@ -239,7 +242,10 @@ import { TermsComponent } from './component/terms/terms.component';
     PricingComponent,
     WhyusComponent,
     ContactComponent,
-    TermsComponent
+    TermsComponent,
+    SigninComponent,
+    SignupBottomComponent,
+    SdkComponent
   ],
   imports: [
     BrowserModule,

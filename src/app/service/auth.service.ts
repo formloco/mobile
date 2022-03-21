@@ -12,7 +12,6 @@ import { environment } from '../../environments/environment'
 })
 export class AuthService {
 
-  // tenant
   authUrl = environment.authUrl;
   loginStatus = false;
 
@@ -77,13 +76,15 @@ export class AuthService {
   }
 
   signupEmail(obj) {
-    obj = this.addTenantId(obj)
     return this.http.post(this.authUrl+'email/', obj)
   }
 
   getTenant(obj) {
-    obj = this.addTenantId(obj)
     return this.http.post(this.authUrl+'tenant/', obj)
+  }
+
+  signinEmail(obj) {
+    return this.http.post(this.authUrl, obj)
   }
 
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 
 import { Observable } from 'rxjs'
+import { Router } from '@angular/router'
+
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { environment } from '../../../../environments/environment'
@@ -10,11 +12,10 @@ import { AuthService } from "../../../service/auth.service"
 
 import { Store, Select } from '@ngxs/store'
 import { DeviceState } from '../../../state/device/device.state'
-import { SetPage, SetUser, SetChildPageLabel, SetTenant, SetUserIdb, SetIsSignIn } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetUser, SetChildPageLabel, SetTenant, SetIsSignIn, SetKioske } from '../../../state/auth/auth-state.actions'
 import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 
 import { IdbPersistenceService } from '../../../service-idb/idb-persistence.service';
-
 @Component({
   selector: 'app-identification',
   templateUrl: './identification.component.html',
@@ -27,12 +28,14 @@ export class IdentificationComponent {
   version = environment.version
   logo = environment.logo
   kioske = environment.kioske
+  tenant = environment.tenant
 
   data
   idForm: FormGroup
 
   constructor(
     private store: Store,
+    private router: Router,
     private fb: FormBuilder,
     public appService: AppService,
     private authService: AuthService,
@@ -44,63 +47,43 @@ export class IdentificationComponent {
     })
   }
 
-  save() {
-    // if kioske=true use client env for tenant 
-    // else get tenant from kioske db or customer tenant db
+  signin() {
     if (this.kioske) {
-      // tenant running from formloco kioske mode
+      // tenant running from formloco kioske signin
+      // endpoint runs against kioske user db
       this.authService.getTenant(this.idForm.value).subscribe((tenant: any) => {
-        this.setIndexedDbUser()
         this.store.dispatch(new SetTenant({
           email: this.idForm.value['email'],
           tenant_id: tenant.tenant_id
         }))
-        this.setFormState()
-        const tenantLogin = true
-        this.appService.initializeUser(this.idForm.value['email'], tenantLogin)
+        this.store.dispatch(new SetKioske(false))
+        this.appService.setIndexedDbUser(this.idForm.value['email'], tenant.tenant_id)
+        this.registerUser(tenant.tenant_id)
       })
     }
+    // tenant running from mobile environment
+    // endpoint runs against tenant user db
     else {
-      // tenant running from mobile environment
-      this.authService.register(this.idForm.value).subscribe(_ => {
-        this.setIndexedDbUser()
-        this.setFormState()
+      this.appService.setIndexedDbUser(this.idForm.value['email'], this.tenant.tenant_id)
+      this.registerUser(this.tenant.tenant_id)
+    }
+  }
 
-        this.authService.user({ email: this.idForm.value['email'] }).subscribe((data: any) => {
-          this.store.dispatch(new SetUser(data))
-        })
-        const tenantLogin = false
-        this.appService.initializeUser(this.idForm.value['email'], tenantLogin)
+  registerUser(tenant_id) {
+    this.authService.register(this.idForm.value).subscribe(_ => {
+      this.authService.user({ email: this.idForm.value['email'] }).subscribe((user: any) => {
+        this.store.dispatch(new SetUser(user.row))
+        this.appService.initializeUser(this.idForm.value['email'])
 
+        if (this.kioske) this.router.navigate(['forms/'+this.idForm.value['email']+'/'+tenant_id])
+        else this.store.dispatch(new SetPage('home'))
+
+        this.store.dispatch(new SetIsSignIn(true))
+        this.store.dispatch(new SetIsDarkMode(true))
+        this.store.dispatch(new SetChildPageLabel('Forms'))
       })
-    }
-    
-  }
-
-  setFormState() {
-    this.store.dispatch(new SetPage('home'))
-    this.store.dispatch(new SetIsSignIn(true))
-    this.store.dispatch(new SetIsDarkMode(true))
-    this.store.dispatch(new SetChildPageLabel('Forms'))
-  }
-
-  setIndexedDbUser() {
-    let darkMode = true
-    this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
-      if (prefs.length > 0) darkMode = prefs.isDarkMode
     })
-    let userObj = {
-      isDarkMode: darkMode,
-      email: this.idForm.value['email']
-    }
-    let obj = {
-      user: userObj
-    }
-    this.store.dispatch(new SetUserIdb(userObj))
-    this.idbCrudService.clear('prefs')
-    this.idbCrudService.put('prefs', obj)
   }
-
 
   getEmail() {
     this.store.dispatch(new SetPage('send-password'))
@@ -115,4 +98,3 @@ export class IdentificationComponent {
   }
 
 }
-

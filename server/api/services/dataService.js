@@ -11,9 +11,9 @@ const dataRead = async(tenant_id, form_id) => {
   }
 }
 
-const formRead = async(form_id, data_id) => {
+const formRead = async(tenant_id, form_id, data_id) => {
   try {
-    let data = await formReadSQL(form_id, data_id)
+    let data = await formReadSQL(tenant_id, form_id, data_id)
     return data
   } catch(e) {
     throw new Error(e.message)

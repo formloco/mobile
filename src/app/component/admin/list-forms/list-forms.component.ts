@@ -1,10 +1,13 @@
 import { Component, Output, EventEmitter  } from '@angular/core'
 
-import { Store } from '@ngxs/store'
-import { FORMS, LISTS } from "../../../model/forms"
+import { Observable } from 'rxjs'
+
+import { Store, Select } from '@ngxs/store'
+import { LISTS } from "../../../model/forms"
 
 import { AppService } from "../../../service/app.service"
 import { SetSelectedForm, SetLookupListNames } from '../../../state/auth/auth-state.actions'
+import { AuthState } from '../../../state/auth/auth.state'
 
 @Component({
   selector: 'app-list-forms',
@@ -13,9 +16,10 @@ import { SetSelectedForm, SetLookupListNames } from '../../../state/auth/auth-st
 })
 export class ListFormsComponent {
 
+  @Select(AuthState.forms) forms$: Observable<any[]>
+
   @Output() selectData = new EventEmitter<any>()
 
-  forms = FORMS
   lists:any = LISTS
 
   constructor(
@@ -23,6 +27,7 @@ export class ListFormsComponent {
     private appService: AppService) { }
 
   selectForm(formObj) {
+    console.log(formObj)
     this.store.dispatch(new SetSelectedForm(formObj))
     this.store.dispatch(new SetLookupListNames(formObj.lists))
     this.selectData.emit()

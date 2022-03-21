@@ -31,6 +31,7 @@ import { SetNotificationOpen } from '../../../state/notification/notification-st
 export class MeaningfulSiteTourComponent implements OnInit {
 
   pics
+  kioske
   formData
   formDataID
   step = 0
@@ -40,7 +41,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
   notesForm: FormGroup
 
   messageUrl = environment.messageUrl
-  kioske = environment.kioske
 
   MEANINGFUL_SITE_TOUR = MEANINGFUL_SITE_TOUR
 
@@ -79,6 +79,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {
@@ -192,15 +193,15 @@ export class MeaningfulSiteTourComponent implements OnInit {
     dataObj.push(null)
     dataObj.push(JSON.stringify(data))
 
-    this.MEANINGFUL_SITE_TOUR["form_id"] = form["form_id"]
-    this.MEANINGFUL_SITE_TOUR["is_published"] = true
-    this.MEANINGFUL_SITE_TOUR["is_data"] = true
+    // this.MEANINGFUL_SITE_TOUR["form_id"] = form["form_id"]
+    // this.MEANINGFUL_SITE_TOUR["is_published"] = true
+    // this.MEANINGFUL_SITE_TOUR["is_data"] = true
 
     let obj = {
       data: dataObj,
       columns: this.MEANINGFUL_SITE_TOUR["columns"],
       user: userCreated,
-      formObj: this.MEANINGFUL_SITE_TOUR,
+      form: this.MEANINGFUL_SITE_TOUR,
       type: 'custom',
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       name: form["name"],

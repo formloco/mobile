@@ -9,7 +9,7 @@
     </mat-card-header>
   </mat-card>
 </div>
-<div class="form-padding" *ngFor="let formObj of forms">
+<div class="form-padding" *ngFor="let formObj of (forms$ | async)">
   <mat-card class="custom hand" (click)=selectForm(formObj)>
     <mat-card-header>
       <div mat-card-avatar>

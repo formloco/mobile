@@ -42,7 +42,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   step = 0
   isEdit = false
 
-  kioske = environment.kioske
+  kioske
 
   headerForm: FormGroup
   hazardForm: FormGroup
@@ -133,6 +133,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {

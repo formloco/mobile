@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment'
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../state/auth/auth.state'
-import { SetLookupListData, SetWorkers, SetSupervisors, SetUser, SetForms } from '../state/auth/auth-state.actions'
+import { SetLookupListData, SetWorkers, SetSupervisors, SetFormsPublished, SetForms } from '../state/auth/auth-state.actions'
 import { SetNotificationOpen, SetNotificationSigned, SetNotificationAllOpen, SetNotificationAllSigned, SetNotificationMyCount, SetNotificationAdminCount } from '../state/notification/notification-state.actions'
 import { SetBackground } from '../state/device/device-state.actions'
 
@@ -20,10 +20,10 @@ import { ApiService } from "../service/api.service"
 import { NotificationService } from "../service/notification.service"
 import { IdbCrudService } from "../service-idb/idb-crud.service"
 
-import { FORMS, LISTS, LIST_FORM } from '../model/forms'
+import { LISTS, LIST_FORM } from '../model/forms'
 
 import { SetTranscription } from 'src/app/state/device/device-state.actions'
-import { SetSelectedVoiceFieldLabel } from 'src/app/state/auth/auth-state.actions'
+import { SetSelectedVoiceFieldLabel, SetUserIdb } from 'src/app/state/auth/auth-state.actions'
 import { VoiceComponent } from '../component/voice/voice.component'
 import { DeviceState } from '../state/device/device.state'
 
@@ -128,10 +128,10 @@ export class AppService {
     return this.idbCrudService.put('data', obj)
   }
 
-  initializeUser(email, tenantLogin) {
-    console.log('sds')
+  initializeUser(email) {
+    // kioske email is used to get forms and notifications
     // get lookuplists array and dispatch to lookuplist state
-    const tenant = this.store.select(AuthState.tenant).subscribe(tenant => {
+    this.store.select(AuthState.tenant).subscribe(tenant => {
       this.apiService.getLists({ tenant_id: tenant.tenant_id }).subscribe(lists => {
         const lookupLists: any = lists
         LISTS.forEach(element => {
@@ -159,44 +159,24 @@ export class AppService {
         this.store.dispatch(new SetWorkers(workers))
         this.store.dispatch(new SetSupervisors(supervisors))
       })
-  
-      // email is used to list of registered forms with permissions
-      if (!tenantLogin) {
-        this.formService.getForms({ email: email }).subscribe((forms: any) => {
-          this.setFormState(forms)
+
+      this.formService.getForms({ email: email }).subscribe((forms: any) => {
+        this.idbCrudService.clear('form')
+        forms.forEach((ele) => {
+          this.idbCrudService.put('form', ele.form)
         })
-      }
-      else {
-        this.formService.getForms({ email: email }).subscribe((forms: any) => {
-          this.idbCrudService.clear('form')
-          this.store.dispatch(new SetForms(forms))
-          this.idbCrudService.put('form', forms)
+        this.idbCrudService.readAll('form').subscribe((forms: any) => {
+          const formsDeployed = forms.filter(form => !form.date_archived)
+          this.store.dispatch(new SetForms(formsDeployed))
+          const formsPublished = forms.filter(form => form.is_published === true)
+          this.store.dispatch(new SetFormsPublished(formsPublished))
         })
-      }
+      })
       this.initializeMyNotifications(email)
     })
   }
 
-  // uses FORMS const to set forms state
-  setFormState(forms) {
-    this.idbCrudService.clear('form')
-    forms.forEach((ele) => {
-      let form = FORMS.filter(f => f.name == ele.name)
-      if (form) {
-        form[0]["form_id"] = ele["form_id"]
-        form[0]["is_published"] = ele["is_published"]
-        form[0]["is_manager"] = ele["is_manager"]
-      }
-      this.idbCrudService.put('form', form[0])
-    })
-    this.idbCrudService.readAll('form').subscribe((forms: any) => {
-      this.store.dispatch(new SetForms(forms))
-    })
-  }
-
-
   initializeMyNotifications(email) {
-    console.log('got here')
     this.notificationService.getMyNotifications({ email: email }).subscribe(data => {
       this.setNotifications(data)
       this.store.dispatch(new SetNotificationOpen(this.notificationOpen))
@@ -232,6 +212,27 @@ export class AppService {
       this.store.dispatch(new SetBackground(''))
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
     }
+  }
+
+  setIndexedDbUser(email, tenant_id) {
+    let darkMode = true
+    this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
+      if (prefs.length > 0) darkMode = prefs.isDarkMode
+    })
+    let userObj = {
+      isDarkMode: darkMode,
+      email: email
+    }
+    let obj = {
+      user: {
+        isDarkMode: darkMode,
+        email: email,
+        tenant_id: tenant_id
+      }
+    }
+    this.store.dispatch(new SetUserIdb(userObj))
+    this.idbCrudService.clear('prefs')
+    this.idbCrudService.put('prefs', obj)
   }
 
 }

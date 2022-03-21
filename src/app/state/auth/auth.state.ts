@@ -3,7 +3,7 @@ import { State, Selector, StateContext, Action } from '@ngxs/store'
 
 import * as AuthActions from './auth-state.actions'
 import { AuthStateModel } from './auth-state.model'
-import { User, UserIdb, Tenant } from '../../model/auth'
+import { User, UserIdb, Tenant } from './auth-state.model'
 
 @Injectable()
 @State<AuthStateModel>({
@@ -125,7 +125,16 @@ export class AuthState {
   static childPageIcon(state: AuthStateModel): {} {
     return state.childPageIcon
   }
-  
+
+  @Selector()
+  static kioske(state: AuthStateModel): {} {
+    return state.kioske
+  }
+
+  @Selector()
+  static formsPublished(state: AuthStateModel): {} {
+    return state.formsPublished
+  }
 
   @Action(AuthActions.SetIsIdentified)
   onSetIsIdentified(ctx: StateContext<AuthStateModel>, { isIdentified }: AuthActions.SetIsIdentified) {
@@ -296,8 +305,20 @@ export class AuthState {
       childPageIcon: childPageIcon
     });
   }
-  
-  
+
+  @Action(AuthActions.SetKioske)
+  onSetKioske(ctx: StateContext<AuthStateModel>, { kioske }: AuthActions.SetKioske) {
+    ctx.patchState({
+      kioske: kioske
+    });
+  }
+
+  @Action(AuthActions.SetFormsPublished)
+  onSetFormsPublished(ctx: StateContext<AuthStateModel>, { formsPublished }: AuthActions.SetFormsPublished) {
+    ctx.patchState({
+      formsPublished: formsPublished
+    });
+  }
   
 }
 

@@ -57,8 +57,14 @@ export class FormComponent {
     }
     else {
       this.store.dispatch(new SetPage('admin'))
-      this.store.dispatch(new SetChildPage('forms'))
-      this.store.dispatch(new SetChildPageLabel('Forms'))
+      if (childPage == 'forms') {
+        this.store.dispatch(new SetChildPage('forms'))
+        this.store.dispatch(new SetChildPageLabel('Forms'))
+      }
+      if (childPage == 'sdk') {
+        this.store.dispatch(new SetChildPage('sdk'))
+        this.store.dispatch(new SetChildPageLabel('SDK'))
+      }
     }
     if (childPage == 'notification') {
       const childPage = this.store.selectSnapshot(AuthState.childPage)

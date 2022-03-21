@@ -6,7 +6,7 @@
 import { Component } from '@angular/core'
 import { Observable } from 'rxjs'
 
-import { environment } from '../../../../environments/environment'
+import * as _ from 'lodash'
 
 import { AppService } from "../../../service/app.service"
 import { ErrorService } from '../../../service/error.service'
@@ -15,15 +15,17 @@ import { SuccessService } from "../../../service/success.service"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { Store, Select } from '@ngxs/store'
-import { LISTS, FORMS } from "../../../model/forms"
+import { LISTS } from "../../../model/forms"
+import { Form } from '../../../state/auth/auth-state.model'
 
+// custom forms
 import { VEHICLE_INSPECTION } from '../../forms/vehicle-inspection/state/vehicle-inspection-state.model'
 import { MEANINGFUL_SITE_TOUR } from '../../forms/meaningful-site-tour/state/meaningful-site-tour.model'
 import { WORKSITE_SAFETY_INSPECTION } from '../../forms/worksite-safety-inspection/state/worksite-safety-inspection-state.model'
 import { SPOT_CHECK_SAFETY } from '../../forms/spot-check-safety/state/spot-check-safety.model'
 
-import { SetSelectedForm, SetLookupListNames, SetForms } from '../../../state/auth/auth-state.actions'
-import { SetPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
+import { SetSelectedForm, SetLookupListNames } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPageLabel, SetForms } from '../../../state/auth/auth-state.actions'
 import { AuthState } from '../../../state/auth/auth.state'
 
 @Component({
@@ -33,12 +35,12 @@ import { AuthState } from '../../../state/auth/auth.state'
 })
 export class FormsComponent {
 
-  @Select(AuthState.forms) forms$: Observable<any[]>
+  @Select(AuthState.forms) forms$: Observable<Form[]>
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
 
-  form
-  forms = FORMS 
+  form: Form
+  forms = []
   lists: any = LISTS
-  kioske = environment.kioske
 
   constructor(
     private store: Store,
@@ -46,44 +48,40 @@ export class FormsComponent {
     private formService: FormService,
     private errorService: ErrorService,
     private idbCrudService: IdbCrudService,
-    private successService: SuccessService) { }
+    private successService: SuccessService) {
+    this.forms.push(VEHICLE_INSPECTION)
+    // this.forms.push(MEANINGFUL_SITE_TOUR)
+    this.forms.push(WORKSITE_SAFETY_INSPECTION)
+    this.forms.push(SPOT_CHECK_SAFETY)
+  }
 
   selectForm(form) {
-    let formObj = null
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    console.log(form)
+    let formObjClone = _.cloneDeep(form)
+    if (!form.type) this.errorService.popSnackbar('Form is not Configured')
 
-    if (form.id === 'vehicle-inspection') {
-      formObj = VEHICLE_INSPECTION
-    }
-    if (form.id === 'meaningful-site-tour') {
-      formObj = MEANINGFUL_SITE_TOUR
-    }
-    if (form.id === 'worksite-safety-inspection') {
-      formObj = WORKSITE_SAFETY_INSPECTION
-    }
-    if (form.id === 'spot-check-safety') {
-      formObj = SPOT_CHECK_SAFETY
-    }
+    else if (form.type === 'custom') {
+      const tenant = this.store.selectSnapshot(AuthState.tenant)
 
-    if (formObj !== null) {
-      this.store.dispatch(new SetSelectedForm(form))
-      this.store.dispatch(new SetChildPageLabel(form.name))
-      this.store.dispatch(new SetPage('form'))
-
-      let userCreated = { email: tenant.email, date_created: new Date() }
-
-      let obj = {
-        name: form.name,
-        formObj: formObj,
-        tenant_id: tenant["tenant_id"],
-        user_created: userCreated
-      }
+      formObjClone["user_created"] = { email: tenant.email, date_created: new Date() }
 
       // forms are taken from local json and registered to the database
-      this.formService.registerForm(obj).subscribe(_ => {})
+      this.formService.registerForm(formObjClone).subscribe(_ => {
+        this.runForm(formObjClone)
+      })
 
-    } else this.errorService.popSnackbar('Form is not Configured')
+    }
+    else {
+      this.appService.detailArray = form.details
+      this.runForm(form)
+    }
 
+  }
+
+  runForm(form) {
+    this.store.dispatch(new SetSelectedForm(form))
+    this.store.dispatch(new SetChildPageLabel(form.name))
+    this.store.dispatch(new SetPage('form'))
   }
 
   selectSharedLists() {
@@ -92,21 +90,59 @@ export class FormsComponent {
   }
 
   publish(formObj, event) {
-    this.formService.publishForm({ form_id: formObj.form_id, is_published: event.checked }).subscribe((response:any) => {
-      this.appService.setFormState(response.rows)
-      this.successService.popSnackbar(response.message)
+    let formObjClone = _.cloneDeep(formObj)
+
+    const accessDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    formObjClone['is_published'] = event.checked
+    formObjClone['date_last_access'] = accessDate
+
+    let obj = {
+      form_id: formObj.form_id,
+      formObj: formObjClone,
+      is_deployed: true,
+      is_published: event.checked,
+      date_last_accessed: accessDate
+    }
+    this.formService.statusToggle(obj).subscribe((response: any) => {
+      this.updateIdb(formObjClone, response)
     })
   }
 
   setPermission(formObj, event) {
+    let formObjClone = _.cloneDeep(formObj)
+
+    const accessDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    formObjClone['is_manager'] = event.checked
+    formObjClone['date_last_access'] = accessDate
+
     let obj = {
+      formObj: formObjClone,
       is_manager: event.checked,
       form_id: formObj.form_id
     }
     this.formService.setPermissions(obj).subscribe((response: any) => {
-      this.appService.setFormState(response.rows)
+      this.updateIdb(formObjClone, response)
+    })
+  }
+
+  updateIdb(formObjClone, response) {
+    this.idbCrudService.put('form', formObjClone).subscribe(_ => {
+      this.idbCrudService.readAll('form').subscribe((forms: any) => {
+        const formsDeployed = forms.filter(form => !form.date_archived)
+        this.store.dispatch(new SetForms(formsDeployed))
+      })
       this.successService.popSnackbar(response.message)
     })
-  }  
+  }
+
+  archive(formObj) {
+    let formObjClone = _.cloneDeep(formObj)
+    formObjClone['date_archived'] = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    formObjClone['user_archived'] = this.store.selectSnapshot(AuthState.user)
+
+    this.formService.update(formObjClone).subscribe((response: any) => {
+      this.updateIdb(formObjClone, response)
+    })
+  }
 
 }

@@ -40,6 +40,7 @@ export class NotificationOpenComponent implements OnInit{
 
   @Select(NotificationState.notificationOpen) notificationOpen$: Observable<string>
   @Select(NotificationState.notificationIdx) notificationIdx$: Observable<number>
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
 
   kioske = environment.kioske
   messageUrl = environment.messageUrl

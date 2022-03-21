@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt  = require('bcryptjs')
 
-const { userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL, emailSignupSQL, tenantFetchSQL } = require('../db/authDB')
+const { userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL, emailSignupSQL, tenantFetchSQL, signinKioskeSQL } = require('../db/authDB')
 
 const tokenTemp = async() => {
   try {
@@ -14,8 +14,8 @@ const tokenTemp = async() => {
 
 const userFetch = async(data) => {
   try {
-    let rows = await userFetchSQL(data)
-    return rows
+    let row = await userFetchSQL(data)
+    return row
   } catch(e) {
     throw new Error(e.message)
   }
@@ -76,10 +76,9 @@ const emailCreate = async(data) => {
 }
 
 const emailRegister = async(data) => {
-  
   try {
-    let rows = await emailRegisterSQL(data)
-    return rows
+    let row = await emailRegisterSQL(data)
+    return row
   } catch(e) {
     throw new Error(e.message)
   }
@@ -111,6 +110,17 @@ const tenantFetch = async(data) => {
   }
 }
 
+const signinKioske = async(data) => {
+  try {
+    let obj = await signinKioskeSQL(data)
+    return obj
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+
+
 module.exports = {
-  tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch
+  tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch, signinKioske
 }

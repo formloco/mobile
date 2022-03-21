@@ -27,7 +27,7 @@
         <button *ngIf="!kioske" color="primary" mat-mini-fab [disabled]="!messageForm.valid">
           <mat-icon class="material-icons-outlined" (click)="sendMessage(i)">send</mat-icon>
         </button>
-        <button *ngIf="kioske" color="primary" mat-mini-fab [disabled]="kioske">
+        <button *ngIf="kioske" color="primary" mat-mini-fab [disabled]="kioske$ | async">
           <mat-icon class="material-icons-outlined">send</mat-icon>
         </button>
       </div>

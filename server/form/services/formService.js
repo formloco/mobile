@@ -1,4 +1,4 @@
-const { formsReadSQL, formReadSQL, formCreateSQL, formRegisterSQL, formPublishSQL, formPermissionSQL } = require('../db/formDB')
+const { formsReadSQL, formReadSQL, formCreateSQL, formRegisterSQL, formStatusSQL, formUpdateSQL, formPermissionSQL } = require('../db/formDB')
 
 const formsRead = async(data) => {
   try {
@@ -35,9 +35,19 @@ const formRegister = async(data) => {
   }
 }
 
-const formPublish = async(data) => {
+const formStatus = async(data) => {
+  console.log(data)
   try {
-    let dataObj = await formPublishSQL(data)
+    let dataObj = await formStatusSQL(data)
+    return dataObj
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
+const formUpdate = async(data) => {
+  try {
+    let dataObj = await formUpdateSQL(data)
     return dataObj
   } catch(e) {
     throw new Error(e.message)
@@ -53,5 +63,5 @@ const formPermission = async(data) => {
   }
 }
 module.exports = {
-  formsRead, formRead, formCreate, formRegister, formPublish, formPermission
+  formsRead, formRead, formCreate, formRegister, formStatus, formUpdate, formPermission
 }

@@ -1,5 +1,5 @@
 
-const { formsRead, formRead, formCreate, formRegister, formPublish, formPermission } = require('../services/formService')
+const { formsRead, formRead, formCreate, formRegister, formStatus, formUpdate, formPermission } = require('../services/formService')
 
 const readForms = async(req, res) => {
   try {
@@ -37,10 +37,20 @@ const registerForm = async(req, res) => {
   }
 }
 
-const publishForm = async(req, res) => {
+const statusForm = async(req, res) => {
+  // console.log(req.body)
   try {
-    let data = await formPublish(req.body)
-    res.status(201).json({rows: data, "message": "Form published."})
+    let data = await formStatus(req.body)
+    res.status(201).json(data)
+  } catch(e) {
+    res.sendStatus(500)
+  }
+}
+
+const updateForm = async(req, res) => {
+  try {
+    let data = await formUpdate(req.body)
+    res.status(201).json(data)
   } catch(e) {
     res.sendStatus(500)
   }
@@ -56,5 +66,5 @@ const permissionForm = async(req, res) => {
 }
 
 module.exports = {
-  readForms, readForm, createForm, registerForm, publishForm, permissionForm
+  readForms, readForm, createForm, registerForm, statusForm, updateForm, permissionForm
 }

@@ -14,7 +14,7 @@ const readData = async(req, res) => {
 
 const readForm = async(req, res) => {
   try {
-    let data = await formRead(req.params.form_id, req.params.data_id)
+    let data = await formRead(req.params.tenant_id, req.params.form_id, req.params.data_id)
     res.status(201).json(data)
   } catch(e) {
     res.sendStatus(500)

@@ -5,13 +5,12 @@ import { Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 
 import { AppService } from "../../../service/app.service"
+import { AuthService } from "../../../service/auth.service"
 import { ErrorService } from "../../../service/error.service"
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { environment } from '../../../../environments/environment'
 
 import { Store, Select } from '@ngxs/store'
-import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
 import { SetPage, SetChildPage, SetChildPageLabel, SetIsSignIn, SetChildPageIcon } from '../../../state/auth/auth-state.actions'
 
@@ -25,14 +24,14 @@ export class PinComponent {
   @Output() changeTheme = new EventEmitter()
 
   @Select(DeviceState.background) background$: Observable<string>
-  @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
-  @Select(AuthState.childPageLabel) childPageLabel$: Observable<string>
 
   auth
   token
   prefs
 
   pin = environment.pin
+  tenant = environment.tenant
+
   pinForm: FormGroup
 
   constructor(
@@ -40,8 +39,8 @@ export class PinComponent {
     private router: Router,
     private fb: FormBuilder,
     public appService: AppService,
-    private errorService: ErrorService,
-    private idbCrudService: IdbCrudService) { 
+    private authService: AuthService, 
+    private errorService: ErrorService) { 
     this.pinForm = this.fb.group({
       pin: ['', Validators.required]
     })
@@ -57,10 +56,6 @@ export class PinComponent {
       this.appService.initializeAdminNotifications()
     }
     else this.errorService.popSnackbar('Incorrect PIN')
-  }
-
-  toggleTheme() {
-    this.changeTheme.emit()
   }
 
   close() {

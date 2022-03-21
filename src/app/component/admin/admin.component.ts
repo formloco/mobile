@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { MatSidenav } from '@angular/material/sidenav'
@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup } from '@angular/forms'
 import { Router } from '@angular/router'
 
 import { Store, Select } from '@ngxs/store'
-import { FORMS } from "../../model/forms"
 import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
 import { NotificationState } from '../../state/notification/notification.state'
@@ -22,7 +21,6 @@ import { IdbCrudService } from "../../service-idb/idb-crud.service"
 import { environment } from '../../../environments/environment'
 
 import { SetIsDarkMode } from '../../state/device/device-state.actions'
-
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -31,7 +29,6 @@ import { SetIsDarkMode } from '../../state/device/device-state.actions'
 export class AdminComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav: MatSidenav
-  // @Output() changeTheme = new EventEmitter()
 
   @Select(AuthState.page) page$: Observable<string>
   @Select(AuthState.childPage) childPage$: Observable<string>
@@ -69,7 +66,6 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private router: Router,
     public appService: AppService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
@@ -80,7 +76,14 @@ export class AdminComponent implements OnInit {
     }
   
   ngOnInit() {
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    // const tenant = this.store.selectSnapshot(AuthState.tenant)
+    this.store.select(AuthState.tenant).subscribe((tenant: any) => {
+      this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
+        const emailLists:any = lists
+        emailLists.sort((a, b) => a.name.localeCompare(b.name))
+        this.store.dispatch(new SetEmailList(emailLists))
+      })
+    })
     
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
@@ -95,14 +98,7 @@ export class AdminComponent implements OnInit {
         this.store.dispatch(new SetIsDarkMode(true)) 
       }
     })
-    // this.idbCrudService.readAll('form').subscribe((forms:any) => {
-    //   this.store.dispatch(new SetForms(forms))
-    // })
-    this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
-      const emailLists:any = lists
-      emailLists.sort((a, b) => a.name.localeCompare(b.name))
-      this.store.dispatch(new SetEmailList(emailLists))
-    })
+    
   }
 
   close(reason: string) {
@@ -135,14 +131,8 @@ export class AdminComponent implements OnInit {
 
   signout() {
     this.store.dispatch(new SetPage('home'))
-    // this.store.dispatch(new SetChildPageLabel('Forms'))
     this.store.dispatch(new SetIsSignIn(false))
-    // location.reload()
   }
-
-  // toggleTheme() {
-  //   this.changeTheme.emit()
-  // }
 
   openNotifications(tabIndex) {
     if (tabIndex === 0) {

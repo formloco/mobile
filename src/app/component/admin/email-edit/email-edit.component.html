@@ -29,13 +29,13 @@
 <!-- registered-->
 <span *ngIf="enabled">
   <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
-    <mat-checkbox [(ngModel)]="admin" color="primary" [disabled]="kioske">Admin</mat-checkbox>
-    <mat-checkbox [(ngModel)]="manager" color="primary" [disabled]="kioske">Manager</mat-checkbox>
+    <mat-checkbox [(ngModel)]="admin" color="primary" [disabled]="kioske$ | async">Admin</mat-checkbox>
+    <mat-checkbox [(ngModel)]="manager" color="primary" [disabled]="kioske$ | async">Manager</mat-checkbox>
   </div>
   <br>
   <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
-    <mat-checkbox [(ngModel)]="worker" color="primary" [disabled]="kioske">Worker</mat-checkbox>
-    <mat-checkbox [(ngModel)]="supervisor" color="primary" [disabled]="kioske">Supervisor</mat-checkbox>
+    <mat-checkbox [(ngModel)]="worker" color="primary" [disabled]="kioske$ | async">Worker</mat-checkbox>
+    <mat-checkbox [(ngModel)]="supervisor" color="primary" [disabled]="kioske$ | async">Supervisor</mat-checkbox>
   </div>
 </span>
 
@@ -43,24 +43,24 @@
 <span *ngIf="enabled === null" fxLayout="column" fxLayoutAlign="center center">
   <div>
     <mat-form-field fxFlex>
-      <input matInput type="text" [formControl]="name" placeholder="Name" required [disabled]="kioske">
+      <input matInput type="text" [formControl]="name" placeholder="Name" required [disabled]="kioske$ | async">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field fxFlex>
-      <input matInput type="text" [formControl]="email" placeholder="Email" required [disabled]="kioske">
+      <input matInput type="text" [formControl]="email" placeholder="Email" required [disabled]="kioske$ | async">
     </mat-form-field>
   </div>
 </span>
 <span *ngIf="enabled === null">
   <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
-    <mat-checkbox [(ngModel)]="admin" color="primary" [disabled]="kioske">Admin</mat-checkbox>
-    <mat-checkbox [(ngModel)]="manager" color="primary" [disabled]="kioske">Manager</mat-checkbox>
+    <mat-checkbox [(ngModel)]="admin" color="primary" [disabled]="kioske$ | async">Admin</mat-checkbox>
+    <mat-checkbox [(ngModel)]="manager" color="primary" [disabled]="kioske$ | async">Manager</mat-checkbox>
   </div>
   <br>
   <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
-    <mat-checkbox [(ngModel)]="worker" color="primary" [disabled]="kioske">Worker</mat-checkbox>
-    <mat-checkbox [(ngModel)]="supervisor" color="primary" [disabled]="kioske">Supervisor</mat-checkbox>
+    <mat-checkbox [(ngModel)]="worker" color="primary" [disabled]="kioske$ | async">Worker</mat-checkbox>
+    <mat-checkbox [(ngModel)]="supervisor" color="primary" [disabled]="kioske$ | async">Supervisor</mat-checkbox>
   </div>
 </span>
 
@@ -88,15 +88,15 @@
 <br>
 <div class="control-padding" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center">
   <div *ngIf="enabled || enabled === null">
-    <button (click)="update()" mat-stroked-button color="primary" [disabled]="kioske">Save</button>
+    <button (click)="update()" mat-stroked-button color="primary" [disabled]="kioske$ | async">Save</button>
   </div>
   <div *ngIf="enabled">
-    <button (click)="reset()" mat-stroked-button color="accent" [disabled]="kioske">Reset</button>
+    <button (click)="reset()" mat-stroked-button color="accent" [disabled]="kioske$ | async">Reset</button>
   </div>
   <div *ngIf="enabled === false">
-    <button (click)="enable()" mat-stroked-button color="accent" [disabled]="kioske">Enable</button>
+    <button (click)="enable()" mat-stroked-button color="accent" [disabled]="kioske$ | async">Enable</button>
   </div>
   <div *ngIf="enabled || enabled ===  null">
-    <button (click)="disable()" mat-stroked-button color="warn" [disabled]="kioske">Disable</button>
+    <button (click)="disable()" mat-stroked-button color="warn" [disabled]="kioske$ | async">Disable</button>
   </div>
 </div>

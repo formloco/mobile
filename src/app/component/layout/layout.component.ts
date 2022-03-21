@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 import { Observable } from 'rxjs'
 
@@ -7,19 +7,19 @@ import * as _ from 'lodash'
 import { ActivatedRoute, Params } from '@angular/router'
 
 import { Store, Select } from '@ngxs/store'
-import { NotificationService } from "../../service/notification.service"
 
 import { AppService } from "../../service/app.service"
+import { AuthService } from "../../service/auth.service"
+import { NotificationService } from "../../service/notification.service"
 import { IdbCrudService } from "../../service-idb/idb-crud.service"
 
 import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
 
-import { SetPage, SetChildPageLabel } from '../../state/auth/auth-state.actions'
+import { SetPage, SetChildPageLabel, SetTenant, SetUser, SetKioske } from '../../state/auth/auth-state.actions'
 import { SetNotificationOpen, SetNotificationTab } from '../../state/notification/notification-state.actions'
 
 import { environment } from '../../../environments/environment'
-
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -28,7 +28,8 @@ import { environment } from '../../../environments/environment'
 export class LayoutComponent implements OnInit {
 
   prefs
-  kioske = environment.kioske
+  kioske
+  tenant = environment.tenant
 
   @Select(AuthState.page) page$: Observable<string>
   @Select(DeviceState.background) background$: Observable<string>
@@ -38,14 +39,47 @@ export class LayoutComponent implements OnInit {
     private store: Store,
     public appService: AppService,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private idbCrudService: IdbCrudService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
+
     if (this.kioske) {
-      this.store.dispatch(new SetPage('kioske'))
+      const msg = this.route.snapshot.paramMap.get('msg')
+      const email = this.route.snapshot.paramMap.get('email')
+      const tenant_id = this.route.snapshot.paramMap.get('tenant_id')
+
+      // console.log(msg, email, tenant_id)
+
+      if (email && !msg && tenant_id) {
+        this.authService.user({ email: email }).subscribe((user: any) => {
+          this.idbCrudService.clear('form')
+          this.store.dispatch(new SetUser(user.row))
+          this.store.dispatch(new SetKioske(false))
+          this.store.dispatch(new SetTenant({ tenant_id: tenant_id, email: email }))
+          this.appService.setIndexedDbUser(email, tenant_id)
+          this.appService.initializeUser(email)
+          this.store.dispatch(new SetPage('home'))
+        })
+      }
+      else if (msg && !email && !tenant_id) this.store.dispatch(new SetPage('signup'))
+      else {
+        this.idbCrudService.clear('prefs')
+        this.idbCrudService.clear('form')
+        this.idbCrudService.clear('pics')
+        this.idbCrudService.clear('voice')
+        this.authService.user({ email: this.tenant.email }).subscribe((user: any) => {
+          this.store.dispatch(new SetUser(user.row))
+          this.appService.setIndexedDbUser(this.tenant.email, this.tenant.tenant_id)
+          this.store.dispatch(new SetPage('kioske'))
+        })
+      }
     }
     else {
+      // these params are used to get the notifications from email link
       this.route.queryParams.subscribe((params: Params) => {
         if (params && params.email && Object.keys(params.email).length) {
           this.notificationService.getMyNotifications({ email: params.email }).subscribe((notifications: any) => {
@@ -57,19 +91,21 @@ export class LayoutComponent implements OnInit {
             this.store.dispatch(new SetNotificationTab(0))
           })
         }
-        else if (!this.kioske) {
+        else {
           this.idbCrudService.readAll('prefs').subscribe(prefs => {
             this.prefs = prefs
             if (this.prefs.length > 0) {
-              this.store.dispatch(new SetPage('home'))
-              this.store.dispatch(new SetChildPageLabel('Forms'))
+              this.authService.user({ email: this.prefs[0]['user']['email'] }).subscribe((user: any) => {
+                this.store.dispatch(new SetUser(user.row))
+                this.store.dispatch(new SetPage('home'))
+                this.store.dispatch(new SetChildPageLabel('Forms'))
+              })
             }
             else this.store.dispatch(new SetPage('identify'))
           })
         }
       })
     }
-    
   }
 
   changeTheme() {

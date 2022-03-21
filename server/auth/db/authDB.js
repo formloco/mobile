@@ -18,18 +18,54 @@ const emailRegisterSQL = async (data) => {
     message: 'Registion successful.'
   }
   let checkEmail = await client.query('SELECT * FROM email WHERE email = $1', [data["email"]])
+
   if (checkEmail.rowCount === 0) {
     obj = {
       message: 'Account does not exist.'
     }
-    client.release()
-    return obj
   }
 
-  obj["row"] = checkEmail.rows[0]
+  if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === false) {
+    obj = {
+      message: 'Account disabled.'
+    }
+  }
 
-  await pool.end()
+  if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === true) {
+
+    const emailPassword = await client.query('SELECT password FROM public.email WHERE email = $1', [data["email"]])
+
+    if (emailPassword.rowCount === 1) {
+      let passwordIsValid = bcrypt.compareSync(data["password"], emailPassword.rows[0].password)
+
+      if (!passwordIsValid) obj = { message: 'Failed to authenticate.' }
+
+      if (passwordIsValid) {
+        updatedEmail = await client.query('SELECT email FROM email WHERE email = $1', [data["email"]])
+        obj = {
+          row: updatedEmail.rows[0],
+          message: 'Registion successful.'
+        }
+      }
+    }
+  }
+
+  // enabled = null used for reset on frontend
+  if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === null) {
+
+    const hashedPassword = bcrypt.hashSync(data["password"], 8)
+
+    await client.query('UPDATE public.email SET enabled = $1, password = $2 WHERE email = $3', [true, hashedPassword, data["email"]])
+    updatedEmail = await client.query('SELECT email FROM email WHERE email = $1', [data["email"]])
+    obj = {
+      row: updatedEmail.rows[0],
+      message: 'Registion successful.'
+    }
+  }
+
   client.release()
+  await pool.end()
+
   return obj
 }
 
@@ -49,21 +85,22 @@ const userFetchSQL = async (data) => {
     row: ''
   }
 
-  const emailUser = await client.query('SELECT * FROM email WHERE email = $1', [data["email"]])
+  const emailUser = await client.query('SELECT email, name, admin, supervisor, worker FROM email WHERE email = $1', [data["email"]])
 
   if (emailUser.rowCount === 0) {
     obj = {
       message: 'User does not exist.'
     }
-    await pool.end()
     client.release()
+    await pool.end()
     return obj
   }
 
   obj["row"] = emailUser.rows[0]
 
-  await pool.end()
   client.release()
+  await pool.end()
+
   return obj
 
 }
@@ -80,9 +117,9 @@ const emailResetSQL = async (data) => {
   const client = await pool.connect()
   await client.query('UPDATE public.email SET enabled = $1 WHERE id = $2', [null, data["id"]])
   const list = await client.query(`SELECT email, name, worker, supervisor FROM email`)
-  
-  await pool.end()
+
   client.release()
+  await pool.end()
   return list.rows
 }
 
@@ -98,9 +135,9 @@ const emailUpdateSQL = async (data) => {
   const client = await pool.connect()
   await client.query('UPDATE public.email SET name = $1, email = $2, admin = $3, worker = $4, supervisor = $5, manager = $6 WHERE id = $7', [data["name"], data["email"], data["admin"], data["worker"], data["supervisor"], data["manager"], data["id"]])
   const list = await client.query(`SELECT name, email, worker, supervisor, admin, enabled FROM email`)
-  
-  await pool.end()
+
   client.release()
+  await pool.end()
   return list.rows
 }
 
@@ -147,8 +184,8 @@ const emailCreateSQL = async (data) => {
   }
   else obj = { rows: [], msg: 'Email already exists' }
 
-  await pool.end()
   client.release()
+  await pool.end()
 
   return obj
 }
@@ -167,7 +204,7 @@ const emailEnableSQL = async (data) => {
 
   await client.query('UPDATE public.email SET enabled = $1 WHERE id = $2', [null, data["id"]])
   const list = await client.query(`SELECT name, email, worker, supervisor FROM email`)
-  
+
   await pool.end()
   client.release()
   return list.rows
@@ -185,7 +222,7 @@ const emailDisableSQL = async (data) => {
   const client = await pool.connect()
   await client.query('UPDATE public.email SET enabled = $1 WHERE id = $2', [false, data["id"]])
   const list = await client.query(`SELECT name, email, worker, supervisor FROM email`)
-  
+
   await pool.end()
   client.release()
   return list.rows
@@ -203,7 +240,7 @@ const permissionGetSQL = async (data) => {
   const client = await pool.connect()
   await client.query('UPDATE public.email SET enabled = $1 WHERE id = $2', [false, data["id"]])
   const list = await client.query(`SELECT name, email, worker, supervisor FROM email`)
-  
+
   await pool.end()
   client.release()
   return list.rows
@@ -217,14 +254,18 @@ const emailSignupSQL = async (data) => {
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
-  
+
   let client = await pool.connect()
 
   let user = await client.query(`SELECT id FROM public.user WHERE email = '` + data["email"] + `'`)
-
+  
   if (user.rowCount !== 0) {
     client.release()
-    return
+    await pool.end()
+
+    return {
+      message: 'Email exists.'
+    }
   }
 
   let tenant_id = uuidv4()
@@ -272,7 +313,7 @@ const emailSignupSQL = async (data) => {
 
   await clientTenant.query(`CREATE TABLE public.email_notification ( notification_id int4 NOT NULL, email_id int4 NOT NULL)`)
 
-  await client.query(`INSERT INTO public.email(name, email, password, enabled, worker, supervisor, admin, manager) VALUES ('` + data["email"] + `', '` + data["email"] + `', '` + hashedPassword + `', '` + true + `', '` + true + `', '` + true + `', '` + true + `'` + true + `')`)
+  await clientTenant.query(`INSERT INTO public.email(email, password, enabled, worker, supervisor, admin, manager) VALUES ('` + data["email"] + `', '` + hashedPassword + `', '` + true + `', '` + true + `', '` + true + `', '` + true + `', '` + true + `')`)
 
   clientTenant.release()
   await tenantPool.end()
@@ -296,29 +337,66 @@ const tenantFetchSQL = async (data) => {
   let client = await pool.connect()
 
   let obj = {
-    message: 'Authentication sucessful.',
-    tenant_id: null
+    message: 'Authentication sucessful.'
   }
-  
-  const tenantUser = await client.query(`SELECT * FROM public.user WHERE email = '` + data["email"] + `'`)
-  
+
+  const tenantUser = await client.query(`SELECT tenant_id, role, password FROM public.user WHERE email = '` + data["email"] + `'`)
+
   if (tenantUser.rowCount > 0) {
     let passwordIsValid = bcrypt.compareSync(data["password"], tenantUser.rows[0]["password"])
-    
+
     if (!passwordIsValid) {
       obj.message = 'Failed to authenticate.'
       return obj
     }
-    obj['tenant_id'] = tenantUser.rows[0].tenant_id
+    obj['tenant_id'] = tenantUser.rows[0]['tenant_id']
+    obj['role'] = tenantUser.rows[0]['role']
 
     client.release()
     await pool.end()
 
     return obj
   }
-  
+
+}
+
+const signinKioskeSQL = async (data) => {
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: 'kioske',
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+
+  let client = await pool.connect()
+
+  let response = await client.query(`SELECT id, password FROM public.user WHERE email = $1`, [data["email"]])
+
+  if (response.rowCount > 0) {
+    let passwordIsValid = bcrypt.compareSync(data["password"], response.rows[0].password)
+
+    if (!passwordIsValid) {
+      client.release()
+      await pool.end()
+      return { message: 'Failed to authenticate.' }
+    }
+
+    let user = await client.query(`SELECT tenant_id, first_name, last_name, email FROM public.user WHERE id = '` + response.rows[0].id + `'`)
+    return {
+      message: "Sign in sucessful.",
+      user: user.rows[0]
+    }
+  }
+  else {
+    client.release()
+    await pool.end()
+    return {
+      message: "Sign in unsuccessful."
+    }
+  }
 }
 
 module.exports = {
-  userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL, emailSignupSQL, tenantFetchSQL
+  userFetchSQL, emailResetSQL, passwordResetSQL, emailUpdateSQL, emailCreateSQL, emailDisableSQL, emailEnableSQL, emailRegisterSQL, permissionGetSQL, emailSignupSQL, tenantFetchSQL, signinKioskeSQL
 }

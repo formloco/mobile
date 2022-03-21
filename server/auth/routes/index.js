@@ -1,7 +1,7 @@
 const express = require('express') 
 const VerifyToken = require('../../helper')
 
-const { tempToken, fetchUser, resetEmail, enableEmail, resetPassword, disableEmail, updateEmail, createEmail, registerEmail, getPermission, signupEmail, fetchTenant } = require('../controllers')
+const { tempToken, fetchUser, resetEmail, enableEmail, resetPassword, disableEmail, updateEmail, createEmail, registerEmail, getPermission, signupEmail, fetchTenant, kioskeSignin } = require('../controllers')
 const router = express.Router()
 
 // resets user email so the user gets prompted to enter password
@@ -29,5 +29,7 @@ router.post('/auth/user/', VerifyToken, fetchUser)
 router.post('/auth/email/', signupEmail)
 
 router.post('/auth/tenant/', VerifyToken, fetchTenant)
+
+router.post('/auth/', kioskeSignin)
 
 module.exports = router

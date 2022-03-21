@@ -1,21 +1,12 @@
 import { Component } from '@angular/core'
 
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet'
-
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { environment } from '../../../../environments/environment'
 
 import { AuthService } from "../../../service/auth.service"
 import { EmailService } from "../../../service/email.service"
 import { ErrorService } from "../../../service/error.service"
-
-import { MatBottomSheet } from '@angular/material/bottom-sheet'
-// import { AppService } from "../../../service/app.service"
-// import { AuthService } from "../../../service/auth.service"
-
-import { Store, Select } from '@ngxs/store'
 
 @Component({
   selector: 'app-signup',
@@ -33,19 +24,15 @@ export class SignupComponent {
   logo = environment.logo
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
-  kioskeEmail = environment.kioskeEmail
 
   emailSignupForm: FormGroup
   forgotPasswordForm: FormGroup
 
   constructor(
-    private store: Store,
     private fb: FormBuilder,
     private authService: AuthService,
     private errorService: ErrorService,
-    private emailService: EmailService,
-    private idbCrudService: IdbCrudService,
-    public matBottomSheetRef: MatBottomSheetRef<SignupComponent>) {
+    private emailService: EmailService) {
     this.emailSignupForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.required]
@@ -53,7 +40,7 @@ export class SignupComponent {
   }
 
   close() {
-    this.matBottomSheetRef.dismiss()
+    
   }
 
   signupEmail() {
@@ -64,9 +51,7 @@ export class SignupComponent {
         this.step = 1
         this.emailService.signup({ email: this.auth.user.email }).subscribe(_ => {})
       }
-      else
-        this.errorService.popSnackbar(this.auth.message)
-
+      else this.errorService.popSnackbar(this.auth.message)
     })
   }
 

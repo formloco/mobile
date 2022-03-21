@@ -11,7 +11,7 @@ router.get('/api/pdf/:name/', VerifyToken, getPDF)
 //data
 router.get('/api/:tenant_id/:form_id/', VerifyToken, readData)
 
-router.get('/api/form/:form_id/:data_id/', VerifyToken, readForm)
+router.get('/api/form/:tenant_id/:form_id/:data_id/', VerifyToken, readForm)
 
 router.put('/api/form/sign/', VerifyToken, signForm)
 

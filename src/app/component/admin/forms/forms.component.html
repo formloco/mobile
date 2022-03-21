@@ -1,36 +1,34 @@
-<!-- this line is intentionally left in to provide for introducing new forms into the app
-  from the FORMS const - client-side
-  to use: 
-  1) update FORMS in the model
-  2) Comment current div tag and uncomment the line below
-  3) Run the form and it will get registered to the cloud
--->
-<!-- 
-  <div class="form-padding" *ngFor="let formObj of forms"></div> 
--->
 <div class="form-padding" *ngFor="let formObj of (forms$ | async)">
-  <mat-card class="custom hand">
+  <mat-card class="hand">
     <mat-card-header (click)=selectForm(formObj)>
       <div mat-card-avatar>
-        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+        <mat-icon class="form-icon32 material-icons-outlined">{{ formObj.icon }}</mat-icon>
       </div>
       <mat-card-title>{{ formObj.name }}</mat-card-title>
       <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
     </mat-card-header>
     <div class="publish" fxLayoutAlign="space-between center">
-      <div fxLayout="column" fxLayoutGap="15px">
+      <div fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <div>
-          <mat-slide-toggle (change)="publish(formObj, $event)" color="primary" [checked]=formObj.is_published [disabled]="kioske">
+          <mat-slide-toggle (change)="publish(formObj, $event)" color="primary" [checked]=formObj.is_published
+            [disabled]="kioske$ | async">
           </mat-slide-toggle>&nbsp;&nbsp;
           <span class="action-label-pub" *ngIf="formObj.is_published">Published</span>
-          <span class="action-label-pub" *ngIf="!formObj.is_published">Unpublished</span>  
+          <span class="action-label-pub" *ngIf="!formObj.is_published">Unpublished</span>
+        </div>
+        <div>
+          <mat-slide-toggle (change)="setPermission(formObj,$event)" color="primary" [checked]=formObj.is_manager
+            [disabled]="kioske$ | async">
+          </mat-slide-toggle>&nbsp;&nbsp;
+          <span class="action-label-pub" *ngIf="formObj.is_manager">Manager</span>
+          <span class="action-label-pub" *ngIf="!formObj.is_manager">Everyone</span>
         </div>
       </div>
-      <div>
-        <mat-slide-toggle (change)="setPermission(formObj,$event)" color="primary" [checked]=formObj.is_manager [disabled]="kioske">
-        </mat-slide-toggle>&nbsp;&nbsp;
-        <span class="action-label-pub" *ngIf="formObj.is_manager">Manager Only</span>
-        <span class="action-label-pub" *ngIf="!formObj.is_manager">Everyone</span> 
+      <span class="toolbar-spacer"></span>
+      <div *ngIf="formObj.type === 'dynamic' && !formObj.is_published">
+        <button (click)="archive(formObj)" mat-icon-button>
+          <mat-icon color="warn" class="material-icons-outlined">delete</mat-icon>
+        </button>
       </div>
     </div>
   </mat-card>

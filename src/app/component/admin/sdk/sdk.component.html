@@ -1,0 +1,20 @@
+<!-- this component takes custom forms and registers them to the cloud -->
+<div class="form-padding" *ngFor="let formObj of forms">
+  <mat-card class="hand">
+    <mat-card-header (click)=selectForm(formObj)>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon32 material-icons-outlined">{{ formObj.icon }}</mat-icon>
+      </div>
+      <mat-card-title>{{ formObj.name }}</mat-card-title>
+      <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+    </mat-card-header>
+    <div class="publish" fxLayoutAlign="space-between center">
+      <div fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <button mat-stroked-button color="primary" (click)="deploy(formObj)" matTooltip="Deploy Form"
+        [disabled]="kioske$ | async">
+          <mat-icon class="material-icons-outlined">published_with_changes</mat-icon> Deploy Form
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

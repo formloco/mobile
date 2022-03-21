@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { MatDialogConfig, MatDialog } from "@angular/material/dialog"
@@ -17,22 +17,19 @@ import { ListEditComponent } from '../list-edit/list-edit.component'
 
 import { LIST_FORM } from '../../../model/forms'
 
-import { environment } from '../../../../environments/environment'
-
 @Component({
   selector: 'app-list-run',
   templateUrl: './list-run.component.html',
   styleUrls: ['./list-run.component.scss']
 })
-export class ListRunComponent {
+export class ListRunComponent implements OnInit {
 
-  kioske = environment.kioske
+  kioske
 
   @Select(AuthState.lookupListName) lookupListName$: Observable<string>
   runForm: FormGroup
 
-  id = new FormControl({value: null, disabled: this.kioske})
-
+  id
   user
   data
   allData
@@ -54,6 +51,11 @@ export class ListRunComponent {
     this.runForm = this.formBuilder.group({
       item: ['', Validators.required]
     })
+  }
+
+  ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.id = new FormControl({value: null, disabled: this.kioske})
   }
 
   edit(idx, element) {

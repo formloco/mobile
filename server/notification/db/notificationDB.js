@@ -33,13 +33,9 @@ const myNotificationSQL = async (req) => {
     port: process.env.PORT
   })
   const client = await pool.connect()
-console.log(client)
   const emailID = await client.query('Select id from public.email WHERE email = $1', [email])
-  console.log(emailID)
-  console.log('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailID.rows[0].id])
 
   const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [emailID.rows[0].id])
-  console.log('epe',myNotifications.rows)
   client.release()
   await pool.end()
   return myNotifications.rows

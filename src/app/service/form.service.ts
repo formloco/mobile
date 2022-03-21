@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../state/auth/auth.state'
+import { Form } from "../state/auth/auth-state.model"
 
 import { HttpClient } from '@angular/common/http'
 
@@ -44,9 +45,9 @@ export class FormService {
     return this.http.post(this.formUrl + 'register/', obj)
   }
 
-  publishForm(obj) {
+  statusToggle(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.formUrl + 'publish/', obj)
+    return this.http.post(this.formUrl + 'status/', obj)
   }
 
   setPermissions(obj) {
@@ -54,9 +55,14 @@ export class FormService {
     return this.http.post(this.formUrl + 'permission/', obj)
   }
 
-  getPermissions(obj) {
-    obj = this.addTenantId(obj)
-    return this.http.get(this.formUrl + 'permission/', obj)
+  update(form: Form) {
+    form = this.addTenantId(form)
+    return this.http.put(this.formUrl, form)
   }
+
+  // getPermissions(obj) {
+  //   obj = this.addTenantId(obj)
+  //   return this.http.get(this.formUrl + 'permission/', obj)
+  // }
   
 }

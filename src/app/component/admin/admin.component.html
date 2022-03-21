@@ -1,4 +1,3 @@
-
 <div [ngStyle]="{'background-color': (background$ | async)}" fxFlexFill>
   <div class="header">
     <mat-toolbar>
@@ -9,7 +8,6 @@
         <mat-icon class="hand material-icons-outlined" (click)="openNotifications(1)">border_color</mat-icon>
         <mat-icon class="hand material-icons-outlined" (click)="openNotifications(0)" matBadge="{{notificationCount$ | async}}"
           matBadgeColor="accent">notifications</mat-icon>
-        <!-- <mat-icon class="hand material-icons-outlined" (click)="settings()">password</mat-icon> -->
         <button color="primary" (click)="signout()" mat-icon-button><mat-icon class="material-icons-outlined">logout</mat-icon></button>
       </div>
     </mat-toolbar>
@@ -25,6 +23,8 @@
       </mat-sidenav>
       <mat-sidenav-content>
         <div class="content-full">
+          <app-run *ngIf="(childPage$ | async) === 'run'"></app-run>
+          <app-sdk *ngIf="(childPage$ | async) === 'sdk'"></app-sdk>
           <app-list-run *ngIf="(childPage$ | async) === 'list'"></app-list-run>
           <app-data *ngIf="(childPage$ | async) === 'data'"></app-data>
           <app-forms *ngIf="(childPage$ | async) === 'forms'" (selectData)=selectPage()></app-forms>

@@ -28,6 +28,14 @@ const routes: Routes = [{
   component: TermsComponent
 },
 {
+  path: 'forms/:email/:tenant_id',
+  component: LayoutComponent
+},
+{
+  path: 'signup/:msg',
+  component: LayoutComponent
+},
+{
   path: 'message',
   component: message
 }]

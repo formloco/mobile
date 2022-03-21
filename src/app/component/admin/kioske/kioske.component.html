@@ -1,15 +1,16 @@
 <div class="header">
   <mat-toolbar>
-    <div fxLayoutGap="15px">
-      <button (click)="whyus()" mat-stroked-button color="primary">
-        Why Us?
-      </button>
-      <button (click)="pricing()" mat-stroked-button color="primary">
-        Pricing
-      </button>
-    </div>
+    <button (click)="whyus()" mat-button color="primary">
+      Why Us?
+    </button>
+    <button (click)="pricing()" mat-button color="primary">
+      Pricing
+    </button>
+    <button (click)="contact()" mat-button color="primary">
+      Contact
+    </button>
     <span class="toolbar-spacer"></span>
-    <button (click)="signin()"  mat-stroked-button color="primary">
+    <button (click)="signin()" mat-stroked-button color="primary">
       Sign In
     </button>
   </mat-toolbar>
@@ -44,12 +45,11 @@
       </a>
     </div>
     <span class="toolbar-spacer"></span>
-    <button (click)="contact()" mat-stroked-button color="primary">
-      Contact
-    </button> 
-    <a mat-button href='{{githubUrl}}' target="blank" color="primary">
-      Github
-    </a>
-    <img src="assets/parrot.svg" height="26px">&nbsp;<span class="mat-small text-color">{{version}}</span>
+    <div fxLayoutGap="15px">
+      <a mat-button href='{{githubUrl}}' target="blank" color="primary">
+        <img src="assets/GitHub-Mark-Light-32px.png">
+      </a>
+    </div>
+    <img src="assets/parrot.svg" height="28px">&nbsp;<span class="mat-small text-color">{{version}}</span>
   </mat-toolbar>
 </div>

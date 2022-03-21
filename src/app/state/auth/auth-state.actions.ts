@@ -1,4 +1,4 @@
-import { User, UserIdb, Tenant } from '../../model/auth'
+import { User, UserIdb, Tenant, Form } from './auth-state.model'
 
 export class SetIsIdentified {
   static type = '[Auth] SetIsIdentified'
@@ -19,17 +19,14 @@ export class SetIsListMenu {
   static type = '[Auth] SetIsMenuList'
   constructor(public isListMenu: boolean) {}
 }
-
 export class SetPage {
   static type = '[Auth] SetPage'
   constructor(public page: string) {}
 }
-
 export class SetEmailList {
   static type = '[Auth] SetEmailList'
   constructor(public emailList: []) {}
 }
-
 export class SetWorkers {
   static type = '[Auth] SetWorkers'
   constructor(public workers: any[]) {}
@@ -109,20 +106,25 @@ export class SetCurrentFormId {
   static type = '[Auth] SetCurrentFormId'
   constructor(public currentFormId: string) {}
 }
-
 export class SetFormData {
   static type = '[Auth] SetFormData'
   constructor(public formData: {}) {}
 }
-
 export class SetNotificationId {
   static type = '[Auth] SetNotificationId'
   constructor(public notificationId: number) {}
 }
-
 export class SetChildPageIcon {
   static type = '[Auth] SetChildPageIcon'
   constructor(public childPageIcon: string) {}
+}
+export class SetKioske {
+  static type = '[Auth] SetKioske'
+  constructor(public kioske: boolean) {}
+}
+export class SetFormsPublished {
+  static type = '[Auth] SetFormsPublished'
+  constructor(public formsPublished: Form[]) {}
 }
 
 

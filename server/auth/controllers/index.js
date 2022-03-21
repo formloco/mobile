@@ -1,5 +1,5 @@
 
-const { tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch } = require('../services')
+const { tokenTemp, userFetch, emailReset, passwordReset, emailDisable, emailEnable, emailUpdate, emailCreate, emailRegister, permissionGet, emailSignup, tenantFetch, signinKioske } = require('../services')
 
 const tempToken = async(req, res) => {
   try {
@@ -14,7 +14,7 @@ const fetchUser = async(req, res) => {
   try {
     let data = await userFetch(req.body)
     let code = 201
-    if (!data.row) code = 405
+    if (!data) code = 405
     res.status(code).json(data)
   } catch(e) {
     res.sendStatus(500)
@@ -79,7 +79,7 @@ const registerEmail = async(req, res) => {
   try {
     let data = await emailRegister(req.body)
     let code = 201
-    if (!data.row) code = 401
+    if (!data) code = 401
     res.status(code).json(data)
   } catch(e) {
     res.sendStatus(500)
@@ -119,6 +119,16 @@ const fetchTenant = async(req, res) => {
   }
 }
 
+const kioskeSignin = async(req, res) => {
+  try {
+    let data = await signinKioske(req.body)
+    let code = 201
+    if (!data) code = 401
+    res.status(code).json(data)
+  } catch(e) {
+    res.sendStatus(500)
+  }
+}
 module.exports = {
-  tempToken, fetchUser, resetEmail, resetPassword, disableEmail, enableEmail, updateEmail, createEmail, registerEmail, getPermission, signupEmail, fetchTenant
+  tempToken, fetchUser, resetEmail, resetPassword, disableEmail, enableEmail, updateEmail, createEmail, registerEmail, getPermission, signupEmail, fetchTenant, kioskeSignin
 }

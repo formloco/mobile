@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core'
 
+import { Observable } from 'rxjs'
+
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 import { FormControl } from '@angular/forms'
 
@@ -7,9 +9,8 @@ import { AppService } from "../../../service/app.service"
 import { ApiService } from "../../../service/api.service"
 import { SuccessService } from "../../../service/success.service"
 
-import { Store } from '@ngxs/store'
+import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
-import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-list-edit',
@@ -18,9 +19,9 @@ import { environment } from '../../../../environments/environment'
 })
 export class ListEditComponent implements OnInit {
 
-  kioske = environment.kioske
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
 
-  id = new FormControl({value: null, disabled: this.kioske})
+  id
 
   constructor(
     private store: Store,
@@ -32,6 +33,8 @@ export class ListEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.id = new FormControl({value: null, disabled: kioske})  
     this.id.setValue(this.data.element.data)
   }
 

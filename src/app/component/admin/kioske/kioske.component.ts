@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 import { Router } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
@@ -10,53 +10,47 @@ import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
 
 import { Store } from '@ngxs/store'
+import { AuthState } from '../../../state/auth/auth.state'
 import { SetPage, SetUserIdb, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 
-import { SignupComponent } from "../signup/signup.component"
+import { SignupBottomComponent } from "../signup-bottom/signup-bottom.component"
 import { ContactComponent } from "../../contact/contact.component"
-
 @Component({
   selector: 'app-kioske',
   templateUrl: './kioske.component.html',
   styleUrls: ['./kioske.component.scss']
 })
-export class KioskeComponent {
+export class KioskeComponent implements OnInit {
 
+  tenant
   logo = environment.logo
   version = environment.version
+  saasUrl = environment.saasUrl
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
   designUrl = environment.designUrl
-  kioskeEmail = environment.kioskeEmail
-  kioskePassword = environment.kioskePassword
 
   constructor(
     private store: Store,
-    private router: Router,
     public appService: AppService,
-    private authService: AuthService,
-    private bottomSheet: MatBottomSheet,
-    private idbCrudService: IdbCrudService) { }
+    private bottomSheet: MatBottomSheet) { }
+
+  ngOnInit() {
+    this.tenant = this.store.selectSnapshot(AuthState.tenant)
+  }
 
   testdrive() {
-    const obj = {
-      email: this.kioskeEmail,
-      password: this.kioskePassword
-    }
-    let userObj = {
+    let obj = {
       isDarkMode: true,
-      email: this.kioskeEmail
+      email: this.tenant.email
     }
-    // store user to state rather than indexedDb. 
-    // reason: when app running in kioske=false
-    // it looks to indexedDb to see if user has been validated
-    // then checks user against email list to see if still valid
+   
     this.store.dispatch(new SetPage('home'))
-    this.store.dispatch(new SetUserIdb(userObj))
+    this.store.dispatch(new SetUserIdb(obj))
     this.store.dispatch(new SetIsDarkMode(true))
     this.store.dispatch(new SetChildPageLabel('Forms'))
-    this.appService.initializeUser(this.kioskeEmail, false)
+    this.appService.initializeUser(this.tenant.email)
   }
 
   contact() {
@@ -64,12 +58,11 @@ export class KioskeComponent {
   }
 
   signin() {
-    // this.router.navigate(['signin'])
     this.store.dispatch(new SetPage('identify'))
   }
 
   signup() {
-    this.bottomSheet.open(SignupComponent)
+    this.bottomSheet.open(SignupBottomComponent)
   }
 
   pricing() {

@@ -45,6 +45,7 @@ export class VehicleInspectionComponent implements OnInit {
   @Select(VehicleInspectionState.isHeaderValid) isHeaderValid$: Observable<boolean>
 
   pics
+  kioske
   formData
   formDataID
   step = 0
@@ -61,7 +62,6 @@ export class VehicleInspectionComponent implements OnInit {
   isPanelOpen = false
 
   apiURL = environment.apiUrl
-  kioske = environment.kioske
   messageUrl = environment.messageUrl
 
   constructor(
@@ -146,6 +146,7 @@ export class VehicleInspectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.kioske = this.store.selectSnapshot(AuthState.kioske)
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {
