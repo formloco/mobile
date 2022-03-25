@@ -63,9 +63,6 @@ export class HomeComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.formsPublished$.subscribe((forms: any) => {
-      console.log(forms)
-    })
     this.user = this.store.selectSnapshot(AuthState.user)
     this.tenant = this.store.selectSnapshot(AuthState.tenant)
 

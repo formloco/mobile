@@ -15,7 +15,10 @@
       <mat-checkbox formControlName="supervisor" color="primary">Supervisor</mat-checkbox>
     </div>
     <br>
-    <button mat-raised-button (click)="save()" color="primary" [disabled]="!emailForm.valid" runForm.type="submit">
+    <button *ngIf="!(kioske$ | async)" mat-raised-button (click)="save()" color="primary" [disabled]="!emailForm.valid" runForm.type="submit">
+      Add Email to List
+    </button>
+    <button *ngIf="(kioske$ | async)" mat-raised-button (click)="save()" color="primary" [disabled]="true" runForm.type="submit">
       Add Email to List
     </button>
   </form>

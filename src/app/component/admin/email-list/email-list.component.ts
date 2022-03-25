@@ -26,10 +26,11 @@ export class EmailListComponent implements OnInit{
   @Select(AuthState.lookupListName) lookupListName$: Observable<string>
   emailForm: FormGroup
 
-  kioske = environment.kioske
+  @Select(AuthState.kioske) kioske$: Observable<boolean>
 
   user
   data
+  kioske
   allData
   selectedIdx
   isSync = false
@@ -46,10 +47,10 @@ export class EmailListComponent implements OnInit{
     private formBuilder: FormBuilder,
     private errorService: ErrorService) {
     this.emailForm = this.formBuilder.group({
-      name: [{value: null, disabled: this.kioske}, Validators.compose([Validators.required])],
-      email: [{value: null, disabled: this.kioske}, Validators.compose([Validators.required, Validators.email])],
-      worker: [{value: null, disabled: this.kioske}],
-      supervisor: [{value: null, disabled: this.kioske}]
+      name: [null, Validators.compose([Validators.required])],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
+      worker: [null],
+      supervisor: [null]
     })
   }
 

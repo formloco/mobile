@@ -21,6 +21,7 @@ export class NotificationService {
 
   createNotification(obj) {
 
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
     let d = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
 
     let notificationObj = {
@@ -42,7 +43,8 @@ export class NotificationService {
         message: obj.message
       }]
     }
-    return this.http.post(this.notificationUrl, notificationObj)
+    notificationObj["tenant_id"] = tenant.tenant_id
+    return this.http.post(this.notificationUrl + 'notification/', notificationObj)
   }
 
   addTenantId(obj) {
@@ -54,28 +56,28 @@ export class NotificationService {
   getAllNotifications() {
     const tenant = this.store.selectSnapshot(AuthState.tenant)
     const obj = { tenant_id: tenant.tenant_id }
-    return this.http.post(this.notificationUrl, obj)
+    return this.http.post(this.notificationUrl+'notifications/', obj)
   }
 
   getMyNotifications(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.notificationUrl + obj.email + '/', obj)
+    return this.http.post(this.notificationUrl + 'notification/' + obj.email + '/', obj)
   }
 
   getMyNotificationCount(email) {
     const tenant = this.store.selectSnapshot(AuthState.tenant)
     const obj = { tenant_id: tenant.tenant_id }
-    return this.http.post(this.notificationUrl + 'count/' + email + '/', obj)
+    return this.http.post(this.notificationUrl + 'notification/count/' + email + '/', obj)
   }
 
   updateNotificationMessage(obj) {
     obj = this.addTenantId(obj)
-    return this.http.put(this.notificationUrl, obj)
+    return this.http.put(this.notificationUrl + 'notification/', obj)
   }
 
   updateNotificationRead(obj) {
     obj = this.addTenantId(obj)
-    return this.http.put(this.notificationUrl+'read/', obj)
+    return this.http.put(this.notificationUrl+'notification/read/', obj)
   }
 
 }

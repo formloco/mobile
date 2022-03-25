@@ -3,6 +3,7 @@ import { Injectable, HostBinding } from '@angular/core'
 import { OverlayContainer } from '@angular/cdk/overlay'
 
 import { HttpClient } from '@angular/common/http'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatDialogConfig, MatDialog } from "@angular/material/dialog"
 
@@ -10,13 +11,14 @@ import { environment } from '../../environments/environment'
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../state/auth/auth.state'
-import { SetLookupListData, SetWorkers, SetSupervisors, SetFormsPublished, SetForms } from '../state/auth/auth-state.actions'
+import { SetPage, SetChildPage, SetLookupListData, SetWorkers, SetSupervisors, SetFormsPublished, SetForms } from '../state/auth/auth-state.actions'
 import { SetNotificationOpen, SetNotificationSigned, SetNotificationAllOpen, SetNotificationAllSigned, SetNotificationMyCount, SetNotificationAdminCount } from '../state/notification/notification-state.actions'
 import { SetBackground } from '../state/device/device-state.actions'
 
+import { ApiService } from "../service/api.service"
 import { AuthService } from "../service/auth.service"
 import { FormService } from "../service/form.service"
-import { ApiService } from "../service/api.service"
+import { EmailService } from "../service/email.service"
 import { NotificationService } from "../service/notification.service"
 import { IdbCrudService } from "../service-idb/idb-crud.service"
 
@@ -51,6 +53,7 @@ export class AppService {
   apiUrl = environment.apiUrl
   tenant = environment.tenant
   kioske = environment.kioske
+  messageUrl = environment.messageUrl
 
   LIST_FORM = LIST_FORM
 
@@ -85,9 +88,11 @@ export class AppService {
     private store: Store,
     private http: HttpClient,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private apiService: ApiService,
     private authService: AuthService,
     private formService: FormService,
+    private emailService: EmailService,
     private idbCrudService: IdbCrudService,
     private overlayContainer: OverlayContainer,
     private notificationService: NotificationService) {
@@ -162,12 +167,14 @@ export class AppService {
 
       this.formService.getForms({ email: email }).subscribe((forms: any) => {
         this.idbCrudService.clear('form')
+
         forms.forEach((ele) => {
-          this.idbCrudService.put('form', ele.form)
+          if (ele.form.is_deployed) this.idbCrudService.put('form', ele.form)
+          if (ele.form.type === 'custom') this.idbCrudService.put('form', ele.form)
         })
+
         this.idbCrudService.readAll('form').subscribe((forms: any) => {
-          const formsDeployed = forms.filter(form => !form.date_archived)
-          this.store.dispatch(new SetForms(formsDeployed))
+          this.store.dispatch(new SetForms(forms))
           const formsPublished = forms.filter(form => form.is_published === true)
           this.store.dispatch(new SetFormsPublished(formsPublished))
         })
@@ -233,6 +240,62 @@ export class AppService {
     this.store.dispatch(new SetUserIdb(userObj))
     this.idbCrudService.clear('prefs')
     this.idbCrudService.put('prefs', obj)
+  }
+
+  getWorker(name) {
+    const workers: any = this.store.selectSnapshot(AuthState.workers)
+    const worker = workers.find(worker => worker.name === name)
+    if (!worker) {
+      worker["name"] = worker.name
+      worker["email"] = worker.email
+    }
+    return worker
+  }
+
+  getSupervisor(name) {
+    const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
+    const supervisor = supervisors.find(worker => worker.name === name)
+    if (!supervisor) {
+      supervisor["name"] = supervisor.name
+      supervisor["email"] = supervisor.email
+    }
+    return supervisor
+  }
+
+  sendNotification(notificationObj) {
+    console.log(notificationObj)
+    this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
+      if (myNotifications) {
+        this.store.dispatch(new SetNotificationOpen(myNotifications.data))
+
+        const obj = {
+          toName: notificationObj.supervisor.name,
+          messageID: myNotifications.data[0]["id"],
+          url: this.messageUrl,
+          subject: notificationObj.subject,
+          emailTo: notificationObj.supervisor.email,
+          emailFrom: notificationObj.worker.email
+        }
+  
+        this.emailService.sendNotificationEmail(obj).subscribe(() => {
+          this.store.dispatch(new SetPage('home'))
+          this.store.dispatch(new SetChildPage('Forms'))
+          this.snackBar.open(myNotifications.message, 'Success', {
+            duration: 3000,
+            verticalPosition: 'bottom'
+          })
+        })
+      }
+    })
+    this.idbCrudService.put('pics', [])
+    // const pics = this.store.selectSnapshot(DeviceState.pics)
+    // const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
+
+    // const picObj = {
+    //   id: selectedForm["id"] + notificationObj.data_id,
+    //   pics: pics
+    // }
+    // this.idbCrudService.put('pics', picObj)
   }
 
 }

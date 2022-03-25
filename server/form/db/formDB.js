@@ -15,7 +15,7 @@ const formsReadSQL = async (data) => {
   let client = await pool.connect()
 
   let userForms = []
-  const forms = await client.query(`SELECT form FROM public.form WHERE date_archived is null AND is_list = false`)
+  const forms = await client.query(`SELECT form FROM public.form WHERE is_list = false`)
 
   if (forms.rowCount > 0) {
     const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
@@ -65,10 +65,10 @@ const formCreateSQL = async (data) => {
 
   let formJSON = JSON.stringify(data)
   let userCreated = JSON.stringify(data['user_created'])
-
+  
   if (data['name'] == null) data['name'] = ''
 
-  let form = await client.query(`INSERT INTO public.form(form_id, name, type, form, is_data, is_published, is_list, user_created) VALUES ( '` + data["form_id"] + `', '` + data["name"] + `', '` + data["type"] + `', '` + formJSON + `', '` + data["is_data"] + `', '` + data["is_published"] + `', '` + data["is_list"] + `', '` + userCreated + `') returning id`)
+  let form = await client.query(`INSERT INTO public.form(form_id, name, type, form, is_data, is_published, is_list, is_deployed, user_created) VALUES ( '` + data["form_id"] + `', '` + data["name"] + `', '` + data["type"] + `', '` + formJSON + `', '` + data["is_data"] + `', '` + data["is_published"] + `', '` + data["is_list"] + `', '` + false + `', '` + userCreated + `') returning id`)
 
   client.release()
   await pool.end()
@@ -92,12 +92,11 @@ const formRegisterSQL = async (data) => {
   if (form.rowCount === 0) {
 
     form_id = uuidv4()
+    data['formObj']['form_id'] = form_id
     formJSON = JSON.stringify(data['formObj'])
     userCreated = JSON.stringify(data['user_created'])
 
-    await client.query(`INSERT INTO public.form(form_id, name, type, form, is_manager, is_data, is_published, is_list, is_deployed, user_created) VALUES ( '` + form_id + `', '` + data["name"] + `', 'custom', '` + formJSON + `', '` + `', ` + false + `, ` + false + `, ` + false + `, ` + false + `, ` + false + `, '` + userCreated + `')`)
-    await client.query(`CREATE SEQUENCE IF NOT EXISTS id_seq`)
-    await clientTenant.query(`CREATE TABLE IF NOT EXISTS "` + form_id + `("id" int4 NOT NULL DEFAULT nextval('id_seq'::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, pdf text, data jsonb, PRIMARY KEY ("id"))`)
+    await client.query(`INSERT INTO public.form(form_id, name, type, form, is_manager, is_data, is_published, is_list, is_deployed, user_created) VALUES ( '` + form_id + `', '` + data["name"] + `', 'custom', '` + formJSON + `', ` + false + `, ` + false + `, ` + false + `, ` + false + `, ` + false + `, '` + userCreated + `')`)
   }
   else form_id = form.rows[0].form_id
 
@@ -141,16 +140,37 @@ const formUpdateSQL = async (data) => {
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
-  
-  formJSON = JSON.stringify(data)
+// console.log(data)
   let client = await pool.connect()
-  await client.query('UPDATE public.form SET name = $1, form = $2, date_last_access = $3, is_data = $4, is_published = $5 WHERE form_id = $6', [data["name"], formJSON, data["date_last_access"], data["is_data"], data["is_published"], data["form_id"]])
+
+  let form = await client.query(`SELECT * FROM public.form WHERE form_id = '` + data["form_id"] + `' AND date_archived is null`)
+// console.log(form)
+  if (form.rowCount === 0) {
+    let formJSON = JSON.stringify(data)
+    let userCreated = JSON.stringify(data['user_created'])
+  
+    if (data['name'] == null) data['name'] = ''
+
+    await client.query(`INSERT INTO public.form(form_id, name, type, form, is_data, is_published, is_list, is_deployed, user_created) VALUES ( '` + data["form_id"] + `', '` + data["name"] + `', '` + data["type"] + `', '` + formJSON + `', '` + data["is_data"] + `', '` + data["is_published"] + `', '` + data["is_list"] + `', '` + false + `', '` + userCreated + `') returning id`)
+  }
+  // over-ride updating the form if it is published
+  else if (!form.rows[0].is_published) {
+    let dateArchived
+    let userArchived
+
+    if (data["date_archived"]) dateArchived = data["date_archived"]
+    if (data["user_archived"]) userArchived = JSON.stringify(data["user_archived"])
+
+    formJSON = JSON.stringify(data)
+    
+    await client.query('UPDATE public.form SET name = $1, form = $2, date_last_access = $3, is_data = $4, is_published = $5, is_deployed = $6, date_archived = $7, user_archived = $8 WHERE form_id = $9', [data["name"], formJSON, data["date_last_access"], data["is_data"], data["is_published"],  data["is_deployed"], dateArchived, userArchived, data["form_id"]])
+  }
 
   client.release()
   await pool.end()
 
   const obj = {
-    message: 'Successfully Saved.'
+    message: 'Successfully Updated.'
   }
 
   return obj

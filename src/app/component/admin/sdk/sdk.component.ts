@@ -34,12 +34,9 @@
 })
 export class SdkComponent implements OnInit {
 
-  @Select(AuthState.forms) forms$: Observable<Form[]>
   @Select(AuthState.kioske) kioske$: Observable<boolean>
 
-  form: Form
   forms = []
-  lists: any = LISTS
 
   constructor(
     private store: Store,
@@ -57,7 +54,7 @@ export class SdkComponent implements OnInit {
     console.log('got here',this.forms)
   }
 
-  selectForm(form) {
+  deploy(form) {
     let formObjClone = _.cloneDeep(form)
     if (!form.type) this.errorService.popSnackbar('Form is not Configured')
 
@@ -65,63 +62,21 @@ export class SdkComponent implements OnInit {
       const tenant = this.store.selectSnapshot(AuthState.tenant)
 
       formObjClone["user_created"] = { email: tenant.email, date_created: new Date() }
+      const rawForm = _.cloneDeep(formObjClone)
+      formObjClone["formObj"] = rawForm
 
-      // forms are taken from local json and registered to the database
-      this.formService.registerForm(formObjClone).subscribe(_ => {
-        this.runForm(formObjClone)
+      //forms are taken from local json and registered to the database
+      this.formService.registerForm(formObjClone).subscribe((form_id :any) => {
+        formObjClone['form_id'] = form_id
+        this.idbCrudService.put('form', formObjClone).subscribe(_ => {
+          this.idbCrudService.readAll('form').subscribe((forms: any) => {
+            this.store.dispatch(new SetForms(forms))
+          })
+          this.successService.popSnackbar("Form Registered")
+        })
       })
-
-    }
-    else {
-      this.appService.detailArray = form.details
-      this.runForm(form)
     }
 
-  }
-
-  runForm(form) {
-    this.store.dispatch(new SetSelectedForm(form))
-    this.store.dispatch(new SetChildPageLabel(form.name))
-    this.store.dispatch(new SetPage('form'))
-  }
-
-  publish(formObj, event) {
-    let formObjClone = _.cloneDeep(formObj)
-
-    const accessDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
-    formObjClone['is_published'] = event.checked
-    formObjClone['date_last_access'] = accessDate
-
-    let obj = {
-      form_id: formObj.form_id,
-      formObj: formObjClone,
-      is_deployed: true,
-      is_published: event.checked,
-      date_last_accessed: accessDate
-    }
-    this.formService.statusToggle(obj).subscribe((response: any) => {
-      this.updateIdb(formObjClone, response)
-    })
-  }
-
-  archive(formObj) {
-    let formObjClone = _.cloneDeep(formObj)
-    formObjClone['date_archived'] = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
-    formObjClone['user_archived'] = this.store.selectSnapshot(AuthState.user)
-
-    this.formService.update(formObjClone).subscribe((response: any) => {
-      this.updateIdb(formObjClone, response)
-    })
-  }
-
-  updateIdb(formObjClone, response) {
-    this.idbCrudService.put('form', formObjClone).subscribe(_ => {
-      this.idbCrudService.readAll('form').subscribe((forms: any) => {
-        const formsDeployed = forms.filter(form => !form.date_archived)
-        this.store.dispatch(new SetForms(formsDeployed))
-      })
-      this.successService.popSnackbar(response.message)
-    })
   }
 
 }

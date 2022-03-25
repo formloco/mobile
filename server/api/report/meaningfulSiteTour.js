@@ -1,6 +1,3 @@
-const moment = require('moment')
-const { Pool } = require('pg')
-
 const fonts = {
   Roboto: {
     normal: 'fonts/Roboto-Regular.ttf',
@@ -14,15 +11,7 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
-async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
+async function meaningfulSiteTourPDF(path, reportData, comments, pics, signDate) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -40,23 +29,9 @@ async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
     }
   }
 
-  let images = []
-  fs.readdir(path, (err, files) => {
-    if (err) return;
-    if (files && files.length > 0) {
-      for (let j = 0; j < files.length; j++) {
-        const img = path + '/' + files[j]
-        images.push({ image: img, width: 500 })
-      }
-    }
-  })
-
-  let client = await pool.connect()
-  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [docID])
-
-  let header = formData.rows[0]["data"]["header"]
-  let notes = formData.rows[0]["data"]["notes"]
-
+  let header = reportData.data.header
+  let notes = reportData.data.notes
+  
   SiteOrientation = header.SiteOrientation ? '√ Site Orientation Complete' : 'Site Orientation Complete'
   DailySafetyMeeting = header.DailySafetyMeeting ? '√ Attend a Daily Safety Meeting / Toolbox Talk' : '  Attend a Daily Safety Meeting / Toolbox Talk'
   SiteTour = header.SiteTour ? '√ Site tour' : '  Site tour (2 hrs)'
@@ -128,7 +103,7 @@ async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
       '\n',
       messages,
       '\n',
-      images
+      pics
     ],
     styles: {
       headerBig: {
@@ -155,9 +130,6 @@ async function meaningfulSiteTourPDF(formID, path, docID, signDate, comments) {
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
   pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()
-
-  // update form data with path to pdf
-  client.release()
 
 }
 

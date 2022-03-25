@@ -1,4 +1,3 @@
-const moment = require('moment')
 const { Pool } = require('pg')
 
 const fonts = {
@@ -14,15 +13,7 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
-async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
+async function spotCheckSafetyPDF(path, reportData, comments, pics, signDate) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -40,55 +31,40 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
     }
   }
 
-  let images = []
-  fs.readdir(path, (err, files) => {
-    if (err) return;
-    if (files && files.length > 0) {
-      for (let j = 0; j < files.length; j++) {
-        const img = path + '/' + files[j]
-        images.push({ image: img, width: 500 })
-      }
-    }
-  })
+  let header = reportData.data.header
+  let hazard = reportData.data.hazard
+  let rules = reportData.data.rules
+  let incident = reportData.data.incident
+  let communication = reportData.data.communication
+  let personalEquipment = reportData.data.personalEquipment
+  let safetyEquipment = reportData.data.safetyEquipment
+  let correctiveAction = reportData.data.correctiveAction
 
-  let client = await pool.connect()
-
-  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [docID])
-
-  let header = formData.rows[0]["data"]["header"]
-  let hazard = formData.rows[0]["data"]["hazard"]
-  let rules = formData.rows[0]["data"]["rules"]
-  let incident = formData.rows[0]["data"]["incident"]
-  let communication = formData.rows[0]["data"]["communication"]
-  let personalEquipment = formData.rows[0]["data"]["personalEquipment"]
-  let safetyEquipment = formData.rows[0]["data"]["safetyEquipment"]
-  let correctiveAction = formData.rows[0]["data"]["correctiveAction"]
-
-  const data = []
+  let data = {}
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction);
 
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]]);
   
   allFormData.forEach(haz => {
     if (haz[1] === 'unsatisfactory') {
-      data.push(haz[0]+'U', '√')
-      data.push(haz[0]+'NA', '')
-      data.push(haz[0]+'S', '')
+      data[haz[0]+'U'] = '√',
+      data[haz[0]+'NA'] = '',
+      data[haz[0]+'S'] = ''
     }
     else if (haz[1] === 'satisfactory') {
-      data.push(haz[0]+'S', '√')
-      data.push(haz[0]+'NA', '')
-      data.push(haz[0]+'U', '')
+      data[haz[0]+'U'] = '',
+      data[haz[0]+'NA'] = '',
+      data[haz[0]+'S'] = '√'
     }
     else if (!haz[1] === 'na') {
-      data.push(haz[0]+'S', '')
-      data.push(haz[0]+'NA', '√')
-      data.push(haz[0]+'U', '')
+      data[haz[0]+'U'] = '',
+      data[haz[0]+'NA'] = '√',
+      data[haz[0]+'S'] = ''
     }
     else {
-      data.push(haz[0]+'S', '')
-      data.push(haz[0]+'NA', '')
-      data.push(haz[0]+'U', '')
+      data[haz[0]+'U'] = '',
+      data[haz[0]+'NA'] = '',
+      data[haz[0]+'S'] = ''
     }
   })
 
@@ -271,7 +247,7 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
       '\n',
       messages,
       '\n',
-      images
+      pics
     ],
     styles: {
       header: {
@@ -303,9 +279,6 @@ async function spotCheckSafetyPDF(formID, path, docID, signDate, comments) {
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
   pdfDoc.pipe(fs.createWriteStream(path+'.pdf'))
   pdfDoc.end()
-
-  // update form data with path to pdf
-  client.release()
 
 }
 

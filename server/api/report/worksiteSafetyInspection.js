@@ -14,15 +14,7 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
-async function worksiteSafetyInspectionPDF(formID, path, docID, signDate, comments) {
+async function worksiteSafetyInspectionPDF(path, reportData, comments, pics, signDate) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -40,218 +32,222 @@ async function worksiteSafetyInspectionPDF(formID, path, docID, signDate, commen
     }
   }
 
-  let images = []
-  fs.readdir(path, (err, files) => {
-    if (err) return;
-    if (files && files.length > 0) {
-      for (let j = 0; j < files.length; j++) {
-        const img = path + '/' + files[j]
-        images.push({ image: img, width: 500 })
-      }
+  let header = reportData.data.header
+  let hazard = reportData.data.hazard
+  let jobsite = reportData.data.jobsite
+  let fireExtinguisher = reportData.data.fireExtinguisher
+  let erpPlanning = reportData.data.erpPlanning
+  let ground = reportData.data.ground
+  let equipment = reportData.data.equipment
+  let confinedSpace = reportData.data.confinedSpace
+  let hotWork = reportData.data.hotWork
+  let descrepancy = reportData.data.discrepancy
+  let comment = reportData.data.comment
+
+  let data = {}
+  const formObj = Object.assign(hazard, jobsite, fireExtinguisher, erpPlanning, ground, equipment, confinedSpace, hotWork, descrepancy, comment);
+
+  const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]]);
+  
+  allFormData.forEach(rec => {
+    if (rec[1] === 'yes') {
+      data[rec[0]+'Yes'] = '√',
+      data[rec[0]+'No'] = ''
+    }
+    else {
+      data[rec[0]+'Yes'] = '',
+      data[rec[0]+'No'] = '√'
     }
   })
 
-  let client = await pool.connect()
-  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [docID])
+  console.log(allFormData)
 
-  let header = formData.rows[0]["data"]["header"]
-  let hazard = formData.rows[0]["data"]["hazard"]
-  let jobsite = formData.rows[0]["data"]["jobsite"]
-  let fireExtinguisher = formData.rows[0]["data"]["fireExtinguisher"]
-  let erpPlanning = formData.rows[0]["data"]["erpPlanning"]
-  let ground = formData.rows[0]["data"]["ground"]
-  let equipment = formData.rows[0]["data"]["equipment"]
-  let confinedSpace = formData.rows[0]["data"]["confinedSpace"]
-  let hotWork = formData.rows[0]["data"]["hotWork"]
-  let descrepancy = formData.rows[0]["data"]["discrepancy"]
-  let comment = formData.rows[0]["data"]["comment"]
-
-  SiteHazardAssessmentCompletedYes = hazard.SiteHazardAssessmentCompleted == 'yes' ? '√' : ''
+  // SiteHazardAssessmentCompletedYes = hazard.SiteHazardAssessmentCompleted == 'yes' ? '√' : ''
 
   // hazard
-  ScopeOfWorkClearlyDefinedYes = hazard.ScopeOfWorkClearlyDefined == 'yes' ? '√' : ''
-  PotentialHazardsAndMitigationRequirementsIdentifiedYes = hazard.PotentialHazardsAndMitigationRequirementsIdentified == 'yes' ? '√' : ''
-  SummitHealthAndSafetyManualAvailableYes = hazard.SummitHealthAndSafetyManualAvailable == 'yes' ? '√' : ''
-  OccupationalHealthAndSafetyLegislationAvailableYes = hazard.OccupationalHealthAndSafetyLegislationAvailable == 'yes' ? '√' : ''
-  SafetyDataSheetYes = hazard.SafetyDataSheet == 'yes' ? '√' : ''
-  DailySafetyMeetingsConductedDocumentedYes = hazard.DailySafetyMeetingsConductedDocumented == 'yes' ? '√' : ''
-  AllSitePersonalTrainingAndSafetyTicketsYes = hazard.AllSitePersonalTrainingAndSafetyTickets == 'yes' ? '√' : ''
-  H2SPersonalGasMonitorsOnsiteHaveBeenBumpedYes = hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped == 'yes' ? '√' : ''
-  AllSitePersonnelSiteSpecificWearingPPEYes = hazard.AllSitePersonnelSiteSpecificWearingPPE == 'yes' ? '√' : ''
+  // ScopeOfWorkClearlyDefinedYes = hazard.ScopeOfWorkClearlyDefined == 'yes' ? '√' : ''
+  // PotentialHazardsAndMitigationRequirementsIdentifiedYes = hazard.PotentialHazardsAndMitigationRequirementsIdentified == 'yes' ? '√' : ''
+  // SummitHealthAndSafetyManualAvailableYes = hazard.SummitHealthAndSafetyManualAvailable == 'yes' ? '√' : ''
+  // OccupationalHealthAndSafetyLegislationAvailableYes = hazard.OccupationalHealthAndSafetyLegislationAvailable == 'yes' ? '√' : ''
+  // SafetyDataSheetYes = hazard.SafetyDataSheet == 'yes' ? '√' : ''
+  // DailySafetyMeetingsConductedDocumentedYes = hazard.DailySafetyMeetingsConductedDocumented == 'yes' ? '√' : ''
+  // AllSitePersonalTrainingAndSafetyTicketsYes = hazard.AllSitePersonalTrainingAndSafetyTickets == 'yes' ? '√' : ''
+  // H2SPersonalGasMonitorsOnsiteHaveBeenBumpedYes = hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped == 'yes' ? '√' : ''
+  // AllSitePersonnelSiteSpecificWearingPPEYes = hazard.AllSitePersonnelSiteSpecificWearingPPE == 'yes' ? '√' : ''
 
-  SiteHazardAssessmentCompletedNo = hazard.SiteHazardAssessmentCompleted == 'no' ? '√' : ''
-  ScopeOfWorkClearlyDefinedNo = hazard.ScopeOfWorkClearlyDefined == 'no' ? '√' : ''
-  PotentialHazardsAndMitigationRequirementsIdentifiedNo = hazard.PotentialHazardsAndMitigationRequirementsIdentified == 'no' ? '√' : ''
-  SummitHealthAndSafetyManualAvailableNo = hazard.SummitHealthAndSafetyManualAvailable == 'no' ? '√' : ''
-  OccupationalHealthAndSafetyLegislationAvailableNo = hazard.OccupationalHealthAndSafetyLegislationAvailable == 'no' ? '√' : ''
-  SafetyDataSheetNo = hazard.SafetyDataSheet == 'no' ? '√' : ''
-  DailySafetyMeetingsConductedDocumentedNo = hazard.DailySafetyMeetingsConductedDocumented == 'no' ? '√' : ''
-  AllSitePersonalTrainingAndSafetyTicketsNo = hazard.AllSitePersonalTrainingAndSafetyTickets == 'no' ? '√' : ''
-  H2SPersonalGasMonitorsOnsiteHaveBeenBumpedNo = hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped == 'no' ? '√' : ''
-  AllSitePersonnelSiteSpecificWearingPPENo = hazard.AllSitePersonnelSiteSpecificWearingPPE == 'no' ? '√' : ''
+  // SiteHazardAssessmentCompletedNo = hazard.SiteHazardAssessmentCompleted == 'no' ? '√' : ''
+  // ScopeOfWorkClearlyDefinedNo = hazard.ScopeOfWorkClearlyDefined == 'no' ? '√' : ''
+  // PotentialHazardsAndMitigationRequirementsIdentifiedNo = hazard.PotentialHazardsAndMitigationRequirementsIdentified == 'no' ? '√' : ''
+  // SummitHealthAndSafetyManualAvailableNo = hazard.SummitHealthAndSafetyManualAvailable == 'no' ? '√' : ''
+  // OccupationalHealthAndSafetyLegislationAvailableNo = hazard.OccupationalHealthAndSafetyLegislationAvailable == 'no' ? '√' : ''
+  // SafetyDataSheetNo = hazard.SafetyDataSheet == 'no' ? '√' : ''
+  // DailySafetyMeetingsConductedDocumentedNo = hazard.DailySafetyMeetingsConductedDocumented == 'no' ? '√' : ''
+  // AllSitePersonalTrainingAndSafetyTicketsNo = hazard.AllSitePersonalTrainingAndSafetyTickets == 'no' ? '√' : ''
+  // H2SPersonalGasMonitorsOnsiteHaveBeenBumpedNo = hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped == 'no' ? '√' : ''
+  // AllSitePersonnelSiteSpecificWearingPPENo = hazard.AllSitePersonnelSiteSpecificWearingPPE == 'no' ? '√' : ''
 
-  // jobsite
-  WorkAreaClearlyIdentifiedYes = jobsite.WorkAreaClearlyIdentified == 'yes' ? '√' : ''
-  AppropriateAccessAndEgressRoutesAreEstablishedYes = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'yes' ? '√' : ''
-  SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsYes = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'yes' ? '√' : ''
-  AllOpenExcavationsAreClearlyMarkedYes = jobsite.AllOpenExcavationsAreClearlyMarked == 'yes' ? '√' : ''
-  PublicAccessToTheSiteControlledYes = jobsite.PublicAccessToTheSiteControlled == 'yes' ? '√' : ''
-  PrimeContractorClearlyIdentifiedWithSignageYes = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'yes' ? '√' : ''
-  IsThereEmergencyEquipmentOnSiteYes = jobsite.IsThereEmergencyEquipmentOnSite == 'yes' ? '√' : ''
-  FirstAidKitAvailableYes = jobsite.FirstAidKitAvailable == 'yes' ? '√' : ''
-  BlanketsAndStretcherAvailableYes = jobsite.BlanketsAndStretcherAvailable == 'yes' ? '√' : ''
-  EyeWashBottleAvailableYes = jobsite.EyeWashBottleAvailable == 'yes' ? '√' : ''
-  SpillKitAvailableYes = jobsite.SpillKitAvailable == 'yes' ? '√' : ''
+  // // jobsite
+  // WorkAreaClearlyIdentifiedYes = jobsite.WorkAreaClearlyIdentified == 'yes' ? '√' : ''
+  // AppropriateAccessAndEgressRoutesAreEstablishedYes = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'yes' ? '√' : ''
+  // SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsYes = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'yes' ? '√' : ''
+  // AllOpenExcavationsAreClearlyMarkedYes = jobsite.AllOpenExcavationsAreClearlyMarked == 'yes' ? '√' : ''
+  // PublicAccessToTheSiteControlledYes = jobsite.PublicAccessToTheSiteControlled == 'yes' ? '√' : ''
+  // PrimeContractorClearlyIdentifiedWithSignageYes = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'yes' ? '√' : ''
+  // IsThereEmergencyEquipmentOnSiteYes = jobsite.IsThereEmergencyEquipmentOnSite == 'yes' ? '√' : ''
+  // FirstAidKitAvailableYes = jobsite.FirstAidKitAvailable == 'yes' ? '√' : ''
+  // BlanketsAndStretcherAvailableYes = jobsite.BlanketsAndStretcherAvailable == 'yes' ? '√' : ''
+  // EyeWashBottleAvailableYes = jobsite.EyeWashBottleAvailable == 'yes' ? '√' : ''
+  // SpillKitAvailableYes = jobsite.SpillKitAvailable == 'yes' ? '√' : ''
 
-  WorkAreaClearlyIdentifiedNo = jobsite.WorkAreaClearlyIdentified == 'no' ? '√' : ''
-  AppropriateAccessAndEgressRoutesAreEstablishedNo = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'no' ? '√' : ''
-  SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsNo = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'no' ? '√' : ''
-  AllOpenExcavationsAreClearlyMarkedNo = jobsite.AllOpenExcavationsAreClearlyMarked == 'no' ? '√' : ''
-  PublicAccessToTheSiteControlledNo = jobsite.PublicAccessToTheSiteControlled == 'no' ? '√' : ''
-  PrimeContractorClearlyIdentifiedWithSignageNo = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'no' ? '√' : ''
-  IsThereEmergencyEquipmentOnSiteNo = jobsite.IsThereEmergencyEquipmentOnSite == 'no' ? '√' : ''
-  FirstAidKitAvailableNo = jobsite.FirstAidKitAvailable == 'no' ? '√' : ''
-  BlanketsAndStretcherAvailableNo = jobsite.BlanketsAndStretcherAvailable == 'no' ? '√' : ''
-  EyeWashBottleAvailableNo = jobsite.EyeWashBottleAvailable == 'no' ? '√' : ''
-  SpillKitAvailableNo = jobsite.SpillKitAvailable == 'no' ? '√' : ''
+  // WorkAreaClearlyIdentifiedNo = jobsite.WorkAreaClearlyIdentified == 'no' ? '√' : ''
+  // AppropriateAccessAndEgressRoutesAreEstablishedNo = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'no' ? '√' : ''
+  // SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsNo = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'no' ? '√' : ''
+  // AllOpenExcavationsAreClearlyMarkedNo = jobsite.AllOpenExcavationsAreClearlyMarked == 'no' ? '√' : ''
+  // PublicAccessToTheSiteControlledNo = jobsite.PublicAccessToTheSiteControlled == 'no' ? '√' : ''
+  // PrimeContractorClearlyIdentifiedWithSignageNo = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'no' ? '√' : ''
+  // IsThereEmergencyEquipmentOnSiteNo = jobsite.IsThereEmergencyEquipmentOnSite == 'no' ? '√' : ''
+  // FirstAidKitAvailableNo = jobsite.FirstAidKitAvailable == 'no' ? '√' : ''
+  // BlanketsAndStretcherAvailableNo = jobsite.BlanketsAndStretcherAvailable == 'no' ? '√' : ''
+  // EyeWashBottleAvailableNo = jobsite.EyeWashBottleAvailable == 'no' ? '√' : ''
+  // SpillKitAvailableNo = jobsite.SpillKitAvailable == 'no' ? '√' : ''
 
-  WorkAreaClearlyIdentifiedNa = jobsite.WorkAreaClearlyIdentified == 'na' ? '√' : ''
-  AppropriateAccessAndEgressRoutesAreEstablishedNa = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'na' ? '√' : ''
-  SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsNa = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'na' ? '√' : ''
-  AllOpenExcavationsAreClearlyMarkedNa = jobsite.AllOpenExcavationsAreClearlyMarked == 'na' ? '√' : ''
-  PublicAccessToTheSiteControlledNa = jobsite.PublicAccessToTheSiteControlled == 'na' ? '√' : ''
-  PrimeContractorClearlyIdentifiedWithSignageNa = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'na' ? '√' : ''
-  IsThereEmergencyEquipmentOnSiteNa = jobsite.IsThereEmergencyEquipmentOnSite == 'na' ? '√' : ''
-  FirstAidKitAvailableNa = jobsite.FirstAidKitAvailable == 'na' ? '√' : ''
-  BlanketsAndStretcherAvailableNa = jobsite.BlanketsAndStretcherAvailable == 'na' ? '√' : ''
-  BlanketsAndStretcherAvailableNa = jobsite.BlanketsAndStretcherAvailable == 'na' ? '√' : ''
-  EyeWashBottleAvailableNa = jobsite.EyeWashBottleAvailable == 'na' ? '√' : ''
-  SpillKitAvailableNa = jobsite.SpillKitAvailable == 'na' ? '√' : ''
+  // WorkAreaClearlyIdentifiedNa = jobsite.WorkAreaClearlyIdentified == 'na' ? '√' : ''
+  // AppropriateAccessAndEgressRoutesAreEstablishedNa = jobsite.AppropriateAccessAndEgressRoutesAreEstablished == 'na' ? '√' : ''
+  // SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsNa = jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns == 'na' ? '√' : ''
+  // AllOpenExcavationsAreClearlyMarkedNa = jobsite.AllOpenExcavationsAreClearlyMarked == 'na' ? '√' : ''
+  // PublicAccessToTheSiteControlledNa = jobsite.PublicAccessToTheSiteControlled == 'na' ? '√' : ''
+  // PrimeContractorClearlyIdentifiedWithSignageNa = jobsite.PrimeContractorClearlyIdentifiedWithSignage == 'na' ? '√' : ''
+  // IsThereEmergencyEquipmentOnSiteNa = jobsite.IsThereEmergencyEquipmentOnSite == 'na' ? '√' : ''
+  // FirstAidKitAvailableNa = jobsite.FirstAidKitAvailable == 'na' ? '√' : ''
+  // BlanketsAndStretcherAvailableNa = jobsite.BlanketsAndStretcherAvailable == 'na' ? '√' : ''
+  // BlanketsAndStretcherAvailableNa = jobsite.BlanketsAndStretcherAvailable == 'na' ? '√' : ''
+  // EyeWashBottleAvailableNa = jobsite.EyeWashBottleAvailable == 'na' ? '√' : ''
+  // SpillKitAvailableNa = jobsite.SpillKitAvailable == 'na' ? '√' : ''
 
   // FireExtinguisher
-  TwentyPoundMinimumFireExtinguisherAvailableYes = fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable == 'yes' ? '√' : ''
-  FireExtinguisherInspectedYes = fireExtinguisher.FireExtinguisherInspected == 'yes' ? '√' : ''
-  FireExtinguisherVisibleUnobstructedYes = fireExtinguisher.FireExtinguisherVisibleUnobstructed == 'yes' ? '√' : ''
-  FireExtinguisherChargedYes = fireExtinguisher.FireExtinguisherCharged == 'yes' ? '√' : ''
-  FireExtinguisherSafetyPinSecuredYes = fireExtinguisher.FireExtinguisherSafetyPinSecured == 'yes' ? '√' : ''
-  FireExtinguisherOperatingInstructionsYes = fireExtinguisher.FireExtinguisherOperatingInstructions == 'yes' ? '√' : ''
-  FireExtinguisherNoVisibleDamageYes = fireExtinguisher.FireExtinguisherNoVisibleDamage == 'yes' ? '√' : ''
-  FireExtinguisherCertificationYes = fireExtinguisher.FireExtinguisherCertification == 'yes' ? '√' : ''
+  // TwentyPoundMinimumFireExtinguisherAvailableYes = fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable == 'yes' ? '√' : ''
+  // FireExtinguisherInspectedYes = fireExtinguisher.FireExtinguisherInspected == 'yes' ? '√' : ''
+  // FireExtinguisherVisibleUnobstructedYes = fireExtinguisher.FireExtinguisherVisibleUnobstructed == 'yes' ? '√' : ''
+  // FireExtinguisherChargedYes = fireExtinguisher.FireExtinguisherCharged == 'yes' ? '√' : ''
+  // FireExtinguisherSafetyPinSecuredYes = fireExtinguisher.FireExtinguisherSafetyPinSecured == 'yes' ? '√' : ''
+  // FireExtinguisherOperatingInstructionsYes = fireExtinguisher.FireExtinguisherOperatingInstructions == 'yes' ? '√' : ''
+  // FireExtinguisherNoVisibleDamageYes = fireExtinguisher.FireExtinguisherNoVisibleDamage == 'yes' ? '√' : ''
+  // FireExtinguisherCertificationYes = fireExtinguisher.FireExtinguisherCertification == 'yes' ? '√' : ''
 
-  TwentyPoundMinimumFireExtinguisherAvailableNo = fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable == 'no' ? '√' : ''
-  FireExtinguisherInspectedNo = fireExtinguisher.FireExtinguisherInspected == 'no' ? '√' : ''
-  FireExtinguisherVisibleUnobstructedNo = fireExtinguisher.FireExtinguisherVisibleUnobstructed == 'no' ? '√' : ''
-  FireExtinguisherChargedNo = fireExtinguisher.FireExtinguisherChargedNo == 'no' ? '√' : ''
-  FireExtinguisherSafetyPinSecuredNo = fireExtinguisher.FireExtinguisherSafetyPinSecured == 'no' ? '√' : ''
-  FireExtinguisherOperatingInstructionsNo = fireExtinguisher.FireExtinguisherOperatingInstructions == 'no' ? '√' : ''
-  FireExtinguisherNoVisibleDamageNo = fireExtinguisher.FireExtinguisherNoVisibleDamage == 'no' ? '√' : ''
-  FireExtinguisherCertificationNo = fireExtinguisher.FireExtinguisherCertification == 'no' ? '√' : ''
+  // TwentyPoundMinimumFireExtinguisherAvailableNo = fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable == 'no' ? '√' : ''
+  // FireExtinguisherInspectedNo = fireExtinguisher.FireExtinguisherInspected == 'no' ? '√' : ''
+  // FireExtinguisherVisibleUnobstructedNo = fireExtinguisher.FireExtinguisherVisibleUnobstructed == 'no' ? '√' : ''
+  // FireExtinguisherChargedNo = fireExtinguisher.FireExtinguisherChargedNo == 'no' ? '√' : ''
+  // FireExtinguisherSafetyPinSecuredNo = fireExtinguisher.FireExtinguisherSafetyPinSecured == 'no' ? '√' : ''
+  // FireExtinguisherOperatingInstructionsNo = fireExtinguisher.FireExtinguisherOperatingInstructions == 'no' ? '√' : ''
+  // FireExtinguisherNoVisibleDamageNo = fireExtinguisher.FireExtinguisherNoVisibleDamage == 'no' ? '√' : ''
+  // FireExtinguisherCertificationNo = fireExtinguisher.FireExtinguisherCertification == 'no' ? '√' : ''
 
   //erpPlanning
-  EmergencyResponsePlanOnSiteYes = erpPlanning.EmergencyResponsePlanOnSite == 'yes' ? '√' : ''
-  MusterPointsIdentifiedYes = erpPlanning.MusterPointsIdentified == 'yes' ? '√' : ''
-  STARSNumberYes = erpPlanning.STARSNumber == 'yes' ? '√' : ''
-  ERPIncludesDirectionsToNearestHospitalYes = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'yes' ? '√' : ''
-  ERPResponderRolesAndResponsibilitiesIdentifiedYes = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'yes' ? '√' : ''
-  CellularOrRadioCoverageConfirmedYes = erpPlanning.CellularOrRadioCoverageConfirmed == 'yes' ? '√' : ''
+  // EmergencyResponsePlanOnSiteYes = erpPlanning.EmergencyResponsePlanOnSite == 'yes' ? '√' : ''
+  // MusterPointsIdentifiedYes = erpPlanning.MusterPointsIdentified == 'yes' ? '√' : ''
+  // STARSNumberYes = erpPlanning.STARSNumber == 'yes' ? '√' : ''
+  // ERPIncludesDirectionsToNearestHospitalYes = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'yes' ? '√' : ''
+  // ERPResponderRolesAndResponsibilitiesIdentifiedYes = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'yes' ? '√' : ''
+  // CellularOrRadioCoverageConfirmedYes = erpPlanning.CellularOrRadioCoverageConfirmed == 'yes' ? '√' : ''
 
-  EmergencyResponsePlanOnSiteNo = erpPlanning.EmergencyResponsePlanOnSite == 'no' ? '√' : ''
-  MusterPointsIdentifiedNo = erpPlanning.MusterPointsIdentified == 'no' ? '√' : ''
-  STARSNumberNo = erpPlanning.STARSNumber == 'no' ? '√' : ''
-  ERPIncludesDirectionsToNearestHospitalNo = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'no' ? '√' : ''
-  ERPResponderRolesAndResponsibilitiesIdentifiedNo = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'no' ? '√' : ''
-  CellularOrRadioCoverageConfirmedNo = erpPlanning.CellularOrRadioCoverageConfirmed == 'no' ? '√' : ''
+  // EmergencyResponsePlanOnSiteNo = erpPlanning.EmergencyResponsePlanOnSite == 'no' ? '√' : ''
+  // MusterPointsIdentifiedNo = erpPlanning.MusterPointsIdentified == 'no' ? '√' : ''
+  // STARSNumberNo = erpPlanning.STARSNumber == 'no' ? '√' : ''
+  // ERPIncludesDirectionsToNearestHospitalNo = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'no' ? '√' : ''
+  // ERPResponderRolesAndResponsibilitiesIdentifiedNo = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'no' ? '√' : ''
+  // CellularOrRadioCoverageConfirmedNo = erpPlanning.CellularOrRadioCoverageConfirmed == 'no' ? '√' : ''
 
-  EmergencyResponsePlanOnSiteNa = erpPlanning.EmergencyResponsePlanOnSite == 'na' ? '√' : ''
-  MusterPointsIdentifiedNa = erpPlanning.MusterPointsIdentified == 'na' ? '√' : ''
-  STARSNumberNa = erpPlanning.STARSNumberNa == 'na' ? '√' : ''
-  ERPIncludesDirectionsToNearestHospitalNa = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'na' ? '√' : ''
-  ERPResponderRolesAndResponsibilitiesIdentifiedNa = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'na' ? '√' : ''
-  CellularOrRadioCoverageConfirmedNa = erpPlanning.CellularOrRadioCoverageConfirmed == 'na' ? '√' : ''
+  // EmergencyResponsePlanOnSiteNa = erpPlanning.EmergencyResponsePlanOnSite == 'na' ? '√' : ''
+  // MusterPointsIdentifiedNa = erpPlanning.MusterPointsIdentified == 'na' ? '√' : ''
+  // STARSNumberNa = erpPlanning.STARSNumberNa == 'na' ? '√' : ''
+  // ERPIncludesDirectionsToNearestHospitalNa = erpPlanning.ERPIncludesDirectionsToNearestHospital == 'na' ? '√' : ''
+  // ERPResponderRolesAndResponsibilitiesIdentifiedNa = erpPlanning.ERPResponderRolesAndResponsibilitiesIdentified == 'na' ? '√' : ''
+  // CellularOrRadioCoverageConfirmedNa = erpPlanning.CellularOrRadioCoverageConfirmed == 'na' ? '√' : ''
 
   // ground
-  DoesTheProjectInvolveGroundDisturbanceYes = ground.DoesTheProjectInvolveGroundDisturbance == 'yes' ? '√' : ''
-  GroundDisturbanceChecklistIsInPlaceYes = ground.GroundDisturbanceChecklistIsInPlace == 'yes' ? '√' : ''
-  OneCallNotificationHasBeenRegisteredYes = ground.OneCallNotificationHasBeenRegistered == 'yes' ? '√' : ''
-  AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposedYes = ground.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed == 'yes' ? '√' : ''
-  ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefinedYes = ground.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined == 'yes' ? '√' : ''
-  ThirdPartyLineLocatesCompletedWithinTheSearchAreaYes = ground.ThirdPartyLineLocatesCompletedWithinTheSearchArea == 'yes' ? '√' : ''
-  AllRequiredCrossingOrProximityAgreementsInPlaceYes = ground.AllRequiredCrossingOrProximityAgreementsInPlace == 'yes' ? '√' : ''
+  // DoesTheProjectInvolveGroundDisturbanceYes = ground.DoesTheProjectInvolveGroundDisturbance == 'yes' ? '√' : ''
+  // GroundDisturbanceChecklistIsInPlaceYes = ground.GroundDisturbanceChecklistIsInPlace == 'yes' ? '√' : ''
+  // OneCallNotificationHasBeenRegisteredYes = ground.OneCallNotificationHasBeenRegistered == 'yes' ? '√' : ''
+  // AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposedYes = ground.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed == 'yes' ? '√' : ''
+  // ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefinedYes = ground.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined == 'yes' ? '√' : ''
+  // ThirdPartyLineLocatesCompletedWithinTheSearchAreaYes = ground.ThirdPartyLineLocatesCompletedWithinTheSearchArea == 'yes' ? '√' : ''
+  // AllRequiredCrossingOrProximityAgreementsInPlaceYes = ground.AllRequiredCrossingOrProximityAgreementsInPlace == 'yes' ? '√' : ''
 
-  DoesTheProjectInvolveGroundDisturbanceNo = ground.DoesTheProjectInvolveGroundDisturbance == 'no' ? '√' : ''
-  GroundDisturbanceChecklistIsInPlaceNo = ground.GroundDisturbanceChecklistIsInPlace == 'no' ? '√' : ''
-  OneCallNotificationHasBeenRegisteredNo = ground.OneCallNotificationHasBeenRegistered == 'no' ? '√' : ''
-  AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposedNo = ground.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed == 'no' ? '√' : ''
-  ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefinedNo = ground.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined == 'no' ? '√' : ''
-  ThirdPartyLineLocatesCompletedWithinTheSearchAreaNo = ground.ThirdPartyLineLocatesCompletedWithinTheSearchArea == 'no' ? '√' : ''
-  AllRequiredCrossingOrProximityAgreementsInPlaceNo = ground.AllRequiredCrossingOrProximityAgreementsInPlace == 'no' ? '√' : ''
+  // DoesTheProjectInvolveGroundDisturbanceNo = ground.DoesTheProjectInvolveGroundDisturbance == 'no' ? '√' : ''
+  // GroundDisturbanceChecklistIsInPlaceNo = ground.GroundDisturbanceChecklistIsInPlace == 'no' ? '√' : ''
+  // OneCallNotificationHasBeenRegisteredNo = ground.OneCallNotificationHasBeenRegistered == 'no' ? '√' : ''
+  // AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposedNo = ground.AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed == 'no' ? '√' : ''
+  // ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefinedNo = ground.ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined == 'no' ? '√' : ''
+  // ThirdPartyLineLocatesCompletedWithinTheSearchAreaNo = ground.ThirdPartyLineLocatesCompletedWithinTheSearchArea == 'no' ? '√' : ''
+  // AllRequiredCrossingOrProximityAgreementsInPlaceNo = ground.AllRequiredCrossingOrProximityAgreementsInPlace == 'no' ? '√' : ''
 
   // confinedSpace
-  DoesTheProjectInvolveConfinedSpaceEntryYes = confinedSpace.DoesTheProjectInvolveConfinedSpaceEntry == 'yes' ? '√' : ''
-  ConfinedSpacePermitIssuedYes = confinedSpace.ConfinedSpacePermitIssued == 'yes' ? '√' : ''
-  ConfinedSpaceSafetyTrainingYes = confinedSpace.ConfinedSpaceSafetyTraining == 'yes' ? '√' : ''
-  SafetyWatchInPlaceYes = confinedSpace.SafetyWatchInPlace == 'yes' ? '√' : ''
-  RescuePlanAvailableYes = confinedSpace.RescuePlanAvailable == 'yes' ? '√' : ''
+  // DoesTheProjectInvolveConfinedSpaceEntryYes = confinedSpace.DoesTheProjectInvolveConfinedSpaceEntry == 'yes' ? '√' : ''
+  // ConfinedSpacePermitIssuedYes = confinedSpace.ConfinedSpacePermitIssued == 'yes' ? '√' : ''
+  // ConfinedSpaceSafetyTrainingYes = confinedSpace.ConfinedSpaceSafetyTraining == 'yes' ? '√' : ''
+  // SafetyWatchInPlaceYes = confinedSpace.SafetyWatchInPlace == 'yes' ? '√' : ''
+  // RescuePlanAvailableYes = confinedSpace.RescuePlanAvailable == 'yes' ? '√' : ''
 
-  DoesTheProjectInvolveConfinedSpaceEntryNo = confinedSpace.DoesTheProjectInvolveConfinedSpaceEntry == 'no' ? '√' : ''
-  ConfinedSpacePermitIssuedNo = confinedSpace.ConfinedSpacePermitIssued == 'no' ? '√' : ''
-  ConfinedSpaceSafetyTrainingNo = confinedSpace.ConfinedSpaceSafetyTraining == 'no' ? '√' : ''
-  SafetyWatchInPlaceNo = confinedSpace.SafetyWatchInPlace == 'no' ? '√' : ''
-  RescuePlanAvailableNo = confinedSpace.RescuePlanAvailable == 'no' ? '√' : ''
+  // DoesTheProjectInvolveConfinedSpaceEntryNo = confinedSpace.DoesTheProjectInvolveConfinedSpaceEntry == 'no' ? '√' : ''
+  // ConfinedSpacePermitIssuedNo = confinedSpace.ConfinedSpacePermitIssued == 'no' ? '√' : ''
+  // ConfinedSpaceSafetyTrainingNo = confinedSpace.ConfinedSpaceSafetyTraining == 'no' ? '√' : ''
+  // SafetyWatchInPlaceNo = confinedSpace.SafetyWatchInPlace == 'no' ? '√' : ''
+  // RescuePlanAvailableNo = confinedSpace.RescuePlanAvailable == 'no' ? '√' : ''
 
   // hotWork
-  DoesTheProjectInvolveHotWorkYes = hotWork.DoesTheProjectInvolveHotWork == 'yes' ? '√' : ''
-  HotWorkPermitIssuedYes = hotWork.HotWorkPermitIssued == 'yes' ? '√' : ''
-  FireHazardsIdentifiedControlsYes = hotWork.FireHazardsIdentifiedControls == 'yes' ? '√' : ''
-  FireSafetyWatchAvailableYes = hotWork.FireSafetyWatchAvailable == 'yes' ? '√' : ''
+  // DoesTheProjectInvolveHotWorkYes = hotWork.DoesTheProjectInvolveHotWork == 'yes' ? '√' : ''
+  // HotWorkPermitIssuedYes = hotWork.HotWorkPermitIssued == 'yes' ? '√' : ''
+  // FireHazardsIdentifiedControlsYes = hotWork.FireHazardsIdentifiedControls == 'yes' ? '√' : ''
+  // FireSafetyWatchAvailableYes = hotWork.FireSafetyWatchAvailable == 'yes' ? '√' : ''
 
-  DoesTheProjectInvolveHotWorkNo = hotWork.DoesTheProjectInvolveHotWork == 'no' ? '√' : ''
-  HotWorkPermitIssuedNo = hotWork.HotWorkPermitIssued == 'no' ? '√' : ''
-  FireHazardsIdentifiedControlsNo = hotWork.FireHazardsIdentifiedControls == 'no' ? '√' : ''
-  FireSafetyWatchAvailableNo = hotWork.FireSafetyWatchAvailable == 'no' ? '√' : ''
+  // DoesTheProjectInvolveHotWorkNo = hotWork.DoesTheProjectInvolveHotWork == 'no' ? '√' : ''
+  // HotWorkPermitIssuedNo = hotWork.HotWorkPermitIssued == 'no' ? '√' : ''
+  // FireHazardsIdentifiedControlsNo = hotWork.FireHazardsIdentifiedControls == 'no' ? '√' : ''
+  // FireSafetyWatchAvailableNo = hotWork.FireSafetyWatchAvailable == 'no' ? '√' : ''
 
   // equipment
-  ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsYes = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'yes' ? '√' : ''
-  InteriorOfVehicleKeptTidyAndCleanYes = equipment.InteriorOfVehicleKeptTidyAndClean == 'yes' ? '√' : ''
-  VehicleWindshieldFreeOfMajorChipsAndCracksYes = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'yes' ? '√' : ''
-  DailyPreUseVehicleInspectionCompletedYes = equipment.DailyPreUseVehicleInspectionCompleted == 'yes' ? '√' : ''
-  EquipmentPreUseInspectionCompletedYes = equipment.EquipmentPreUseInspectionCompleted == 'yes' ? '√' : ''
-  CargoIinternalAndExternalProperlyStowedAndSecuredYes = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'yes' ? '√' : ''
-  HornIsInProperWorkingConditionYes = equipment.HornIsInProperWorkingCondition == 'yes' ? '√' : ''
-  HeadlightsAreInProperWorkingConditionYes = equipment.HeadlightsAreInProperWorkingCondition == 'yes' ? '√' : ''
-  SignalLightsAreInProperWorkingConditionYes = equipment.SignalLightsAreInProperWorkingCondition == 'yes' ? '√' : ''
-  EmergencyWarningStrobeLightEquippedOnVehicleYes = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'yes' ? '√' : ''
-  SafetyBuggyWhipEquippedOnVehicleYes = equipment.SafetyBuggyWhipEquippedOnVehicle == 'yes' ? '√' : ''
-  FirstAidKitEquippedInVehicleYes = equipment.FirstAidKitEquippedInVehicle == 'yes' ? '√' : ''
-  EmergencySurvivalKitEquippedInVehicleYes = equipment.EmergencySurvivalKitEquippedInVehicle == 'yes' ? '√' : ''
+  // ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsYes = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'yes' ? '√' : ''
+  // InteriorOfVehicleKeptTidyAndCleanYes = equipment.InteriorOfVehicleKeptTidyAndClean == 'yes' ? '√' : ''
+  // VehicleWindshieldFreeOfMajorChipsAndCracksYes = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'yes' ? '√' : ''
+  // DailyPreUseVehicleInspectionCompletedYes = equipment.DailyPreUseVehicleInspectionCompleted == 'yes' ? '√' : ''
+  // EquipmentPreUseInspectionCompletedYes = equipment.EquipmentPreUseInspectionCompleted == 'yes' ? '√' : ''
+  // CargoIinternalAndExternalProperlyStowedAndSecuredYes = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'yes' ? '√' : ''
+  // HornIsInProperWorkingConditionYes = equipment.HornIsInProperWorkingCondition == 'yes' ? '√' : ''
+  // HeadlightsAreInProperWorkingConditionYes = equipment.HeadlightsAreInProperWorkingCondition == 'yes' ? '√' : ''
+  // SignalLightsAreInProperWorkingConditionYes = equipment.SignalLightsAreInProperWorkingCondition == 'yes' ? '√' : ''
+  // EmergencyWarningStrobeLightEquippedOnVehicleYes = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'yes' ? '√' : ''
+  // SafetyBuggyWhipEquippedOnVehicleYes = equipment.SafetyBuggyWhipEquippedOnVehicle == 'yes' ? '√' : ''
+  // FirstAidKitEquippedInVehicleYes = equipment.FirstAidKitEquippedInVehicle == 'yes' ? '√' : ''
+  // EmergencySurvivalKitEquippedInVehicleYes = equipment.EmergencySurvivalKitEquippedInVehicle == 'yes' ? '√' : ''
 
-  ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNo = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'no' ? '√' : ''
-  InteriorOfVehicleKeptTidyAndCleanNo = equipment.InteriorOfVehicleKeptTidyAndClean == 'no' ? '√' : ''
-  VehicleWindshieldFreeOfMajorChipsAndCracksNo = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'no' ? '√' : ''
-  DailyPreUseVehicleInspectionCompletedNo = equipment.DailyPreUseVehicleInspectionCompleted == 'no' ? '√' : ''
-  EquipmentPreUseInspectionCompletedNo = equipment.EquipmentPreUseInspectionCompleted == 'no' ? '√' : ''
-  CargoIinternalAndExternalProperlyStowedAndSecuredNo = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'no' ? '√' : ''
-  HornIsInProperWorkingConditionNo = equipment.HornIsInProperWorkingCondition == 'no' ? '√' : ''
-  HeadlightsAreInProperWorkingConditionNo = equipment.HeadlightsAreInProperWorkingCondition == 'no' ? '√' : ''
-  SignalLightsAreInProperWorkingConditionNo = equipment.SignalLightsAreInProperWorkingCondition == 'no' ? '√' : ''
-  EmergencyWarningStrobeLightEquippedOnVehicleNo = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'no' ? '√' : ''
-  SafetyBuggyWhipEquippedOnVehicleNo = equipment.SafetyBuggyWhipEquippedOnVehicle == 'no' ? '√' : ''
-  FirstAidKitEquippedInVehicleNo = equipment.FirstAidKitEquippedInVehicle == 'no' ? '√' : ''
-  EmergencySurvivalKitEquippedInVehicleNo = equipment.EmergencySurvivalKitEquippedInVehicle == 'no' ? '√' : ''
+  // ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNo = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'no' ? '√' : ''
+  // InteriorOfVehicleKeptTidyAndCleanNo = equipment.InteriorOfVehicleKeptTidyAndClean == 'no' ? '√' : ''
+  // VehicleWindshieldFreeOfMajorChipsAndCracksNo = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'no' ? '√' : ''
+  // DailyPreUseVehicleInspectionCompletedNo = equipment.DailyPreUseVehicleInspectionCompleted == 'no' ? '√' : ''
+  // EquipmentPreUseInspectionCompletedNo = equipment.EquipmentPreUseInspectionCompleted == 'no' ? '√' : ''
+  // CargoIinternalAndExternalProperlyStowedAndSecuredNo = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'no' ? '√' : ''
+  // HornIsInProperWorkingConditionNo = equipment.HornIsInProperWorkingCondition == 'no' ? '√' : ''
+  // HeadlightsAreInProperWorkingConditionNo = equipment.HeadlightsAreInProperWorkingCondition == 'no' ? '√' : ''
+  // SignalLightsAreInProperWorkingConditionNo = equipment.SignalLightsAreInProperWorkingCondition == 'no' ? '√' : ''
+  // EmergencyWarningStrobeLightEquippedOnVehicleNo = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'no' ? '√' : ''
+  // SafetyBuggyWhipEquippedOnVehicleNo = equipment.SafetyBuggyWhipEquippedOnVehicle == 'no' ? '√' : ''
+  // FirstAidKitEquippedInVehicleNo = equipment.FirstAidKitEquippedInVehicle == 'no' ? '√' : ''
+  // EmergencySurvivalKitEquippedInVehicleNo = equipment.EmergencySurvivalKitEquippedInVehicle == 'no' ? '√' : ''
 
-  ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNa = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'na' ? '√' : ''
-  InteriorOfVehicleKeptTidyAndCleanNa = equipment.InteriorOfVehicleKeptTidyAndClean == 'na' ? '√' : ''
-  VehicleWindshieldFreeOfMajorChipsAndCracksNa = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'na' ? '√' : ''
-  DailyPreUseVehicleInspectionCompletedNa = equipment.DailyPreUseVehicleInspectionCompleted == 'na' ? '√' : ''
-  EquipmentPreUseInspectionCompletedNa = equipment.EquipmentPreUseInspectionCompleted == 'na' ? '√' : ''
-  CargoIinternalAndExternalProperlyStowedAndSecuredNa = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'na' ? '√' : ''
-  HornIsInProperWorkingConditionNa = equipment.HornIsInProperWorkingCondition == 'na' ? '√' : ''
-  HeadlightsAreInProperWorkingConditionNa = equipment.HeadlightsAreInProperWorkingCondition == 'na' ? '√' : ''
-  SignalLightsAreInProperWorkingConditionNa = equipment.SignalLightsAreInProperWorkingCondition == 'na' ? '√' : ''
-  EmergencyWarningStrobeLightEquippedOnVehicleNa = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'na' ? '√' : ''
-  SafetyBuggyWhipEquippedOnVehicleNa = equipment.SafetyBuggyWhipEquippedOnVehicle == 'na' ? '√' : ''
-  FirstAidKitEquippedInVehicleNa = equipment.FirstAidKitEquippedInVehicle == 'na' ? '√' : ''
-  EmergencySurvivalKitEquippedInVehicleNa = equipment.EmergencySurvivalKitEquippedInVehicle == 'na' ? '√' : ''
+  // ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNa = equipment.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects == 'na' ? '√' : ''
+  // InteriorOfVehicleKeptTidyAndCleanNa = equipment.InteriorOfVehicleKeptTidyAndClean == 'na' ? '√' : ''
+  // VehicleWindshieldFreeOfMajorChipsAndCracksNa = equipment.VehicleWindshieldFreeOfMajorChipsAndCracks == 'na' ? '√' : ''
+  // DailyPreUseVehicleInspectionCompletedNa = equipment.DailyPreUseVehicleInspectionCompleted == 'na' ? '√' : ''
+  // EquipmentPreUseInspectionCompletedNa = equipment.EquipmentPreUseInspectionCompleted == 'na' ? '√' : ''
+  // CargoIinternalAndExternalProperlyStowedAndSecuredNa = equipment.CargoIinternalAndExternalProperlyStowedAndSecured == 'na' ? '√' : ''
+  // HornIsInProperWorkingConditionNa = equipment.HornIsInProperWorkingCondition == 'na' ? '√' : ''
+  // HeadlightsAreInProperWorkingConditionNa = equipment.HeadlightsAreInProperWorkingCondition == 'na' ? '√' : ''
+  // SignalLightsAreInProperWorkingConditionNa = equipment.SignalLightsAreInProperWorkingCondition == 'na' ? '√' : ''
+  // EmergencyWarningStrobeLightEquippedOnVehicleNa = equipment.EmergencyWarningStrobeLightEquippedOnVehicle == 'na' ? '√' : ''
+  // SafetyBuggyWhipEquippedOnVehicleNa = equipment.SafetyBuggyWhipEquippedOnVehicle == 'na' ? '√' : ''
+  // FirstAidKitEquippedInVehicleNa = equipment.FirstAidKitEquippedInVehicle == 'na' ? '√' : ''
+  // EmergencySurvivalKitEquippedInVehicleNa = equipment.EmergencySurvivalKitEquippedInVehicle == 'na' ? '√' : ''
 
   const docDefinition = {
     content: [
@@ -481,7 +477,7 @@ async function worksiteSafetyInspectionPDF(formID, path, docID, signDate, commen
       '\n',
       messages,
       '\n',
-      images
+      pics
     ],
     styles: {
       header: {

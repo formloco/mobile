@@ -18,7 +18,7 @@ export const environment = {
   formUrl: 'http://localhost:9002/form/',
   // emailUrl: 'http://localhost:9003/email/',
   // assetUrl: 'http://localhost:9005/asset/',
-  notificationUrl: 'http://localhost:9004/notification/',
+  notificationUrl: 'http://localhost:9004/',
 
   // apiUrl: Formloco.apiUrl,
   // authUrl: Formloco.authUrl,

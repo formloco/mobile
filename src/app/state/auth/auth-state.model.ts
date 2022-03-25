@@ -36,6 +36,7 @@ export interface Form {
   type: string,
   is_published: boolean,
   is_data: boolean,
+  is_deployed: boolean,
   is_manager: boolean,
   is_list: boolean,
   lists: []

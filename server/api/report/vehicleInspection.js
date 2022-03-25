@@ -14,15 +14,7 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-const pool = new Pool({
-  user: process.env.DBUSER,
-  host: process.env.HOST,
-  database: process.env.TENANT,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
-})
-
-async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
+async function vehicleInspectionPDF(path, reportData, comments, pics, signDate ) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
@@ -40,23 +32,8 @@ async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
     }
   }
 
-  let images = []
-  fs.readdir(path, (err, files) => {
-    if (err) return;
-    if (files && files.length > 0) {
-      for (let j = 0; j < files.length; j++) {
-        const img = path + '/' + files[j]
-        images.push({ image: img, width: 500 })
-      }
-    }
-  })
-
-  let client = await pool.connect()
-  let formData = await client.query(`SELECT * FROM "` + formID + `" WHERE id = $1`, [dataID])
-  // let inspection = await client.query(`SELECT * FROM inspection WHERE data_id = $1`, [dataID])
-
-  let header = formData.rows[0]["data"]["header"]
-  let detail = formData.rows[0]["data"]["detail"]
+  let header = reportData.data.header
+  let detail = reportData.detail
 
   // let inspectionArray = []
   // let inspections = 'No Inspection Data'
@@ -240,7 +217,7 @@ async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
       '\n',
       messages,
       '\n',
-      images
+      pics
     ],
     styles: {
       header: {
@@ -264,9 +241,6 @@ async function vehicleInspectionPDF(formID, path, dataID, signDate, comments) {
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
   pdfDoc.pipe(fs.createWriteStream(path + '.pdf'))
   pdfDoc.end()
-
-  // update form data with path to pdf
-  client.release()
 
 }
 

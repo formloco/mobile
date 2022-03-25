@@ -373,7 +373,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   }
 
   submitForm() {
-    let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     let userCreated = {
@@ -402,23 +401,12 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       comment: this.commentForm.value
     }
 
-    dataObj.push(null)
-    dataObj.push(JSON.stringify(userCreated))
-    dataObj.push(new Date())
-    dataObj.push(new Date())
-    dataObj.push(null)
-    dataObj.push(JSON.stringify(data))
-
-    this.WORKSITE_SAFETY_INSPECTION["form_id"] = form["form_id"]
-    this.WORKSITE_SAFETY_INSPECTION["is_published"] = true
-    this.WORKSITE_SAFETY_INSPECTION["is_data"] = true
-
     let obj = {
-      data: dataObj,
-      columns: this.WORKSITE_SAFETY_INSPECTION["columns"],
+      data: data,
       user: userCreated,
-      formObj: this.WORKSITE_SAFETY_INSPECTION,
+      form: form,
       type: 'custom',
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       name: form["name"],
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
@@ -427,58 +415,32 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.formDataID = idObj
       const workers: any = this.store.selectSnapshot(AuthState.workers)
       const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
-      let worker = workers.find(worker => worker.name === header.Worker)
-      if (!worker) {
-        worker["name"] = header.Worker
-        worker["email"] = header.Worker.charAt(0) + header.Worker.slice(header.Worker.indexOf(' ') + 1) + '@summitearth.com'
-      }
-      let supervisor = supervisors.find(supervisor => supervisor.name === header.Supervisor)
-      if (!supervisor) {
-        supervisor["name"] = header.Supervisor
-        supervisor["email"] = header.Supervisor.charAt(0) + header.Supervisor.slice(header.Supervisor.indexOf(' ') + 1) + '@summitearth.com'
-      }
-      let message = this.discrepancyForm.value
 
-      if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
-
-      let notificationObj = {
-        name: form["name"],
-        worker: worker,
-        supervisor: supervisor,
-        description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message: message,
-        subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + new Date(),
-        form_id: form["form_id"],
-        data_id: this.formDataID,
-        pdf: 'worksite-safety-inspection' + this.formDataID
-      }
-
-      this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
-        this.store.dispatch(new SetNotificationOpen(myNotifications.data))
-        this.resetForm()
-        this.store.dispatch(new SetPage('home'))
-        this.store.dispatch(new SetChildPage('Forms'))
-        this.snackBar.open(myNotifications.message, 'Success', {
+      if (workers.length == 0 && supervisors.length == 0)
+        this.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
           duration: 3000,
           verticalPosition: 'bottom'
         })
-        const obj = {
-          toName: notificationObj.supervisor.name,
-          messageID: myNotifications.data[0]["id"],
-          url: this.messageUrl,
-          emailTo: notificationObj.supervisor.email,
-          emailFrom: notificationObj.worker.email
-        }
-        this.emailService.sendNotificationEmail(obj).subscribe(() => { })
-      })
-      const pics = this.store.selectSnapshot(DeviceState.pics)
-      const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
+      else {
+        const worker: any = this.appService.getWorker(header.Worker)
+        const supervisor: any = this.appService.getSupervisor(header.Supervisor)
 
-      const picObj = {
-        id: selectedForm["id"] + this.formDataID,
-        pics: pics
+        let message = this.discrepancyForm.value
+        if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
+
+        let notificationObj = {
+          name: form["name"],
+          worker: worker,
+          supervisor: supervisor,
+          description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
+          message: message,
+          subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + new Date(),
+          form_id: form["form_id"],
+          data_id: this.formDataID,
+          pdf: 'worksite-safety-inspection' + this.formDataID
+        }
+        this.appService.sendNotification(notificationObj)
       }
-      this.idbCrudService.put('pics', picObj)
     })
   }
 
@@ -491,7 +453,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       && header.SupervisorPhone != null
       && header.Division != null
       && header.JobNumber != null
-      && header.ScopeOfWork != null) 
+      && header.ScopeOfWork != null)
       this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
   }
 

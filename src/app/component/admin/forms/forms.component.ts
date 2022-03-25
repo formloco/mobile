@@ -25,7 +25,7 @@ import { WORKSITE_SAFETY_INSPECTION } from '../../forms/worksite-safety-inspecti
 import { SPOT_CHECK_SAFETY } from '../../forms/spot-check-safety/state/spot-check-safety.model'
 
 import { SetSelectedForm, SetLookupListNames } from '../../../state/auth/auth-state.actions'
-import { SetPage, SetChildPageLabel, SetForms } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPageLabel, SetForms, SetFormsPublished } from '../../../state/auth/auth-state.actions'
 import { AuthState } from '../../../state/auth/auth.state'
 
 @Component({
@@ -59,23 +59,19 @@ export class FormsComponent {
     console.log(form)
     let formObjClone = _.cloneDeep(form)
     if (!form.type) this.errorService.popSnackbar('Form is not Configured')
-
     else if (form.type === 'custom') {
       const tenant = this.store.selectSnapshot(AuthState.tenant)
-
       formObjClone["user_created"] = { email: tenant.email, date_created: new Date() }
 
       // forms are taken from local json and registered to the database
       this.formService.registerForm(formObjClone).subscribe(_ => {
         this.runForm(formObjClone)
       })
-
     }
     else {
       this.appService.detailArray = form.details
       this.runForm(form)
     }
-
   }
 
   runForm(form) {
@@ -105,6 +101,10 @@ export class FormsComponent {
     }
     this.formService.statusToggle(obj).subscribe((response: any) => {
       this.updateIdb(formObjClone, response)
+      this.idbCrudService.readAll('form').subscribe((forms: any) => {
+        const formsPublished = forms.filter(form => form.is_published === true)
+        this.store.dispatch(new SetFormsPublished(formsPublished))
+      })
     })
   }
 
@@ -125,6 +125,17 @@ export class FormsComponent {
     })
   }
 
+  archive(formObj) {
+    let formObjClone = _.cloneDeep(formObj)
+    formObjClone['date_archived'] = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    formObjClone['user_archived'] = this.store.selectSnapshot(AuthState.user)
+    formObjClone['is_deployed'] = false
+
+    this.formService.update(formObjClone).subscribe((response: any) => {
+      this.updateIdb(formObjClone, response)
+    })
+  }
+
   updateIdb(formObjClone, response) {
     this.idbCrudService.put('form', formObjClone).subscribe(_ => {
       this.idbCrudService.readAll('form').subscribe((forms: any) => {
@@ -132,16 +143,6 @@ export class FormsComponent {
         this.store.dispatch(new SetForms(formsDeployed))
       })
       this.successService.popSnackbar(response.message)
-    })
-  }
-
-  archive(formObj) {
-    let formObjClone = _.cloneDeep(formObj)
-    formObjClone['date_archived'] = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
-    formObjClone['user_archived'] = this.store.selectSnapshot(AuthState.user)
-
-    this.formService.update(formObjClone).subscribe((response: any) => {
-      this.updateIdb(formObjClone, response)
     })
   }
 

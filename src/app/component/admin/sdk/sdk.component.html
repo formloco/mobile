@@ -1,7 +1,7 @@
 <!-- this component takes custom forms and registers them to the cloud -->
 <div class="form-padding" *ngFor="let formObj of forms">
   <mat-card class="hand">
-    <mat-card-header (click)=selectForm(formObj)>
+    <mat-card-header>
       <div mat-card-avatar>
         <mat-icon class="form-icon32 material-icons-outlined">{{ formObj.icon }}</mat-icon>
       </div>
