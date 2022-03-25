@@ -133,6 +133,9 @@ const dataCreateSQL = async (dataObj) => {
     "message": "Created by " + dataObj["user"]["email"]
   }]
 
+  // const notifications = await client.query(`SELECT * FROM notifications WHERE id = $1`, [dataID])
+
+
   const formData = await client.query(`SELECT * FROM "` + dataObj["form"]["form_id"] + `" WHERE id = $1`, [dataID])
   const reportData = formData.rows[0]
 
@@ -142,7 +145,7 @@ const dataCreateSQL = async (dataObj) => {
     fs.mkdir(docPath + docID + dataID, (err) => {
       if (err) return err
     })
-    // write image file
+
     dataObj["pics"].forEach((element, index) => {
       let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
       const buffer = Buffer.from(base64Data, "base64")
@@ -164,7 +167,6 @@ const dataCreateSQL = async (dataObj) => {
 
 // updates list item
 const dataUpdateSQL = async (dataObj) => {
-
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
@@ -177,15 +179,13 @@ const dataUpdateSQL = async (dataObj) => {
   if (!dataObj.data)
     return { message: 'Nothing to Update' }
 
-  const docID = dataObj["id"]
-
+  const docId = dataObj.id
   let dataJSON = JSON.stringify(dataObj.data)
-  // escape single quote
-  dataJSON = dataJSON.replace(/'/g, "''")
+  dataJSON = dataJSON.replace(/'/g, "''") // escape single quote
 
   await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataJSON + `' WHERE id = ` + dataObj.data_id)
 
-  const docId = dataObj.data.id
+  
   if (dataObj.data.correctiveAction && dataObj.data.correctiveAction.length > 0) {
     await client.query(`DELETE inspection WHERE data_id = '` + dataObj.data_id + `')`)
 
@@ -201,7 +201,24 @@ const dataUpdateSQL = async (dataObj) => {
     "date": dataObj.data.header.Date,
     "message": "Updated by " + dataObj.data.header.Worker
   }]
+// console.log(dataObj.data)
+//   console.log(`SELECT * FROM notifications WHERE data_id = $1`, [dataObj.data_id])
 
+//   const notifications = await client.query(`SELECT * FROM notifications WHERE data_id = $1`, [dataObj.data_id])
+// console.log(notifications)
+//   let messages = []
+//   if (notifications) {
+//     for (let j = 0; j < notifications.rows.length; j++) {
+//       let str = JSON.stringify(notifications[j])
+//       str = str.replace(/{/g, '')
+//       str = str.replace(/}/g, '')
+//       str = str.replace(/"/g, '')
+//       str = str.replace(/:/g, ': ')
+//       str = str.split(",").join("\n")
+//       messages.push(str)
+//     }
+//   }
+// console.log(messages)
   const path = docPath + dataObj.id + dataObj.data_id
 
   let pics = []
@@ -229,16 +246,19 @@ const dataUpdateSQL = async (dataObj) => {
     const dirname = path + '/'
     if (fs.existsSync(dirname)) {
       fs.readdir(dirname, (err, files) => {
+        console.log(files)
         if (err) return
         else {
           files.forEach(file => {
             const contents = fs.readFileSync(path + '/' + file, {encoding: 'base64'})
             pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
           })
-          buildPDFReport(docID, path, dataObj, comments, pics)
+          console.log(docId)
+          buildPDFReport(docId, path, dataObj, comments, pics)
         }
       })
     }
+    // buildPDFReport(docId, path, dataObj, comments, pics)
   })
 
   return { message: 'Report Update Successful' }

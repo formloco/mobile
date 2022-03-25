@@ -18,13 +18,13 @@ module.exports = function buildPDFReport(docID, path, reportData, comments, pics
   }
 
   if (docID == 'spot-check-safety') {
+    console.log('got here')
     spotCheckSafetyPDF(path, reportData, comments, pics, signDate), (err) => {
       if (err) return err
     }
   }
 
   if (docID == 'meaningful-site-tour') {
-    // console.log('got here')
     meaningfulSiteTourPDF(path, reportData, comments, pics, signDate), (err) => {
       if (err) return err
     }

@@ -13,15 +13,15 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-async function spotCheckSafetyPDF(path, reportData, comments, pics, signDate) {
+async function spotCheckSafetyPDF(path, reportData, notifications, pics, signDate) {
 
   let dateSigned = 'To be determined'
   if (signDate !== null) dateSigned = signDate
 
   let messages = []
-  if (comments !== null) {
-    for (let j = 0; j < comments.length; j++) {
-      let str = JSON.stringify(comments[j])
+  if (notifications !== null) {
+    for (let j = 0; j < notifications.length; j++) {
+      let str = JSON.stringify(notifications[j])
       str = str.replace(/{/g, '')
       str = str.replace(/}/g, '')
       str = str.replace(/"/g, '')
@@ -41,33 +41,40 @@ async function spotCheckSafetyPDF(path, reportData, comments, pics, signDate) {
   let correctiveAction = reportData.data.correctiveAction
 
   let data = {}
-  const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction);
+  const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction)
 
-  const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]]);
-  
-  allFormData.forEach(haz => {
-    if (haz[1] === 'unsatisfactory') {
-      data[haz[0]+'U'] = '√',
-      data[haz[0]+'NA'] = '',
-      data[haz[0]+'S'] = ''
+  const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
+  console.log('got here', allFormData)
+  allFormData.forEach(rec => {
+    if (rec[1] === 'unsatisfactory') {
+      data[rec[0]+'U'] = '√',
+      data[rec[0]+'NA'] = '',
+      data[rec[0]+'S'] = ''
     }
-    else if (haz[1] === 'satisfactory') {
-      data[haz[0]+'U'] = '',
-      data[haz[0]+'NA'] = '',
-      data[haz[0]+'S'] = '√'
+    else if (rec[1] === 'satisfactory') {
+      data[rec[0]+'U'] = '',
+      data[rec[0]+'NA'] = '',
+      data[rec[0]+'S'] = '√'
     }
-    else if (!haz[1] === 'na') {
-      data[haz[0]+'U'] = '',
-      data[haz[0]+'NA'] = '√',
-      data[haz[0]+'S'] = ''
+    else if (rec[1] === 'na') {
+      data[rec[0]+'U'] = '',
+      data[rec[0]+'NA'] = '√',
+      data[rec[0]+'S'] = ''
     }
     else {
-      data[haz[0]+'U'] = '',
-      data[haz[0]+'NA'] = '',
-      data[haz[0]+'S'] = ''
+      console.log(rec[1])
+      data[rec[0]] = rec[1]
     }
   })
 
+  // allFormData.forEach(rec => {
+  //   console.log(rec)
+  //   if (rec.includes('Comments')) {
+  //     console.log(rec)
+  //     data[rec[0]] = data[rec[1]]
+  //   }
+  // })
+console.log(data)
   const docDefinition = {
     content: [
       {
