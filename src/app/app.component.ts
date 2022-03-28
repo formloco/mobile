@@ -2,8 +2,8 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core'
 
 import { OverlayContainer } from '@angular/cdk/overlay'
 
-import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { fromEvent, merge, of, Subscription, Subject } from 'rxjs'
+import { takeUntil, map } from 'rxjs/operators'
 
 import { Platform } from '@angular/cdk/platform'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
@@ -15,12 +15,9 @@ import { IdbCrudService } from "./service-idb/idb-crud.service"
 import { Store } from '@ngxs/store'
 import { SetScreenSize, SetScreenWidth } from './state/device/device-state.actions'
 import { SetUserIdb, SetPage, SetTenant, SetKioske } from './state/auth/auth-state.actions'
-import { SetBackground, SetIsDarkMode } from './state/device/device-state.actions'
+import { SetBackground, SetIsDarkMode, SetIsOnline } from './state/device/device-state.actions'
 
 import { environment } from '../environments/environment'
-
-import { ActivatedRoute, Params } from '@angular/router'
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,6 +26,8 @@ import { ActivatedRoute, Params } from '@angular/router'
 export class AppComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') className = 'darkMode'
+  networkStatus: any
+  networkStatus$: Subscription = Subscription.EMPTY
 
   kioske = environment.kioske
   tenant = environment.tenant
@@ -54,7 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public platform: Platform,
     public appService: AppService,
     private authService: AuthService,
-    private route: ActivatedRoute,
     private idbCrudService: IdbCrudService,
     breakpointObserver: BreakpointObserver,
     private overlayContainer: OverlayContainer) {
@@ -77,10 +75,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new SetKioske(this.kioske))
     this.store.dispatch(new SetTenant(this.tenant))
-    this.authService.token().subscribe(token => {
-      this.token = token
-      localStorage.setItem('formToken', this.token.token)
-    })
+
+    this.checkNetworkStatus()
+
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
       if (this.prefs.length > 0) {
@@ -89,9 +86,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
         this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
-
-        // if (!this.kioske)
-          // this.appService.initializeUser(this.prefs[0]["user"]['email'])
       }
       else {
         this.setMode('darkMode')
@@ -114,6 +108,26 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetBackground(''))
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
     }
+  }
+
+  checkNetworkStatus() {
+    this.networkStatus = navigator.onLine
+    this.networkStatus$ = merge(
+      of(null),
+      fromEvent(window, 'online'),
+      fromEvent(window, 'offline')
+    )
+      .pipe(map(() => navigator.onLine))
+      .subscribe(status => {
+        if (status)
+          this.authService.token().subscribe(token => {
+            this.token = token
+            localStorage.setItem('formToken', this.token.token)
+          })
+        this.store.dispatch(new SetIsOnline(status))
+        console.log('status', status)
+        // this.networkStatus = status
+      })
   }
 
   ngOnDestroy() {

@@ -1,19 +1,17 @@
-import { Formloco, Summit, Rumzer } from '../app/state/apps/apps-state.model'
+import { Formloco, Summit, Rumzer } from '../app/state/app.state'
 
 export const environment = {
   production: true,
   
-  kioske: false,
+  kioske: true,
   designUrl: Formloco.designUrl,
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
-  kioskeEmail: Formloco.kioskeEmail,
-  kioskePassword: Formloco.kioskePassword,
-  kioskeTenant: Formloco.kioskeTenant,
 
   apiUrl: Formloco.apiUrl,
   authUrl: Formloco.authUrl,
   formUrl: Formloco.formUrl,
+  homeUrl: Formloco.homeUrl,
   emailUrl: Formloco.emailUrl,
   assetUrl: Formloco.assetUrl,
   notificationUrl: Formloco.notificationUrl,
@@ -22,9 +20,9 @@ export const environment = {
   signinUrl: Formloco.signinUrl,
   redirectForgotPasswordUrl: Formloco.redirectForgotPasswordUrl,
 
-  tenant: { email: Formloco.email, 
-            tenant_id: Formloco.tenant,
-            assetTenantId: 'a0642972-e528-4071-b756-e103e85cd9f4' // fixed-asset app
+  tenant: { 
+    email: Formloco.email, 
+    tenant_id: Formloco.tenant
   },
   logo: Formloco.logo,
   idbName: Formloco.idbName,

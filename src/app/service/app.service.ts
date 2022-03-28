@@ -11,9 +11,9 @@ import { environment } from '../../environments/environment'
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../state/auth/auth.state'
-import { SetPage, SetChildPage, SetLookupListData, SetWorkers, SetSupervisors, SetFormsPublished, SetForms } from '../state/auth/auth-state.actions'
+import { SetBackground, SetIsDarkMode } from '../state/device/device-state.actions'
+import { SetPage, SetChildPage, SetLookupListData, SetWorkers, SetSupervisors, SetFormsPublished, SetForms, SetIsSignIn, SetChildPageLabel } from '../state/auth/auth-state.actions'
 import { SetNotificationOpen, SetNotificationSigned, SetNotificationAllOpen, SetNotificationAllSigned, SetNotificationMyCount, SetNotificationAdminCount } from '../state/notification/notification-state.actions'
-import { SetBackground } from '../state/device/device-state.actions'
 
 import { ApiService } from "../service/api.service"
 import { AuthService } from "../service/auth.service"
@@ -144,6 +144,7 @@ export class AppService {
             lookupLists.push({ name: element, rows: [] })
         })
         this.store.dispatch(new SetLookupListData(lookupLists))
+        this.idbCrudService.put('lists', lookupLists)
       })
       // get worker and supervisor lists and dispatch to state
       this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
@@ -163,6 +164,8 @@ export class AppService {
         supervisors.sort()
         this.store.dispatch(new SetWorkers(workers))
         this.store.dispatch(new SetSupervisors(supervisors))
+        this.idbCrudService.put('workers', workers)
+        this.idbCrudService.put('supervisors', supervisors)
       })
 
       this.formService.getForms({ email: email }).subscribe((forms: any) => {
@@ -181,6 +184,28 @@ export class AppService {
       })
       this.initializeMyNotifications(email)
     })
+  }
+
+  initializeOfflineUser() {
+    this.idbCrudService.readAll('lists').subscribe((lookupLists: any) => {
+      this.store.dispatch(new SetLookupListData(lookupLists))
+    })
+    this.idbCrudService.readAll('workers').subscribe((workers: any) => {
+      this.store.dispatch(new SetWorkers(workers))
+    })
+    this.idbCrudService.readAll('supervisors').subscribe((supervisors: any) => {
+      this.store.dispatch(new SetSupervisors(supervisors))
+    })
+    this.idbCrudService.readAll('form').subscribe((forms: any) => {
+      this.store.dispatch(new SetForms(forms))
+      const formsPublished = forms.filter(form => form.is_published === true)
+      this.store.dispatch(new SetFormsPublished(formsPublished))
+    })
+
+    this.store.dispatch(new SetPage('home'))
+    this.store.dispatch(new SetIsSignIn(true))
+    this.store.dispatch(new SetIsDarkMode(true))
+    this.store.dispatch(new SetChildPageLabel('Forms'))
   }
 
   initializeMyNotifications(email) {

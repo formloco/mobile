@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 
-import { Router } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { environment } from '../../../../environments/environment'
 
 import { AppService } from "../../../service/app.service"
-import { AuthService } from "../../../service/auth.service"
 
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
@@ -26,7 +23,6 @@ export class KioskeComponent implements OnInit {
   tenant
   logo = environment.logo
   version = environment.version
-  saasUrl = environment.saasUrl
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
   designUrl = environment.designUrl

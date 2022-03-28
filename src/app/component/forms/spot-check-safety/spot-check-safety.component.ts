@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 import { ApiService } from "../../../service/api.service"
 import { AppService } from "../../../service/app.service"
-import { EmailService } from "../../../service/email.service"
+import { FormService } from "../../../service/form.service"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { NotificationService } from "../../../service/notification.service"
 import { AutoCompleteService } from "../../../service/auto-complete.service"
@@ -21,10 +21,9 @@ import { DeviceState } from '../../../state/device/device.state'
 import { CommentState } from '../../comment/state/comment.state'
 
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetPage, SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
+import { SetPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 import { SetComments } from '../../comment/state/comment.actions'
-import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
 import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions';
 import { CorrectiveActionState } from '../../corrective-action/state/corrective-action.state';
 
@@ -41,6 +40,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   formDataID
   step = 0
   isEdit = false
+  isOnline
 
   kioske
 
@@ -64,7 +64,7 @@ export class SpotCheckSafetyComponent implements OnInit {
     public appService: AppService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private emailService: EmailService,
+    private formService: FormService,
     private idbCrudService: IdbCrudService,
     private autoCompleteService: AutoCompleteService,
     private notificationService: NotificationService) {
@@ -135,6 +135,8 @@ export class SpotCheckSafetyComponent implements OnInit {
 
   ngOnInit(): void {
     this.kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {
@@ -255,30 +257,18 @@ export class SpotCheckSafetyComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
-    const obj = {
-      id: form["id"],
-      data: data,
-      data_id: this.formData["id"],
-      form_id: form["form_id"],
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
-      pics: this.store.selectSnapshot(DeviceState.pics)
-    }
-    this.apiService.update(obj).subscribe((res) => {
+    this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
-      this.store.dispatch(new SetPage('notification'))
-      this.store.dispatch(new SetChildPageLabel('Forms'))
-      this.snackBar.open(res["data"].message, 'Success', {
-        duration: 3000,
-        verticalPosition: 'bottom'
-      })
     })
-
+    
   }
 
   submitForm() {
     // let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
+    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+
     let userCreated = {
       email: user.email,
       date_created: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
@@ -306,39 +296,56 @@ export class SpotCheckSafetyComponent implements OnInit {
       form: form,
       type: 'custom',
       name: form["name"],
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      date: now,
       pics: this.store.selectSnapshot(DeviceState.pics),
       location: data.header.Location,
       correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     }
 
-    this.apiService.save(obj).subscribe(idObj => {
-      this.formDataID = idObj
-      const workers: any = this.store.selectSnapshot(AuthState.workers)
-      const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
-      if (workers.length == 0 && supervisors.length == 0)
-        this.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
-          duration: 3000,
-          verticalPosition: 'bottom'
-        })
-      else {
-        const worker: any = this.appService.getWorker(header.Worker)
-        const supervisor: any = this.appService.getSupervisor(header.Supervisor)
-
-        let notificationObj = {
-          name: form["name"],
-          worker: worker,
-          supervisor: supervisor,
-          description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
-          message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
-          subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
-          form_id: form["form_id"],
-          data_id: this.formDataID,
-          pdf: 'spot-check-safety' + this.formDataID
-        }
-        this.appService.sendNotification(notificationObj)
+    if (!this.isOnline) {
+      let notificationObj = {
+        name: form["name"],
+        worker: this.appService.getWorker(header.Worker),
+        supervisor: this.appService.getSupervisor(header.Supervisor),
+        description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
+        message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
+        subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
+        form_id: form["form_id"],
+        data_id: this.formDataID,
+        pdf: 'spot-check-safety' + this.formDataID
       }
-    })
+      obj['nofification'] = notificationObj
+      this.idbCrudService.put('data', obj)
+    }
+    else {
+      this.apiService.save(obj).subscribe(idObj => {
+        this.formDataID = idObj
+        const workers: any = this.store.selectSnapshot(AuthState.workers)
+        const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
+        if (workers.length == 0 && supervisors.length == 0)
+          this.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+            duration: 3000,
+            verticalPosition: 'bottom'
+          })
+        else {
+          const worker: any = this.appService.getWorker(header.Worker)
+          const supervisor: any = this.appService.getSupervisor(header.Supervisor)
+
+          let notificationObj = {
+            name: form["name"],
+            worker: worker,
+            supervisor: supervisor,
+            description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
+            message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
+            subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
+            form_id: form["form_id"],
+            data_id: this.formDataID,
+            pdf: 'spot-check-safety' + this.formDataID
+          }
+          this.appService.sendNotification(notificationObj)
+        }
+      })
+    }
   }
 
   resetForm() {

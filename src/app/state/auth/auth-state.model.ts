@@ -6,7 +6,7 @@ export interface AuthStateModel {
   tenant?: Tenant
   user?: User //user obj for form consumption
   userIdb?: UserIdb //user obj for tenant tranactions
-  selectedForm?: object
+  selectedForm?: Form
   emailList?: []
   workers?: any[]
   supervisors?: any[]

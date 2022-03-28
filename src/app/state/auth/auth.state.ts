@@ -3,7 +3,7 @@ import { State, Selector, StateContext, Action } from '@ngxs/store'
 
 import * as AuthActions from './auth-state.actions'
 import { AuthStateModel } from './auth-state.model'
-import { User, UserIdb, Tenant } from './auth-state.model'
+import { User, UserIdb, Tenant, Form } from './auth-state.model'
 
 @Injectable()
 @State<AuthStateModel>({
@@ -92,7 +92,7 @@ export class AuthState {
   }
 
   @Selector()
-  static selectedForm(state: AuthStateModel): {} {
+  static selectedForm(state: AuthStateModel): Form {
     return state.selectedForm
   }
 

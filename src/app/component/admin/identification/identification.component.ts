@@ -65,7 +65,11 @@ export class IdentificationComponent {
     // endpoint runs against tenant user db
     else {
       this.appService.setIndexedDbUser(this.idForm.value['email'], this.tenant.tenant_id)
-      this.registerUser(this.tenant.tenant_id)
+
+      const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
+      if (isOnline) this.registerUser(this.tenant.tenant_id)
+      else this.registerOfflineUser()
     }
   }
 
@@ -75,7 +79,7 @@ export class IdentificationComponent {
         this.store.dispatch(new SetUser(user.row))
         this.appService.initializeUser(this.idForm.value['email'])
 
-        if (this.kioske) this.router.navigate(['forms/'+this.idForm.value['email']+'/'+tenant_id])
+        if (this.kioske) this.router.navigate(['forms/' + this.idForm.value['email'] + '/' + tenant_id])
         else this.store.dispatch(new SetPage('home'))
 
         this.store.dispatch(new SetIsSignIn(true))
@@ -83,6 +87,10 @@ export class IdentificationComponent {
         this.store.dispatch(new SetChildPageLabel('Forms'))
       })
     })
+  }
+
+  registerOfflineUser() {
+    this.appService.initializeOfflineUser()
   }
 
   getEmail() {

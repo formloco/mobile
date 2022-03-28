@@ -6,6 +6,7 @@ export interface DeviceStateModel {
   screenWidth?: string
   isIOS?: boolean
   isSafari?: boolean
+  isOnline?: boolean
   isDarkMode?: boolean
   pics: []
   voice: any[]

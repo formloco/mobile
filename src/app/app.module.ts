@@ -148,6 +148,7 @@ import { ContactComponent } from './component/contact/contact.component';
 import { TermsComponent } from './component/terms/terms.component';
 import { SigninComponent } from './component/admin/signin/signin.component';
 import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -266,6 +267,12 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     }),
     IonicModule.forRoot(),
     NgxsModule.forRoot(States, { developmentMode: !environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     // NgxPayPalModule
   ],
   entryComponents: [

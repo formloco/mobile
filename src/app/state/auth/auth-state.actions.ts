@@ -79,7 +79,7 @@ export class SetUserIdb {
 
 export class SetSelectedForm {
   static type = '[Auth] SetSelectedForm'
-  constructor(public selectedForm: {}) {}
+  constructor(public selectedForm: Form) {}
 }
 
 export class ResetAuth {

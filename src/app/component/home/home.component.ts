@@ -10,7 +10,6 @@ import { NotificationService } from '../../service/notification.service'
 import { environment } from '../../../environments/environment'
 
 import { Store, Select } from '@ngxs/store'
-import { Router } from '@angular/router'
 
 import { AuthState } from '../../state/auth/auth.state'
 import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData, SetChildPage, SetChildPageIcon } from '../../state/auth/auth-state.actions'
@@ -35,9 +34,12 @@ export class HomeComponent implements OnInit {
 
   @Select(AuthState.isSignIn) isSignIn$: Observable<boolean>
   @Select(AuthState.formsPublished) formsPublished$: Observable<Form[]>
+  @Select(AuthState.childPageLabel) childPageLabel$: Observable<string>
+
+  @Select(DeviceState.isOnline) isOnline$: Observable<boolean>
   @Select(DeviceState.background) background$: Observable<string>
   @Select(DeviceState.isDarkMode) isDarkMode$: Observable<boolean>
-  @Select(AuthState.childPageLabel) childPageLabel$: Observable<string>
+
   @Select(NotificationState.notificationMyCount) notificationCount$: Observable<number>
 
   user
@@ -56,7 +58,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private router: Router,
     public appService: AppService,
     private bottomSheet: MatBottomSheet,
     private idbPersistenceService: IdbPersistenceService,

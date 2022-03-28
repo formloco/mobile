@@ -6,7 +6,7 @@
     </div>
     <span class="toolbar-spacer"></span>
     <div class="text-color" fxLayoutAlign="space-around center" fxLayoutGap="15px">
-      <a mat-icon-button (click)="openNotifications(0)" color="primary">
+      <a *ngIf="(isOnline$ | async)" mat-icon-button (click)="openNotifications(0)" color="primary">
         <mat-icon class="material-icons-outlined" matBadgeColor="warn" matBadge="{{notificationCount$ | async}}">notifications</mat-icon>
       </a>
       <a mat-icon-button (click)="openProfile()" color="primary">
@@ -32,7 +32,7 @@
 <div class="footer">
   <mat-toolbar>
     <div fxLayoutAlign="space-around center">
-      <div fxLayoutAlign="space-around center" fxLayoutGap="10px">
+      <div *ngIf="(isOnline$ | async)" fxLayoutAlign="space-around center" fxLayoutGap="10px">
         <a mat-stroked-button color="accent" href='{{designUrl}}'>
           <mat-icon>design_services</mat-icon>&nbsp;Design
         </a>

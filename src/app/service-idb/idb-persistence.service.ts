@@ -19,6 +19,10 @@ export class IdbPersistenceService {
         db.createObjectStore('form', { keyPath: 'id', autoIncrement: true })
         db.createObjectStore('pics', { keyPath: 'id', autoIncrement: true })
         db.createObjectStore('voice', { keyPath: 'id', autoIncrement: true })
+        db.createObjectStore('data', { keyPath: 'id', autoIncrement: true })
+        db.createObjectStore('lists', { keyPath: 'id', autoIncrement: true })
+        db.createObjectStore('workers', { keyPath: 'id', autoIncrement: true })
+        db.createObjectStore('supervisors', { keyPath: 'id', autoIncrement: true })
       }
     })
 

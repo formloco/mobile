@@ -92,14 +92,19 @@ export class LayoutComponent implements OnInit {
           })
         }
         else {
+          const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
           this.idbCrudService.readAll('prefs').subscribe(prefs => {
             this.prefs = prefs
             if (this.prefs.length > 0) {
-              this.authService.user({ email: this.prefs[0]['user']['email'] }).subscribe((user: any) => {
-                this.store.dispatch(new SetUser(user.row))
-                this.store.dispatch(new SetPage('home'))
-                this.store.dispatch(new SetChildPageLabel('Forms'))
-              })
+              if (isOnline) {
+                this.authService.user({ email: this.prefs[0]['user']['email'] }).subscribe((user: any) => {
+                  this.appService.initializeUser(this.prefs[0]['user']['email'])
+                  this.store.dispatch(new SetUser(user.row))
+                  this.store.dispatch(new SetPage('home'))
+                  this.store.dispatch(new SetChildPageLabel('Forms'))
+                })
+              }
+              else this.appService.initializeOfflineUser()
             }
             else this.store.dispatch(new SetPage('identify'))
           })

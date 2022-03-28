@@ -13,16 +13,16 @@ import { environment } from '../../environments/environment'
 export class ApiService {
 
   apiUrl = environment.apiUrl
-  
+
   constructor(
     private store: Store,
     private http: HttpClient) { }
 
-    addTenantId(obj) {
-      const tenant = this.store.selectSnapshot(AuthState.tenant)
-      obj["tenant_id"] = tenant.tenant_id
-      return obj 
-    }
+  addTenantId(obj) {
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    obj["tenant_id"] = tenant.tenant_id
+    return obj
+  }
 
   save(obj) {
     obj = this.addTenantId(obj)
@@ -41,17 +41,17 @@ export class ApiService {
 
   saveList(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.apiUrl+'list/', obj)
+    return this.http.post(this.apiUrl + 'list/', obj)
   }
 
   getLists(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.apiUrl+'lists/', obj)
+    return this.http.post(this.apiUrl + 'lists/', obj)
   }
 
   getEmailList(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.apiUrl+'emails/', obj)
+    return this.http.post(this.apiUrl + 'emails/', obj)
   }
 
   update(obj) {
@@ -61,12 +61,12 @@ export class ApiService {
 
   delete(obj) {
     obj = this.addTenantId(obj)
-    return this.http.post(this.apiUrl+'delete/', obj)
+    return this.http.post(this.apiUrl + 'delete/', obj)
   }
 
   signForm(obj) {
     obj = this.addTenantId(obj)
-    return this.http.put(this.apiUrl+'form/sign/', obj)
+    return this.http.put(this.apiUrl + 'form/sign/', obj)
   }
 
   getPDF(name) {

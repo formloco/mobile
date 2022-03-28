@@ -6,9 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 import { ApiService } from "../../../service/api.service"
 import { AppService } from "../../../service/app.service"
-import { EmailService } from "../../../service/email.service"
+import { FormService } from "../../../service/form.service"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
-import { NotificationService } from "../../../service/notification.service"
 import { AutoCompleteService } from "../../../service/auto-complete.service"
 
 import { MEANINGFUL_SITE_TOUR } from './state/meaningful-site-tour.model'
@@ -20,10 +19,6 @@ import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
 
 import { SetPics } from '../../../state/device/device-state.actions'
-import { SetPage, SetChildPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
-
-import { SetNotificationOpen } from '../../../state/notification/notification-state.actions'
-
 @Component({
   selector: 'app-meaningful-site-tour',
   templateUrl: './meaningful-site-tour.component.html',
@@ -37,6 +32,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
   formDataID
   step = 0
   isEdit = false
+  isOnline
 
   headerForm: FormGroup
   notesForm: FormGroup
@@ -51,10 +47,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
     public appService: AppService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private emailService: EmailService,
+    private formService: FormService,
     private idbCrudService: IdbCrudService,
-    private autoCompleteService: AutoCompleteService,
-    private notificationService: NotificationService) {
+    private autoCompleteService: AutoCompleteService) {
     this.headerForm = this.formBuilder.group({
       Date: [null, Validators.required],
       Name: [null, Validators.required],
@@ -82,6 +77,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
 
   ngOnInit(): void {
     this.kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {
@@ -151,32 +148,21 @@ export class MeaningfulSiteTourComponent implements OnInit {
       notes: this.notesForm.value
     }
 
-    const obj = {
-      id: form["id"],
-      data: data,
-      data_id: this.formData["id"],
-      form_id: form["form_id"],
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
-      pics: this.store.selectSnapshot(DeviceState.pics)
-    }
-    this.apiService.update(obj).subscribe((res) => {
+    this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
-      this.store.dispatch(new SetPage('notification'))
-      this.store.dispatch(new SetChildPageLabel('Forms'))
-      this.snackBar.open(res["data"].message, 'Success', {
-        duration: 3000,
-        verticalPosition: 'bottom'
-      })
     })
+
   }
 
   submitForm() {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
+    
+    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
     let userCreated = {
       email: user.email,
-      date_created: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+      date_created: now
     }
 
     let header = this.headerForm.value
@@ -193,41 +179,57 @@ export class MeaningfulSiteTourComponent implements OnInit {
       user: userCreated,
       form: form,
       type: 'custom',
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      date: now,
       name: form["name"],
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
 
-    this.apiService.save(obj).subscribe(idObj => {
-      this.formDataID = idObj
-      
-      const workers: any = this.store.selectSnapshot(AuthState.workers)
-      const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
-
-      if (workers.length == 0 && supervisors.length == 0)
-        this.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
-          duration: 3000,
-          verticalPosition: 'bottom'
-        })
-      else {
-        const worker: any = this.appService.getWorker(header.Worker)
-        const supervisor: any = this.appService.getSupervisor(header.Supervisor)
-
-        let notificationObj = {
-          name: form["name"],
-          worker: worker,
-          supervisor: supervisor,
-          description: 'Meaningful Site Tour ' + _moment().format('MMM D, h:mA'),
-          message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-          subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + new Date(),
-          form_id: form["form_id"],
-          data_id: this.formDataID,
-          pdf: 'meaningful-site-tour' + this.formDataID
-        }
-        this.appService.sendNotification(notificationObj)
+    if (!this.isOnline) {
+      let notificationObj = {
+        name: form["name"],
+        worker: this.appService.getWorker(header.Worker),
+        supervisor: this.appService.getSupervisor(header.Supervisor),
+        description: 'Meaningful Site Tour ' + now,
+        message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
+        subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + now,
+        form_id: form["form_id"],
+        data_id: null,
+        pdf: 'meaningful-site-tour'
       }
-    })
+      obj['nofification'] = notificationObj
+      this.idbCrudService.put('data', obj)
+    }
+    else {
+      this.apiService.save(obj).subscribe(idObj => {
+        this.formDataID = idObj
 
+        const workers: any = this.store.selectSnapshot(AuthState.workers)
+        const supervisors: any = this.store.selectSnapshot(AuthState.supervisors)
+
+        if (workers.length == 0 && supervisors.length == 0)
+          this.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+            duration: 3000,
+            verticalPosition: 'bottom'
+          })
+        else {
+          const worker: any = this.appService.getWorker(header.Worker)
+          const supervisor: any = this.appService.getSupervisor(header.Supervisor)
+
+          let notificationObj = {
+            name: form["name"],
+            worker: worker,
+            supervisor: supervisor,
+            description: 'Meaningful Site Tour ' + now,
+            message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
+            subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + now,
+            form_id: form["form_id"],
+            data_id: this.formDataID,
+            pdf: 'meaningful-site-tour' + this.formDataID
+          }
+          this.appService.sendNotification(notificationObj)
+        }
+      })
+    }
   }
 
   resetForm() {

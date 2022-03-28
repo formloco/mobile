@@ -4,6 +4,8 @@ import * as _moment from 'moment'
 import { Observable } from 'rxjs'
 import { AppService } from "../../../service/app.service"
 import { ApiService } from "../../../service/api.service"
+import { FormService } from "../../../service/form.service"
+import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { AutoCompleteService } from "../../../service/auto-complete.service"
 
@@ -48,11 +50,11 @@ export class VehicleInspectionComponent implements OnInit {
 
   headerForm: FormGroup
   detailForm: FormGroup
-  discrepancyForm: FormGroup
 
   VEHICLE_INSPECTION = VEHICLE_INSPECTION
 
   isEdit = false
+  isOnline
   isPanelOpen = false
 
   apiURL = environment.apiUrl
@@ -64,6 +66,8 @@ export class VehicleInspectionComponent implements OnInit {
     public appService: AppService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
+    private idbCrudService: IdbCrudService,
+    private formService: FormService,
     public autoCompleteService: AutoCompleteService) {
     this.headerForm = this.formBuilder.group({
       Date: [],
@@ -131,13 +135,12 @@ export class VehicleInspectionComponent implements OnInit {
       SpillKit: [],
       SpillKitComments: []
     })
-    // this.discrepancyForm = this.formBuilder.group({
-    //   Discrepancy: [null]
-    // })
   }
 
   ngOnInit(): void {
     this.kioske = this.store.selectSnapshot(AuthState.kioske)
+    this.isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
     this.store.select(AuthState.formData).subscribe(formData => {
       this.formData = formData
       if (this.formData && formData["data"]) {
@@ -260,22 +263,8 @@ export class VehicleInspectionComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
-    const obj = {
-      id: form["id"],
-      data: data,
-      data_id: this.formData["id"],
-      form_id: form["form_id"],
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
-      pics: this.store.selectSnapshot(DeviceState.pics)
-    }
-    this.apiService.update(obj).subscribe((res) => {
+    this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
-      this.store.dispatch(new SetPage('notification'))
-      this.store.dispatch(new SetChildPageLabel('Forms'))
-      this.snackBar.open(res["data"].message, 'Success', {
-        duration: 3000,
-        verticalPosition: 'bottom'
-      })
     })
   }
 
@@ -283,6 +272,8 @@ export class VehicleInspectionComponent implements OnInit {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     const comments = this.store.selectSnapshot(CommentState.comments)
+    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+
     let userCreated = {
       email: user.email,
       date_created: new Date()
@@ -306,7 +297,7 @@ export class VehicleInspectionComponent implements OnInit {
       user: userCreated,
       form: form,
       type: 'custom',
-      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
+      date: now,
       name: form["name"],
       pics: this.store.selectSnapshot(DeviceState.pics)
     }

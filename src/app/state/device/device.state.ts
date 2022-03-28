@@ -72,6 +72,11 @@ export class DeviceState {
     return state.transcription
   }
 
+  @Selector()
+  static isOnline?(state: DeviceStateModel): boolean {
+    return state.isOnline
+  }
+
   @Action(DeviceActions.SetLat)
   onSetLat(ctx: StateContext<DeviceStateModel>, { lat }: DeviceActions.SetLat) {
     ctx.patchState({
@@ -148,6 +153,16 @@ export class DeviceState {
       transcription: transcription
     });
   }
+
+  @Action(DeviceActions.SetIsOnline)
+  onSetIsOnline(ctx: StateContext<DeviceStateModel>, { isOnline }: DeviceActions.SetIsOnline) {
+    ctx.patchState({
+      isOnline: isOnline
+    });
+  }
+
+
+  
   
 }
 
