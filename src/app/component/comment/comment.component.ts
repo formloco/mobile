@@ -36,6 +36,7 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('tt',this.data)
     const comments = this.store.selectSnapshot(CommentState.comments)
     const comment = comments.filter(c => c.field == this.data.field)
     if (comment.length > 0) this.commentForm.controls['comment'].setValue(comment[0].text)

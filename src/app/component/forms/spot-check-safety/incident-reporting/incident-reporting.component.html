@@ -2,7 +2,7 @@
   <form fxLayout="column" [formGroup]="incidentForm">
     <div class="text-color radio-center">Not Applicable(N/A), Unsatisfactory(U), Satisfactory(S)</div>
     <br>
-    <div class="text-color radio-center">Is there an Incident reporting process in place? (Briefly explain)</div>
+    <div class="text-color radio-center">Is there an Incident reporting process in place?</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="IncidentReporting">
         <mat-radio-button (click)="toggle('IncidentReporting')" value="satisfactory">S</mat-radio-button>

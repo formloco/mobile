@@ -76,7 +76,7 @@
     <div class="text-color radio-center">Other equipment (please specify)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="OtherEquipment">
-        <mat-radio-button value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openCommentOnly('Other equipment (please specify)','OtherEquipment')" value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Other equipment (please specify)','OtherEquipment')" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>

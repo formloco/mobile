@@ -35,4 +35,11 @@ export class SafetyEquipmentComponent {
     this.dialog.open(CommentComponent, dialogConfig)
   }
 
+  openCommentOnly(label, field) {
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.width = '100%'
+    dialogConfig.data = { title: label, label: label, field: field, type: 'isSpotCheckSafety', isCommentOnly: true }
+    this.dialog.open(CommentComponent, dialogConfig)
+  }
+
 }

@@ -5,19 +5,19 @@
     <div class="text-color radio-center">Have you received a safety orientation (When and what)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyOrientation">
-        <mat-radio-button value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openCommentOnly('Have you received a safety orientation (When and what)','SafetyOrientation')" value="satisfactory">S</mat-radio-button>
         <mat-radio-button
           (click)="openComment('Have you received a safety orientation (When and what)','SafetyOrientation')"
           value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="text-color radio-center">How often are safety meetings held</div>
+    <div class="text-color radio-center">Are safety meetings held within the (prescribed) frequency</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyMeetingFrequency">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button
-          (click)="openComment('How often are safety meetings held (Show examples and documentation)','SafetyMeetingFrequency')"
+          (click)="openComment('Are safety meetings held within the (prescribed) frequency)','SafetyMeetingFrequency')"
           value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -67,6 +67,7 @@
           <mat-radio-button (click)="toggle('GroundDisturbanceTraining')" value="satisfactory">Yes</mat-radio-button>
           <mat-radio-button (click)="openComment('Ground disturbance training','GroundDisturbanceTraining')" value="unsatisfactory">
             No</mat-radio-button>
+          <mat-radio-button value="na">N/A</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">eGSO/ CSO training</div>
@@ -80,7 +81,7 @@
       <div class="text-color radio-center">Job Specific training (List any that apply)</div>
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="JobSpecificTraining">
-          <mat-radio-button (click)="toggle('JobSpecificTraining')" value="satisfactory">Yes</mat-radio-button>
+          <mat-radio-button (click)="openCommentOnly('Job Specific training (List any that apply)','JobSpecificTraining')" value="satisfactory">S</mat-radio-button>
           <mat-radio-button (click)="openComment('Job Specific training (List any that apply)','JobSpecificTraining')"
             value="unsatisfactory">No</mat-radio-button>
         </mat-radio-group>

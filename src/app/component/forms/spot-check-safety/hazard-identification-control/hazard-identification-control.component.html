@@ -5,7 +5,9 @@
     <div class="text-color radio-center">Are equipment and vehicles inspected, and at what frequency? (Examples and documentation)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="InspectionFrequency">
-        <mat-radio-button (click)="toggle('InspectionFrequency')" value="satisfactory">S</mat-radio-button>
+                <!-- <mat-radio-button (click)="toggle('InspectionFrequency')" value="satisfactory">S</mat-radio-button> -->
+
+        <mat-radio-button (click)="openCommentOnly('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
