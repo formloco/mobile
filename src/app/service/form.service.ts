@@ -71,13 +71,21 @@ export class FormService {
   }
 
   updateForm(form, formData, data) {
+    const user = this.store.selectSnapshot(AuthState.user)
+
     const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
     const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+
+    let userUpdated = {
+      email: user.email,
+      date_created: now
+    }
 
     if (!isOnline) {
       const obj = {
         id: form["id"],
         data: data,
+        user: userUpdated,
         data_id: null,
         form_id: form["form_id"],
         date: now,
@@ -93,6 +101,7 @@ export class FormService {
       const obj = {
         id: form["id"],
         data: data,
+        user: userUpdated,
         data_id: formData["id"],
         form_id: form["form_id"],
         date: now,

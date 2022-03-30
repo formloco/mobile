@@ -20,7 +20,6 @@ const formRead = async(tenant_id, form_id, data_id) => {
   }
 }
 
-
 const formSign = async(data) => {
   try {
     await formSignSQL(data)
@@ -92,6 +91,15 @@ const fileGet = async(req, res) => {
   }
 }
 
+const dataSync = async(data) => {
+  try {
+    let res = await dataSyncSQL(data)
+    return res
+  } catch(e) {
+    throw new Error(e.message)
+  }
+}
+
 module.exports = {
-  dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, fileGet
+  dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, fileGet, dataSync
 }

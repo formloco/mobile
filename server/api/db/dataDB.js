@@ -258,7 +258,6 @@ const dataUpdateSQL = async (dataObj) => {
         }
       })
     }
-    // buildPDFReport(docId, path, dataObj, comments, pics)
   })
 
   return { message: 'Report Update Successful' }
@@ -355,7 +354,83 @@ const listSaveSQL = async (data) => {
   return updatedData.rows
 }
 
+const dataSyncSQL = async (dataArray) => {
+
+  const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.HOST,
+    database: dataObj['tenant_id'],
+    password: process.env.PASSWORD,
+    port: process.env.PORT
+  })
+  const client = await pool.connect()
+
+  const docID = dataObj["form"]["id"]
+
+  let userCreated = JSON.stringify(dataObj['user'])
+
+  if (dataObj['data']) {
+    // escape speech data is needed for insert into json obj
+    dataObj['data'] = dataObj['data'].replace(/'/g, "''")
+  }
+
+  // check to see if main form structure exists, if not create it
+  let tableExist = await client.query(`SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename  = '` + dataObj["form"]["form_id"] + `')`)
+  if (!tableExist.rows[0].exists) {
+    await client.query(`CREATE SEQUENCE IF NOT EXISTS id_seq`)
+    await client.query(`CREATE TABLE IF NOT EXISTS "` + dataObj["form"]["form_id"] + `" (id int4 NOT NULL DEFAULT nextval('id_seq'::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, pdf text, data jsonb, PRIMARY KEY (id))`)
+  }
+
+  const newFormID = await client.query(`INSERT INTO "` + dataObj["form"]["form_id"] + `" (user_created, date_created, data) VALUES ('` + userCreated + `', '` + dataObj["date"] + `', '` + dataObj['data'] + `') RETURNING id`)
+
+  const dataID = newFormID.rows[0].id
+  const path = docPath + docID + dataID
+  const pdfLink = dataObj["form"]["id"] + dataID + '.pdf'
+
+  await client.query(`UPDATE "` + dataObj["form"]["form_id"] + `" SET pdf = '` + pdfLink + `' WHERE id = '` + dataID + `'`)
+  await client.query(`UPDATE form SET is_data = true WHERE form_id = '` + dataObj["form"]["form_id"] + `'`)
+
+  if (dataObj.correctiveActions && dataObj.correctiveActions.length > 0) {
+    dataObj.correctiveActions.forEach(action => {
+      client.query(`INSERT INTO inspection(form_id, data_id, action_item, corrective_action, corrective_action_label, type, location, date_requested, date_completed, person_responsible) VALUES ( '` + dataObj["form"]["form_id"] + `', ` + dataID + `, '` + action["actionItem"] + `', '` + `, '` + action["correctiveActionRequired"] + `', '` + action["label"] + `', '` + action["type"] + `', '` + dataObj.location + `', '` + action["dateToComplete"] + `', '` + action["dateCompleted"] + `', '` + action["personResponsible"] + `')`)
+    })
+  }
+
+  const comments = [{
+    "date": dataObj["date"],
+    "message": "Created by " + dataObj["user"]["email"]
+  }]
+
+  const formData = await client.query(`SELECT * FROM "` + dataObj["form"]["form_id"] + `" WHERE id = $1`, [dataID])
+  const reportData = formData.rows[0]
+
+  // store base64 for update to document later
+  if (dataObj["pics"].length > 0) {
+    let pics = []
+    fs.mkdir(docPath + docID + dataID, (err) => {
+      if (err) return err
+    })
+
+    dataObj["pics"].forEach((element, index) => {
+      let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
+      const buffer = Buffer.from(base64Data, "base64")
+      fs.writeFile(path + '/' + index+'.jpeg', buffer, (err) => {
+        if (err) return err
+      })
+      pics.push({ image: element, width: 500 })
+    })
+
+    buildPDFReport(docID, path, reportData, comments, pics)
+  } 
+  else buildPDFReport(docID, path, reportData, comments)
+
+  client.release()
+  await pool.end()
+
+  return dataID
+}
+
 module.exports = {
-  dataReadSQL, formReadSQL, formSignSQL, dataCreateSQL, dataUpdateSQL, dataDeleteSQL, listsGetSQL, emailsGetSQL, listSaveSQL
+  dataReadSQL, formReadSQL, formSignSQL, dataCreateSQL, dataUpdateSQL, dataDeleteSQL, listsGetSQL, emailsGetSQL, listSaveSQL, dataSyncSQL
 }
 

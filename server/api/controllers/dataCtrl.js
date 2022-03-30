@@ -1,7 +1,7 @@
 let currentPath = process.cwd().slice(0, -3)
 let docPath = currentPath + 'files/'
 
-const { dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave } = require('../services/dataService')
+const { dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, dataSync } = require('../services/dataService')
 
 const readData = async(req, res) => {
   try {
@@ -95,6 +95,15 @@ const getPDF = async(req, res) => {
   })
 }
 
+const syncData = async(req, res) => {
+  try {
+    let data = await dataSync(req.body)
+    res.status(201).json({"message": "Data Sync'ed"})
+  } catch(e) {
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
-  readData, readForm, signForm, createData, updateData, deleteData, getLists, getEmails, saveList, getPDF
+  readData, readForm, signForm, createData, updateData, deleteData, getLists, getEmails, saveList, getPDF, syncData
 }

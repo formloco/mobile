@@ -15,6 +15,30 @@
   <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
+        Things To Do/Check
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-meaningful-site-tour-todo [todoForm]=todoForm></app-meaningful-site-tour-todo>
+    <br>
+    <div class="action-btn" fxLayoutAlign="center center">
+      <button mat-stroked-button color="primary" [disabled]="!headerForm.valid" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title class="text-color">
+        Tour Etiquette Plan for Success
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-meaningful-site-tour-suggestions></app-meaningful-site-tour-suggestions>
+    <br>
+    <div class="action-btn" fxLayoutAlign="center center">
+      <button mat-stroked-button color="primary" [disabled]="!headerForm.valid" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title class="text-color">
         Observations, Improvement & Feedback
       </mat-panel-title>
       <mat-panel-description>*</mat-panel-description>
@@ -26,22 +50,42 @@
       <button mat-stroked-button color="primary" [disabled]="!notesForm.valid" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+  <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
     <mat-expansion-panel-header>
       <mat-panel-title class="text-color">
         Signature
       </mat-panel-title>
     </mat-expansion-panel-header>
+    <div class="text-color"><b>Signs of a great site tour:</b></div>
+    <div class="text-color">
+      <ul>
+        <li>You have included a member of the work crew in your tour, not just management or client</li>
+        <li>You made it personal - you know the crew by their names and hobbies</li>
+        <li>You know you have been respectful, sincere, honest and focused</li>
+        <li>You have walked the work site, met our people, observed operations, understood the hazards, risks and
+          controls</li>
+        <li>You have listened more than you have talked</li>
+        <li>You personally thanked someone or the crew for being a safety leader and recognized that person / crew
+          before you leave the site</li>
+        <li>You have a clear picture of the follow-up conversation with the executive group or peers following the
+          visit. Be prepared to talk at weekly or monthly meetings about your site visit</li>
+        <li>You have sent a “Thank-You” email or message and detailed your key findings, both positive take-aways and
+          opportunities for improvement</li>
+        <li>You plan to visit again to follow up</li>
+      </ul>
+    </div>
     <br>
     <div *ngIf="kioske" class="action-btn" fxLayoutAlign="center center">
       <mat-icon class="icon-169px text-color">fingerprint</mat-icon>
     </div>
     <div *ngIf="!isEdit && !kioske" class="action-btn" fxLayoutAlign="center center">
       <mat-icon *ngIf="!headerForm.valid && !notesForm.valid" class="icon-169px text-color">fingerprint</mat-icon>
-      <mat-icon *ngIf="headerForm.valid && notesForm.valid" class="icon-169px-action hand" (click)="submitForm()">fingerprint</mat-icon>
+      <mat-icon *ngIf="headerForm.valid && notesForm.valid" class="icon-169px-action hand" (click)="submitForm()">
+        fingerprint</mat-icon>
     </div>
     <div *ngIf="isEdit && !kioske" class="action-btn" fxLayoutAlign="center center">
-      <mat-icon *ngIf="headerForm.valid && notesForm.valid" class="icon-169px-action hand" (click)="updateForm()">fingerprint</mat-icon>
+      <mat-icon *ngIf="headerForm.valid && notesForm.valid" class="icon-169px-action hand" (click)="updateForm()">
+        fingerprint</mat-icon>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

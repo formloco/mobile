@@ -1,60 +1,59 @@
-<!-- <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px"> -->
-  <form [formGroup]="notesForm">
-    <div>
-      <div class="text-color" fxLayoutAlign="space-between center">
-        <div>
-          <mat-label>Positive Obervations</mat-label>
-        </div>
-        <div>
-          <button (click)="openVoice('PositiveObservations','Positive Obervations')" mat-mini-fab color="primary">
-            <mat-icon matSuffix>mic_none</mat-icon>
-          </button>
-        </div>
+<form [formGroup]="notesForm">
+  <div>
+    <div class="text-color" fxLayoutAlign="space-between center">
+      <div>
+        <mat-label>Positive Obervations</mat-label>
       </div>
       <div>
-        <mat-form-field fxFlex>
-          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
-            formControlName="PositiveObservations" fxFlex></textarea>
-        </mat-form-field>
+        <button (click)="openVoice('PositiveObservations','Positive Obervations')" mat-mini-fab color="primary">
+          <mat-icon matSuffix>mic_none</mat-icon>
+        </button>
       </div>
     </div>
-    <br>
     <div>
-      <div class="text-color" fxLayoutAlign="space-between center">
-        <div>
-          <mat-label>Opportunities for Improvement</mat-label>
-        </div>
-        <div>
-          <button (click)="openVoice('ImprovementOpportunities','Opportunities for Improvement')" mat-mini-fab color="primary">
-            <mat-icon matSuffix>mic_none</mat-icon>
-          </button>
-        </div>
+      <mat-form-field fxFlex>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+          formControlName="PositiveObservations" fxFlex></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <div>
+    <div class="text-color" fxLayoutAlign="space-between center">
+      <div>
+        <mat-label>Opportunities for Improvement</mat-label>
       </div>
       <div>
-        <mat-form-field fxFlex>
-          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
-            formControlName="ImprovementOpportunities" fxFlex></textarea>
-        </mat-form-field>
+        <button (click)="openVoice('ImprovementOpportunities','Opportunities for Improvement')" mat-mini-fab
+          color="primary">
+          <mat-icon matSuffix>mic_none</mat-icon>
+        </button>
       </div>
     </div>
-    <br>
     <div>
-      <div class="text-color" fxLayoutAlign="space-between center">
-        <div>
-          <mat-label>Summary & Feedback</mat-label>
-        </div>
-        <div>
-          <button (click)="openVoice('FeedbackSummary','Summary & Feedback')" mat-mini-fab color="primary">
-            <mat-icon matSuffix>mic_none</mat-icon>
-          </button>
-        </div>
+      <mat-form-field fxFlex>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+          formControlName="ImprovementOpportunities" fxFlex></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <div>
+    <div class="text-color" fxLayoutAlign="space-between center">
+      <div>
+        <mat-label>Summary & Feedback</mat-label>
       </div>
       <div>
-        <mat-form-field fxFlex>
-          <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
-            formControlName="FeedbackSummary" fxFlex></textarea>
-        </mat-form-field>
+        <button (click)="openVoice('FeedbackSummary','Summary & Feedback')" mat-mini-fab color="primary">
+          <mat-icon matSuffix>mic_none</mat-icon>
+        </button>
       </div>
     </div>
-  </form>
-<!-- </div> -->
+    <div>
+      <mat-form-field fxFlex>
+        <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" matInput
+          formControlName="FeedbackSummary" fxFlex></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

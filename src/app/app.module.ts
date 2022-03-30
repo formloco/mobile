@@ -149,6 +149,9 @@ import { TermsComponent } from './component/terms/terms.component';
 import { SigninComponent } from './component/admin/signin/signin.component';
 import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MeaningfulSiteTourSuggestionsComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-suggestions/meaningful-site-tour-suggestions.component';
+import { MeaningfulSiteTourSignsComponent } from './component/forms/meaningful-site-tour-signs/meaningful-site-tour-signs.component';
+import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-todo/meaningful-site-tour-todo.component';
 
 @NgModule({
   declarations: [
@@ -246,7 +249,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     TermsComponent,
     SigninComponent,
     SignupBottomComponent,
-    SdkComponent
+    SdkComponent,
+    MeaningfulSiteTourSuggestionsComponent,
+    MeaningfulSiteTourSignsComponent,
+    MeaningfulSiteTourTodoComponent
   ],
   imports: [
     BrowserModule,

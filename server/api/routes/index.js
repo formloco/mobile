@@ -1,7 +1,7 @@
 const express = require('express') 
 const VerifyToken = require('../../helper')
 
-const { readData, readForm, signForm, createData, updateData, deleteData, getLists, getEmails, saveList, getPDF } = require('../controllers/dataCtrl')
+const { readData, readForm, signForm, createData, updateData, deleteData, getLists, getEmails, saveList, getPDF, syncData } = require('../controllers/dataCtrl')
 
 const router = express.Router()
  
@@ -29,5 +29,8 @@ router.post('/api/emails/', VerifyToken, getEmails)
 
 //creates list
 router.post('/api/list/', VerifyToken, saveList)
+
+//sync data
+router.post('/api/sync/', VerifyToken, syncData)
 
 module.exports = router

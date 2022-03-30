@@ -36,6 +36,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
 
   headerForm: FormGroup
   notesForm: FormGroup
+  todoForm: FormGroup
 
   messageUrl = environment.messageUrl
 
@@ -54,6 +55,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
       Date: [null, Validators.required],
       Name: [null, Validators.required],
       Location: [],
+    })
+    this.todoForm = this.formBuilder.group({
       SiteOrientation: [],
       DailySafetyMeeting: [],
       SiteTour: [],
