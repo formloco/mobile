@@ -27,7 +27,6 @@ export class ListFormsComponent {
     private appService: AppService) { }
 
   selectForm(formObj) {
-    console.log(formObj)
     this.store.dispatch(new SetSelectedForm(formObj))
     this.store.dispatch(new SetLookupListNames(formObj.lists))
     this.selectData.emit()

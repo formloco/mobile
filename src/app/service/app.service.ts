@@ -170,10 +170,11 @@ export class AppService {
 
       this.formService.getForms({ email: email }).subscribe((forms: any) => {
         this.idbCrudService.clear('form')
-
+        
+        // form_id needs to be added idb form
         forms.forEach((ele) => {
-          if (ele.form.is_deployed) this.idbCrudService.put('form', ele.form)
-          if (ele.form.type === 'custom') this.idbCrudService.put('form', ele.form)
+          ele.form["form_id"] = ele.form_id
+          this.idbCrudService.put('form', ele.form)
         })
 
         this.idbCrudService.readAll('form').subscribe((forms: any) => {
@@ -288,7 +289,6 @@ export class AppService {
   }
 
   sendNotification(notificationObj) {
-    console.log(notificationObj)
     this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
       if (myNotifications) {
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))

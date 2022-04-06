@@ -25,10 +25,10 @@ export class WorksiteSafetyInspectionState {
     return state.isWorksiteSafetyHeaderValid
   }
 
-  @Selector()
-  static isSiteHazardAssessmentCompleted?(state: WorksiteSafetyInspectionStateModel): boolean {
-    return state.isSiteHazardAssessmentCompleted
-  }
+  // @Selector()
+  // static isSiteHazardAssessmentCompleted?(state: WorksiteSafetyInspectionStateModel): boolean {
+  //   return state.isSiteHazardAssessmentCompleted
+  // }
 
   @Selector()
   static isFireExtinguisher?(state: WorksiteSafetyInspectionStateModel): boolean {

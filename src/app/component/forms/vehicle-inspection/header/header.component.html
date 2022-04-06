@@ -1,93 +1,97 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <form class="header-form" [formGroup]="headerForm">
-    <div fxLayout="column">
-      <ion-label position="stacked">Choose a date</ion-label>
-      <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date">
-      </ion-datetime>
-      <mat-divider></mat-divider>
-      <mat-form-field class="bot-pad full-width-field">
-        <mat-label> First & Last Name</mat-label>
-        <input type="text" placeholder="Select or Enter First Name & Last Name" matInput
-          [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
-        <mat-hint>Worker Completing Inspection</mat-hint>
-        <mat-autocomplete #autoWorkers="matAutocomplete" required>
-          <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
-            {{worker.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field class="full-width-field">
-        <mat-label>Supervisor Name</mat-label>
-        <input type="text" placeholder="Select or Enter Supervisor Name" matInput
-          [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
-        <mat-autocomplete #autoSupervisors="matAutocomplete" required>
-          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async"
-            [value]="supervisor.name" required>
-            {{supervisor.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Stakeholder</mat-label>
-        <mat-select panelClass="select-panel" formControlName="Stakeholder" required>
-          <mat-option *ngFor="let stakeholder of stakeholders" [value]="stakeholder" required>{{stakeholder}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Division</mat-label>
-        <mat-select panelClass="select-panel" formControlName="Division" required>
-          <mat-option *ngFor="let division of divisions" [value]="division" required>{{division}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="full-width-field">
-        <mat-label>Vehicle Make</mat-label>
-        <input type="text" placeholder="Select or Enter Vehicle Make" matInput
-          [formControl]="autoCompleteService.makesControl" [matAutocomplete]="make" required>
-        <mat-autocomplete #make="matAutocomplete" required>
-          <mat-option *ngFor="let make of autoCompleteService.filteredMakes$ | async" [value]="make" required>
-            {{make}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field class="full-width-field">
-        <mat-label>Vehicle Model</mat-label>
-        <input type="text" placeholder="Select or Enter Vehicle Model" matInput
-          [formControl]="autoCompleteService.modelsControl" [matAutocomplete]="model" required>
-        <mat-autocomplete #model="matAutocomplete" required>
-          <mat-option *ngFor="let model of autoCompleteService.filteredModels$ | async" [value]="model" required>
-            {{model}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Vehicle Year</mat-label>
-        <mat-select panelClass="select-panel" formControlName="Year" required>
-          <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Vehicle Mileage Reading (KM)</mat-label>
-        <input matInput placeholder="Vehicle Mileage Reading (KM)" formControlName="Mileage" type="number" required>
-      </mat-form-field>
-      <div class="text-color radio-center">Current Registration is in the vehicle</div>
-      <div class="text-color radio-margin" fxLayoutAlign="center center">
-        <mat-radio-group formControlName="CurrentRegistrationInVehicle">
-          <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button value="no">No</mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <div class="text-color radio-center">Current Insurance (pink slip) in vehicle</div>
-      <div class="text-color radio-margin" fxLayoutAlign="center center">
-        <mat-radio-group formControlName="CurrentInsuranceInVehicle">
-          <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button value="no">No</mat-radio-button>
-        </mat-radio-group>
-      </div>      
-      <ion-label position="stacked">Insurance Expiry Date</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY" formControlName="RegistrationDate" max="2025-12-31">
-      </ion-datetime>
-      <mat-divider></mat-divider>
-    </div>
-  </form>
-</div>
+<form fxLayout="column" [formGroup]="headerForm">
+  <ion-label position="stacked">Choose a date</ion-label>
+  <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date">
+  </ion-datetime>
+  <mat-divider></mat-divider>
+  <mat-form-field class="bot-pad full-width-field">
+    <mat-label> First & Last Name</mat-label>
+    <input type="text" placeholder="Select or Enter First Name & Last Name" matInput
+      [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
+    <mat-hint>Worker Completing Inspection</mat-hint>
+    <mat-autocomplete #autoWorkers="matAutocomplete" required>
+      <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
+        {{worker.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>Supervisor Name</mat-label>
+    <input type="text" placeholder="Select or Enter Supervisor Name" matInput
+      [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
+    <mat-autocomplete #autoSupervisors="matAutocomplete" required>
+      <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async" [value]="supervisor.name"
+        required>
+        {{supervisor.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Stakeholder</mat-label>
+    <mat-select panelClass="select-panel" formControlName="Stakeholder" required>
+      <mat-option *ngFor="let stakeholder of stakeholders" [value]="stakeholder" required>{{stakeholder}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Division</mat-label>
+    <mat-select panelClass="select-panel" formControlName="Division" required>
+      <mat-option *ngFor="let division of divisions" [value]="division" required>{{division}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>License Plate #</mat-label>
+    <input type="text" placeholder="Enter Vehicle License Plate #" matInput formControlName="Year" required>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>Unit #</mat-label>
+    <input type="text" placeholder="Unit #" matInput formControlName="UnitNumber" required>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>Vehicle Make</mat-label>
+    <input type="text" placeholder="Select or Enter Vehicle Make" matInput
+      [formControl]="autoCompleteService.makesControl" [matAutocomplete]="make" required>
+    <mat-autocomplete #make="matAutocomplete" required>
+      <mat-option *ngFor="let make of autoCompleteService.filteredMakes$ | async" [value]="make" required>
+        {{make}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>Vehicle Model</mat-label>
+    <input type="text" placeholder="Select or Enter Vehicle Model" matInput
+      [formControl]="autoCompleteService.modelsControl" [matAutocomplete]="model" required>
+    <mat-autocomplete #model="matAutocomplete" required>
+      <mat-option *ngFor="let model of autoCompleteService.filteredModels$ | async" [value]="model" required>
+        {{model}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Vehicle Year</mat-label>
+    <mat-select panelClass="select-panel" formControlName="Year" required>
+      <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Vehicle Mileage Reading (KM)</mat-label>
+    <input matInput placeholder="Vehicle Mileage Reading (KM)" formControlName="Mileage" type="number" required>
+  </mat-form-field>
+  <div class="text-color radio-center">Current Registration is in the vehicle</div>
+  <div class="text-color radio-margin" fxLayoutAlign="center center">
+    <mat-radio-group formControlName="CurrentRegistrationInVehicle">
+      <mat-radio-button value="yes">Yes</mat-radio-button>
+      <mat-radio-button value="no">No</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="text-color radio-center">Current Insurance (pink slip) in vehicle</div>
+  <div class="text-color radio-margin" fxLayoutAlign="center center">
+    <mat-radio-group formControlName="CurrentInsuranceInVehicle">
+      <mat-radio-button value="yes">Yes</mat-radio-button>
+      <mat-radio-button value="no">No</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <ion-label position="stacked">Insurance Expiry Date</ion-label>
+  <ion-datetime displayFormat="MMM DD, YYYY" formControlName="RegistrationDate" max="2025-12-31">
+  </ion-datetime>
+  <mat-divider></mat-divider>
+</form>

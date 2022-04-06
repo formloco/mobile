@@ -87,5 +87,13 @@
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
+    <div class="text-color radio-center">{{label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped}}</div>
+    <div class="text-color radio-margin" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="H2SPersonalGasMonitorsOnsiteHaveBeenBumped">
+        <mat-radio-button value="yes">Yes</mat-radio-button>
+        <mat-radio-button (click)="openComment(label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped,'H2SPersonalGasMonitorsOnsiteHaveBeenBumped')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
+      </mat-radio-group>
+    </div>
   </form>
 </div>

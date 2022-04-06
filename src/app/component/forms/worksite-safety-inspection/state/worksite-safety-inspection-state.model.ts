@@ -2,7 +2,7 @@ export interface WorksiteSafetyInspectionStateModel {
   isWorksiteSafetyHeaderValid: boolean
   labels?: any[]
   transcribed?: any[]
-  isSiteHazardAssessmentCompleted?: boolean // used to display message in descrepancies
+  // isSiteHazardAssessmentCompleted?: boolean // used to display message in descrepancies
   isFireExtinguisher: boolean
   isErpPlanning: boolean
   isGroundwork: boolean
@@ -31,7 +31,6 @@ export enum HazardFormLabels {
   OccupationalHealthAndSafetyLegislationAvailable = 'Occupational Health And Safety legislation available',
   DailySafetyMeetingsConductedDocumented = 'Daily safety meetings conducted and documented',
   AllSitePersonalTrainingAndSafetyTickets = 'All site personal have the appropriate training and safety tickets',
-  H2SPersonalGasMonitorsOnsiteHaveBeenBumped = 'The H2S personal gas monitors onsite have been bumped',
   AllSitePersonnelSiteSpecificWearingPPE = 'All site personnel are wearing site-specific PPE'
 }
 
@@ -46,7 +45,8 @@ export enum JobsiteFormLabels {
   FirstAidKitAvailable = 'First aid kit available and stocked',
   BlanketsAndStretcherAvailable = 'Blankets and stretcher available',
   EyeWashBottleAvailable = 'Eye wash bottle available',
-  SpillKitAvailable = 'Spill kit available'
+  SpillKitAvailable = 'Spill kit available',
+  H2SPersonalGasMonitorsOnsiteHaveBeenBumped = 'The H2S personal gas monitors onsite have been bumped'
 }
 
 export enum FireExtinguisherFormLabels {

@@ -25,6 +25,7 @@ import { SetPics } from '../../../state/device/device-state.actions'
 import { SetSelectedForm, SetPage, SetFormData, SetChildPage } from '../../../state/auth/auth-state.actions'
 import { NotificationState } from '../../../state/notification/notification.state'
 import { SetNotification, SetNotificationIdx } from '../../../state/notification/notification-state.actions'
+import { SetIsWorksiteSafetyHeaderValid } from '../../forms/worksite-safety-inspection/state/worksite-safety-inspection-state.actions'
 
 import { PicsComponent } from '../../pics/pics.component'
 import { CameraComponent } from '../../camera/camera.component'
@@ -164,6 +165,7 @@ export class NotificationOpenComponent implements OnInit{
     this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(data => { 
       const forms:any = this.store.selectSnapshot(AuthState.forms)
       const form = forms.filter(f => f.id === selectedFormId)
+      this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
       this.store.dispatch(new SetSelectedForm(form[0]))
       this.store.dispatch(new SetFormData(data))
       this.store.dispatch(new SetChildPage('notification'))

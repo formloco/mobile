@@ -56,6 +56,7 @@ export class AutoCompleteService {
   public makesControl = new FormControl(null)
   public modelsControl = new FormControl(null)
   public clientsControl = new FormControl(null)
+  public personResonsibleCorrectiveActionControl = new FormControl(null)
 
   constructor(private store: Store) { 
     this.workers = this.store.selectSnapshot(AuthState.workers)

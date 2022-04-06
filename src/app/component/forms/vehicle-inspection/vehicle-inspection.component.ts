@@ -76,6 +76,8 @@ export class VehicleInspectionComponent implements OnInit {
       Stakeholder: [],
       Division: [],
       Mileage: [],
+      LicensePlate: [],
+      UnitNumber: [],
       Make: [],
       Model: [],
       Year: [],
@@ -176,6 +178,8 @@ export class VehicleInspectionComponent implements OnInit {
       this.headerForm.controls['Stakeholder'].setValue(data.header.Stakeholder)
       this.headerForm.controls['Division'].setValue(data.header.Division)
       this.headerForm.controls['Mileage'].setValue(data.header.Mileage)
+      this.headerForm.controls['LicensePlate'].setValue(data.header.LicensePlate)
+      this.headerForm.controls['UnitNumber'].setValue(data.header.UnitNumber)
       this.autoCompleteService.makesControl.setValue(data.header.Make)
       this.autoCompleteService.modelsControl.setValue(data.header.Model)
       this.headerForm.controls['Year'].setValue(data.header.Year)

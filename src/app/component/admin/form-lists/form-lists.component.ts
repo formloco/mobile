@@ -60,8 +60,8 @@ export class FormListsComponent {
     this.store.dispatch(new SetChildPage('list'))
     this.store.dispatch(new SetChildPageLabel('Form Lists'))
     const lookupListArray = this.store.selectSnapshot(AuthState.lookupListData)
-    console.log(lookupListArray)
     const lookupList = lookupListArray.find(list => list["name"] == name)
+    
     if (lookupList) this.appService.dataSource.data = lookupList["rows"]
     else this.appService.dataSource.data = []
     this.appService.isListMenu = false

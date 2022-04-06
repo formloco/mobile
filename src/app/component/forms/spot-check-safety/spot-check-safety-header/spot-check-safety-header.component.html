@@ -1,48 +1,44 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <form class="header-form" [formGroup]="headerForm">
-    <div fxLayout="column" fxLayoutGap="6px">
-      <ion-label position="stacked">Choose a date</ion-label>
-      <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date">
-      </ion-datetime>
-      <mat-divider></mat-divider>
-      <mat-form-field>
-        <mat-label>Company Name</mat-label>
-        <input matInput placeholder="Company Name" formControlName="CompanyName" type="text" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Employee/Consultant Name</mat-label>
-        <input matInput placeholder="Employee/Consultant Name" formControlName="EmployeeName" type="text" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Job Description</mat-label>
-        <input matInput placeholder="Job Description" formControlName="JobDescription" type="text" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Location</mat-label>
-        <input matInput placeholder="" formControlName="Location" type="text" required>
-      </mat-form-field>
-      <mat-form-field class="bot-pad full-width-field">
-        <mat-label>Evaluator</mat-label>
-        <input type="text" placeholder="Select or Enter First Name & Last Name" matInput
-          [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
-        <mat-hint>Worker Completing the Tour</mat-hint>
-        <mat-autocomplete #autoWorkers="matAutocomplete" required>
-          <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
-            {{worker.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field class="full-width-field">
-        <mat-label>Supervisor Name</mat-label>
-        <input type="text" placeholder="Select or Enter Supervisor Name" matInput
-          [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
-        <mat-autocomplete #autoSupervisors="matAutocomplete" required>
-          <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async"
-            [value]="supervisor.name" required>
-            {{supervisor.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
-  </form>
-</div>
+<form fxLayout="column" [formGroup]="headerForm">
+  <ion-label position="stacked">Choose a date</ion-label>
+  <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY HH:mm" formControlName="Date">
+  </ion-datetime>
+  <mat-divider></mat-divider>
+  <mat-form-field>
+    <mat-label>Company Name</mat-label>
+    <input matInput placeholder="Company Name" formControlName="CompanyName" type="text" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Employee/Consultant Name</mat-label>
+    <input matInput placeholder="Employee/Consultant Name" formControlName="EmployeeName" type="text" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Job Description</mat-label>
+    <input matInput placeholder="Job Description" formControlName="JobDescription" type="text" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Location</mat-label>
+    <input matInput placeholder="" formControlName="Location" type="text" required>
+  </mat-form-field>
+  <mat-form-field class="bot-pad full-width-field">
+    <mat-label>Evaluator</mat-label>
+    <input type="text" placeholder="Select or Enter First Name & Last Name" matInput
+      [formControl]="autoCompleteService.workersControl" [matAutocomplete]="autoWorkers" required>
+    <mat-hint>Worker Completing the Tour</mat-hint>
+    <mat-autocomplete #autoWorkers="matAutocomplete" required>
+      <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
+        {{worker.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="full-width-field">
+    <mat-label>Supervisor Name</mat-label>
+    <input type="text" placeholder="Select or Enter Supervisor Name" matInput
+      [formControl]="autoCompleteService.supervisorsControl" [matAutocomplete]="autoSupervisors" required>
+    <mat-autocomplete #autoSupervisors="matAutocomplete" required>
+      <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async" [value]="supervisor.name"
+        required>
+        {{supervisor.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

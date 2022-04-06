@@ -36,7 +36,6 @@ const formRegister = async(data) => {
 }
 
 const formStatus = async(data) => {
-  console.log(data)
   try {
     let dataObj = await formStatusSQL(data)
     return dataObj

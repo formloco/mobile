@@ -38,7 +38,6 @@ const registerForm = async(req, res) => {
 }
 
 const statusForm = async(req, res) => {
-  // console.log(req.body)
   try {
     let data = await formStatus(req.body)
     res.status(201).json(data)

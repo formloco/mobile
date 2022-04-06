@@ -1,9 +1,13 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <form fxLayout="column" [formGroup]="keyPositiveFindingsForm">
-    <mat-form-field fxFlex>
-      <mat-label>Other Comments - Key Positive Findings</mat-label>
-      <textarea cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" matInput formControlName="OtherCommentsKeyPositiveFindings" placeholder="Other Comments - Key Positive Findings" fxFlex></textarea>
-    </mat-form-field>
-  </form>
-</div>
-
+<form fxLayout="column" [formGroup]="keyPositiveFindingsForm">
+  <div>
+    <button (click)="openVoice('ScopeOfWork')" mat-mini-fab color="primary">
+      <mat-icon matSuffix>mic_none</mat-icon>
+    </button>
+  </div>
+  <mat-form-field fxFlex>
+    <mat-label>Other Comments - Key Positive Findings</mat-label>
+    <textarea cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" matInput
+      formControlName="KeyPositiveFindings" placeholder="Key Positive Findings"
+      fxFlex></textarea>
+  </mat-form-field>
+</form>

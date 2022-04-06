@@ -14,26 +14,14 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-async function vehicleInspectionPDF(path, reportData, comments, pics, signDate ) {
+async function vehicleInspectionPDF(path, reportData, messages, pics, signDate ) {
 
   let dateSigned = 'To be determined'
-  if (signDate !== null) dateSigned = signDate
+  if (signDate) dateSigned = signDate
 
-  let messages = []
-  if (comments !== null) {
-    for (let j = 0; j < comments.length; j++) {
-      let str = JSON.stringify(comments[j])
-      str = str.replace(/{/g, '')
-      str = str.replace(/}/g, '')
-      str = str.replace(/"/g, '')
-      str = str.replace(/:/g, ': ')
-      str = str.split(",").join("\n")
-      messages.push(str)
-    }
-  }
 
   let header = reportData.data.header
-  let detail = reportData.detail
+  let detail = reportData.data.detail
 
   // let inspectionArray = []
   // let inspections = 'No Inspection Data'
@@ -102,8 +90,7 @@ async function vehicleInspectionPDF(path, reportData, comments, pics, signDate )
           },
           {
             text: 'Vehicle Inspection', style: 'header'
-          },
-          { text: 'U/F102', style: 'icon' }
+          }
         ]
       },
       '\n\n',
@@ -186,10 +173,10 @@ async function vehicleInspectionPDF(path, reportData, comments, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Driver’s Signature:' + header.Worker
+            text: 'Driver’s Signature: ' + header.Worker
           },
           {
-            text: 'Date:' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date.slice(0, 10)
           }
         ]
       },

@@ -264,7 +264,6 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   submitForm() {
-    // let dataObj = []
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })

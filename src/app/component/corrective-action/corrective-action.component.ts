@@ -1,12 +1,15 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import { AppService } from 'src/app/service/app.service';
-import { CorrectiveActionState } from '../corrective-action/state/corrective-action.state';
+import { Component, Inject, Input, OnInit } from '@angular/core'
+import { FormBuilder } from '@angular/forms'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { Store } from '@ngxs/store'
+import { AppService } from 'src/app/service/app.service'
+import { AuthState } from '../../state/auth/auth.state'
+
+import { CorrectiveActionState } from '../corrective-action/state/corrective-action.state'
 
 import * as _ from 'lodash'
-import { SetCorrectiveActions } from './state/corrective-action.actions';
+import { SetCorrectiveActions } from './state/corrective-action.actions'
+import { AutoCompleteService } from "../../service/auto-complete.service"
 
 @Component({
   selector: 'app-corrective-action',
@@ -19,11 +22,11 @@ export class CorrectiveActionComponent implements OnInit {
   
   constructor(
     private store: Store,
-    public dialogRef: MatDialogRef<CorrectiveActionComponent>,
-    private formBuilder: FormBuilder,
     public appService: AppService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
+    private formBuilder: FormBuilder,
+    public autoCompleteService: AutoCompleteService,
+    public dialogRef: MatDialogRef<CorrectiveActionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     this.correctiveActionForm = this.formBuilder.group({
       CorrectiveActionRequired: [],
       DateCorrectiveActionToBeCompleted: [],
@@ -56,18 +59,17 @@ export class CorrectiveActionComponent implements OnInit {
         dateToComplete: this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value,
         actionItem: this.data.actionItem,
         correctiveActionRequired: this.correctiveActionForm.controls['CorrectiveActionRequired'].value,
-        personResponsible: this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].value,
+        personResponsible: this.autoCompleteService.personResonsibleCorrectiveActionControl.value,
         dateCompleted: this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value,
-        signature: this.correctiveActionForm.controls['PersonResonsible'].value,
         field: this.data.field,
         type: this.data.type
       })
     else {
       correctiveActions[correctiveActionIdx].dateToComplete = this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value
       correctiveActions[correctiveActionIdx].correctiveActionRequired = this.correctiveActionForm.controls['CorrectiveActionRequired'].value
-      correctiveActions[correctiveActionIdx].personResponsible = this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].value
+      correctiveActions[correctiveActionIdx].personResponsible = this.autoCompleteService.personResonsibleCorrectiveActionControl.value
       correctiveActions[correctiveActionIdx].dateCompleted = this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value
-      correctiveActions[correctiveActionIdx].signature = this.correctiveActionForm.controls['PersonResonsible'].value
+      correctiveActions[correctiveActionIdx].signature = this.store.selectSnapshot(AuthState.user).email
     }  
     
     this.store.dispatch(new SetCorrectiveActions(correctiveActions))

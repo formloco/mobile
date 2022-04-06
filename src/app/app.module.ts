@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 
+import { IonicModule } from '@ionic/angular'
 import { AgmCoreModule } from '@agm/core'
 
 import { environment } from '../environments/environment'
@@ -18,6 +19,9 @@ import { AppComponent } from './app.component'
 import { PipeModule } from './pipe/pipe.module'
 
 import { Device } from '@ionic-native/device/ngx'
+
+// pwa
+import { ServiceWorkerModule } from '@angular/service-worker'
 
 // state management
 import { NgxsModule } from '@ngxs/store'
@@ -60,11 +64,13 @@ import { FormListsComponent } from './component/admin/form-lists/form-lists.comp
 import { DataFormsComponent } from './component/admin/data-forms/data-forms.component'
 import { IdentificationComponent } from './component/admin/identification/identification.component'
 
-// form & home
+// form, home, shared
 import { FormComponent } from './component/form/form.component'
 import { HomeComponent } from './component/home/home.component'
 import { SignOffComponent } from './component/sign-off/sign-off.component'
 import { DiscrepancyComponent } from './component/discrepancy/discrepancy.component'
+import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component'
+import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component'
 
 // vehicle-inspection
 import { DetailComponent } from './component/forms/vehicle-inspection/detail/detail.component'
@@ -79,13 +85,26 @@ import { WorksiteSafetyHeaderComponent } from './component/forms/worksite-safety
 import { WorksiteSafetyHazardComponent } from './component/forms/worksite-safety-inspection/worksite-safety-hazard/worksite-safety-hazard.component'
 import { WorksiteSafetyGroundComponent } from './component/forms/worksite-safety-inspection/worksite-safety-ground/worksite-safety-ground.component'
 import { WorksiteSafetyJobsiteComponent } from './component/forms/worksite-safety-inspection/worksite-safety-jobsite/worksite-safety-jobsite.component'
-import { WorksiteSafetyCommentsComponent } from './component/forms/worksite-safety-inspection/worksite-safety-comments/worksite-safety-comments.component'
 import { WorksiteSafetyEquipmentComponent } from './component/forms/worksite-safety-inspection/worksite-safety-equipment/worksite-safety-equipment.component'
 import { WorksiteSafetyErpPlanningComponent } from './component/forms/worksite-safety-inspection/worksite-safety-erp-planning/worksite-safety-erp-planning.component'
 import { WorksiteFireExtinguisherComponent } from './component/forms/worksite-safety-inspection/worksite-fire-extinguisher/worksite-fire-extinguisher.component'
 import { WorksiteSafetyConfinedSpaceComponent } from './component/forms/worksite-safety-inspection/worksite-safety-confined-space/worksite-safety-confined-space.component'
 import { WorksiteSafetyHotWorkComponent } from './component/forms/worksite-safety-inspection/worksite-safety-hot-work/worksite-safety-hot-work.component'
 import { BottomSheetWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/bottom-sheet-worksite-safety-inspection/bottom-sheet-worksite-safety-inspection.component'
+import { ActionWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/action-worksite-safety-inspection/action-worksite-safety-inspection.component'
+import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component'
+
+//spot check safety
+import { SpotCheckSafetyComponent } from './component/forms/spot-check-safety/spot-check-safety.component'
+import { HazardIdentificationControlComponent } from './component/forms/spot-check-safety/hazard-identification-control/hazard-identification-control.component'
+import { RulesWorkProceduresComponent } from './component/forms/spot-check-safety/rules-work-procedures/rules-work-procedures.component'
+import { IncidentReportingComponent } from './component/forms/spot-check-safety/incident-reporting/incident-reporting.component'
+import { CommunicationTrainingComponent } from './component/forms/spot-check-safety/communication-training/communication-training.component'
+import { PersonalProtectiveEquipmentComponent } from './component/forms/spot-check-safety/personal-protective-equipment/personal-protective-equipment.component'
+import { SafetyEquipmentComponent } from './component/forms/spot-check-safety/safety-equipment/safety-equipment.component'
+import { CorrectiveActionsComponent } from './component/forms/spot-check-safety/corrective-actions/corrective-actions.component'
+import { SpotCheckSafetyHeaderComponent } from './component/forms/spot-check-safety/spot-check-safety-header/spot-check-safety-header.component'
+import { ActionSpotCheckSafetyComponent } from './component/forms/spot-check-safety/action-spot-check-safety/action-spot-check-safety.component'
 
 // json rendering components
 import { RunComponent } from './component/run/run.component'
@@ -108,8 +127,6 @@ import { ScannerQrcodeRunComponent } from './component/run-controls/scanner-qrco
 //indexedDB
 import { IdbPersistenceService } from './service-idb/idb-persistence.service'
 
-import { IonicModule } from '@ionic/angular'
-
 // notifications
 import { NotificationComponent } from './component/notification/notification.component'
 import { NotificationOpenComponent } from './component/notification/notification-open/notification-open.component'
@@ -126,33 +143,18 @@ import { LabelComponent } from './component/admin/label/label.component'
 // meaningful site tour
 import { MeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour.component'
 import { MeaningfulSiteTourHeaderComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-header/meaningful-site-tour-header.component'
-import { MeaningfulSiteTourNotesComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-notes/meaningful-site-tour-notes.component';
-import { SpotCheckSafetyComponent } from './component/forms/spot-check-safety/spot-check-safety.component';
-import { HazardIdentificationControlComponent } from './component/forms/spot-check-safety/hazard-identification-control/hazard-identification-control.component';
-import { RulesWorkProceduresComponent } from './component/forms/spot-check-safety/rules-work-procedures/rules-work-procedures.component';
-import { IncidentReportingComponent } from './component/forms/spot-check-safety/incident-reporting/incident-reporting.component';
-import { CommunicationTrainingComponent } from './component/forms/spot-check-safety/communication-training/communication-training.component';
-import { PersonalProtectiveEquipmentComponent } from './component/forms/spot-check-safety/personal-protective-equipment/personal-protective-equipment.component';
-import { SafetyEquipmentComponent } from './component/forms/spot-check-safety/safety-equipment/safety-equipment.component';
-import { CorrectiveActionsComponent } from './component/forms/spot-check-safety/corrective-actions/corrective-actions.component';
-import { SpotCheckSafetyHeaderComponent } from './component/forms/spot-check-safety/spot-check-safety-header/spot-check-safety-header.component';
-import { ActionMeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/action-meaningful-site-tour/action-meaningful-site-tour.component';
-import { ActionSpotCheckSafetyComponent } from './component/forms/spot-check-safety/action-spot-check-safety/action-spot-check-safety.component';
-import { ActionWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/action-worksite-safety-inspection/action-worksite-safety-inspection.component';
-import { BottomSheetCommentComponent } from './component/comment/bottom-sheet-comment/bottom-sheet-comment.component';
-import { CorrectiveActionComponent } from './component/corrective-action/corrective-action.component';
-import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component';
-import { PricingComponent } from './component/pricing/pricing.component';
-import { WhyusComponent } from './component/whyus/whyus.component';
-import { ContactComponent } from './component/contact/contact.component';
-import { TermsComponent } from './component/terms/terms.component';
-import { SigninComponent } from './component/admin/signin/signin.component';
-import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { MeaningfulSiteTourSuggestionsComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-suggestions/meaningful-site-tour-suggestions.component';
-import { MeaningfulSiteTourSignsComponent } from './component/forms/meaningful-site-tour-signs/meaningful-site-tour-signs.component';
-import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-todo/meaningful-site-tour-todo.component';
+import { MeaningfulSiteTourNotesComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-notes/meaningful-site-tour-notes.component'
+import { ActionMeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/action-meaningful-site-tour/action-meaningful-site-tour.component'
+import { MeaningfulSiteTourSuggestionsComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-suggestions/meaningful-site-tour-suggestions.component'
+import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-todo/meaningful-site-tour-todo.component'
 
+// kioske pages
+import { PricingComponent } from './component/pricing/pricing.component'
+import { WhyusComponent } from './component/whyus/whyus.component'
+import { ContactComponent } from './component/contact/contact.component'
+import { TermsComponent } from './component/terms/terms.component'
+import { SigninComponent } from './component/admin/signin/signin.component'
+import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -211,7 +213,6 @@ import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-si
     WorksiteSafetyHazardComponent,
     WorksiteSafetyGroundComponent,
     WorksiteSafetyJobsiteComponent,
-    WorksiteSafetyCommentsComponent,
     WorksiteSafetyEquipmentComponent,
     WorksiteSafetyErpPlanningComponent,
     WorksiteFireExtinguisherComponent,
@@ -251,7 +252,6 @@ import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-si
     SignupBottomComponent,
     SdkComponent,
     MeaningfulSiteTourSuggestionsComponent,
-    MeaningfulSiteTourSignsComponent,
     MeaningfulSiteTourTodoComponent
   ],
   imports: [

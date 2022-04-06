@@ -52,8 +52,6 @@ export class LayoutComponent implements OnInit {
       const email = this.route.snapshot.paramMap.get('email')
       const tenant_id = this.route.snapshot.paramMap.get('tenant_id')
 
-      // console.log(msg, email, tenant_id)
-
       if (email && !msg && tenant_id) {
         this.authService.user({ email: email }).subscribe((user: any) => {
           this.idbCrudService.clear('form')

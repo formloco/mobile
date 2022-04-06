@@ -61,7 +61,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   hotWorkForm: FormGroup
   keyPositiveFindingsForm: FormGroup
   discrepancyForm: FormGroup
-  commentForm: FormGroup
 
   WORKSITE_SAFETY_INSPECTION = WORKSITE_SAFETY_INSPECTION
 
@@ -107,7 +106,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       OccupationalHealthAndSafetyLegislationAvailable: [null, Validators.required],
       DailySafetyMeetingsConductedDocumented: [null, Validators.required],
       AllSitePersonalTrainingAndSafetyTickets: [null, Validators.required],
-      H2SPersonalGasMonitorsOnsiteHaveBeenBumped: [null, Validators.required],
       AllSitePersonnelSiteSpecificWearingPPE: [null, Validators.required]
     })
     this.jobsiteForm = this.formBuilder.group({
@@ -121,7 +119,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       FirstAidKitAvailable: [null, Validators.required],
       BlanketsAndStretcherAvailable: [null, Validators.required],
       EyeWashBottleAvailable: [null, Validators.required],
-      SpillKitAvailable: [null, Validators.required]
+      SpillKitAvailable: [null, Validators.required],
+      H2SPersonalGasMonitorsOnsiteHaveBeenBumped: [null, Validators.required],
     })
     this.fireExtinguisherForm = this.formBuilder.group({
       TwentyPoundMinimumFireExtinguisherAvailable: [null, Validators.required],
@@ -179,13 +178,10 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       EmergencySurvivalKitEquippedInVehicle: [null]
     })
     this.keyPositiveFindingsForm = this.formBuilder.group({
-      OtherCommentsKeyPositiveFindings: [null]
+      KeyPositiveFindings: [null, Validators.required]
     })
     this.discrepancyForm = this.formBuilder.group({
       Discrepancy: [null, Validators.required]
-    })
-    this.commentForm = this.formBuilder.group({
-      CommentsAndRequiredActionItems: [null]
     })
   }
 
@@ -198,8 +194,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         this.isEdit = true
         this.setFormData(formData["data"])
       }
+      else this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(true))
     })
-    this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(true))
   }
 
   setStep(index: number) {
@@ -240,7 +236,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.hazardForm.controls['OccupationalHealthAndSafetyLegislationAvailable'].setValue(data.hazard.OccupationalHealthAndSafetyLegislationAvailable)
       this.hazardForm.controls['DailySafetyMeetingsConductedDocumented'].setValue(data.hazard.DailySafetyMeetingsConductedDocumented)
       this.hazardForm.controls['AllSitePersonalTrainingAndSafetyTickets'].setValue(data.hazard.AllSitePersonalTrainingAndSafetyTickets)
-      this.hazardForm.controls['H2SPersonalGasMonitorsOnsiteHaveBeenBumped'].setValue(data.hazard.H2SPersonalGasMonitorsOnsiteHaveBeenBumped)
       this.hazardForm.controls['AllSitePersonnelSiteSpecificWearingPPE'].setValue(data.hazard.AllSitePersonnelSiteSpecificWearingPPE)
     }
     if (data.jobsite) {
@@ -255,6 +250,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.jobsiteForm.controls['BlanketsAndStretcherAvailable'].setValue(data.jobsite.BlanketsAndStretcherAvailable)
       this.jobsiteForm.controls['EyeWashBottleAvailable'].setValue(data.jobsite.EyeWashBottleAvailable)
       this.jobsiteForm.controls['SpillKitAvailable'].setValue(data.jobsite.SpillKitAvailable)
+      this.jobsiteForm.controls['H2SPersonalGasMonitorsOnsiteHaveBeenBumped'].setValue(data.jobsite.H2SPersonalGasMonitorsOnsiteHaveBeenBumped)
     }
     if (data.fireExtinguisher) {
       this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].setValue(data.fireExtinguisher.TwentyPoundMinimumFireExtinguisherAvailable)
@@ -313,11 +309,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       this.equipmentForm.controls['EmergencySurvivalKitEquippedInVehicle'].setValue(data.equipment.EmergencySurvivalKitEquippedInVehicle)
     }
     if (data.keyPositiveFindings) {
-      this.keyPositiveFindingsForm.controls['OtherCommentsKeyPositiveFindings'].setValue(data.keyPositiveFindings.OtherCommentsKeyPositiveFindings)
-    }
-
-    if (data.comment) {
-      this.commentForm.controls['CommentsAndRequiredActionItems'].setValue(data.comment.CommentsAndRequiredActionItems)
+      this.keyPositiveFindingsForm.controls['KeyPositiveFindings'].setValue(data.keyPositiveFindings.KeyPositiveFindings)
     }
 
     if (data.comments) {
@@ -325,8 +317,11 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
 
     if (data.correctiveActions) {
-      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveActions))
     }
+console.log('got here')
+    this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
+
   }
 
   updateForm() {
@@ -348,8 +343,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       keyPositiveFindings: this.keyPositiveFindingsForm.value,
       comments: this.store.selectSnapshot(CommentState.comments),
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
-      hazard: this.hazardForm.value,
-      comment: this.commentForm.value
+      hazard: this.hazardForm.value
     }
 
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
@@ -386,12 +380,11 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       keyPositiveFindings: this.keyPositiveFindingsForm.value,
       comments: this.store.selectSnapshot(CommentState.comments),
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
-      hazard: this.hazardForm.value,
-      comment: this.commentForm.value
+      hazard: this.hazardForm.value
     }
 
     let obj = {
-      data: data,
+      data: JSON.stringify(data),
       user: userCreated,
       form: form,
       type: 'custom',
@@ -473,7 +466,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     this.equipmentForm.reset()
     this.discrepancyForm.reset()
     this.keyPositiveFindingsForm.reset()
-    this.commentForm.reset()
     this.store.dispatch(new SetPics([]))
     this.autoCompleteService.workersControl.setValue('')
     this.autoCompleteService.supervisorsControl.setValue('')

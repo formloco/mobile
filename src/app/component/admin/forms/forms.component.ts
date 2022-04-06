@@ -56,7 +56,6 @@ export class FormsComponent {
   }
 
   selectForm(form) {
-    console.log(form)
     let formObjClone = _.cloneDeep(form)
     if (!form.type) this.errorService.popSnackbar('Form is not Configured')
     else if (form.type === 'custom') {

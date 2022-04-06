@@ -98,7 +98,7 @@ const dataCreateSQL = async (dataObj) => {
   const client = await pool.connect()
 
   const docID = dataObj["form"]["id"]
-
+  
   let userCreated = JSON.stringify(dataObj['user'])
 
   if (dataObj['data']) {
@@ -112,7 +112,7 @@ const dataCreateSQL = async (dataObj) => {
     await client.query(`CREATE SEQUENCE IF NOT EXISTS id_seq`)
     await client.query(`CREATE TABLE IF NOT EXISTS "` + dataObj["form"]["form_id"] + `" (id int4 NOT NULL DEFAULT nextval('id_seq'::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, pdf text, data jsonb, PRIMARY KEY (id))`)
   }
-
+  
   const newFormID = await client.query(`INSERT INTO "` + dataObj["form"]["form_id"] + `" (user_created, date_created, data) VALUES ('` + userCreated + `', '` + dataObj["date"] + `', '` + dataObj['data'] + `') RETURNING id`)
 
   const dataID = newFormID.rows[0].id
@@ -133,6 +133,18 @@ const dataCreateSQL = async (dataObj) => {
     "message": "Created by " + dataObj["user"]["email"]
   }]
 
+  let messages = []
+  if (comments !== null) {
+    for (let j = 0; j < comments.length; j++) {
+      let str = JSON.stringify(comments[j])
+      str = str.replace(/{/g, '')
+      str = str.replace(/}/g, '')
+      str = str.replace(/"/g, '')
+      str = str.replace(/:/g, ': ')
+      str = str.split(",").join("\n")
+      messages.push(str)
+    }
+  }
   // const notifications = await client.query(`SELECT * FROM notifications WHERE id = $1`, [dataID])
 
 
@@ -155,9 +167,9 @@ const dataCreateSQL = async (dataObj) => {
       pics.push({ image: element, width: 500 })
     })
 
-    buildPDFReport(docID, path, reportData, comments, pics)
+    buildPDFReport(docID, path, reportData, messages, pics)
   } 
-  else buildPDFReport(docID, path, reportData, comments)
+  else buildPDFReport(docID, path, reportData, messages)
 
   client.release()
   await pool.end()

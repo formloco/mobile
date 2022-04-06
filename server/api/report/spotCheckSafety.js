@@ -13,23 +13,10 @@ const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
-async function spotCheckSafetyPDF(path, reportData, notifications, pics, signDate) {
+async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
 
   let dateSigned = 'To be determined'
-  if (signDate !== null) dateSigned = signDate
-
-  let messages = []
-  if (notifications !== null) {
-    for (let j = 0; j < notifications.length; j++) {
-      let str = JSON.stringify(notifications[j])
-      str = str.replace(/{/g, '')
-      str = str.replace(/}/g, '')
-      str = str.replace(/"/g, '')
-      str = str.replace(/:/g, ': ')
-      str = str.split(",").join("\n")
-      messages.push(str)
-    }
-  }
+  if (signDate) dateSigned = signDate
 
   let header = reportData.data.header
   let hazard = reportData.data.hazard
@@ -44,7 +31,7 @@ async function spotCheckSafetyPDF(path, reportData, notifications, pics, signDat
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction)
 
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
-  console.log('got here', allFormData)
+  
   allFormData.forEach(rec => {
     if (rec[1] === 'unsatisfactory') {
       data[rec[0]+'U'] = '√',
@@ -67,14 +54,6 @@ async function spotCheckSafetyPDF(path, reportData, notifications, pics, signDat
     }
   })
 
-  // allFormData.forEach(rec => {
-  //   console.log(rec)
-  //   if (rec.includes('Comments')) {
-  //     console.log(rec)
-  //     data[rec[0]] = data[rec[1]]
-  //   }
-  // })
-console.log(data)
   const docDefinition = {
     content: [
       {

@@ -41,13 +41,6 @@ export class WorksiteSafetyConfinedSpaceComponent implements OnInit {
 
   toggle(toggle) {
     this.store.dispatch(new SetIsConfinedSpace(toggle))
-    if (toggle) {
-      const comments:any = this.store.selectSnapshot(CommentState.commentsByType)
-      if (comments.length > 0) this.bottomSheet.open(BottomSheetWorksiteSafetyInspectionComponent)
-    }
-    if (!toggle) {
-      this.openComment(this.label.DoesTheProjectInvolveConfinedSpaceEntry, 'DoesTheProjectInvolveConfinedSpaceEntry')
-    }
   }
 
   openComment(label, field) {

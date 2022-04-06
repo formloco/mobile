@@ -60,7 +60,7 @@ const countNotificationSQL = async (req) => {
 }
 
 const createNotificationSQL = async (data) => {
-  console.log(data)
+  
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,

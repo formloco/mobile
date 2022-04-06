@@ -114,22 +114,25 @@ export class MeaningfulSiteTourComponent implements OnInit {
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['Name'].setValue(data.header.Name)
+      this.headerForm.controls['Location'].setValue(data.header.Location)
       this.autoCompleteService.workersControl.setValue(data.header.Worker)
       this.autoCompleteService.supervisorsControl.setValue(data.header.Supervisor)
-      this.headerForm.controls['Location'].setValue(data.header.Location)
-      this.headerForm.controls['SiteOrientation'].setValue(data.header.SiteOrientation)
-      this.headerForm.controls['DailySafetyMeeting'].setValue(data.header.DailySafetyMeeting)
-      this.headerForm.controls['SiteTour'].setValue(data.header.SiteTour)
-      this.headerForm.controls['SiteTourWithWorker'].setValue(data.header.SiteTourWithWorker)
-      this.headerForm.controls['ReviewDiscuss'].setValue(data.header.ReviewDiscuss)
-      this.headerForm.controls['PositiveInterventionRecognition'].setValue(data.header.PositiveInterventionRecognition)
-      this.headerForm.controls['EngageWithContractors'].setValue(data.header.EngageWithContractors)
-      this.headerForm.controls['HousekeepingInspection'].setValue(data.header.HousekeepingInspection)
-      this.headerForm.controls['CompleteBBO'].setValue(data.header.CompleteBBO)
-      this.headerForm.controls['OpenTeamDiscussion'].setValue(data.header.OpenTeamDiscussion)
-      this.headerForm.controls['SafetyAlert'].setValue(data.header.SafetyAlert)
-      this.headerForm.controls['ProvideFeedback'].setValue(data.header.ProvideFeedback)
-      this.headerForm.controls['FormalAuditInspection'].setValue(data.header.FormalAuditInspection)
+    }
+
+    if (data.todo) {
+      this.todoForm.controls['SiteOrientation'].setValue(data.todo.SiteOrientation)
+      this.todoForm.controls['DailySafetyMeeting'].setValue(data.todo.DailySafetyMeeting)
+      this.todoForm.controls['SiteTour'].setValue(data.todo.SiteTour)
+      this.todoForm.controls['SiteTourWithWorker'].setValue(data.todo.SiteTourWithWorker)
+      this.todoForm.controls['ReviewDiscuss'].setValue(data.todo.ReviewDiscuss)
+      this.todoForm.controls['PositiveInterventionRecognition'].setValue(data.todo.PositiveInterventionRecognition)
+      this.todoForm.controls['EngageWithContractors'].setValue(data.todo.EngageWithContractors)
+      this.todoForm.controls['HousekeepingInspection'].setValue(data.todo.HousekeepingInspection)
+      this.todoForm.controls['CompleteBBO'].setValue(data.todo.CompleteBBO)
+      this.todoForm.controls['OpenTeamDiscussion'].setValue(data.todo.OpenTeamDiscussion)
+      this.todoForm.controls['SafetyAlert'].setValue(data.todo.SafetyAlert)
+      this.todoForm.controls['ProvideFeedback'].setValue(data.todo.ProvideFeedback)
+      this.todoForm.controls['FormalAuditInspection'].setValue(data.todo.FormalAuditInspection)
     }
 
     if (data.notes) {
@@ -143,11 +146,13 @@ export class MeaningfulSiteTourComponent implements OnInit {
     const form = this.store.selectSnapshot(AuthState.selectedForm)
 
     let header = this.headerForm.value
+    let todo = this.todoForm.value
     header.Worker = this.autoCompleteService.workersControl.value
     header.Supervisor = this.autoCompleteService.supervisorsControl.value
 
     let data = {
       header: header,
+      todo: todo,
       notes: this.notesForm.value
     }
 
@@ -172,8 +177,11 @@ export class MeaningfulSiteTourComponent implements OnInit {
     header.Worker = this.autoCompleteService.workersControl.value
     header.Supervisor = this.autoCompleteService.supervisorsControl.value
 
+    let todo = this.todoForm.value
+
     let data = {
       header: header,
+      todo: todo,
       notes: this.notesForm.value
     }
 

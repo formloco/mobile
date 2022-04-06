@@ -51,7 +51,7 @@ export class SdkComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('got here',this.forms)
+    
   }
 
   deploy(form) {

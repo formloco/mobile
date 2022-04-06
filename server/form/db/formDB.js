@@ -3,7 +3,7 @@ const { Pool } = require('pg')
 const { v4: uuidv4 } = require('uuid')
 
 const formsReadSQL = async (data) => {
-  console.log(data)
+  
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
@@ -15,7 +15,7 @@ const formsReadSQL = async (data) => {
   let client = await pool.connect()
 
   let userForms = []
-  const forms = await client.query(`SELECT form FROM public.form WHERE is_list = false`)
+  const forms = await client.query(`SELECT * FROM public.form WHERE is_list = false`)
 
   if (forms.rowCount > 0) {
     const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
@@ -140,11 +140,11 @@ const formUpdateSQL = async (data) => {
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
-// console.log(data)
+
   let client = await pool.connect()
 
   let form = await client.query(`SELECT * FROM public.form WHERE form_id = '` + data["form_id"] + `' AND date_archived is null`)
-// console.log(form)
+
   if (form.rowCount === 0) {
     let formJSON = JSON.stringify(data)
     let userCreated = JSON.stringify(data['user_created'])
@@ -177,7 +177,6 @@ const formUpdateSQL = async (data) => {
 }
 
 const formPermissionSQL = async (data) => {
-  console.log(data)
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
