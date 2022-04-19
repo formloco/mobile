@@ -26,7 +26,7 @@ export const environment = {
   },
   logo: Formloco.logo,
   idbName: Formloco.idbName,
-  version: 'January 26, 2022',
+  version: 'April 19, 2022',
   pin: Formloco.pin
 
   // apiUrl: Summit.apiUrl,
