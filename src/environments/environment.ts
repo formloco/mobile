@@ -37,7 +37,7 @@ export const environment = {
   
   tenant: { email: Formloco.email, tenant_id: Formloco.tenant },
   logo: Formloco.logo,
-  version: '2.0',
+  version: Formloco.version,
   idbName: Formloco.idbName,
   pin: Formloco.pin
 };

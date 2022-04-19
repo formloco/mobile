@@ -3,7 +3,7 @@ import { Formloco, Summit, Rumzer } from '../app/state/app.state'
 export const environment = {
   production: true,
   
-  kioske: true,
+  kioske: false,
   designUrl: Formloco.designUrl,
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
@@ -26,7 +26,7 @@ export const environment = {
   },
   logo: Formloco.logo,
   idbName: Formloco.idbName,
-  version: 'April 19, 2022',
+  version: Formloco.version,
   pin: Formloco.pin
 
   // apiUrl: Summit.apiUrl,
@@ -46,6 +46,6 @@ export const environment = {
   // },
   // logo: Summit.logo,
   // idbName: Summit.idbName,
-  // version: 'February 18, 2022',
+  // version: Summit.version,
   // pin: Summit.pin
 }
