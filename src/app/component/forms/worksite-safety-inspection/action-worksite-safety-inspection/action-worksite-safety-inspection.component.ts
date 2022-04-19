@@ -10,7 +10,6 @@ import { SetPage, SetChildPageLabel } from '../../../../state/auth/auth-state.ac
 
 import { AppService } from "../../../../service/app.service"
 import { ApiService } from "../../../../service/api.service"
-
 @Component({
   selector: 'app-action-worksite-safety-inspection',
   templateUrl: './action-worksite-safety-inspection.component.html',
@@ -24,38 +23,31 @@ export class ActionWorksiteSafetyInspectionComponent implements OnInit {
   details
   kioske
 
-  discrepancyForm: FormGroup
-
   constructor(
     private store: Store,
     public appService: AppService,
     private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
-    private apiService: ApiService) { 
-    this.discrepancyForm = this.formBuilder.group({
-      Discrepancy: []
-    })
-  }
+    private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.kioske = this.store.selectSnapshot(AuthState.kioske)
-    this.discrepancyForm.controls['Discrepancy'].setValue(this.form.discrepancy.Discrepancy)
   }
 
   signForm() {
     const user = this.store.selectSnapshot(AuthState.user)
+    const selectedForm: any = this.store.selectSnapshot(AuthState.selectedForm)
     const notification = this.store.selectSnapshot(NotificationState.notification)
+
     let obj = {
-      docID: 'worksite-safety-inspection',
-      notificationID: notification.id,
-      docName: notification.pdf,
-      dataID: notification.data_id,
-      formID: notification.form_id,
-      date: new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}),
+      docID: selectedForm.id,
+      form_id: selectedForm.form_id,
+      notification: notification,
+      data_id: notification.data_id,
+      date: this.appService.now,
       email: user.email,
       name: user.name
     }
-    this.apiService.signForm(obj).subscribe((res:any) => {
+    this.apiService.signForm(obj).subscribe((res: any) => {
       this.appService.initializeMyNotifications(user.email)
       this.store.dispatch(new SetPage('home'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
@@ -65,6 +57,7 @@ export class ActionWorksiteSafetyInspectionComponent implements OnInit {
         verticalPosition: 'bottom'
       })
     })
+
   }
 
 }

@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store'
 import { AuthState } from '../state/auth/auth.state'
 
 import { environment } from '../../environments/environment'
+import { AppService } from './app.service'
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,10 @@ export class NotificationService {
   createNotification(obj) {
 
     const tenant = this.store.selectSnapshot(AuthState.tenant)
-    let d = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+    let now = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
 
     let notificationObj = {
-      date: d,
+      date: now,
       form_name: obj.name,
       email_from: obj.worker.email,
       worker_name: obj.worker.name,
@@ -39,7 +40,7 @@ export class NotificationService {
       comment: [{
         from: obj.worker.name,
         to: obj.supervisor.name,
-        date: d.toString(),
+        date: now.toString(),
         message: obj.message
       }]
     }

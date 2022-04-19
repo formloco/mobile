@@ -319,7 +319,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     if (data.correctiveActions) {
       this.store.dispatch(new SetCorrectiveActions(data.correctiveActions))
     }
-console.log('got here')
+
     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
 
   }
@@ -360,7 +360,7 @@ console.log('got here')
 
     let userCreated = {
       email: user.email,
-      date_created: new Date()
+      date_created: now
     }
 
     let header = this.headerForm.value
@@ -401,7 +401,7 @@ console.log('got here')
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message: message,
+        message: message.Discrepancy,
         subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
         form_id: form["form_id"],
         data_id: null,
@@ -429,7 +429,7 @@ console.log('got here')
             worker: this.appService.getWorker(header.Worker),
             supervisor: this.appService.getSupervisor(header.Supervisor),
             description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-            message: message,
+            message: message.Discrepancy,
             subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
             form_id: form["form_id"],
             data_id: this.formDataID,

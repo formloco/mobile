@@ -48,12 +48,15 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
             image: 'images/meaningful-site-tour-side-page.png', height: 480, width: 270
           },
           [
-            { text: 'Conducting Your Tour', style: 'subheader', alignment: 'center' },
+            { text: 'Conducting Your Tour\n\n', style: 'subheader', alignment: 'center' },
             {
-              text: 'Name:  ' + header.Name + '\n\n' +
-                'Location:  ' + header.Location + '\n\n' +
-                'Date:  ' + header.Date + '\n\n' +
-                'THINGS TO DO/CHECK\n'
+              text: 'Name:  ' + header.Name + '\n' +
+                'Location:  ' + header.Location + '\n' +
+                'Date:  ' + header.Date + '\n\n'
+
+            },
+            {
+              text: 'THINGS TO DO/CHECK\n', decoration: 'underline'
             },
             {
               text:
@@ -70,17 +73,20 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
                 SafetyAlert + '\n\n' +
                 ProvideFeedback + '\n\n' +
                 FormalAuditInspection,
-              margin: [0, 20, 0, 20],
+                margin: [0, 20, 0, 20],
             },
           ],
-          {
-            text: `Positive Observations\n\n` + notes.PositiveObservations + `\n\n` +
-              `Opportunities for Improvement\n\n` + notes.ImprovementOpportunities + `\n\n` +
-              `Summary of Feedback\n\n` + notes.FeedbackSummary + `\n\n` +
-              'Signature' + `\n\n` + header.Supervisor + `\n\n` +
-              'Date: ' + dateSigned,
-            margin: [0, 20, 0, 20],
-          },
+          [
+            { text: `Positive Observations\n`, decoration: 'underline' },
+            { text: notes.PositiveObservations + `\n\n`},
+            { text: `Opportunities for Improvement\n`, decoration: 'underline' },
+            { text: notes.ImprovementOpportunities + `\n\n`},
+            { text: `Summary of Feedback\n`, decoration: 'underline' },
+            { text: notes.FeedbackSummary + `\n\n` },
+            { text: 'Supervisor\n', decoration: 'underline' },
+            { text: header.Supervisor + `\n`},
+            { text: 'Date Signed ' + dateSigned }
+          ],
         ],
       },
       '\n\n',
@@ -116,6 +122,7 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
 
   // create pdf
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
+
   pdfDoc.pipe(fs.createWriteStream(path + '.pdf'))
   pdfDoc.end()
 

@@ -18,8 +18,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
 
   let descrepancies = []
   let descrepancyActions = []
-  let dateSigned = 'To be determined'
 
+  let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
   let header = reportData.data.header
@@ -542,10 +542,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         alignment: 'justify',
         columns: [
           {
-            text: 'Summit Supervisor Signature: ' + header.Supervisor
+            text: 'Summit Supervisor: ' + header.Supervisor
           },
           {
-            text: 'Date: ' + dateSigned
+            text: 'Sign-off Date: ' + dateSigned
           }
         ]
       },

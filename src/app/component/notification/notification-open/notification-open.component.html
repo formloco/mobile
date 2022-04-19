@@ -1,5 +1,5 @@
 <mat-accordion multi [togglePosition]="'before'" *ngFor="let notification of (notificationOpen$ | async);  index as i">
-  <mat-expansion-panel (click)="setNotificationMessage(notification)" class="accordion-padding" [expanded]="i == (notificationIdx$ | async)">
+  <mat-expansion-panel (click)="setNotification(notification)" class="accordion-padding" [expanded]="i == (notificationIdx$ | async)">
     <mat-expansion-panel-header (click)="setRead(notification)">
       <mat-panel-title fxLayoutAlign="start center" fxLayoutGap="10px">
         <mat-icon *ngIf="!notification.read" class="material-icons-outlined icon-orange">mark_as_unread</mat-icon>

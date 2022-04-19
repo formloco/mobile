@@ -12,16 +12,7 @@
 </div>
 <br>
 <mat-divider></mat-divider>
-<br>
-<div mat-subheader>Descrepancies</div>
-<br>
-<form class="header-form" [formGroup]="discrepancyForm">
-  <mat-form-field>
-    <textarea cdkTextareaAutosize cdkAutosizeMaxRows="10" matInput formControlName="Discrepancy"
-      placeholder="Discrepancy report"></textarea>
-  </mat-form-field>
-</form>
-
+<br><br>
 <div *ngIf="!kioske" fxLayout="column" class="hand" fxLayoutAlign="space-around center">
   <mat-icon class="icon-169px-action" (click)="signForm()">fingerprint</mat-icon>
   <div class="text-color bottom-padding">

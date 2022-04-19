@@ -166,11 +166,11 @@ export class MeaningfulSiteTourComponent implements OnInit {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     
-    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    // const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
     let userCreated = {
       email: user.email,
-      date_created: now
+      date_created: this.appService.now
     }
 
     let header = this.headerForm.value
@@ -190,7 +190,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       user: userCreated,
       form: form,
       type: 'custom',
-      date: now,
+      date: this.appService.now,
       name: form["name"],
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
@@ -200,9 +200,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
         name: form["name"],
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
-        description: 'Meaningful Site Tour ' + now,
+        description: 'Meaningful Site Tour ' + this.appService.now,
         message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-        subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + now,
+        subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + this.appService.now,
         form_id: form["form_id"],
         data_id: null,
         pdf: 'meaningful-site-tour'
@@ -230,9 +230,9 @@ export class MeaningfulSiteTourComponent implements OnInit {
             name: form["name"],
             worker: worker,
             supervisor: supervisor,
-            description: 'Meaningful Site Tour ' + now,
+            description: 'Meaningful Site Tour ' + this.appService.now,
             message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-            subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + now,
+            subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + this.appService.now,
             form_id: form["form_id"],
             data_id: this.formDataID,
             pdf: 'meaningful-site-tour' + this.formDataID

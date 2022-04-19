@@ -125,7 +125,6 @@ export class AppComponent implements OnInit, OnDestroy {
             localStorage.setItem('formToken', this.token.token)
           })
         this.store.dispatch(new SetIsOnline(status))
-        console.log('status', status)
         // this.networkStatus = status
       })
   }

@@ -41,6 +41,8 @@ export class AppService {
   private data
 
   public isNew
+  public now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+
   public isListMenu
   public lookupLists
   public fileArray = []

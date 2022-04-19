@@ -35,7 +35,7 @@ import { CameraComponent } from '../../camera/camera.component'
   templateUrl: './notification-open.component.html',
   styleUrls: ['./notification-open.component.scss']
 })
-export class NotificationOpenComponent implements OnInit{
+export class NotificationOpenComponent implements OnInit {
 
   @Output() pdf = new EventEmitter<any>()
 
@@ -66,7 +66,7 @@ export class NotificationOpenComponent implements OnInit{
     private idbCrudService: IdbCrudService,
     private notificationService: NotificationService) {
     this.messageForm = this.fb.group({
-      message: [{value: null, disabled: this.kioske}, [Validators.required]]
+      message: [{ value: null, disabled: this.kioske }, [Validators.required]]
     })
   }
 
@@ -79,15 +79,15 @@ export class NotificationOpenComponent implements OnInit{
 
     const notification = notifications[idx]
     const user = this.store.selectSnapshot(AuthState.user)
-    
+
     const subject = notification.form_name + ' form message from ' + user.name + 'date:' + new Date()
-  
+
     const message = this.messageForm.get('message').value
 
     this.messageForm.reset()
     let messageObj = {
       notificationID: notification.id,
-      date: new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}),
+      date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       email_to: notification.email_from,
       email_from: user.email,
       subject: subject,
@@ -112,7 +112,7 @@ export class NotificationOpenComponent implements OnInit{
     })
   }
 
-  setNotificationMessage(notification) {
+  setNotification(notification) {
     const user = this.store.selectSnapshot(AuthState.user)
     const workers = this.store.selectSnapshot(AuthState.workers)
     const worker = workers.find(worker => worker.email == notification.email_from)
@@ -122,7 +122,7 @@ export class NotificationOpenComponent implements OnInit{
     if (worker.email !== user.email) this.sendTo = worker.name
     if (supervisor.email !== user.email) this.sendTo = supervisor.name
 
-    this.idbCrudService.readAll('form').subscribe((forms:any) => {
+    this.idbCrudService.readAll('form').subscribe((forms: any) => {
       const form = forms.find(f => f.form_id == notification.form_id)
       this.store.dispatch(new SetSelectedForm(form))
       // this.idbCrudService.readAll('pics').subscribe((pics:any) => {
@@ -145,8 +145,8 @@ export class NotificationOpenComponent implements OnInit{
       dialogConfig.height = '100%'
       dialogConfig.width = '100%'
       dialogConfig.maxWidth = '100vw',
-        dialogConfig.maxHeight = '100vh',
-        dialogConfig.data = obj
+      dialogConfig.maxHeight = '100vh',
+      dialogConfig.data = obj
       this.dialog.open(NotificationActionComponent, dialogConfig)
     })
   }
@@ -161,12 +161,10 @@ export class NotificationOpenComponent implements OnInit{
     this.store.dispatch(new SetNotificationIdx(idx))
     const page = this.store.selectSnapshot(AuthState.page)
     const childPage = this.store.selectSnapshot(AuthState.childPage)
-    const selectedFormId = notification.form_name.toLowerCase().replace(/\s/g, "-")
-    this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(data => { 
-      const forms:any = this.store.selectSnapshot(AuthState.forms)
-      const form = forms.filter(f => f.id === selectedFormId)
+    this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(data => {
+      const selectedForm: any = this.store.selectSnapshot(AuthState.selectedForm)
       this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
-      this.store.dispatch(new SetSelectedForm(form[0]))
+      this.store.dispatch(new SetSelectedForm(selectedForm))
       this.store.dispatch(new SetFormData(data))
       this.store.dispatch(new SetChildPage('notification'))
       this.store.dispatch(new SetPage('form'))
@@ -182,8 +180,8 @@ export class NotificationOpenComponent implements OnInit{
     dialogConfig.height = '100%'
     dialogConfig.width = '100%'
     dialogConfig.maxWidth = '100vw',
-    dialogConfig.maxHeight = '100vh',
-    dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
+      dialogConfig.maxHeight = '100vh',
+      dialogConfig.data = this.store.selectSnapshot(AuthState.selectedForm)
     this.dialog.open(CameraComponent, dialogConfig)
   }
 

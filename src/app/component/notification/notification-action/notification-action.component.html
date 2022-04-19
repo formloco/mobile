@@ -4,22 +4,30 @@
     <mat-icon>close</mat-icon>
   </div>
 </div>
-<div *ngIf="data.notification.form_name === 'Vehicle Inspection'">
-  <app-action-vehicle-inspection [form]=data.form.data (close)=close()></app-action-vehicle-inspection>
+<div mat-subheader>{{data.notification.form_name}}</div>
+<br>
+<div fxLayout="column">
+  <div><b>Date:</b>&nbsp;&nbsp;{{data.form.data.header.Date | date: 'shortDate'}}</div>
+  <div><b>Worker:</b>&nbsp;&nbsp;{{data.form.data.header.Worker}}</div>
+  <div><b>Supervisor:</b>&nbsp;&nbsp;{{data.form.data.header.Supervisor}}</div>
 </div>
-<div *ngIf="data.notification.form_name === 'Meaningful Site Tour'">
-  <app-action-meaningful-site-tour [form]=data.form.data (close)=close()></app-action-meaningful-site-tour>
+<br>
+<mat-divider></mat-divider>
+<br><br>
+<div *ngIf="!kioske" fxLayout="column" class="hand" fxLayoutAlign="space-around center">
+  <mat-icon class="icon-169px-action" (click)="signForm()">fingerprint</mat-icon>
+  <div class="text-color bottom-padding">
+    <mat-label>Press to Sign</mat-label>
+  </div>
 </div>
-<div *ngIf="data.notification.form_name === 'Spot Check Safety'">
-  <app-action-spot-check-safety [form]=data.form.data (close)=close()></app-action-spot-check-safety>
-</div>
-<div *ngIf="data.notification.form_name === 'Worksite Safety Inspection'">
-  <app-action-worksite-safety-inspection [form]=data.form.data (close)=close()></app-action-worksite-safety-inspection>
+
+<div *ngIf="kioske" fxLayout="column" class="hand" fxLayoutAlign="space-around center">
+  <mat-icon class="icon-169px text-color" (click)="signForm()">fingerprint</mat-icon>
+  <div class="text-color bottom-padding">
+    <mat-label>Press to Sign</mat-label>
+  </div>
 </div>
 <div class="padding" fxLayoutGap="20px" class="footer">
-  <button *ngIf="(pics$ | async)?.length > 0" color="primary" mat-mini-fab>
-    <mat-icon class="material-icons-outlined hand" (click)="openImage()">perm_media</mat-icon>
-  </button>
   <button color="primary" mat-mini-fab>
     <mat-icon class="material-icons-outlined hand" (click)="openPdf()">picture_as_pdf</mat-icon>
   </button>

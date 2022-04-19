@@ -266,11 +266,10 @@ export class SpotCheckSafetyComponent implements OnInit {
   submitForm() {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
-    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
     let userCreated = {
       email: user.email,
-      date_created: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+      date_created: this.appService.now
     }
 
     let header = this.headerForm.value
@@ -295,7 +294,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       form: form,
       type: 'custom',
       name: form["name"],
-      date: now,
+      date: this.appService.now,
       pics: this.store.selectSnapshot(DeviceState.pics),
       location: data.header.Location,
       correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
@@ -308,7 +307,7 @@ export class SpotCheckSafetyComponent implements OnInit {
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
         message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
-        subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
+        subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
         form_id: form["form_id"],
         data_id: this.formDataID,
         pdf: 'spot-check-safety' + this.formDataID
@@ -336,7 +335,7 @@ export class SpotCheckSafetyComponent implements OnInit {
             supervisor: supervisor,
             description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
             message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
-            subject: 'New Spot Check Safety from ' + header.Worker + ', ' + new Date(),
+            subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
             form_id: form["form_id"],
             data_id: this.formDataID,
             pdf: 'spot-check-safety' + this.formDataID

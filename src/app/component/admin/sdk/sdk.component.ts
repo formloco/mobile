@@ -61,7 +61,7 @@ export class SdkComponent implements OnInit {
     else if (form.type === 'custom') {
       const tenant = this.store.selectSnapshot(AuthState.tenant)
 
-      formObjClone["user_created"] = { email: tenant.email, date_created: new Date() }
+      formObjClone["user_created"] = { email: tenant.email, date_created: this.appService.now }
       const rawForm = _.cloneDeep(formObjClone)
       formObjClone["formObj"] = rawForm
 

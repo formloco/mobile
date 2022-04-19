@@ -276,11 +276,10 @@ export class VehicleInspectionComponent implements OnInit {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     const comments = this.store.selectSnapshot(CommentState.comments)
-    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
     let userCreated = {
       email: user.email,
-      date_created: new Date()
+      date_created: this.appService.now
     }
 
     let header = this.headerForm.value
@@ -301,7 +300,7 @@ export class VehicleInspectionComponent implements OnInit {
       user: userCreated,
       form: form,
       type: 'custom',
-      date: now,
+      date: this.appService.now,
       name: form["name"],
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
@@ -329,7 +328,7 @@ export class VehicleInspectionComponent implements OnInit {
           worker: worker,
           supervisor: supervisor,
           description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
-          subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + new Date(),
+          subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + this.appService.now,
           message: message,
           form_id: form["form_id"],
           data_id: this.formDataID,

@@ -51,7 +51,7 @@ export class ActionMeaningfulSiteTourComponent implements OnInit {
       docName: notification.pdf,
       dataID: notification.data_id,
       formID: notification.form_id,
-      date: new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}),
+      date: this.appService.now,
       email: user.email,
       name: user.name
     }

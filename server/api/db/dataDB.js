@@ -47,44 +47,64 @@ const formReadSQL = async (tenant_id, form_id, data_id) => {
   return formData.rows[0]
 }
 
-const formSignSQL = async (data) => {
+const formSignSQL = async (dataObj) => {
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
-    database: data['tenant_id'],
+    database: dataObj['tenant_id'],
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
   const client = await pool.connect()
 
-  await client.query('UPDATE notification SET date_signed = $1, signed = true, email_signed = $2, signed_name = $3 WHERE id = $4', [new Date().toLocaleString("en-US", { timeZone: "America/Edmonton" }), data["email"], data["name"], data["notificationID"]])
+  await client.query('UPDATE notification SET date_signed = $1, signed = true, email_signed = $2, signed_name = $3 WHERE id = $4', [dataObj["date"], dataObj["email"], dataObj["name"], dataObj["notification"]["id"]])
 
-  let comment = await client.query('SELECT comment FROM notification WHERE id = $1', [data["notificationID"]])
-  let comments = comment.rows[0]["comment"]
+  let messages = []
+  if (dataObj["notification"]["comment"]) {
+    for (let j = 0; j < dataObj["notification"]["comment"].length; j++) {
+      let str = JSON.stringify(dataObj["notification"]["comment"][j])
+      str = str.replace(/{/g, '')
+      str = str.replace(/}/g, '')
+      str = str.replace(/"/g, '')
+      str = str.replace(/:/g, ': ')
+      str = str.split(",").join("\n")
+      messages.push(str)
+    }
+  }
+
+  let formData = await client.query(`SELECT * FROM "` + dataObj["form_id"] + `" WHERE id = $1`, [dataObj["notification"]["data_id"]])
+  formData.rows[0].data["SignoffDate"] = dataObj["date"]
+
+  const reportData = formData.rows[0]
+  let dataJSON = JSON.stringify(reportData)
+
+  await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataJSON + `' WHERE id = ` + dataObj["notification"]["data_id"])
 
   client.release()
   await pool.end()
 
-  const pdfPath = docPath + data["docName"] + '.pdf'
-
-  fs.unlink(pdfPath, (err) => {
-    if (err) return err
-  })
+  const path = docPath + dataObj["docID"]
 
   let pics = []
-  let fileNames = []
-  const dirname = docPath + data["docName"] + '/'
 
+  const dirname = path + '/'
   if (fs.existsSync(dirname)) {
-    fileNames = fs.readdirSync(dirname)
-    fileNames.forEach(file => {
-      pics.push({ image: file, width: 500 })
+    fs.readdir(dirname, (err, files) => {
+      if (err) return
+      else {
+        files.forEach(file => {
+          const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
+          pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
+        })
+        buildPDFReport(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
+      }
     })
+    console.log(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
+    buildPDFReport(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
   }
 
-  buildPDFReport(data["docID"], path, data["dataID"], pics, comments, data["date"])
 
-  return data["dataID"]
+  return { message: 'Sign-off Successful' }
 }
 
 const dataCreateSQL = async (dataObj) => {
@@ -98,7 +118,7 @@ const dataCreateSQL = async (dataObj) => {
   const client = await pool.connect()
 
   const docID = dataObj["form"]["id"]
-  
+
   let userCreated = JSON.stringify(dataObj['user'])
 
   if (dataObj['data']) {
@@ -112,7 +132,7 @@ const dataCreateSQL = async (dataObj) => {
     await client.query(`CREATE SEQUENCE IF NOT EXISTS id_seq`)
     await client.query(`CREATE TABLE IF NOT EXISTS "` + dataObj["form"]["form_id"] + `" (id int4 NOT NULL DEFAULT nextval('id_seq'::regclass), user_updated varchar, user_created jsonb, date_updated timestamp, date_created timestamp, pdf text, data jsonb, PRIMARY KEY (id))`)
   }
-  
+
   const newFormID = await client.query(`INSERT INTO "` + dataObj["form"]["form_id"] + `" (user_created, date_created, data) VALUES ('` + userCreated + `', '` + dataObj["date"] + `', '` + dataObj['data'] + `') RETURNING id`)
 
   const dataID = newFormID.rows[0].id
@@ -147,7 +167,6 @@ const dataCreateSQL = async (dataObj) => {
   }
   // const notifications = await client.query(`SELECT * FROM notifications WHERE id = $1`, [dataID])
 
-
   const formData = await client.query(`SELECT * FROM "` + dataObj["form"]["form_id"] + `" WHERE id = $1`, [dataID])
   const reportData = formData.rows[0]
 
@@ -161,14 +180,14 @@ const dataCreateSQL = async (dataObj) => {
     dataObj["pics"].forEach((element, index) => {
       let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
       const buffer = Buffer.from(base64Data, "base64")
-      fs.writeFile(path + '/' + index+'.jpeg', buffer, (err) => {
+      fs.writeFile(path + '/' + index + '.jpeg', buffer, (err) => {
         if (err) return err
       })
       pics.push({ image: element, width: 500 })
     })
 
     buildPDFReport(docID, path, reportData, messages, pics)
-  } 
+  }
   else buildPDFReport(docID, path, reportData, messages)
 
   client.release()
@@ -197,7 +216,6 @@ const dataUpdateSQL = async (dataObj) => {
 
   await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataJSON + `' WHERE id = ` + dataObj.data_id)
 
-  
   if (dataObj.data.correctiveAction && dataObj.data.correctiveAction.length > 0) {
     await client.query(`DELETE inspection WHERE data_id = '` + dataObj.data_id + `')`)
 
@@ -206,31 +224,25 @@ const dataUpdateSQL = async (dataObj) => {
     }
   }
 
+  let comment = await client.query('SELECT comment FROM notification WHERE data_id = $1', [dataObj.data_id])
+  let comments = comment.rows[0]["comment"]
+
   client.release()
   await pool.end()
 
-  const comments = [{
-    "date": dataObj.data.header.Date,
-    "message": "Updated by " + dataObj.data.header.Worker
-  }]
-// console.log(dataObj.data)
-//   console.log(`SELECT * FROM notifications WHERE data_id = $1`, [dataObj.data_id])
-
-//   const notifications = await client.query(`SELECT * FROM notifications WHERE data_id = $1`, [dataObj.data_id])
-// console.log(notifications)
-//   let messages = []
-//   if (notifications) {
-//     for (let j = 0; j < notifications.rows.length; j++) {
-//       let str = JSON.stringify(notifications[j])
-//       str = str.replace(/{/g, '')
-//       str = str.replace(/}/g, '')
-//       str = str.replace(/"/g, '')
-//       str = str.replace(/:/g, ': ')
-//       str = str.split(",").join("\n")
-//       messages.push(str)
-//     }
-//   }
-// console.log(messages)
+  let messages = []
+  if (comments !== null) {
+    for (let j = 0; j < comments.length; j++) {
+      let str = JSON.stringify(comments[j])
+      str = str.replace(/{/g, '')
+      str = str.replace(/}/g, '')
+      str = str.replace(/"/g, '')
+      str = str.replace(/:/g, ': ')
+      str = str.split(",").join("\n")
+      messages.push(str)
+    }
+  }
+  
   const path = docPath + dataObj.id + dataObj.data_id
 
   let pics = []
@@ -258,15 +270,13 @@ const dataUpdateSQL = async (dataObj) => {
     const dirname = path + '/'
     if (fs.existsSync(dirname)) {
       fs.readdir(dirname, (err, files) => {
-        console.log(files)
         if (err) return
         else {
           files.forEach(file => {
-            const contents = fs.readFileSync(path + '/' + file, {encoding: 'base64'})
+            const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
             pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
           })
-          console.log(docId)
-          buildPDFReport(docId, path, dataObj, comments, pics)
+          buildPDFReport(docId, path, dataObj, messages, pics)
         }
       })
     }
@@ -426,14 +436,14 @@ const dataSyncSQL = async (dataArray) => {
     dataObj["pics"].forEach((element, index) => {
       let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
       const buffer = Buffer.from(base64Data, "base64")
-      fs.writeFile(path + '/' + index+'.jpeg', buffer, (err) => {
+      fs.writeFile(path + '/' + index + '.jpeg', buffer, (err) => {
         if (err) return err
       })
       pics.push({ image: element, width: 500 })
     })
 
     buildPDFReport(docID, path, reportData, comments, pics)
-  } 
+  }
   else buildPDFReport(docID, path, reportData, comments)
 
   client.release()

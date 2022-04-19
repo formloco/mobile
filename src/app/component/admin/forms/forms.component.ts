@@ -60,7 +60,7 @@ export class FormsComponent {
     if (!form.type) this.errorService.popSnackbar('Form is not Configured')
     else if (form.type === 'custom') {
       const tenant = this.store.selectSnapshot(AuthState.tenant)
-      formObjClone["user_created"] = { email: tenant.email, date_created: new Date() }
+      formObjClone["user_created"] = { email: tenant.email, date_created: this.appService.now }
 
       // forms are taken from local json and registered to the database
       this.formService.registerForm(formObjClone).subscribe(_ => {
@@ -87,7 +87,7 @@ export class FormsComponent {
   publish(formObj, event) {
     let formObjClone = _.cloneDeep(formObj)
 
-    const accessDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    const accessDate = this.appService.now
     formObjClone['is_published'] = event.checked
     formObjClone['date_last_access'] = accessDate
 
@@ -110,7 +110,7 @@ export class FormsComponent {
   setPermission(formObj, event) {
     let formObjClone = _.cloneDeep(formObj)
 
-    const accessDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    const accessDate = this.appService.now
     formObjClone['is_manager'] = event.checked
     formObjClone['date_last_access'] = accessDate
 
@@ -126,7 +126,7 @@ export class FormsComponent {
 
   archive(formObj) {
     let formObjClone = _.cloneDeep(formObj)
-    formObjClone['date_archived'] = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+    formObjClone['date_archived'] = this.appService.now
     formObjClone['user_archived'] = this.store.selectSnapshot(AuthState.user)
     formObjClone['is_deployed'] = false
 
