@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core'
+import { Component, Inject } from '@angular/core'
 
 import { Observable } from 'rxjs'
 
@@ -7,10 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 import { AppService } from "../../../service/app.service"
 import { ApiService } from '../../../service/api.service'
-import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
 import { Store, Select } from '@ngxs/store'
-import { SetSelectedForm } from '../../../state/auth/auth-state.actions'
 import { SetPage, SetChildPageLabel } from '../../../state/auth/auth-state.actions'
 
 import { environment } from '../../../../environments/environment'
@@ -25,7 +23,7 @@ import { NotificationState } from '../../../state/notification/notification.stat
   styleUrls: ['./notification-action.component.scss']
 })
 
-export class NotificationActionComponent implements OnInit{
+export class NotificationActionComponent {
 
   @Select(DeviceState.pics) pics$: Observable<[]>
 
@@ -37,20 +35,9 @@ export class NotificationActionComponent implements OnInit{
     public appService: AppService,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
-    private idbCrudService: IdbCrudService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NotificationActionComponent>
   ) { }
-
-  ngOnInit() {
-    console.log(this.data)
-    // const notification = this.store.selectSnapshot(NotificationState.notification)
-
-    // this.idbCrudService.readAll('form').subscribe((forms:any) => {
-    //   const form = forms.find(f => f.form_id == notification.form_id)
-    //   this.store.dispatch(new SetSelectedForm(form))
-    // })
-  }
 
   openPdf() {
     this.apiService.getPDF(this.data.notification.pdf)

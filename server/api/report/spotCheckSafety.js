@@ -49,7 +49,6 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       data[rec[0]+'S'] = ''
     }
     else {
-      console.log(rec[1])
       data[rec[0]] = rec[1]
     }
   })

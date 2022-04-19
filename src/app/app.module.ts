@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 
 import { IonicModule } from '@ionic/angular'
-import { AgmCoreModule } from '@agm/core'
 
 import { environment } from '../environments/environment'
 
@@ -77,7 +76,6 @@ import { DetailComponent } from './component/forms/vehicle-inspection/detail/det
 import { HeaderComponent } from './component/forms/vehicle-inspection/header/header.component'
 import { VehicleInspectionComponent } from './component/forms/vehicle-inspection/vehicle-inspection.component'
 import { DetailCommentsComponent } from './component/forms/vehicle-inspection/detail-comments/detail-comments.component'
-import { ActionVehicleInspectionComponent } from './component/forms/vehicle-inspection/action-vehicle-inspection/action-vehicle-inspection.component'
 
 // worksite-safety-inspection
 import { WorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/worksite-safety-inspection.component'
@@ -91,7 +89,6 @@ import { WorksiteFireExtinguisherComponent } from './component/forms/worksite-sa
 import { WorksiteSafetyConfinedSpaceComponent } from './component/forms/worksite-safety-inspection/worksite-safety-confined-space/worksite-safety-confined-space.component'
 import { WorksiteSafetyHotWorkComponent } from './component/forms/worksite-safety-inspection/worksite-safety-hot-work/worksite-safety-hot-work.component'
 import { BottomSheetWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/bottom-sheet-worksite-safety-inspection/bottom-sheet-worksite-safety-inspection.component'
-import { ActionWorksiteSafetyInspectionComponent } from './component/forms/worksite-safety-inspection/action-worksite-safety-inspection/action-worksite-safety-inspection.component'
 import { WorksiteKeyPositiveFindingComponent } from './component/forms/worksite-safety-inspection/worksite-key-positive-finding/worksite-key-positive-finding.component'
 
 //spot check safety
@@ -104,7 +101,6 @@ import { PersonalProtectiveEquipmentComponent } from './component/forms/spot-che
 import { SafetyEquipmentComponent } from './component/forms/spot-check-safety/safety-equipment/safety-equipment.component'
 import { CorrectiveActionsComponent } from './component/forms/spot-check-safety/corrective-actions/corrective-actions.component'
 import { SpotCheckSafetyHeaderComponent } from './component/forms/spot-check-safety/spot-check-safety-header/spot-check-safety-header.component'
-import { ActionSpotCheckSafetyComponent } from './component/forms/spot-check-safety/action-spot-check-safety/action-spot-check-safety.component'
 
 // json rendering components
 import { RunComponent } from './component/run/run.component'
@@ -144,7 +140,6 @@ import { LabelComponent } from './component/admin/label/label.component'
 import { MeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour.component'
 import { MeaningfulSiteTourHeaderComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-header/meaningful-site-tour-header.component'
 import { MeaningfulSiteTourNotesComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-notes/meaningful-site-tour-notes.component'
-import { ActionMeaningfulSiteTourComponent } from './component/forms/meaningful-site-tour/action-meaningful-site-tour/action-meaningful-site-tour.component'
 import { MeaningfulSiteTourSuggestionsComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-suggestions/meaningful-site-tour-suggestions.component'
 import { MeaningfulSiteTourTodoComponent } from './component/forms/meaningful-site-tour/meaningful-site-tour-todo/meaningful-site-tour-todo.component'
 
@@ -202,7 +197,6 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     NotificationOpenComponent,
     NotificationSignedComponent,
     NotificationActionComponent,
-    ActionVehicleInspectionComponent,
     ResetPasswordComponent,
     LayoutComponent,
     SendPasswordComponent,
@@ -235,9 +229,6 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     SafetyEquipmentComponent,
     CorrectiveActionsComponent,
     SpotCheckSafetyHeaderComponent,
-    ActionMeaningfulSiteTourComponent,
-    ActionSpotCheckSafetyComponent,
-    ActionWorksiteSafetyInspectionComponent,
     BottomSheetWorksiteSafetyInspectionComponent,
     BottomSheetCommentComponent,
     CorrectiveActionComponent,
@@ -268,9 +259,6 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     NgxQRCodeModule,
     PipeModule,
     WebcamModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDEK9wfZGXuXO0B4_6itSKnFgh__N0AYcw'
-    }),
     IonicModule.forRoot(),
     NgxsModule.forRoot(States, { developmentMode: !environment.production }),
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -278,15 +266,13 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    }),
-    // NgxPayPalModule
+    })
   ],
   entryComponents: [
     VoiceComponent,
     ListEditComponent,
     EmailEditComponent,
-    DetailCommentsComponent,
-    // WorksiteSafetyDiscrepancyComponent
+    DetailCommentsComponent
   ],
   providers: [
     
