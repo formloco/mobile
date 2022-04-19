@@ -35,7 +35,7 @@ export enum Formloco {
   emailUrl = 'https://api.formloco.com/email/',
   assetUrl = 'https://api.formloco.com/asset/',
   messageUrl = 'https://mobile.formloco.com/message/',
-  notificationUrl = 'https://api.formloco.com/notification/',
+  notificationUrl = 'https://api.formloco.com/',
   signinUrl = 'https://mobile.formloco.com/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl = 'https://mobile.formloco.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
@@ -56,7 +56,7 @@ export enum Summit {
   emailUrl = 'https://forms.summitearth.com/email/',
   assetUrl = 'https://forms.summitearth.com/asset/',
   messageUrl = 'https://forms.summitearth.com/message/',
-  notificationUrl = 'https://forms.summitearth.com/notification/',
+  notificationUrl = 'https://forms.summitearth.com/',
   signinUrl = 'https://forms.summitearth.com/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl = 'https://forms.summitearth.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
@@ -79,7 +79,7 @@ export enum Rumzer {
   formUrl = 'https://api.formloco.com/form/',
   emailUrl = 'https://api.formloco.com/email/',
   assetUrl = 'https://api.formloco.com/asset/',
-  notificationUrl = 'https://api.formloco.com/notification/',
+  notificationUrl = 'https://api.formloco.com/',
   messageUrl = 'https://mobile.formloco.com/message/',
   signinUrl = 'https://mobile.formloco.com/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl = 'https://mobile.formloco.com/O451fd2702f54a00b1007f6e80b32e45/'
