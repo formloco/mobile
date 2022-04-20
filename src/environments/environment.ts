@@ -5,7 +5,12 @@ import { Formloco } from '../app/state/app.state'
 
 export const environment = {
   production: false,
-  kioske: false,
+
+  kioske: true,
+  designUrl: 'http://localhost:4201/kioske/true',
+
+  // kioske: false,
+  // designUrl: 'http://localhost:4201',
   
   homeUrl: 'http://localhost:4200',
   // designUrl: 'http://localhost:4201',
@@ -20,9 +25,10 @@ export const environment = {
   signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
   messageUrl: 'http://localhost:4200/message/',
+  
 
   // design is an external app
-  designUrl: Formloco.designUrl,
+  // designUrl: Formloco.designUrl,
 
   // kioske links
   linkedinUrl: Formloco.linkedinUrl,
