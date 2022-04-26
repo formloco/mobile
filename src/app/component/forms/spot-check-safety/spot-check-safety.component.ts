@@ -54,7 +54,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   correctiveActionForm: FormGroup
   discrepancyForm: FormGroup
 
-  messageUrl = environment.messageUrl
+  // messageUrl = environment.messageUrl
 
   SPOT_CHECK_SAFETY = SPOT_CHECK_SAFETY
 

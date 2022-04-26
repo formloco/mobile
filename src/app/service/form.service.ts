@@ -100,7 +100,7 @@ export class FormService {
     else {
       const obj = {
         id: form["id"],
-        data: data,
+        data: JSON.stringify(data),
         user: userUpdated,
         data_id: formData["id"],
         form_id: form["form_id"],
@@ -109,6 +109,7 @@ export class FormService {
       }
 
       this.apiService.update(obj).subscribe((res) => {
+        console.log(res)
         this.store.dispatch(new SetPage('notification'))
         this.store.dispatch(new SetChildPageLabel('Forms'))
         this.snackBar.open(res["data"].message, 'Success', {

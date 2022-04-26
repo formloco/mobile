@@ -296,6 +296,7 @@ export class AppService {
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
         const obj = {
+          tenant: this.store.selectSnapshot(AuthState.tenant),
           toName: notificationObj.supervisor.name,
           messageID: myNotifications.data[0]["id"],
           url: this.messageUrl,

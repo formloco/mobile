@@ -6,7 +6,7 @@ const router = express.Router()
  
 router.post('/email/forgot/password/', forgotPassword)
 
-router.post('/email/message/', VerifyToken, notification)
+router.post('/email/notification/', VerifyToken, notification)
 
 router.post('/email/verify/', VerifyToken, verifyEmail)
 

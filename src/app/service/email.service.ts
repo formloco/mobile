@@ -14,7 +14,7 @@ export class EmailService {
   constructor(private http: HttpClient) { }
 
   sendNotificationEmail(obj) {
-    return this.http.post(this.emailUrl + 'message/', obj)
+    return this.http.post(this.emailUrl + 'notification/', obj)
   }
 
   forgotPassword(obj) {

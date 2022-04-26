@@ -10,15 +10,20 @@ const fonts = {
 const PdfPrinter = require('pdfmake')
 const printer = new PdfPrinter(fonts)
 const fs = require('fs')
+const { ConsoleReporter } = require('jasmine')
 
 async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate) {
+console.log('here',reportData)
 
-  let dateSigned = 'To be determined'
-  if (signDate) dateSigned = signDate
+  let dateSigned = ''
+  // let dateSigned = 'To be determined'
+  if (signDate !== undefined) { dateSigned = signDate} 
+  else { dateSigned = 'To be determined' }
+  // console.log('ll', dateSigned)
 
-  let header = reportData.data.header
-  let todo = reportData.data.todo
-  let notes = reportData.data.notes
+  let header = reportData.header
+  let todo = reportData.todo
+  let notes = reportData.notes
 
   SiteOrientation = todo.SiteOrientation ? '√ Site Orientation Complete' : 'Site Orientation Complete'
   DailySafetyMeeting = todo.DailySafetyMeeting ? '√ Attend a Daily Safety Meeting / Toolbox Talk' : '  Attend a Daily Safety Meeting / Toolbox Talk'

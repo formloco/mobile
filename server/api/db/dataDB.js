@@ -48,6 +48,7 @@ const formReadSQL = async (tenant_id, form_id, data_id) => {
 }
 
 const formSignSQL = async (dataObj) => {
+
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
@@ -83,12 +84,11 @@ const formSignSQL = async (dataObj) => {
   client.release()
   await pool.end()
 
-  const path = docPath + dataObj["docID"]
+  const path = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '/'
 
   let pics = []
 
-  const dirname = path + '/'
-  if (fs.existsSync(dirname)) {
+  if (fs.existsSync(path)) {
     fs.readdir(dirname, (err, files) => {
       if (err) return
       else {
@@ -96,15 +96,20 @@ const formSignSQL = async (dataObj) => {
           const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
           pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
         })
-        buildPDFReport(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
+        fs.unlink(path + '.pdf', (err) => {
+          if (err) return { message: 'Sign-off Unsuccessful' }
+          buildPDFReport(dataObj["docID"], path, reportData, messages, pics, dataObj["date"])
+          return { message: 'Sign-off Successful' }
+        })
       }
     })
-    console.log(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
-    buildPDFReport(formOb["docID"], path, reportData, comments, pics, dataObj["date"])
   }
+  fs.unlink(path + '.pdf', (err) => {
+    if (err) return { message: 'Sign-off Unsuccessful' }
+    buildPDFReport(dataObj["docID"], path, reportData, messages, pics, dataObj["date"])
+    return { message: 'Sign-off Successful' }
+  })
 
-
-  return { message: 'Sign-off Successful' }
 }
 
 const dataCreateSQL = async (dataObj) => {
@@ -165,10 +170,6 @@ const dataCreateSQL = async (dataObj) => {
       messages.push(str)
     }
   }
-  // const notifications = await client.query(`SELECT * FROM notifications WHERE id = $1`, [dataID])
-
-  const formData = await client.query(`SELECT * FROM "` + dataObj["form"]["form_id"] + `" WHERE id = $1`, [dataID])
-  const reportData = formData.rows[0]
 
   // store base64 for update to document later
   if (dataObj["pics"].length > 0) {
@@ -186,9 +187,9 @@ const dataCreateSQL = async (dataObj) => {
       pics.push({ image: element, width: 500 })
     })
 
-    buildPDFReport(docID, path, reportData, messages, pics)
+    buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages, pics)
   }
-  else buildPDFReport(docID, path, reportData, messages)
+  else buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages)
 
   client.release()
   await pool.end()
@@ -211,10 +212,12 @@ const dataUpdateSQL = async (dataObj) => {
     return { message: 'Nothing to Update' }
 
   const docId = dataObj.id
-  let dataJSON = JSON.stringify(dataObj.data)
-  dataJSON = dataJSON.replace(/'/g, "''") // escape single quote
+  if (dataObj['data']) {
+    // escape speech data is needed for insert into json obj
+    dataObj['data'] = dataObj['data'].replace(/'/g, "''")
+  }
 
-  await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataJSON + `' WHERE id = ` + dataObj.data_id)
+  await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataObj['data'] + `' WHERE id = ` + dataObj.data_id)
 
   if (dataObj.data.correctiveAction && dataObj.data.correctiveAction.length > 0) {
     await client.query(`DELETE inspection WHERE data_id = '` + dataObj.data_id + `')`)
@@ -242,33 +245,34 @@ const dataUpdateSQL = async (dataObj) => {
       messages.push(str)
     }
   }
-  
+
   const path = docPath + dataObj.id + dataObj.data_id
 
   let pics = []
-  fs.readdir(path, (err, files) => {
-    if (err) return;
-    let count = files.length + 1
+  const dirname = path + '/'
 
-    // store base64 for update to document later
-    if (dataObj.pics.length > 0) {
-      fs.mkdir(path, (err) => {
-        if (err) return
-      })
+  if (fs.existsSync(dirname)) {
+    fs.readdir(path, (err, files) => {
+      if (err) return;
+      let count = files.length + 1
 
-      dataObj.pics.forEach((element) => {
-        let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
-        const buffer = Buffer.from(base64Data, "base64")
-        fs.writeFile(path + '/' + count + '.jpeg', buffer, (err) => {
+      // store base64 for update to document later
+      if (dataObj.pics.length > 0) {
+        fs.mkdir(path, (err) => {
           if (err) return
         })
-        count = count + 1
-      })
-    }
 
-    fileNames = []
-    const dirname = path + '/'
-    if (fs.existsSync(dirname)) {
+        dataObj.pics.forEach((element) => {
+          let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
+          const buffer = Buffer.from(base64Data, "base64")
+          fs.writeFile(path + '/' + count + '.jpeg', buffer, (err) => {
+            if (err) return
+          })
+          count = count + 1
+        })
+      }
+
+      fileNames = []
       fs.readdir(dirname, (err, files) => {
         if (err) return
         else {
@@ -276,13 +280,25 @@ const dataUpdateSQL = async (dataObj) => {
             const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
             pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
           })
-          buildPDFReport(docId, path, dataObj, messages, pics)
+          fs.unlink(path, (err) => {
+            if (err) {
+              return
+            }
+            console.log(dataObj)
+            buildPDFReport(docId, path, JSON.parse(dataObj.data), messages, pics)
+            return { message: 'Report Update Successful' }
+          })
         }
       })
-    }
-  })
-
-  return { message: 'Report Update Successful' }
+    })
+  }
+  else {
+    fs.unlink(path + '.pdf', (err) => {
+      if (err) return { message: 'Report Update Unsuccessful' }
+      buildPDFReport(docId, path, JSON.parse(dataObj.data), messages, pics)
+      return { message: 'Report Update Successful' }
+    })
+  }
 }
 
 // deletes list item

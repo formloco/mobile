@@ -12,8 +12,6 @@ import { AutoCompleteService } from "../../../service/auto-complete.service"
 
 import { MEANINGFUL_SITE_TOUR } from './state/meaningful-site-tour.model'
 
-import { environment } from '../../../../environments/environment'
-
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
@@ -37,8 +35,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
   headerForm: FormGroup
   notesForm: FormGroup
   todoForm: FormGroup
-
-  messageUrl = environment.messageUrl
 
   MEANINGFUL_SITE_TOUR = MEANINGFUL_SITE_TOUR
 
@@ -166,8 +162,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
     
-    // const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
-
     let userCreated = {
       email: user.email,
       date_created: this.appService.now
@@ -211,6 +205,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
       this.idbCrudService.put('data', obj)
     }
     else {
+      console.log(obj)
       this.apiService.save(obj).subscribe(idObj => {
         this.formDataID = idObj
 

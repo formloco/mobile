@@ -3,11 +3,11 @@ import { Formloco, Summit, Rumzer } from '../app/state/app.state'
 export const environment = {
   production: true,
   
-  kioske: true,
-  designUrl: Formloco.designKioskeUrl,
+  // kioske: true,
+  // designUrl: Formloco.designKioskeUrl,
 
-  // kioske: false,
-  // designUrl: Formloco.designUrl,
+  kioske: false,
+  designUrl: Formloco.designUrl,
 
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
