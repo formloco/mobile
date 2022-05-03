@@ -109,7 +109,6 @@ export class FormService {
       }
 
       this.apiService.update(obj).subscribe((res) => {
-        console.log(res)
         this.store.dispatch(new SetPage('notification'))
         this.store.dispatch(new SetChildPageLabel('Forms'))
         this.snackBar.open(res["message"], 'Success', {

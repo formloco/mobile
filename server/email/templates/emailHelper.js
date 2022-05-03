@@ -1,5 +1,5 @@
 module.exports = function getTemplate(tenant) {
-console.log(tenant)
+
   if (tenant.tenant_id == 'formloco') {
     const EMAIL_TEMPLATE = require('./formloco')
     return EMAIL_TEMPLATE

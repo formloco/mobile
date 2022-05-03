@@ -59,7 +59,6 @@ export class SyncService {
             localStorage.setItem('formToken', token.token)
           })
         this.store.dispatch(new SetIsOnline(status))
-        console.log('status', status)
         // this.networkStatus = status
       })
   }
