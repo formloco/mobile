@@ -18,14 +18,14 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
-  let header = reportData.data.header
-  let hazard = reportData.data.hazard
-  let rules = reportData.data.rules
-  let incident = reportData.data.incident
-  let communication = reportData.data.communication
-  let personalEquipment = reportData.data.personalEquipment
-  let safetyEquipment = reportData.data.safetyEquipment
-  let correctiveAction = reportData.data.correctiveAction
+  let header = reportData.header
+  let hazard = reportData.hazard
+  let rules = reportData.rules
+  let incident = reportData.incident
+  let communication = reportData.communication
+  let personalEquipment = reportData.personalEquipment
+  let safetyEquipment = reportData.safetyEquipment
+  let correctiveAction = reportData.correctiveAction
 
   let data = {}
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction)

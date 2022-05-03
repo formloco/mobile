@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 const routes = require('./routes')
 const loadConfig = require('../config')
+
 loadConfig()
 
 app.use(express.json({limit: '500mb'}))

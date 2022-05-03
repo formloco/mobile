@@ -335,6 +335,7 @@ export class VehicleInspectionComponent implements OnInit {
           pdf: 'vehicle-inspection' + this.formDataID
         }
         this.appService.sendNotification(notificationObj)
+        this.resetForm()
       }
     })
   }

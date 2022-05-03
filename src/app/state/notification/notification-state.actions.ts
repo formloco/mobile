@@ -45,5 +45,10 @@ export class SetNotificationIdx {
   constructor(public notificationIdx: number) {}
 }
 
+export class SetNotificationComments {
+  static type = '[Notification] SetNotificationComments'
+  constructor(public notificationComments: any[]) {}
+}
+
 
 

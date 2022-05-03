@@ -8,6 +8,7 @@ export interface NotificationStateModel {
   notificationAdminCount?: number
   notificationTab?: number
   notificationIdx?: number
+  notificationComments?: any[]
 }
 export interface NotificationModel {
   id?: number

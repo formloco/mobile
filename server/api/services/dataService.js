@@ -41,6 +41,7 @@ const dataCreate = async(data) => {
 const dataUpdate = async(data) => {
   try {
     let res = await dataUpdateSQL(data)
+    console.log('got here',res)
     return res
   } catch(e) {
     throw new Error(e.message)

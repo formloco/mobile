@@ -20,8 +20,8 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   if (signDate) dateSigned = signDate
 
 
-  let header = reportData.data.header
-  let detail = reportData.data.detail
+  let header = reportData.header
+  let detail = reportData.detail
 
   // let inspectionArray = []
   // let inspections = 'No Inspection Data'

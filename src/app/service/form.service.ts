@@ -112,7 +112,7 @@ export class FormService {
         console.log(res)
         this.store.dispatch(new SetPage('notification'))
         this.store.dispatch(new SetChildPageLabel('Forms'))
-        this.snackBar.open(res["data"].message, 'Success', {
+        this.snackBar.open(res["message"], 'Success', {
           duration: 3000,
           verticalPosition: 'bottom'
         })

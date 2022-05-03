@@ -159,6 +159,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
+    console.log(data)
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
@@ -341,6 +342,7 @@ export class SpotCheckSafetyComponent implements OnInit {
             pdf: 'spot-check-safety' + this.formDataID
           }
           this.appService.sendNotification(notificationObj)
+          this.resetForm()
         }
       })
     }

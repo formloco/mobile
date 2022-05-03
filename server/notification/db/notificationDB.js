@@ -125,7 +125,8 @@ const updateNotificationSQL = async (data) => {
   const obj = {
     toName: toRow.rows[0]["name"],
     notificationID: notificationID.rows[0].id,
-    notifications: myNotifications.rows
+    notifications: myNotifications.rows,
+    comments: messages
   }
 
   await pool.end()

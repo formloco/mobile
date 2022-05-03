@@ -7,7 +7,7 @@
         <div>{{notification.description}}</div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="form-padding" *ngFor="let comment of notification.comment">
+    <div class="form-padding" *ngFor="let comment of (notificationComments$ | async)">
       <mat-card class="custom hand">
         <b>{{comment.from}} - {{comment.date | date: 'short'}}</b>
         <br>{{comment.message}}

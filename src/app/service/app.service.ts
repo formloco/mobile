@@ -315,15 +315,6 @@ export class AppService {
         })
       }
     })
-    this.idbCrudService.put('pics', [])
-    // const pics = this.store.selectSnapshot(DeviceState.pics)
-    // const selectedForm = this.store.selectSnapshot(AuthState.selectedForm)
-
-    // const picObj = {
-    //   id: selectedForm["id"] + notificationObj.data_id,
-    //   pics: pics
-    // }
-    // this.idbCrudService.put('pics', picObj)
   }
 
 }

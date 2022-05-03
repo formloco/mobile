@@ -22,17 +22,17 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
-  let header = reportData.data.header
-  let hazard = reportData.data.hazard
-  let jobsite = reportData.data.jobsite
-  let fireExtinguisher = reportData.data.fireExtinguisher
-  let erpPlanning = reportData.data.erpPlanning
-  let ground = reportData.data.ground
-  let equipment = reportData.data.equipment
-  let confinedSpace = reportData.data.confinedSpace
-  let hotWork = reportData.data.hotWork
-  let correctiveActions = reportData.data.correctiveActions
-  let comments = reportData.data.comments
+  let header = reportData.header
+  let hazard = reportData.hazard
+  let jobsite = reportData.jobsite
+  let fireExtinguisher = reportData.fireExtinguisher
+  let erpPlanning = reportData.erpPlanning
+  let ground = reportData.ground
+  let equipment = reportData.equipment
+  let confinedSpace = reportData.confinedSpace
+  let hotWork = reportData.hotWork
+  let correctiveActions = reportData.correctiveActions
+  let comments = reportData.comments
 
   const formObj = Object.assign(hazard, jobsite, fireExtinguisher, erpPlanning, ground, equipment, confinedSpace, hotWork);
 

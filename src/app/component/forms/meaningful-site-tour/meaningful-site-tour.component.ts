@@ -205,7 +205,6 @@ export class MeaningfulSiteTourComponent implements OnInit {
       this.idbCrudService.put('data', obj)
     }
     else {
-      console.log(obj)
       this.apiService.save(obj).subscribe(idObj => {
         this.formDataID = idObj
 
@@ -233,6 +232,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
             pdf: 'meaningful-site-tour' + this.formDataID
           }
           this.appService.sendNotification(notificationObj)
+          this.resetForm()
         }
       })
     }

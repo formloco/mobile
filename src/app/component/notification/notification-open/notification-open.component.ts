@@ -22,10 +22,13 @@ import { NotificationService } from "../../../service/notification.service"
 
 import { AuthState } from "../../../state/auth/auth.state"
 import { SetPics } from '../../../state/device/device-state.actions'
+import { SetComments } from '../../comment/state/comment.actions'
 import { SetSelectedForm, SetPage, SetFormData, SetChildPage } from '../../../state/auth/auth-state.actions'
 import { NotificationState } from '../../../state/notification/notification.state'
-import { SetNotification, SetNotificationIdx } from '../../../state/notification/notification-state.actions'
+import { SetNotification, SetNotificationIdx, SetNotificationComments } from '../../../state/notification/notification-state.actions'
 import { SetIsWorksiteSafetyHeaderValid } from '../../forms/worksite-safety-inspection/state/worksite-safety-inspection-state.actions'
+import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions'
+
 
 import { PicsComponent } from '../../pics/pics.component'
 import { CameraComponent } from '../../camera/camera.component'
@@ -41,6 +44,8 @@ export class NotificationOpenComponent implements OnInit {
 
   @Select(NotificationState.notificationOpen) notificationOpen$: Observable<string>
   @Select(NotificationState.notificationIdx) notificationIdx$: Observable<number>
+  @Select(NotificationState.notificationComments) notificationComments$: Observable<any[]>
+
   @Select(AuthState.kioske) kioske$: Observable<boolean>
 
   kioske = environment.kioske
@@ -100,6 +105,8 @@ export class NotificationOpenComponent implements OnInit {
         verticalPosition: 'bottom'
       })
 
+      this.store.dispatch(new SetNotificationComments(response.data.comments))
+
       const obj = {
         toName: response.data.toName,
         messageID: response.data.notificationID,
@@ -108,7 +115,7 @@ export class NotificationOpenComponent implements OnInit {
         emailTo: notification.email_from,
         emailFrom: user.email
       }
-      this.emailService.sendNotificationEmail(obj).subscribe(() => { })
+      this.emailService.sendNotificationEmail(obj).subscribe(_ => { })
     })
   }
 
@@ -125,12 +132,7 @@ export class NotificationOpenComponent implements OnInit {
     this.idbCrudService.readAll('form').subscribe((forms: any) => {
       const form = forms.find(f => f.form_id == notification.form_id)
       this.store.dispatch(new SetSelectedForm(form))
-      // this.idbCrudService.readAll('pics').subscribe((pics:any) => {
-      //   if (pics[0].length > 0) {
-      //     this.picArray = pics[0].find(p => p.id == notification.pdf)
-      //     this.store.dispatch(new SetPics(this.picArray["pics"]))
-      //   }
-      // })
+      this.store.dispatch(new SetNotificationComments(notification.comment))
     })
   }
 
@@ -157,6 +159,8 @@ export class NotificationOpenComponent implements OnInit {
   }
 
   openForm(notification, idx) {
+    this.store.dispatch(new SetComments([]))
+    this.store.dispatch(new SetCorrectiveActions([]))
     this.store.dispatch(new SetNotification(notification))
     this.store.dispatch(new SetNotificationIdx(idx))
     const page = this.store.selectSnapshot(AuthState.page)

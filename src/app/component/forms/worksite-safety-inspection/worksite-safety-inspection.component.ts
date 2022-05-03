@@ -436,6 +436,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             pdf: 'worksite-safety-inspection' + this.formDataID
           }
           this.appService.sendNotification(notificationObj)
+          this.resetForm()
         }
       })
     }

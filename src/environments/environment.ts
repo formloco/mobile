@@ -21,7 +21,7 @@ export const environment = {
   // formUrl: 'http://localhost:9002/form/',
   emailUrl: 'http://localhost:9003/email/',
   // assetUrl: 'http://localhost:9005/asset/',
-  // notificationUrl: 'http://localhost:9004/',
+  notificationUrl: 'http://localhost:9004/',
 
   // router re-directs, message comes from email link
   signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
@@ -37,7 +37,7 @@ export const environment = {
   formUrl: Formloco.formUrl,
   // emailUrl: Formloco.emailUrl,
   assetUrl: Formloco.assetUrl,
-  notificationUrl: Formloco.notificationUrl,
+  // notificationUrl: Formloco.notificationUrl,
   messageUrl: 'http://localhost:4200/message/',
   
   tenant: { email: Formloco.email, tenant_id: Formloco.tenant },

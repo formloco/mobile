@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { Pool } = require('pg')
 
-const buildPDFReport = require('../report/reportHelper')
+const { buildPDFReport, deletePdf, readDir, escapeSingleQuote } = require('../report/reportHelpers')
 
 let currentPath = process.cwd().slice(0, -3)
 let docPath = currentPath + 'files/'
@@ -60,23 +60,10 @@ const formSignSQL = async (dataObj) => {
 
   await client.query('UPDATE notification SET date_signed = $1, signed = true, email_signed = $2, signed_name = $3 WHERE id = $4', [dataObj["date"], dataObj["email"], dataObj["name"], dataObj["notification"]["id"]])
 
-  let messages = []
-  if (dataObj["notification"]["comment"]) {
-    for (let j = 0; j < dataObj["notification"]["comment"].length; j++) {
-      let str = JSON.stringify(dataObj["notification"]["comment"][j])
-      str = str.replace(/{/g, '')
-      str = str.replace(/}/g, '')
-      str = str.replace(/"/g, '')
-      str = str.replace(/:/g, ': ')
-      str = str.split(",").join("\n")
-      messages.push(str)
-    }
-  }
-
   let formData = await client.query(`SELECT * FROM "` + dataObj["form_id"] + `" WHERE id = $1`, [dataObj["notification"]["data_id"]])
   formData.rows[0].data["SignoffDate"] = dataObj["date"]
 
-  const reportData = formData.rows[0]
+  const reportData = formData.rows[0].data
   let dataJSON = JSON.stringify(reportData)
 
   await client.query(`UPDATE "` + dataObj.form_id + `" SET date_updated = '` + dataObj.date + `', data = '` + dataJSON + `' WHERE id = ` + dataObj["notification"]["data_id"])
@@ -84,31 +71,15 @@ const formSignSQL = async (dataObj) => {
   client.release()
   await pool.end()
 
-  const path = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '/'
+  const path = docPath + dataObj["docID"] + dataObj["notification"]["data_id"]
+  const dirPath = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '/'
+  const pdfFile = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '.pdf'
 
-  let pics = []
-
-  if (fs.existsSync(path)) {
-    fs.readdir(dirname, (err, files) => {
-      if (err) return
-      else {
-        files.forEach(file => {
-          const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
-          pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
-        })
-        fs.unlink(path + '.pdf', (err) => {
-          if (err) return { message: 'Sign-off Unsuccessful' }
-          buildPDFReport(dataObj["docID"], path, reportData, messages, pics, dataObj["date"])
-          return { message: 'Sign-off Successful' }
-        })
-      }
-    })
-  }
-  fs.unlink(path + '.pdf', (err) => {
-    if (err) return { message: 'Sign-off Unsuccessful' }
-    buildPDFReport(dataObj["docID"], path, reportData, messages, pics, dataObj["date"])
-    return { message: 'Sign-off Successful' }
-  })
+  const pics = await readDir(dirPath)
+  const messages = await escapeSingleQuote(dataObj)
+  
+  deletePdf(pdfFile)
+  buildPDFReport(dataObj["docID"], path, reportData, messages, pics, dataObj["date"])
 
 }
 
@@ -170,14 +141,14 @@ const dataCreateSQL = async (dataObj) => {
       messages.push(str)
     }
   }
-
+  
   // store base64 for update to document later
+  fs.mkdir(docPath + docID + dataID, (err) => {
+    if (err) return err
+  })
+  
   if (dataObj["pics"].length > 0) {
     let pics = []
-    fs.mkdir(docPath + docID + dataID, (err) => {
-      if (err) return err
-    })
-
     dataObj["pics"].forEach((element, index) => {
       let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
       const buffer = Buffer.from(base64Data, "base64")
@@ -186,10 +157,12 @@ const dataCreateSQL = async (dataObj) => {
       })
       pics.push({ image: element, width: 500 })
     })
-
     buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages, pics)
   }
-  else buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages)
+  else {
+    console.log(docID, path, JSON.parse(dataObj["data"]), messages)
+    buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages)
+  }
 
   client.release()
   await pool.end()
@@ -246,59 +219,47 @@ const dataUpdateSQL = async (dataObj) => {
     }
   }
 
+  let pics = []
   const path = docPath + dataObj.id + dataObj.data_id
 
-  let pics = []
-  const dirname = path + '/'
+  fs.readdir(path + '/', (err, files) => {
+    if (err) return;
+    let count = files.length + 1
 
-  if (fs.existsSync(dirname)) {
-    fs.readdir(path, (err, files) => {
-      if (err) return;
-      let count = files.length + 1
-
-      // store base64 for update to document later
-      if (dataObj.pics.length > 0) {
-        fs.mkdir(path, (err) => {
+    // store base64 for update to document later
+    if (dataObj.pics.length > 0) {
+      dataObj.pics.forEach((element) => {
+        let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
+        const buffer = Buffer.from(base64Data, "base64")
+        fs.writeFile(path + '/' + count + '.jpeg', buffer, (err) => {
           if (err) return
         })
-
-        dataObj.pics.forEach((element) => {
-          let base64Data = `"` + element.replace(/^data:image\/jpeg;base64,/, "")
-          const buffer = Buffer.from(base64Data, "base64")
-          fs.writeFile(path + '/' + count + '.jpeg', buffer, (err) => {
-            if (err) return
-          })
-          count = count + 1
-        })
-      }
+        count = count + 1
+      })
 
       fileNames = []
-      fs.readdir(dirname, (err, files) => {
+      fs.readdir(path + '/', (err, files) => {
         if (err) return
         else {
           files.forEach(file => {
             const contents = fs.readFileSync(path + '/' + file, { encoding: 'base64' })
             pics.push({ image: 'data:image/jpeg;base64,' + contents, width: 500 })
           })
-          fs.unlink(path, (err) => {
-            if (err) {
-              return
-            }
-            console.log(dataObj)
+          fs.unlink(path + '.pdf', (err) => {
+            if (err) return
             buildPDFReport(docId, path, JSON.parse(dataObj.data), messages, pics)
-            return { message: 'Report Update Successful' }
           })
         }
       })
-    })
-  }
-  else {
-    fs.unlink(path + '.pdf', (err) => {
-      if (err) return { message: 'Report Update Unsuccessful' }
-      buildPDFReport(docId, path, JSON.parse(dataObj.data), messages, pics)
-      return { message: 'Report Update Successful' }
-    })
-  }
+    }
+    else {
+      fs.unlink(path + '.pdf', (err) => {
+        if (err) return
+        buildPDFReport(docId, path, JSON.parse(dataObj.data), messages, pics)
+      })
+    }
+  })
+  return { message: 'Report Update Successful' }
 }
 
 // deletes list item

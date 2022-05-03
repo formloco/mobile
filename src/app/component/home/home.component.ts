@@ -12,6 +12,9 @@ import { environment } from '../../../environments/environment'
 import { Store, Select } from '@ngxs/store'
 
 import { AuthState } from '../../state/auth/auth.state'
+import { SetComments } from '../comment/state/comment.actions'
+import { SetCorrectiveActions } from '../corrective-action/state/corrective-action.actions'
+
 import { SetPage, SetSelectedForm, SetIsSignIn, SetChildPageLabel, SetFormData, SetChildPage, SetChildPageIcon } from '../../state/auth/auth-state.actions'
 import { DeviceState } from '../../state/device/device.state'
 import { Form } from '../../state/auth/auth-state.model'
@@ -78,6 +81,8 @@ export class HomeComponent implements OnInit {
   }
 
   selectForm(form) {
+    this.store.dispatch(new SetComments([]))
+    this.store.dispatch(new SetCorrectiveActions([]))
     this.store.dispatch(new SetFormData([]))
     this.store.dispatch(new SetSelectedForm(form))
     this.store.dispatch(new SetChildPage(null))

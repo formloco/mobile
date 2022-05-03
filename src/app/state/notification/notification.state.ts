@@ -56,6 +56,11 @@ export class NotificationState {
     return state.notificationIdx
   }
 
+  @Selector()
+  static notificationComments(state: NotificationStateModel): any[] {
+    return state.notificationComments
+  }
+
   @Action(NotificationActions.SetNotification)
   onSetNotification(ctx: StateContext<NotificationStateModel>, { notification }: NotificationActions.SetNotification) {
     ctx.patchState({
@@ -118,6 +123,15 @@ export class NotificationState {
       notificationIdx: notificationIdx
     })
   }
+
+  @Action(NotificationActions.SetNotificationComments)
+  onSetNotificationComments(ctx: StateContext<NotificationStateModel>, { notificationComments }: NotificationActions.SetNotificationComments) {
+    ctx.patchState({
+      notificationComments: notificationComments
+    })
+  }
+  
+
   
 
 }
