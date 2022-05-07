@@ -10,12 +10,9 @@ import { WorksiteSafetyInspectionState } from '../state/worksite-safety-inspecti
 import { SetIsGroundwork } from '../state/worksite-safety-inspection-state.actions'
 
 import { CommentComponent } from '../../../comment/comment.component'
-import { CommentState } from '../../../comment/state/comment.state'
 import { SetTypeFilter } from '../../../comment/state/comment.actions'
 
 import { GroundFormLabels } from '../state/worksite-safety-inspection-state.model'
-import { BottomSheetWorksiteSafetyInspectionComponent } from '../bottom-sheet-worksite-safety-inspection/bottom-sheet-worksite-safety-inspection.component'
-
 
 @Component({
   selector: 'app-worksite-safety-ground',
@@ -42,13 +39,6 @@ export class WorksiteSafetyGroundComponent implements OnInit {
   
     toggle(toggle) {
       this.store.dispatch(new SetIsGroundwork(toggle))
-      // if (toggle) {
-      //   const comments:any = this.store.selectSnapshot(CommentState.commentsByType)
-      //   if (comments.length > 0) this.bottomSheet.open(BottomSheetWorksiteSafetyInspectionComponent)
-      // }
-      // if (!toggle) {
-      //   this.openComment(this.label.DoesTheProjectInvolveGroundDisturbance, 'DoesTheProjectInvolveGroundDisturbance')
-      // }
     }
   
     openComment(label, field) {

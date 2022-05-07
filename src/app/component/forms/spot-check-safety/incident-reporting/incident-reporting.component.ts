@@ -31,7 +31,7 @@ export class IncidentReportingComponent {
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: label, label: label, field: field, type: 'isSpotCheckSafety' }
+    dialogConfig.data = { title: 'Incident Reporting', label: label, field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

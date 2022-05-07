@@ -10,11 +10,9 @@ import { WorksiteSafetyInspectionState } from '../state/worksite-safety-inspecti
 import { SetIsConfinedSpace } from '../state/worksite-safety-inspection-state.actions'
 
 import { CommentComponent } from '../../../comment/comment.component'
-import { CommentState } from '../../../comment/state/comment.state'
 import { SetTypeFilter } from '../../../comment/state/comment.actions'
 
 import { ConfinedSpaceLabels } from '../state/worksite-safety-inspection-state.model'
-import { BottomSheetWorksiteSafetyInspectionComponent } from '../bottom-sheet-worksite-safety-inspection/bottom-sheet-worksite-safety-inspection.component'
 
 @Component({
   selector: 'app-worksite-safety-confined-space',

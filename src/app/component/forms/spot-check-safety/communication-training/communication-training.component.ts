@@ -57,14 +57,14 @@ export class CommunicationTrainingComponent implements OnInit {
     if (field == 'AppropriateTraining') this.store.dispatch(new SetIsAppropriateTraining(false))
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { label: label, field: field, type: 'isSpotCheckSafety' }
+    dialogConfig.data = { label: 'Communication & Training', field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 
   openCommentOnly(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: label, label: label, field: field, type: 'isSpotCheckSafety', isCommentOnly: true }
+    dialogConfig.data = { title: 'Communication & Training', label: label, field: field, type: 'isSpotCheckSafety', isCommentOnly: true }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

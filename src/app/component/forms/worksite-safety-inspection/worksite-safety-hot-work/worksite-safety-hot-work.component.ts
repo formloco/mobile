@@ -10,11 +10,9 @@ import { WorksiteSafetyInspectionState } from '../state/worksite-safety-inspecti
 import { SetIsHotwork } from '../state/worksite-safety-inspection-state.actions'
 
 import { CommentComponent } from '../../../comment/comment.component'
-import { CommentState } from '../../../comment/state/comment.state'
 import { SetTypeFilter } from '../../../comment/state/comment.actions'
 
 import { HotWorkLabels } from '../state/worksite-safety-inspection-state.model'
-import { BottomSheetWorksiteSafetyInspectionComponent } from '../bottom-sheet-worksite-safety-inspection/bottom-sheet-worksite-safety-inspection.component'
 
 @Component({
   selector: 'app-worksite-safety-hot-work',
@@ -41,13 +39,6 @@ export class WorksiteSafetyHotWorkComponent implements OnInit {
 
   toggle(toggle) {
     this.store.dispatch(new SetIsHotwork(toggle))
-    // if (toggle) {
-    //   const comments:any = this.store.selectSnapshot(CommentState.commentsByType)
-    //   if (comments.length > 0) this.bottomSheet.open(BottomSheetWorksiteSafetyInspectionComponent)
-    // }
-    // if (!toggle) {
-    //   this.openComment(this.label.DoesTheProjectInvolveHotWork, 'DoesTheProjectInvolveHotWork')
-    // }
   }
 
   openComment(label, field) {

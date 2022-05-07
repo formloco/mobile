@@ -14,7 +14,6 @@
       <mat-radio-group formControlName="HardHat">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Hard Hat','HardHat')" value="unsatisfactory">U</mat-radio-button>
-        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Safety Glasses</div>
@@ -22,7 +21,6 @@
       <mat-radio-group formControlName="SafetyGlasses">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Safety Glasses','SafetyGlasses')" value="unsatisfactory">U</mat-radio-button>
-        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Footwear</div>
@@ -30,7 +28,6 @@
       <mat-radio-group formControlName="Footwear">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Footwear','Footwear')" value="unsatisfactory">U</mat-radio-button>
-        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Protective clothing (FR coveralls, gloves, etc)</div>
@@ -38,7 +35,6 @@
       <mat-radio-group formControlName="ProtectiveClothing">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button (click)="openComment('Protective clothing (FR coveralls, gloves, etc)','ProtectiveClothing')" value="unsatisfactory">U</mat-radio-button>
-        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Hearing protection</div>
@@ -77,7 +73,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="OtherEquipment">
         <mat-radio-button (click)="openCommentOnly('Other equipment (please specify)','OtherEquipment')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Other equipment (please specify)','OtherEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openCommentOnly('Other equipment (please specify)','OtherEquipment')" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 

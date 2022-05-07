@@ -32,7 +32,7 @@ export class DetailComponent {
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: label, label: label, field: field, type: 'isVehicleInspection' }
+    dialogConfig.data = { title: 'Vehicle Inspection Details', label: label, field: field, type: 'isVehicleInspection' }
     this.dialog.open(CommentComponent, dialogConfig).afterClosed().subscribe((isSave) => {
       this.detailForm.controls[field].patchValue(isSave)
     })
