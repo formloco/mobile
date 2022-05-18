@@ -85,7 +85,7 @@ const userFetchSQL = async (data) => {
     row: ''
   }
 
-  const emailUser = await client.query('SELECT email, name, admin, supervisor, worker FROM email WHERE email = $1', [data["email"]])
+  const emailUser = await client.query('SELECT id, email, name, admin, supervisor, worker FROM email WHERE email = $1', [data["email"]])
 
   if (emailUser.rowCount === 0) {
     obj = {
@@ -340,7 +340,7 @@ const tenantFetchSQL = async (data) => {
     message: 'Authentication sucessful.'
   }
 
-  const tenantUser = await client.query(`SELECT tenant_id, role, password FROM public.user WHERE email = '` + data["email"] + `'`)
+  const tenantUser = await client.query(`SELECT id, tenant_id, role, password FROM public.user WHERE email = '` + data["email"] + `'`)
 
   if (tenantUser.rowCount > 0) {
     let passwordIsValid = bcrypt.compareSync(data["password"], tenantUser.rows[0]["password"])
@@ -349,6 +349,7 @@ const tenantFetchSQL = async (data) => {
       obj.message = 'Failed to authenticate.'
       return obj
     }
+
     obj['tenant_id'] = tenantUser.rows[0]['tenant_id']
     obj['role'] = tenantUser.rows[0]['role']
 

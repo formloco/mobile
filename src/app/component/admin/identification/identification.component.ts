@@ -49,7 +49,7 @@ export class IdentificationComponent {
 
   signin() {
     if (this.kioske) {
-      // tenant running from formloco kioske signin
+      // tenant got from formloco kioske signin
       // endpoint runs against kioske user db
       this.authService.getTenant(this.idForm.value).subscribe((tenant: any) => {
         this.store.dispatch(new SetTenant({
@@ -57,40 +57,36 @@ export class IdentificationComponent {
           tenant_id: tenant.tenant_id
         }))
         this.store.dispatch(new SetKioske(false))
-        this.appService.setIndexedDbUser(this.idForm.value['email'], tenant.tenant_id)
+        // this.appService.setIndexedDbUser(this.idForm.value['email'], tenant.tenant_id)
         this.registerUser(tenant.tenant_id)
       })
     }
-    // tenant running from mobile environment
+    // tenant got from mobile environment
     // endpoint runs against tenant user db
     else {
-      this.appService.setIndexedDbUser(this.idForm.value['email'], this.tenant.tenant_id)
-
-      const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
-
-      if (isOnline) this.registerUser(this.tenant.tenant_id)
-      else this.registerOfflineUser()
+      // this.appService.setIndexedDbUser(this.idForm.value['email'], this.tenant.tenant_id)
+      this.registerUser(this.tenant.tenant_id)
     }
   }
 
   registerUser(tenant_id) {
+    // if email account does not exist
     this.authService.register(this.idForm.value).subscribe(_ => {
       this.authService.user({ email: this.idForm.value['email'] }).subscribe((user: any) => {
-        this.store.dispatch(new SetUser(user.row))
-        this.appService.initializeUser(this.idForm.value['email'])
-
-        if (this.kioske) this.router.navigate(['forms/' + this.idForm.value['email'] + '/' + tenant_id])
-        else this.store.dispatch(new SetPage('home'))
-
-        this.store.dispatch(new SetIsSignIn(true))
-        this.store.dispatch(new SetIsDarkMode(true))
-        this.store.dispatch(new SetChildPageLabel('Forms'))
+        console.log(user.row)
+        if (user.row) {
+          this.store.dispatch(new SetUser(user.row))
+          this.appService.initializeUser()
+  
+          if (this.kioske) this.router.navigate(['forms/' + this.idForm.value['email'] + '/' + tenant_id])
+          else this.store.dispatch(new SetPage('home'))
+  
+          this.store.dispatch(new SetIsSignIn(true))
+          this.store.dispatch(new SetIsDarkMode(true))
+          this.store.dispatch(new SetChildPageLabel('Forms'))
+        }
       })
     })
-  }
-
-  registerOfflineUser() {
-    this.appService.initializeOfflineUser()
   }
 
   getEmail() {

@@ -58,7 +58,7 @@ export class NotificationActionComponent {
       name: user.name
     }
     this.apiService.signForm(obj).subscribe((res: any) => {
-      this.appService.initializeMyNotifications(user.email)
+      this.appService.initializeMyNotifications()
       this.store.dispatch(new SetPage('home'))
       this.store.dispatch(new SetChildPageLabel('Forms'))
       this.dialogRef.close()

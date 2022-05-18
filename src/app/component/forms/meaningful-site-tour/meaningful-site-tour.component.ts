@@ -231,6 +231,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
             data_id: this.formDataID,
             pdf: 'meaningful-site-tour' + this.formDataID
           }
+          console.log(notificationObj)
           this.appService.sendNotification(notificationObj)
           this.resetForm()
         }

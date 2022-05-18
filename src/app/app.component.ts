@@ -14,7 +14,7 @@ import { IdbCrudService } from "./service-idb/idb-crud.service"
 
 import { Store } from '@ngxs/store'
 import { SetScreenSize, SetScreenWidth } from './state/device/device-state.actions'
-import { SetUserIdb, SetPage, SetTenant, SetKioske } from './state/auth/auth-state.actions'
+import { SetUser, SetPage, SetTenant, SetKioske } from './state/auth/auth-state.actions'
 import { SetBackground, SetIsDarkMode, SetIsOnline } from './state/device/device-state.actions'
 
 import { environment } from '../environments/environment'
@@ -84,7 +84,9 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.prefs[0]["user"]["isDarkMode"]) this.setMode('darkMode')
         else this.setMode('')
 
-        this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
+        // this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
+        this.store.dispatch(new SetUser(this.prefs[0]["user"]))
+
         this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
       }
       else {

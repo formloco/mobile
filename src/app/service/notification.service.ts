@@ -49,26 +49,28 @@ export class NotificationService {
   }
 
   addTenantId(obj) {
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    obj["tenant_id"] = tenant.tenant_id
+    obj["tenant_id"] = this.store.selectSnapshot(AuthState.tenant).tenant_id
     return obj 
   }
 
   getAllNotifications() {
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    const obj = { tenant_id: tenant.tenant_id }
+    const obj = { tenant_id: this.store.selectSnapshot(AuthState.tenant).tenant_id }
     return this.http.post(this.notificationUrl+'notifications/', obj)
   }
 
-  getMyNotifications(obj) {
-    obj = this.addTenantId(obj)
-    return this.http.post(this.notificationUrl + 'notification/' + obj.email + '/', obj)
+  getMyNotifications() {
+    const obj = {
+      tenant: this.store.selectSnapshot(AuthState.tenant).tenant_id,
+      emailId: this.store.selectSnapshot(AuthState.user).id
+    }
+    return this.http.post(this.notificationUrl + 'notification/' + obj.emailId + '/', obj)
   }
 
-  getMyNotificationCount(email) {
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    const obj = { tenant_id: tenant.tenant_id }
-    return this.http.post(this.notificationUrl + 'notification/count/' + email + '/', obj)
+  // this updates the notification count on the alert
+  getMyNotificationCount() {
+    const obj = { tenant_id: this.store.selectSnapshot(AuthState.tenant).tenant_id }
+    const emailId = this.store.selectSnapshot(AuthState.user).id
+    return this.http.post(this.notificationUrl + 'notification/count/' + emailId + '/', obj)
   }
 
   updateNotificationMessage(obj) {

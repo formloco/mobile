@@ -4,7 +4,7 @@ export interface AuthStateModel {
   isAdmin?: boolean
   isListMenu?: boolean
   tenant?: Tenant
-  user?: User //user obj for form consumption
+  user?: User //user obj for form consumption and api identification
   userIdb?: UserIdb //user obj for tenant tranactions
   selectedForm?: Form
   emailList?: []
@@ -43,11 +43,14 @@ export interface Form {
 }
 
 export interface User {
+  id: number
   email: string
   name: string
   admin: boolean
   worker: boolean
   supervisor: boolean
+  isDarkMode: boolean
+  tenant_id: string
 }
 
 export interface UserIdb {

@@ -30,8 +30,7 @@ export class FormService {
     private idbCrudService: IdbCrudService) { }
 
   addTenantId(obj) {
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    obj["tenant_id"] = tenant.tenant_id
+    obj["tenant_id"] = this.store.selectSnapshot(AuthState.tenant).tenant_id
     return obj 
   }
 
@@ -40,8 +39,11 @@ export class FormService {
     return this.http.get(this.formUrl + obj.form_id+'/'+obj.data_id+'/')
   }
 
-  getForms(obj) {
-    obj = this.addTenantId(obj)
+  getForms() {
+    const obj = {
+      tenant: this.store.selectSnapshot(AuthState.tenant).tenant_id,
+      userId: this.store.selectSnapshot(AuthState.user).id
+    }
     return this.http.post(this.formUrl + 'forms/', obj)
   }
 

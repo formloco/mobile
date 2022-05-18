@@ -83,9 +83,8 @@ export class NotificationOpenComponent implements OnInit {
     const notifications = this.store.selectSnapshot(NotificationState.notificationOpen)
 
     const notification = notifications[idx]
+    console.log(notification)
     const user = this.store.selectSnapshot(AuthState.user)
-
-    const subject = notification.form_name + ' form message from ' + user.name + 'date:' + new Date()
 
     const message = this.messageForm.get('message').value
 
@@ -93,9 +92,6 @@ export class NotificationOpenComponent implements OnInit {
     let messageObj = {
       notificationID: notification.id,
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
-      email_to: notification.email_from,
-      email_from: user.email,
-      subject: subject,
       message: message
     }
 
@@ -106,6 +102,8 @@ export class NotificationOpenComponent implements OnInit {
       })
 
       this.store.dispatch(new SetNotificationComments(response.data.comments))
+
+      const subject = notification.form_name + ' form message from ' + user.name + 'date:' + new Date()
 
       const obj = {
         toName: response.data.toName,
@@ -126,7 +124,7 @@ export class NotificationOpenComponent implements OnInit {
     const supervisors = this.store.selectSnapshot(AuthState.supervisors)
     const supervisor = supervisors.find(supervisor => supervisor.email == notification.email_to)
 
-    if (worker.email !== user.email) this.sendTo = worker.name
+    if (worker && worker.email !== user.email) this.sendTo = worker.name
     if (supervisor.email !== user.email) this.sendTo = supervisor.name
 
     this.idbCrudService.readAll('form').subscribe((forms: any) => {

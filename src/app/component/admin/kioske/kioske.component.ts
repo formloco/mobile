@@ -46,7 +46,7 @@ export class KioskeComponent implements OnInit {
     this.store.dispatch(new SetUserIdb(obj))
     this.store.dispatch(new SetIsDarkMode(true))
     this.store.dispatch(new SetChildPageLabel('Forms'))
-    this.appService.initializeUser(this.tenant.email)
+    this.appService.initializeUser()
   }
 
   contact() {

@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
 
     setInterval(() => {
       if (this.user) {
-        this.notificationService.getMyNotificationCount(this.user.email).subscribe((notification: any) => {
+        this.notificationService.getMyNotificationCount().subscribe((notification: any) => {
           if (notification.count == 0) this.store.dispatch(new SetNotificationMyCount(undefined))
           else this.store.dispatch(new SetNotificationMyCount(notification.count))
         })
@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit {
   openNotifications(tabIndex) {
     if (tabIndex === 0) {
       const user = this.store.selectSnapshot(AuthState.userIdb)
-      this.notificationService.getMyNotifications({ email: user.email }).subscribe((notifications: any) => {
+      this.notificationService.getMyNotifications().subscribe((notifications: any) => {
         let openNotifications: any = []
         notifications.forEach(element => {
           if (!element.email_signed) openNotifications.push(element)

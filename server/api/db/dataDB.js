@@ -160,7 +160,6 @@ const dataCreateSQL = async (dataObj) => {
     buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages, pics)
   }
   else {
-    console.log(docID, path, JSON.parse(dataObj["data"]), messages)
     buildPDFReport(docID, path, JSON.parse(dataObj["data"]), messages)
   }
 

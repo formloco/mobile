@@ -58,8 +58,7 @@ export class LayoutComponent implements OnInit {
           this.store.dispatch(new SetUser(user.row))
           this.store.dispatch(new SetKioske(false))
           this.store.dispatch(new SetTenant({ tenant_id: tenant_id, email: email }))
-          this.appService.setIndexedDbUser(email, tenant_id)
-          this.appService.initializeUser(email)
+          this.appService.initializeUser()
           this.store.dispatch(new SetPage('home'))
         })
       }
@@ -71,7 +70,6 @@ export class LayoutComponent implements OnInit {
         this.idbCrudService.clear('voice')
         this.authService.user({ email: this.tenant.email }).subscribe((user: any) => {
           this.store.dispatch(new SetUser(user.row))
-          this.appService.setIndexedDbUser(this.tenant.email, this.tenant.tenant_id)
           this.store.dispatch(new SetPage('kioske'))
         })
       }
@@ -80,7 +78,7 @@ export class LayoutComponent implements OnInit {
       // these params are used to get the notifications from email link
       this.route.queryParams.subscribe((params: Params) => {
         if (params && params.email && Object.keys(params.email).length) {
-          this.notificationService.getMyNotifications({ email: params.email }).subscribe((notifications: any) => {
+          this.notificationService.getMyNotifications().subscribe((notifications: any) => {
             let openNotifications: any = []
             openNotifications = notifications.filter(not => not.date_signed === null)
             this.store.dispatch(new SetNotificationOpen(openNotifications))
@@ -96,7 +94,7 @@ export class LayoutComponent implements OnInit {
             if (this.prefs.length > 0) {
               if (isOnline) {
                 this.authService.user({ email: this.prefs[0]['user']['email'] }).subscribe((user: any) => {
-                  this.appService.initializeUser(this.prefs[0]['user']['email'])
+                  this.appService.initializeUser()
                   this.store.dispatch(new SetUser(user.row))
                   this.store.dispatch(new SetPage('home'))
                   this.store.dispatch(new SetChildPageLabel('Forms'))

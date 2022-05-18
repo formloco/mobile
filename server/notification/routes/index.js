@@ -8,9 +8,9 @@ const router = express.Router()
 //notification
 router.post('/notifications/', VerifyToken, notificationAll)
 
-router.post('/notification/:email/', VerifyToken, notificationMy)
+router.post('/notification/:emailId/', VerifyToken, notificationMy)
 
-router.post('/notification/count/:email/', VerifyToken, notificationCount)
+router.post('/notification/count/:emailId/', VerifyToken, notificationCount)
 
 router.post('/notification/', VerifyToken, notificationCreate)
 

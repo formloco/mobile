@@ -16,8 +16,7 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
   reportData.header.Date = reportData.header.Date.substring(0,10)
 
   let dateSigned = 'To be determined'
-  if (signDate) { dateSigned = signDate} 
-  // else { dateSigned = 'To be determined' }
+  if (signDate) { dateSigned = signDate }
 
   let header = reportData.header
   let todo = reportData.todo

@@ -5,6 +5,7 @@ import {
 }
   from '@angular/common/http';
 
+import { AppService } from '../service/app.service';  
 import { ErrorService } from '../service/error.service';
 import { SuccessService } from '../service/success.service';
 
@@ -15,6 +16,7 @@ import { map, catchError } from 'rxjs/operators';
 export class HttpConfig implements HttpInterceptor {
 
   constructor(
+    public appService: AppService,
     public errorService: ErrorService,
     public successService: SuccessService) { }
 
@@ -36,10 +38,15 @@ export class HttpConfig implements HttpInterceptor {
       map((event: HttpEvent<any>) => {
         return event;
       }),
-      catchError((error: HttpErrorResponse) => {
-        const msg = "Whoa, something went wrong"
-        this.errorService.popSnackbar(msg);
-        return throwError(error);
+      catchError((errorResponse: HttpErrorResponse) => {
+        if (errorResponse.status == 401) {
+          this.appService.refreshToken()
+        }
+        else {
+          this.errorService.popSnackbar(errorResponse.error);
+          return throwError(errorResponse);
+        }
+        
       })
     );
   }

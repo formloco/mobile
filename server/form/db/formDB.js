@@ -18,7 +18,9 @@ const formsReadSQL = async (data) => {
   const forms = await client.query(`SELECT * FROM public.form WHERE is_list = false`)
 
   if (forms.rowCount > 0) {
-    const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [data["email"]])
+    const userEmail = await client.query(`SELECT email FROM public.email WHERE id = $1`, [data["userId"]])
+
+    const permissions = await client.query(`SELECT manager FROM public.email WHERE email = $1`, [userEmail.rows[0].email])
 
     let manager
     if (permissions.rowCount > 0)

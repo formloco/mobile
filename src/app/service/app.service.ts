@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatDialogConfig, MatDialog } from "@angular/material/dialog"
+import { Router } from '@angular/router'
 
 import { environment } from '../../environments/environment'
 
@@ -25,7 +26,8 @@ import { IdbCrudService } from "../service-idb/idb-crud.service"
 import { LISTS, LIST_FORM } from '../model/forms'
 
 import { SetTranscription } from 'src/app/state/device/device-state.actions'
-import { SetSelectedVoiceFieldLabel, SetUserIdb } from 'src/app/state/auth/auth-state.actions'
+import { SetSelectedVoiceFieldLabel, SetUserIdb, SetUser } from 'src/app/state/auth/auth-state.actions'
+
 import { VoiceComponent } from '../component/voice/voice.component'
 import { DeviceState } from '../state/device/device.state'
 
@@ -88,6 +90,7 @@ export class AppService {
 
   constructor(
     private store: Store,
+    private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -135,7 +138,9 @@ export class AppService {
     return this.idbCrudService.put('data', obj)
   }
 
-  initializeUser(email) {
+  initializeUser() {
+    this.setIdbUser()
+    const user = this.store.selectSnapshot(AuthState.user)
     // kioske email is used to get forms and notifications
     // get lookuplists array and dispatch to lookuplist state
     this.store.select(AuthState.tenant).subscribe(tenant => {
@@ -170,7 +175,7 @@ export class AppService {
         this.idbCrudService.put('supervisors', supervisors)
       })
 
-      this.formService.getForms({ email: email }).subscribe((forms: any) => {
+      this.formService.getForms().subscribe((forms: any) => {
         this.idbCrudService.clear('form')
         
         // form_id needs to be added idb form
@@ -185,7 +190,7 @@ export class AppService {
           this.store.dispatch(new SetFormsPublished(formsPublished))
         })
       })
-      this.initializeMyNotifications(email)
+      this.initializeMyNotifications()
     })
   }
 
@@ -211,15 +216,13 @@ export class AppService {
     this.store.dispatch(new SetChildPageLabel('Forms'))
   }
 
-  initializeMyNotifications(email) {
-    this.notificationService.getMyNotifications({ email: email }).subscribe(data => {
+  initializeMyNotifications() {
+    this.notificationService.getMyNotifications().subscribe((data: any) => {
       this.setNotifications(data)
       this.store.dispatch(new SetNotificationOpen(this.notificationOpen))
       this.store.dispatch(new SetNotificationSigned(this.notificationSigned))
-    })
-    this.notificationService.getMyNotificationCount(email).subscribe((notification: any) => {
-      if (notification.count == 0) this.store.dispatch(new SetNotificationMyCount(undefined))
-      else this.store.dispatch(new SetNotificationMyCount(notification.count))
+      if (data.length == 0) this.store.dispatch(new SetNotificationMyCount(undefined))
+      else this.store.dispatch(new SetNotificationMyCount(data.length))
     })
   }
 
@@ -249,33 +252,52 @@ export class AppService {
     }
   }
 
-  setIndexedDbUser(email, tenant_id) {
+  setIdbUser() {
+    const user = this.store.selectSnapshot(AuthState.user)
+    console.log(user)
     let darkMode = true
     this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
       if (prefs.length > 0) darkMode = prefs.isDarkMode
     })
-    let userObj = {
-      isDarkMode: darkMode,
-      email: email
-    }
     let obj = {
       user: {
+        id: user.id,
         isDarkMode: darkMode,
-        email: email,
-        tenant_id: tenant_id
+        email: user.email,
+        tenant_id: user.tenant_id
       }
     }
-    this.store.dispatch(new SetUserIdb(userObj))
     this.idbCrudService.clear('prefs')
     this.idbCrudService.put('prefs', obj)
   }
 
+  // setIndexedDbUser(email, tenant_id) {
+  //   let darkMode = true
+  //   this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
+  //     if (prefs.length > 0) darkMode = prefs.isDarkMode
+  //   })
+  //   let userObj = {
+  //     isDarkMode: darkMode,
+  //     email: email
+  //   }
+  //   let obj = {
+  //     user: {
+  //       isDarkMode: darkMode,
+  //       email: email,
+  //       tenant_id: tenant_id
+  //     }
+  //   }
+  //   this.store.dispatch(new SetUserIdb(userObj))
+  //   this.idbCrudService.clear('prefs')
+  //   this.idbCrudService.put('prefs', obj)
+  // }
+
   getWorker(name) {
     const workers: any = this.store.selectSnapshot(AuthState.workers)
-    const worker = workers.find(worker => worker.name === name)
+    let worker = workers.find(worker => worker.name === name)
     if (!worker) {
-      worker["name"] = worker.name
-      worker["email"] = worker.email
+      let worker = {name: name, email: null}
+      return worker
     }
     return worker
   }
@@ -301,8 +323,7 @@ export class AppService {
           messageID: myNotifications.data[0]["id"],
           url: this.messageUrl,
           subject: notificationObj.subject,
-          emailTo: notificationObj.supervisor.email,
-          emailFrom: notificationObj.worker.email
+          emailTo: notificationObj.supervisor.email
         }
   
         this.emailService.sendNotificationEmail(obj).subscribe(() => {
@@ -314,6 +335,22 @@ export class AppService {
           })
         })
       }
+    })
+  }
+
+  refreshToken() {
+    this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
+      if (prefs.length > 0) {
+        this.authService.token().subscribe((token: any) => {
+          localStorage.setItem('formToken', token.token)
+          this.authService.user({ email: prefs.email }).subscribe((user: any) => {
+            this.store.dispatch(new SetUser(user.row))
+            this.router.navigate['']
+          })
+          
+        })
+      }
+        this.authService.token()
     })
   }
 
