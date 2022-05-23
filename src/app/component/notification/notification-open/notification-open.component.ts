@@ -83,13 +83,14 @@ export class NotificationOpenComponent implements OnInit {
     const notifications = this.store.selectSnapshot(NotificationState.notificationOpen)
 
     const notification = notifications[idx]
-    console.log(notification)
     const user = this.store.selectSnapshot(AuthState.user)
 
     const message = this.messageForm.get('message').value
 
     this.messageForm.reset()
     let messageObj = {
+      email_to_id: notification.email_to_id,
+      email_from_id: notification.email_from_id,
       notificationID: notification.id,
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       message: message

@@ -31,7 +31,7 @@ const myNotificationSQL = async (req) => {
   })
   const client = await pool.connect()
 
-  const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_from, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [req.params.emailId])
+  const myNotifications = await client.query('Select id, date, date_signed, form_name, form_id, email_to, email_to_id, email_from, email_from_id, email_signed, signed_name, data_id, read, description, pdf, comment FROM public.notification inner join public.email_notification on public.notification.id = public.email_notification.notification_id WHERE public.email_notification.email_id = $1 ORDER BY date desc', [req.params.emailId])
   client.release()
   await pool.end()
   return myNotifications.rows

@@ -73,7 +73,6 @@ export class IdentificationComponent {
     // if email account does not exist
     this.authService.register(this.idForm.value).subscribe(_ => {
       this.authService.user({ email: this.idForm.value['email'] }).subscribe((user: any) => {
-        console.log(user.row)
         if (user.row) {
           this.store.dispatch(new SetUser(user.row))
           this.appService.initializeUser()
