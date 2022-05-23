@@ -254,7 +254,6 @@ export class AppService {
 
   setIdbUser() {
     const user = this.store.selectSnapshot(AuthState.user)
-    console.log(user)
     let darkMode = true
     this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
       if (prefs.length > 0) darkMode = prefs.isDarkMode
@@ -270,27 +269,6 @@ export class AppService {
     this.idbCrudService.clear('prefs')
     this.idbCrudService.put('prefs', obj)
   }
-
-  // setIndexedDbUser(email, tenant_id) {
-  //   let darkMode = true
-  //   this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
-  //     if (prefs.length > 0) darkMode = prefs.isDarkMode
-  //   })
-  //   let userObj = {
-  //     isDarkMode: darkMode,
-  //     email: email
-  //   }
-  //   let obj = {
-  //     user: {
-  //       isDarkMode: darkMode,
-  //       email: email,
-  //       tenant_id: tenant_id
-  //     }
-  //   }
-  //   this.store.dispatch(new SetUserIdb(userObj))
-  //   this.idbCrudService.clear('prefs')
-  //   this.idbCrudService.put('prefs', obj)
-  // }
 
   getWorker(name) {
     const workers: any = this.store.selectSnapshot(AuthState.workers)
@@ -312,18 +290,48 @@ export class AppService {
     return supervisor
   }
 
-  sendNotification(notificationObj) {
+  sendNotification(obj) {
+    const tenant = this.store.selectSnapshot(AuthState.tenant)
+    let now = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+
+    // if a worker is added to the form manually send the name entered
+    // the name will be used as the email address, can be updated
+    // after the fact in admin panel
+    let workerEmail = obj.worker.email
+    if (workerEmail == null) workerEmail = obj.worker.name
+
+    let notificationObj = {
+      date: now,
+      form_name: obj.name,
+      email_from: workerEmail,
+      worker_name: obj.worker.name,
+      email_to: obj.supervisor.email,
+      supervisor_name: obj.supervisor.name,
+      form_id: obj.form_id,
+      data_id: obj.data_id,
+      description: obj.description,
+      subject: obj.subject,
+      pdf: obj.pdf,
+      correctiveAction: false,
+      comment: [{
+        from: obj.worker.name,
+        to: obj.supervisor.name,
+        date: now.toString(),
+        message: obj.message
+      }]
+    }
+    notificationObj["tenant_id"] = tenant.tenant_id
     this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
       if (myNotifications) {
         this.store.dispatch(new SetNotificationOpen(myNotifications.data))
 
         const obj = {
           tenant: this.store.selectSnapshot(AuthState.tenant),
-          toName: notificationObj.supervisor.name,
+          toName: notificationObj.supervisor_name,
           messageID: myNotifications.data[0]["id"],
           url: this.messageUrl,
           subject: notificationObj.subject,
-          emailTo: notificationObj.supervisor.email
+          emailTo: notificationObj.email_to
         }
   
         this.emailService.sendNotificationEmail(obj).subscribe(() => {

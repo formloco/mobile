@@ -21,31 +21,7 @@ export class NotificationService {
     private http: HttpClient) { }
 
   createNotification(obj) {
-
-    const tenant = this.store.selectSnapshot(AuthState.tenant)
-    let now = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
-
-    let notificationObj = {
-      date: now,
-      form_name: obj.name,
-      email_from: obj.worker.email,
-      worker_name: obj.worker.name,
-      email_to: obj.supervisor.email,
-      supervisor_name: obj.supervisor.name,
-      form_id: obj.form_id,
-      data_id: obj.data_id,
-      description: obj.description,
-      pdf: obj.pdf,
-      correctiveAction: false,
-      comment: [{
-        from: obj.worker.name,
-        to: obj.supervisor.name,
-        date: now.toString(),
-        message: obj.message
-      }]
-    }
-    notificationObj["tenant_id"] = tenant.tenant_id
-    return this.http.post(this.notificationUrl + 'notification/', notificationObj)
+    return this.http.post(this.notificationUrl + 'notification/', obj)
   }
 
   addTenantId(obj) {

@@ -71,7 +71,7 @@ const createNotificationSQL = async (data) => {
   let emailFromID = await client.query('Select id from public.email WHERE email = $1', [data["email_from"]])
   if (emailFromID.rowCount === 0) emailFromID = await client.query('INSERT INTO email(name, email) VALUES ($1, $2) RETURNING ID', [data["worker_name"], data["email_from"]])
 
-  const notificationID = await client.query('INSERT INTO notification(date, form_name, form_id, email_to, email_to_id, email_from, email_from_id, data_id, read, description, pdf, corrective_action, comment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING ID', [data["date"], data["form_name"], data["form_id"], data["email_to"], emailToID.rows[0].id, data["email_from"], emailFromID.rows[0].id, data["data_id"], false, data["description"], data["pdf"], data["correctiveAction"], comment])
+  const notificationID = await client.query('INSERT INTO notification(date, form_name, form_id, email_to, email_to_id, email_from, email_from_id, data_id, read, description, pdf, corrective_action, comment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING ID', [data["date"], data["form_name"], data["form_id"], data["email_to"], emailToID.rows[0].id, data["email_from"], emailFromID.rows[0].id, data["data_id"], false, data["description"], data["pdf"], data["correctiveAction"], comment])
 
   await client.query('INSERT INTO email_notification(notification_id, email_id) VALUES ($1, $2)', [notificationID.rows[0].id, emailToID.rows[0].id])
   await client.query('INSERT INTO email_notification(notification_id, email_id) VALUES ($1, $2)', [notificationID.rows[0].id, emailFromID.rows[0].id])
