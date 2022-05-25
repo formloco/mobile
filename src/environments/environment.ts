@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Formloco } from '../app/state/app.state'
+import { Formloco, Summit } from '../app/state/app.state'
 
 export const environment = {
   production: false,
@@ -31,14 +31,16 @@ export const environment = {
   githubUrl: Formloco.githubUrl,
   
   // apiUrl: Formloco.apiUrl,
-  // authUrl: Formloco.authUrl,
+  // authUrl: Summit.authUrl,
   // formUrl: Formloco.formUrl,
   emailUrl: Formloco.emailUrl,
   assetUrl: Formloco.assetUrl,
   // notificationUrl: Formloco.notificationUrl,
   messageUrl: 'http://localhost:4200/message/',
   
-  tenant: { email: Formloco.email, tenant_id: Formloco.tenant },
+  tenant: { email: Formloco.email, tenant_id: Summit.tenant },
+  // tenant: { email: Formloco.email, tenant_id: Formloco.tenant },
+
   logo: Formloco.logo,
   version: Formloco.version,
   idbName: Formloco.idbName,

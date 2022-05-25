@@ -1,0 +1,17 @@
+DEV_DBUSER=formloco
+DEV_HOST="api.formloco.com"
+DEV_PASSWORD=simple$99
+DEV_PORT=5432
+DEV_SECRET=supersecret
+
+PROD_DBUSER=summit
+PROD_HOST="forms.summitearth.com"
+PROD_PASSWORD=summit$99
+PROD_PORT=5432
+PROD_SECRET=supersecret
+
+MAILGUN_KEY="key-3020ce69e75e78e4565ad612b371c13b"
+MAILGUN_DOMAIN="mg.bluerockapps.com"
+
+TENANT="formloco"
+FROM_EMAIL="polly@formloco.com"

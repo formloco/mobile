@@ -43,7 +43,7 @@ export enum Formloco {
 
 export enum Summit {
   pin = '999999',
-  tenant = 'summmit',
+  tenant = 'summit',
   idbName = 'summitEarthDB',
   kioskeEmail = 'brock@formloco.com',
   kioskePassword = 'simple',
@@ -51,14 +51,16 @@ export enum Summit {
   email = 'HSE@Summitearth.com',
   logo = 'assets/logo-summit.svg',
   version = '2.0',
-  homeUrl = 'https://forms.summitearth.com/',
-  apiUrl = 'https://forms.summitearth.com/api/',
+  // endpoints
+  apiUrl = 'https://api.summitearth.com/api/',
   authUrl = 'https://forms.summitearth.com/auth/',
-  formUrl = 'https://forms.summitearth.com/form/',
-  emailUrl = 'https://forms.summitearth.com/email/',
-  assetUrl = 'https://forms.summitearth.com/asset/',
+  formUrl = 'https://api.summitearth.com/form/',
+  emailUrl = 'https://api.summitearth.com/email/',
+  assetUrl = 'https://api.summitearth.com/asset/',
+  notificationUrl = 'https://api.summitearth.com/',
+
+  homeUrl = 'https://forms.summitearth.com/',
   messageUrl = 'https://forms.summitearth.com/message/',
-  notificationUrl = 'https://forms.summitearth.com/',
   signinUrl = 'https://forms.summitearth.com/e93f63d8e62d44da93009229f8a7f890/',
   redirectForgotPasswordUrl = 'https://forms.summitearth.com/O451fd2702f54a00b1007f6e80b32e45/'
 }
