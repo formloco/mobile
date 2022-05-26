@@ -16,7 +16,7 @@ import { DeviceState } from '../../../state/device/device.state'
 import { SetPage } from '../../../state/auth/auth-state.actions'
 
 import { SetIsDarkMode } from '../../../state/device/device-state.actions'
-
+import { environment } from '../../../../environments/environment'
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -26,6 +26,8 @@ export class ResetPasswordComponent implements OnInit {
 
   @Select(DeviceState.background) background$: Observable<string>
 
+  logo = environment.logo
+  
   prefs
   email
   token
@@ -69,6 +71,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPassword() {
     const obj = this.passwordForm.value
     obj["email"] = this.email
+
     this.authService.resetPassword(obj).subscribe((res:any) => {
       this.successService.popSnackbar(res.message)
       this.router.navigate([''])

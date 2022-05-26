@@ -19,6 +19,8 @@ import { SetPage } from '../../../state/auth/auth-state.actions'
 })
 export class SendPasswordComponent {
 
+  logo = environment.logo
+
   @Select(AuthState.childPage) childPage$: Observable<string>
 
   emailForm: FormGroup
@@ -38,6 +40,7 @@ export class SendPasswordComponent {
 
   forgotPasswordEmail() {
     let obj = {
+      tenant: environment.tenant,
       email: this.emailForm.value['email'],
       url: this.redirectForgotPasswordUrl
     }

@@ -32,8 +32,8 @@ const emailReset = async(data) => {
 
 const passwordReset = async(data) => {
   try {
-    let rows = await passwordResetSQL(data)
-    return rows
+    let obj = await passwordResetSQL(data)
+    return obj
   } catch(e) {
     throw new Error(e.message)
   }

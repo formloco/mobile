@@ -4,15 +4,6 @@ const jwt = require('jsonwebtoken')
 const { v4: uuidv4 } = require('uuid')
 
 const emailRegisterSQL = async (data) => {
-  console.log(data['tenant_id'])
-  // console.log(process.env)
-  // const pool = new Pool({
-  //   user: process.env.DBUSER,
-  //   host: process.env.HOST,
-  //   database: data['tenant_id'],
-  //   password: process.env.PASSWORD,
-  //   port: process.env.PORT
-  // })
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
@@ -20,15 +11,14 @@ const emailRegisterSQL = async (data) => {
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
-console.log(pool)
+
   const client = await pool.connect()
-  // console.log(client)
 
   let obj = {
     message: 'Registion successful.'
   }
   let checkEmail = await client.query('SELECT * FROM email WHERE email = $1', [data["email"]])
-  console.log(checkEmail)
+
   if (checkEmail.rowCount === 0) {
     obj = {
       message: 'Account does not exist.'
@@ -44,7 +34,7 @@ console.log(pool)
   if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === true) {
 
     const emailPassword = await client.query('SELECT password FROM public.email WHERE email = $1', [data["email"]])
-console.log(emailPassword)
+
     if (emailPassword.rowCount === 1) {
       let passwordIsValid = bcrypt.compareSync(data["password"], emailPassword.rows[0].password)
 
@@ -59,7 +49,7 @@ console.log(emailPassword)
       }
     }
   }
-console.log('got here', obj)
+
   // enabled = null used for reset on frontend
   if (checkEmail.rowCount === 1 && checkEmail.rows[0].enabled === null) {
 
@@ -152,6 +142,7 @@ const emailUpdateSQL = async (data) => {
 }
 
 const passwordResetSQL = async (data) => {
+
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
@@ -168,8 +159,9 @@ const passwordResetSQL = async (data) => {
     message: 'Password reset successful.'
   }
 
-  await pool.end()
   client.release()
+  await pool.end()
+  
   return obj
 }
 
