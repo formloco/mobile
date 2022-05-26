@@ -52,12 +52,12 @@ export enum Summit {
   logo = 'assets/logo-summit.svg',
   version = '2.0',
   // endpoints
-  apiUrl = 'https://api.summitearth.com/api/',
+  apiUrl = 'https://forms.summitearth.com/api/',
   authUrl = 'https://forms.summitearth.com/auth/',
-  formUrl = 'https://api.summitearth.com/form/',
-  emailUrl = 'https://api.summitearth.com/email/',
-  assetUrl = 'https://api.summitearth.com/asset/',
-  notificationUrl = 'https://api.summitearth.com/',
+  formUrl = 'https://forms.summitearth.com/form/',
+  emailUrl = 'https://forms.summitearth.com/email/',
+  assetUrl = 'https://forms.summitearth.com/asset/',
+  notificationUrl = 'https://forms.summitearth.com/',
 
   homeUrl = 'https://forms.summitearth.com/',
   messageUrl = 'https://forms.summitearth.com/message/',
