@@ -7,10 +7,10 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
 
   const fonts = {
     Roboto: {
-      normal: currentPath+'/fonts/Roboto-Regular.ttf',
-      bold: currentPath+'/fonts/Roboto-Medium.ttf',
-      italics: currentPath+'/fonts/Roboto-Italic.ttf',
-      bolditalics: currentPath+'/fonts/Roboto-MediumItalic.ttf'
+      normal: currentPath+'/api/fonts/Roboto-Regular.ttf',
+      bold: currentPath+'/api/fonts/Roboto-Medium.ttf',
+      italics: currentPath+'/api/fonts/Roboto-Italic.ttf',
+      bolditalics: currentPath+'/api/fonts/Roboto-MediumItalic.ttf'
     }
   }
 
