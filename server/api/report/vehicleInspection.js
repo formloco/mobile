@@ -16,6 +16,8 @@ const fs = require('fs')
 
 async function vehicleInspectionPDF(path, reportData, messages, pics, signDate ) {
 
+  let currentPath = process.cwd()
+  
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
@@ -86,7 +88,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            image: 'images/logo.png'
+            image: currentPath+'/api/images/logo.png'
           },
           {
             text: 'Vehicle Inspection', style: 'header'

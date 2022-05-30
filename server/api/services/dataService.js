@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 const { dataReadSQL, formReadSQL, formSignSQL, dataCreateSQL, dataUpdateSQL, dataDeleteSQL, listsGetSQL, emailsGetSQL, listSaveSQL } = require('../db/dataDB')
 
 const dataRead = async(tenant_id, form_id) => {
@@ -83,14 +81,6 @@ const listSave = async(data) => {
   }
 }
 
-const fileGet = async(req, res) => {
-  try {
-    return res.download('../files/vechicle-inspection632.pdf')
-  } catch(e) {
-    throw new Error(e.message)
-  }
-}
-
 const dataSync = async(data) => {
   try {
     let res = await dataSyncSQL(data)
@@ -101,5 +91,5 @@ const dataSync = async(data) => {
 }
 
 module.exports = {
-  dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, fileGet, dataSync
+  dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, dataSync
 }

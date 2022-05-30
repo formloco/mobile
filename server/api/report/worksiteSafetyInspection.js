@@ -19,6 +19,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let descrepancies = []
   let descrepancyActions = []
 
+  let currentPath = process.cwd()
+
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
@@ -83,7 +85,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         alignment: 'justify',
         columns: [
           {
-            image: 'images/logo.png'
+            image: currentPath+'/api/images/logo.png'
           }
         ]
       },

@@ -3,8 +3,9 @@ const { Pool } = require('pg')
 
 const { buildPDFReport, deletePdf, readDir, escapeSingleQuote } = require('../report/reportHelpers')
 
-let currentPath = process.cwd().slice(0, -3)
-let docPath = currentPath + 'files/'
+// must start the node server from /node ie. node api/api.js
+let currentPath = process.cwd()
+let filePath = currentPath + '/files/'
 
 const dataReadSQL = async (tenant_id, form_id) => {
   const pool = new Pool({
@@ -71,9 +72,9 @@ const formSignSQL = async (dataObj) => {
   client.release()
   await pool.end()
 
-  const path = docPath + dataObj["docID"] + dataObj["notification"]["data_id"]
-  const dirPath = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '/'
-  const pdfFile = docPath + dataObj["docID"] + dataObj["notification"]["data_id"] + '.pdf'
+  const path = filePath + dataObj["docID"] + dataObj["notification"]["data_id"]
+  const dirPath = filePath + dataObj["docID"] + dataObj["notification"]["data_id"] + '/'
+  const pdfFile = filePath + dataObj["docID"] + dataObj["notification"]["data_id"] + '.pdf'
 
   const pics = await readDir(dirPath)
   const messages = await escapeSingleQuote(dataObj)
@@ -112,7 +113,7 @@ const dataCreateSQL = async (dataObj) => {
   const newFormID = await client.query(`INSERT INTO "` + dataObj["form"]["form_id"] + `" (user_created, date_created, data) VALUES ('` + userCreated + `', '` + dataObj["date"] + `', '` + dataObj['data'] + `') RETURNING id`)
 
   const dataID = newFormID.rows[0].id
-  const path = docPath + docID + dataID
+  const path = filePath + docID + dataID
   const pdfLink = dataObj["form"]["id"] + dataID + '.pdf'
 
   await client.query(`UPDATE "` + dataObj["form"]["form_id"] + `" SET pdf = '` + pdfLink + `' WHERE id = '` + dataID + `'`)
@@ -143,7 +144,7 @@ const dataCreateSQL = async (dataObj) => {
   }
   
   // store base64 for update to document later
-  fs.mkdir(docPath + docID + dataID, (err) => {
+  fs.mkdir(path, (err) => {
     if (err) return err
   })
   
@@ -219,7 +220,7 @@ const dataUpdateSQL = async (dataObj) => {
   }
 
   let pics = []
-  const path = docPath + dataObj.id + dataObj.data_id
+  const path = filePath + dataObj.id + dataObj.data_id
 
   fs.readdir(path + '/', (err, files) => {
     if (err) return;
@@ -382,7 +383,7 @@ const dataSyncSQL = async (dataArray) => {
   const newFormID = await client.query(`INSERT INTO "` + dataObj["form"]["form_id"] + `" (user_created, date_created, data) VALUES ('` + userCreated + `', '` + dataObj["date"] + `', '` + dataObj['data'] + `') RETURNING id`)
 
   const dataID = newFormID.rows[0].id
-  const path = docPath + docID + dataID
+  const path = filePath + docID + dataID
   const pdfLink = dataObj["form"]["id"] + dataID + '.pdf'
 
   await client.query(`UPDATE "` + dataObj["form"]["form_id"] + `" SET pdf = '` + pdfLink + `' WHERE id = '` + dataID + `'`)
@@ -405,7 +406,7 @@ const dataSyncSQL = async (dataArray) => {
   // store base64 for update to document later
   if (dataObj["pics"].length > 0) {
     let pics = []
-    fs.mkdir(docPath + docID + dataID, (err) => {
+    fs.mkdir(filePath + docID + dataID, (err) => {
       if (err) return err
     })
 

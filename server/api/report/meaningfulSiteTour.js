@@ -15,6 +15,8 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
 
   reportData.header.Date = reportData.header.Date.substring(0,10)
 
+  let currentPath = process.cwd()
+
   let dateSigned = 'To be determined'
   if (signDate) { dateSigned = signDate }
 
@@ -41,13 +43,13 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
     pageMargins: [20, 20, 20, 20],
     content: [
       {
-        image: 'images/meaningful-site-tour-cover-page.png', height: 560, width: 750
+        image: currentPath+'/api/images/meaningful-site-tour-cover-page.png', height: 560, width: 750
       },
       '\n\n',
       {
         columns: [
           {
-            image: 'images/meaningful-site-tour-side-page.png', height: 480, width: 270
+            image: currentPath+'/api/images/meaningful-site-tour-side-page.png', height: 480, width: 270
           },
           [
             { text: 'Conducting Your Tour\n\n', style: 'subheader', alignment: 'center' },
