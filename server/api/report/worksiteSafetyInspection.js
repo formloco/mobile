@@ -1,17 +1,4 @@
-const moment = require('moment')
-const { Pool } = require('pg')
-
-const fonts = {
-  Roboto: {
-    normal: 'fonts/Roboto-Regular.ttf',
-    bold: 'fonts/Roboto-Medium.ttf',
-    italics: 'fonts/Roboto-Italic.ttf',
-    bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-  }
-}
-
 const PdfPrinter = require('pdfmake')
-const printer = new PdfPrinter(fonts)
 const fs = require('fs')
 
 async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, signDate) {
@@ -20,6 +7,17 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let descrepancyActions = []
 
   let currentPath = process.cwd()
+
+  const fonts = {
+    Roboto: {
+      normal: currentPath+'/fonts/Roboto-Regular.ttf',
+      bold: currentPath+'/fonts/Roboto-Medium.ttf',
+      italics: currentPath+'/fonts/Roboto-Italic.ttf',
+      bolditalics: currentPath+'/fonts/Roboto-MediumItalic.ttf'
+    }
+  }
+
+  const printer = new PdfPrinter(fonts)
 
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
