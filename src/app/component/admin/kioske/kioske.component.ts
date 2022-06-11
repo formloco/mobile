@@ -13,6 +13,7 @@ import { SetIsDarkMode } from '../../../state/device/device-state.actions'
 
 import { SignupBottomComponent } from "../signup-bottom/signup-bottom.component"
 import { ContactComponent } from "../../contact/contact.component"
+import { WhyusComponent } from "../../whyus/whyus.component"
 @Component({
   selector: 'app-kioske',
   templateUrl: './kioske.component.html',
@@ -66,7 +67,8 @@ export class KioskeComponent implements OnInit {
   }
 
   whyus() {
-    this.store.dispatch(new SetPage('whyus'))
+    this.bottomSheet.open(WhyusComponent)
+    // this.store.dispatch(new SetPage('whyus'))
   }
 
 }

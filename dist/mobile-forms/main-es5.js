@@ -27943,9 +27943,9 @@
       WhyusComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
         type: WhyusComponent,
         selectors: [["app-whyus"]],
-        decls: 40,
-        vars: 1,
-        consts: [[1, "header"], [1, "toolbar-spacer"], ["mat-icon-button", "", 3, "click"], [1, "text-color"], [1, "content"], [1, "card__body_pink"], [1, "card__title", "card__title--dark"], [1, "card__text", "card__text--dark"], [1, "footer"], ["mat-stroked-button", "", 1, "green", 3, "click"], ["mat-stroked-button", "", "color", "primary", 3, "click"], ["mat-button", "", "target", "blank", "color", "primary", 3, "href"]],
+        decls: 33,
+        vars: 0,
+        consts: [[1, "header"], [1, "toolbar-spacer"], ["mat-icon-button", "", 3, "click"], [1, "text-color"], [1, "content"], [1, "card__body_pink"], [1, "card__title", "card__title--dark"], [1, "card__text", "card__text--dark"], [1, "footer"], ["href", "https://github.com/formloco/formloco/wiki", "target", "blank", "mat-stroked-button", "", 1, "green"]],
         template: function WhyusComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 0);
@@ -28048,47 +28048,13 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](31, "a", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("click", function WhyusComponent_Template_a_click_31_listener() {
-              return ctx.signup();
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](32, "mat-icon");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](33, "rocket_launch");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](34, "\xA0Sign Up! ");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](35, "span", 1);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](36, "button", 10);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("click", function WhyusComponent_Template_button_click_36_listener() {
-              return ctx.contact();
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](37, " contact ");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](38, "a", 11);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](39, " github ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](32, " Developers ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-          }
-
-          if (rf & 2) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](38);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpropertyInterpolate"]("href", ctx.githubUrl, _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsanitizeUrl"]);
           }
         },
         directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_7__["MatToolbar"], _angular_material_button__WEBPACK_IMPORTED_MODULE_8__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_9__["MatIcon"], _angular_material_button__WEBPACK_IMPORTED_MODULE_8__["MatAnchor"]],
@@ -38750,9 +38716,9 @@
       PricingComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
         type: PricingComponent,
         selectors: [["app-pricing"]],
-        decls: 93,
-        vars: 1,
-        consts: [[1, "header"], [1, "toolbar-spacer"], ["mat-icon-button", "", 3, "click"], [1, "text-color"], [1, "content"], [1, "card__header"], [1, "card__subtitle"], [1, "card__body_pink"], [1, "card__title", "card__title--dark"], [1, "card__text", "card__text--dark"], [1, "card__text--price-amount"], [1, "card__text--price-desc"], ["fxFlexLayout", "center", "fxLayoutGap", "20px"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "card__body_yellow"], [1, "card__body_green"], [1, "footer"], ["mat-stroked-button", "", "color", "primary", 3, "click"], ["mat-button", "", "target", "blank", "color", "primary", 3, "href"]],
+        decls: 90,
+        vars: 0,
+        consts: [[1, "header"], [1, "toolbar-spacer"], ["mat-icon-button", "", 3, "click"], [1, "text-color"], [1, "content"], [1, "card__header"], [1, "card__subtitle"], [1, "card__body_pink"], [1, "card__title", "card__title--dark"], [1, "card__text", "card__text--dark"], [1, "card__text--price-amount"], [1, "card__text--price-desc"], ["fxFlexLayout", "center", "fxLayoutGap", "20px"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "card__body_yellow"], [1, "card__body_green"], [1, "footer"], ["href", "https://github.com/formloco/formloco/wiki", "target", "blank", "mat-stroked-button", "", 1, "green"]],
         template: function PricingComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 0);
@@ -39047,33 +39013,15 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](87, "mat-toolbar");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](88, "span", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](88, "a", 17);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](89, "button", 17);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("click", function PricingComponent_Template_button_click_89_listener() {
-              return ctx.contact();
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](90, " contact ");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](91, "a", 18);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](92, " github ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](89, " Developers ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-          }
-
-          if (rf & 2) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](91);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpropertyInterpolate"]("href", ctx.githubUrl, _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsanitizeUrl"]);
           }
         },
         directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_7__["MatToolbar"], _angular_material_button__WEBPACK_IMPORTED_MODULE_8__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_9__["MatIcon"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_10__["DefaultLayoutGapDirective"], _angular_material_button__WEBPACK_IMPORTED_MODULE_8__["MatAnchor"]],

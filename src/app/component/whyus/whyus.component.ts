@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
-import { MatBottomSheet } from '@angular/material/bottom-sheet'
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 
 import { Store } from '@ngxs/store'
 import { SetPage } from '../../state/auth/auth-state.actions'
@@ -21,7 +21,8 @@ export class WhyusComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private bottomSheet: MatBottomSheet,) { }
+    private bottomSheet: MatBottomSheet,
+    public matBottomSheetRef: MatBottomSheetRef<WhyusComponent>) { }
 
   ngOnInit(): void {
   }
@@ -31,7 +32,7 @@ export class WhyusComponent implements OnInit {
   }
 
   close() {
-    this.store.dispatch(new SetPage('kioske'))
+    this.matBottomSheetRef.dismiss()
   }
 
   contact() {
