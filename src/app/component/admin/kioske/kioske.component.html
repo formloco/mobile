@@ -1,7 +1,7 @@
 <div class="header">
   <mat-toolbar>
     <button (click)="whyus()" mat-button color="primary">
-      Why Us?
+      Features
     </button>
     <button (click)="pricing()" mat-button color="primary">
       Pricing
@@ -40,16 +40,22 @@
 <div class="footer">
   <mat-toolbar>
     <div class="hand" fxLayoutGap="15px">
-      <a class="green" (click)="signup()" mat-stroked-button>
-        <mat-icon>rocket_launch</mat-icon>&nbsp;Sign Up!
+      <!-- <a mat-button href="{{githubUrl}}" target="blank" color="primary">
+        <img src="assets/GitHub-Mark-Light-32px.png">
+      </a> -->
+      <a class="green" href="https://github.com/formloco/formloco/wiki" target="blank" mat-stroked-button>
+        Developers
       </a>
+      <!-- <a class="green" (click)="signup()" mat-stroked-button>
+        <mat-icon>rocket_launch</mat-icon>&nbsp;Sign Up!
+      </a> -->
     </div>
     <span class="toolbar-spacer"></span>
-    <div fxLayoutGap="15px">
+    <!-- <div fxLayoutGap="15px">
       <a mat-button href='{{githubUrl}}' target="blank" color="primary">
         <img src="assets/GitHub-Mark-Light-32px.png">
       </a>
-    </div>
+    </div> -->
     <img src="assets/parrot.svg" height="28px">&nbsp;<span class="mat-small text-color">{{version}}</span>
   </mat-toolbar>
 </div>

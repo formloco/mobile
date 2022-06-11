@@ -60,7 +60,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         alignment: 'justify',
         columns: [
           {
-            image: currentPath+'api/images/logo.png'
+            image: currentPath+'/api/images/logo.png'
           },
           {
             text: 'Spot Check Safety', style: 'header'

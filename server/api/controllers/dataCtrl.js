@@ -1,5 +1,5 @@
-let currentPath = process.cwd().slice(0, -3)
-let docPath = currentPath + 'files/'
+let currentPath = process.cwd()
+let filePath = currentPath + '/files/'
 
 const { dataRead, formRead, formSign, dataCreate, dataUpdate, dataDelete, listsGet, emailsGet, listSave, dataSync } = require('../services/dataService')
 
@@ -85,7 +85,7 @@ const saveList = async(req, res) => {
 }
 
 const getPDF = async(req, res) => {
-  const fileName = '../files/'+req.params.name+'.pdf'
+  const fileName = filePath+req.params.name+'.pdf'
   res.download(fileName, (err) => {
     if (err) {
       res.status(500).send({

@@ -39,6 +39,7 @@ export class HttpConfig implements HttpInterceptor {
         return event;
       }),
       catchError((errorResponse: HttpErrorResponse) => {
+        console.log(errorResponse)
         if (errorResponse.status == 401) {
           this.appService.refreshToken()
         }

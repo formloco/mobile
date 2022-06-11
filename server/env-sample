@@ -1,0 +1,14 @@
+DEV_DBUSER="databaseUserName"
+DEV_HOST="api.formloco.com"
+DEV_PASSWORD="databaseUserPassword"
+DEV_PORT=5432
+DEV_SECRET="apiSecret"
+
+PROD_DBUSER="databaseUserName"
+PROD_HOST="api.formloco.com"
+PROD_PASSWORD="databaseUserPassword"
+PROD_PORT=5432
+PROD_SECRET="apiSecret"
+
+MAILGUN_KEY="mailgun-key"
+MAILGUN_DOMAIN="mailgun-domain"
