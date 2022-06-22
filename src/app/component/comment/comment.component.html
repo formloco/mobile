@@ -17,7 +17,7 @@
       </mat-form-field>
     </div>
     <div fxLayoutAlign="space-between center">
-      <div *ngIf="!data.isCommentOnly" class="action-btn" fxLayoutAlign="center center">
+      <div class="action-btn" fxLayoutAlign="center center">
         <button mat-stroked-button (click)="openCorrectiveActionDialog()" [disabled]="commentForm.invalid">Corrective action</button>
       </div>
       <button (click)=openVoice() mat-mini-fab color="primary">

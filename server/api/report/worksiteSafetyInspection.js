@@ -100,6 +100,14 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       {
         columns: [
           {
+            text: 'Date: ' + header.Date.slice(0, 10)
+          }
+        ]
+      },
+      '\n',
+      {
+        columns: [
+          {
             text: 'Client: ' + header.Client
           },
           {
@@ -113,9 +121,6 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       '\n',
       {
         columns: [
-          {
-            text: 'Date: ' + header.Date.slice(0, 10)
-          },
           {
             text: 'Site Supervisor: ' + header.Supervisor
           },
@@ -245,7 +250,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.PublicAccessToTheSiteControlled, alignment: 'center' },
               { text: formObj.PublicAccessToTheSiteControlledNo, alignment: 'center' },
               { text: formObj.PublicAccessToTheSiteControlledNa, alignment: 'center' },
-              { text: 'Spill kit available', alignment: 'center' },
+              'Spill kit available',
               { text: formObj.SpillKitAvailable, alignment: 'center' },
               { text: formObj.SpillKitAvailableNo, alignment: 'center' },
               { text: formObj.SpillKitAvailableNa, alignment: 'center' }
@@ -267,6 +272,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         style: 'tableExample',
         table: {
           widths: ['*', 25, 25, '*', 25, 25],
+          pageBreak: 'before',
           body: [
             [{ text: 'Fire Extinguisher(s)', style: 'tableHeader' }, { text: 'Y', alignment: 'center' }, { text: 'N', alignment: 'center' }, { text: ' ' }, { text: 'Y', alignment: 'center' }, { text: 'N', alignment: 'center' }],
             [
@@ -335,7 +341,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.ERPIncludesDirectionsToNearestHospital, alignment: 'center' },
               { text: formObj.ERPIncludesDirectionsToNearestHospitalNo, alignment: 'center' },
               { text: formObj.ERPIncludesDirectionsToNearestHospitalNa, alignment: 'center' },
-              { text: 'Cellular or radio coverage confirmed. If no, what communication is in place?', alignment: 'center' },
+              'Cellular or radio coverage confirmed. If no, what communication is in place?',
               { text: formObj.CellularOrRadioCoverageConfirmed, alignment: 'center' },
               { text: formObj.CellularOrRadioCoverageConfirmedNo, alignment: 'center' },
               { text: formObj.CellularOrRadioCoverageConfirmedNa, alignment: 'center' }
@@ -426,6 +432,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         style: 'tableExample',
         table: {
           widths: ['*', 25, 25],
+          pageBreak: 'before',
           body: [
             [{ text: 'Hot Work', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
             ['Does the project involve Hot Work (work that could produce a source of ignition, such as a spark or open flame)',
@@ -459,7 +466,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects, alignment: 'center' },
               { text: formObj.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNo, alignment: 'center' },
               { text: formObj.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefectsNa, alignment: 'center' },
-              { text: 'Headlights are in proper working condition' },
+              'Headlights are in proper working condition',
               { text: formObj.HeadlightsAreInProperWorkingCondition, alignment: 'center' },
               { text: formObj.HeadlightsAreInProperWorkingConditionNo, alignment: 'center' },
               { text: formObj.HeadlightsAreInProperWorkingConditionNa, alignment: 'center' }
@@ -538,17 +545,6 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         alignment: 'justify',
         text: 'Signatures', style: 'subheader'
       },
-      {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Summit Supervisor: ' + header.Supervisor
-          },
-          {
-            text: 'Sign-off Date: ' + dateSigned
-          }
-        ]
-      },
       '\n',
       {
         alignment: 'justify',
@@ -560,6 +556,18 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
             text: 'Date: ' + header.Date.slice(0, 10)
           }
         ],
+      },
+      '\n',
+      {
+        alignment: 'justify',
+        columns: [
+          {
+            text: 'Summit Supervisor: ' + header.Supervisor
+          },
+          {
+            text: 'Sign-off Date: ' + dateSigned
+          }
+        ]
       },
       '\n\n',
       {

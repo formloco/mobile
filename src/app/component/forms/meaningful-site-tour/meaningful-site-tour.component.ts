@@ -226,7 +226,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
             supervisor: supervisor,
             description: 'Meaningful Site Tour ' + this.appService.now,
             message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-            subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + this.appService.now,
+            subject: 'New Meaningful Site Tour from ' + header.Worker + ', ' + this.appService.now,
             form_id: form["form_id"],
             data_id: this.formDataID,
             pdf: 'meaningful-site-tour' + this.formDataID
@@ -243,8 +243,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
     this.headerForm.reset()
     this.notesForm.reset()
     this.store.dispatch(new SetPics([]))
-    this.autoCompleteService.workersControl.setValue('')
-    this.autoCompleteService.supervisorsControl.setValue('')
+    this.autoCompleteService.workersControl.reset()
+    this.autoCompleteService.supervisorsControl.reset()
   }
 
 }

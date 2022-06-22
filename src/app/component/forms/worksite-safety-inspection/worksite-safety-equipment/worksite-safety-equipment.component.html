@@ -93,6 +93,7 @@
       <mat-radio-group formControlName="FirstAidKitEquippedInVehicle">
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button (click)="openComment(label.FirstAidKitEquippedInVehicle,'FirstAidKitEquippedInVehicle')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">{{label.EmergencySurvivalKitEquippedInVehicle}}</div>
@@ -100,6 +101,7 @@
       <mat-radio-group formControlName="EmergencySurvivalKitEquippedInVehicle">
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button (click)="openComment(label.EmergencySurvivalKitEquippedInVehicle,'EmergencySurvivalKitEquippedInVehicle')" value="no">No</mat-radio-button>
+        <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
   </form>

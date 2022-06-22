@@ -361,12 +361,12 @@ export class VehicleInspectionComponent implements OnInit {
     this.headerForm.reset()
     this.detailForm.reset()
     this.store.dispatch(new SetPics([]))
-    this.autoCompleteService.workersControl.setValue('')
-    this.autoCompleteService.supervisorsControl.setValue('')
-    this.autoCompleteService.makesControl.setValue('')
-    this.autoCompleteService.modelsControl.setValue('')
-    this.autoCompleteService.workersControl.setValue('')
-    this.autoCompleteService.supervisorsControl.setValue('')
+    this.autoCompleteService.workersControl.reset()
+    this.autoCompleteService.supervisorsControl.reset()
+    this.autoCompleteService.makesControl.reset()
+    this.autoCompleteService.modelsControl.reset()
+    this.autoCompleteService.workersControl.reset()
+    this.autoCompleteService.supervisorsControl.reset()
   }
 
 }

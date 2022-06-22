@@ -34,7 +34,7 @@ export class PersonalProtectiveEquipmentComponent {
   openCommentOnly(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'Personal Protective Equipment', label: label, field: field, type: 'isSpotCheckSafety', isCommentOnly: true }
+    dialogConfig.data = { title: 'Personal Protective Equipment', label: label, field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

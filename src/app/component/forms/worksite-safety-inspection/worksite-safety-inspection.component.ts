@@ -468,8 +468,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     this.discrepancyForm.reset()
     this.keyPositiveFindingsForm.reset()
     this.store.dispatch(new SetPics([]))
-    this.autoCompleteService.workersControl.setValue('')
-    this.autoCompleteService.supervisorsControl.setValue('')
+    this.autoCompleteService.workersControl.reset()
+    this.autoCompleteService.supervisorsControl.reset()
   }
 
 }

@@ -56,10 +56,11 @@ export class AutoCompleteService {
   public makesControl = new FormControl(null)
   public modelsControl = new FormControl(null)
   public clientsControl = new FormControl(null)
-  public personResonsibleCorrectiveActionControl = new FormControl(null)
+  // public personResonsibleCorrectiveActionControl = new FormControl(null)
 
   constructor(private store: Store) { 
     this.workers = this.store.selectSnapshot(AuthState.workers)
+    console.log(this.workers)
     this.filteredWorkers$ = this.workersControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filterWorkers(value))

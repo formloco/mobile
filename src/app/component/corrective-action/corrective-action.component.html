@@ -9,8 +9,7 @@
 <br><br>
 <form fxLayout="column" [formGroup]="correctiveActionForm">
   <ion-label position="stacked">Date for corrective actions to be completed</ion-label>
-  <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY"
-    formControlName="DateCorrectiveActionToBeCompleted">
+  <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY" formControlName="DateCorrectiveActionToBeCompleted">
   </ion-datetime>
   <mat-divider></mat-divider>
   <br>
@@ -36,17 +35,21 @@
   <br>
   <mat-form-field>
     <mat-label>Person Responsible</mat-label>
-    <input type="text" placeholder="Person Responsible" matInput
-      [formControl]="autoCompleteService.personResonsibleCorrectiveActionControl" [matAutocomplete]="autoWorkers"
-      required>
+    <input type="text" placeholder="Person Responsible" matInput [formControl]="autoCompleteService.workersControl"
+      [matAutocomplete]="autoWorkers" required>
     <mat-autocomplete #autoWorkers="matAutocomplete" required>
       <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
         {{worker.name}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <ion-label position="stacked">Date corrective actions were complete</ion-label>
-  <ion-datetime class="picker-color" displayFormat="MMM DD, YYYY" formControlName="DateCorrectiveActionCompleted">
+  <div fxLayoutAlign="space-between center">
+    <ion-label position="stacked">Date corrective actions were complete</ion-label>
+    <button *ngIf="isResetDateCompleted" (click)="clearDateCompleted()" mat-mini-fab color="primary">
+      <mat-icon matSuffix>restart_alt</mat-icon>
+    </button>
+  </div>
+  <ion-datetime (ionChange)="setIsResetDateCompleted()" class="picker-color" displayFormat="MMM DD, YYYY" formControlName="DateCorrectiveActionCompleted">
   </ion-datetime>
   <mat-divider></mat-divider>
   <br>

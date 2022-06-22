@@ -45,6 +45,7 @@ export class HttpConfig implements HttpInterceptor {
         }
         else {
           this.errorService.popSnackbar(errorResponse.error);
+          if (errorResponse.error.type == 'timeout') window.location.reload()
           return throwError(errorResponse);
         }
         

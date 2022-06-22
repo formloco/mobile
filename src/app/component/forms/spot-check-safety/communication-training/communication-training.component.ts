@@ -64,7 +64,7 @@ export class CommunicationTrainingComponent implements OnInit {
   openCommentOnly(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'Communication & Training', label: label, field: field, type: 'isSpotCheckSafety', isCommentOnly: true }
+    dialogConfig.data = { title: 'Communication & Training', label: label, field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

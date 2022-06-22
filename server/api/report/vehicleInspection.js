@@ -3,6 +3,9 @@ const fs = require('fs')
 
 async function vehicleInspectionPDF(path, reportData, messages, pics, signDate ) {
 
+  let descrepancies = []
+  let descrepancyActions = []
+
   let currentPath = process.cwd()
 
   const fonts = {
@@ -19,64 +22,51 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   let dateSigned = 'To be determined'
   if (signDate) dateSigned = signDate
 
-
   let header = reportData.header
   let detail = reportData.detail
+  let correctiveActions = reportData.correctiveActions
+  let comments = reportData.comments
 
-  // let inspectionArray = []
-  // let inspections = 'No Inspection Data'
+  descrepancies.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }])
+  if (comments && comments.length > 0) {
+    comments.forEach(comment => {
+      descrepancies.push([{ text: comment.label }, { text: comment.text }])
+    })
+  }
+  else  descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
 
-  // const inspectionHeader = {
-  //   header: {
-  //     col_1: { text: 'Inspection Completed', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
-  //     col_2: { text: 'Type', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
-  //     col_3: { text: 'Action Items', style: 'tableHeader', alignment: 'center', margin: [0, 8, 0, 0] },
-  //     col_4: { text: 'Corrective Action', style: 'tableHeader', alignment: 'center' },
-  //     col_5: { text: 'Corrective Action Date', style: 'tableHeader', alignment: 'center' },
-  //   }
-  // }
-
-  // for (let key in inspection.rows) {
-  //   if (inspection.rows.hasOwnProperty(key)) {
-  //     const data = inspectionData[key];
-  //     const row = new Array();
-  //     row.push(null);
-  //     row.push(data.type);
-  //     row.push(data.corrective_action_label);
-  //     row.push(data.corrective_action);
-  //     row.push(data.action_item);
-  //     inspectionArray.push(row);
-  //   }
-  // }
-
-  // if (inspectionArray.length == 0) {let inspections = 'No Inspection Data'}
-  // let descrepancy = formData.rows[0]["data"]["discrepancy"]["Discrepancy"]
+  descrepancyActions.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }, { text: 'Date Requested', style: 'tableHeader' }, { text: 'Date Completed', style: 'tableHeader' }, { text: 'Person Responsible', style: 'tableHeader' }])
+  if (correctiveActions && correctiveActions.length > 0) {
+    correctiveActions.forEach(action => {
+      descrepancyActions.push([{ text: action.label }, { text: action.correctiveActionRequired }, { text: action.dateToComplete }, { text: action.dateCompleted }, { text: action.personResponsible }])
+    })
+  }
+  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
 
   IgnitionKey = detail.IgnitionKey ? '√ Ignition Key' : 'Ignition Key'
-  FuelKey = detail.FuelKey ? '√ Fuel Key, if used' : 'Fuel Key, if used'
+  FuelKey = detail.FuelKey ? '√ Fuel Key, check used' : 'Fuel Key, check used'
   OilLevel = detail.OilLevel ? '√ Oil Level' : 'Oil Level'
   WasherFluidLevel = detail.WasherFluidLevel ? '√ Washer Fluid Level' : 'Washer Fluid Level'
   CoolantLevel = detail.CoolantLevel ? '√ Coolant Level' : 'Coolant Level'
   PowerSteeringFluidLevel = detail.PowerSteeringFluidLevel ? '√ Power Steering Fluid Level' : 'Power Steering Fluid Level'
   AirGauge = detail.AirGauge ? '√ Check for Air Gauge' : 'Check for Air Gauge'
   Horn = detail.Horn ? '√ Check Horn' : 'Check Horn'
-  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroste' : 'Check Heater/Defroste'
+  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroster' : 'Check Heater/Defroste'
   WindshieldWipersWashers = detail.WindshieldWipersWashers ? '√ Check Windshield Wipers/Washers' : 'Check Windshield Wipers/Washers'
   AllSignalLights = detail.AllSignalLights ? '√ Check all signal lights' : 'Check all signal lights'
   InteriorLights = detail.InteriorLights ? '√ Check Interior lights' : 'Check Interior lights'
   MirrorsDamageAdjustments = detail.MirrorsDamageAdjustments ? '√ Check Mirrors for damage and adjustments' : 'Check Mirrors for damage and adjustments'
-  WindshieldVisibility = detail.WindshieldVisibility ? '√ Windshield clear visibility' : 'Windshield clear visibility'
-
+  WindshieldVisibility = detail.WindshieldVisibility ? '√ Windshield clear visibility, no cracks' : 'Windshield clear visibility, no cracks'
 
   TwoWayRadio = detail.TwoWayRadio ? '√ Check Radio (Two-way check), if required' : 'Check Radio (Two-way check), if required'
   VisualInspectionExterior = detail.VisualInspectionExterior ? '√ Visual Inspection for Exterior Damage/Leaks under vehicle' : 'Visual Inspection for Exterior Damage/Leaks under vehicle'
   InsideEngineCompartment = detail.InsideEngineCompartment ? '√ Check inside Engine compartment for Leaks/loose items' : 'Check inside Engine compartment for Leaks/loose items'
   TransmissionFluidLevel = detail.TransmissionFluidLevel ? '√ Start Engine & check Transmission Fluid Level (Fluid should be hot)' : 'Start Engine & check Transmission Fluid\nLevel (Fluid should be hot)'
-  HighlightSignal4wayTailBackup = detail.HighlightSignal4wayTailBackup ? '√ Check Highlight/Signal lights/4way flashes/Tail lights/Backup lights/Horn' : ' Check Highlight/Signal lights/4way\nflashes/Tail lights/Backup lights/Horn'
+  HighlightSignal4wayTailBackup = detail.HighlightSignal4wayTailBackup ? '√ Check Highlight/Signal lights/4way flashes/Tail lights/Backup lights/Horn' : ' Check Highlight/Signal lights/4way\nflashes/Tail lights/Backup lights'
   FuelLevel = detail.FuelLevel ? '√ Check fuel level (Should Not be Less Than ½ Tank)' : 'Check fuel level (Should Not be Less Than ½ Tank)'
-  FirstAidKit = detail.FirstAidKit ? '√ Check First Aid Kit on Board and full' : 'Check First Aid Kit on Board and full'
+  FirstAidKit = detail.FirstAidKit ? '√ Check First Aid Kit available and full, check expiry dates on contents' : 'Check First Aid Kit available and full, check expiry dates on contents'
   FireExtinguisher = detail.FireExtinguisher ? '√ Check Fire Extinguisher on board/Gauge showing charged, proper seal, pin and inspection' : 'Check Fire Extinguisher on board/Gauge showing charged, proper seal, pin and\u200B\tinspection'
-  SurvivalKit = detail.SurvivalKit ? '√ Survival kit (in winter): candles, blanket/sleeping bag, water' : 'Survival kit (in winter): candles, blanket/tsleeping bag, water'
+  SurvivalKit = detail.SurvivalKit ? '√ Survival kit: candles, emergency blanket, tow rope, booster cables, light sticks, water' : 'Survival kit: candles, emergency blanket, tow rope, booster cables, light sticks, water'
   Tires = detail.Tires ? '√ Check Tires for wear and pressure (as per manufacturer)' : 'Check Tires for wear and pressure (as per manufacturer)'
   SpillKit = detail.SpillKit ? '√ Check Spill Kit, if required' : 'Check Spill Kit, if required'
 
@@ -93,34 +83,34 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
           }
         ]
       },
-      '\n\n',
+      '\n',
       {
         alignment: 'justify',
         columns: [
           {
             text: 'Date: ' + header.Date.slice(0, 10)
-          },
-          {
-            text: 'Worker: ' + header.Worker
-          },
-          {
-            text: 'Vehicle: ' + header.Year + ', ' + header.Make + ', ' + header.Model
           }
         ]
       },
-      '\n\n',
+      '\n',
       {
         alignment: 'justify',
         columns: [
           {
-            text: 'Milage: ' + header.Mileage
-          },
-          {
-            text: 'Registration Expiry Date: ' + header.RegistrationDate.slice(0, 10)
+            text: 'Worker: ' + header.Worker + '  Stakeholder: ' + header.Stakeholder + '  Division: ' + header.Division
           }
         ]
       },
-      '\nThe items on this inspection sheet should be checked monthly. A separate sheet should be filled out for each vehicle driven. Place an √ by any item that needs attention. Place a check mark by the rest. Any discrepancies should be detailed on the bottom of this sheet.\n\n',
+      '\n',
+      {
+        alignment: 'justify',
+        columns: [
+          {
+            text: 'Unit #: ' + header.UnitNumber + '  Milage: ' + header.Mileage + '  Registration Expiry Date: ' + header.RegistrationDate.slice(0, 10)
+          }
+        ]
+      },
+      '\nThe items on this inspection sheet should be checked monthly. A separate sheet should be filled out for each vehicle driven. Place an √ by any item that needs attention. Any discrepancies should be detailed on the bottom of this sheet.\n\n',
       {
         columns: [
           {
@@ -161,14 +151,6 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       '\nAs you drive, continually check for any strange smells, sounds, vibrations, or Anything that does not feel right.\n',
       '\n**Vehicles should be serviced as per manufacturer’s recommendations and repairs made only by competent accredited personnel.\n',
       '\nFor monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
-      '\n\n',
-      // {
-      //   alignment: 'justify',
-      //   text: 'Inspection Action Items', style: 'subheader'
-      // },
-      // '\n',
-      //   inspections,
-      // '\n',
       {
         alignment: 'justify',
         columns: [
@@ -180,7 +162,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
           }
         ]
       },
-      '\n\n',
+      '\n',
       {
         alignment: 'justify',
         columns: [
@@ -195,6 +177,27 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
           { text: '', style: 'icon' }, //icon gift
           " my present"
         ]
+      },
+      {
+        alignment: 'justify',
+        text: 'Comments', style: 'subheader', pageBreak: 'before'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: descrepancies,
+        }
+      },
+      '\n\n',
+      {
+        alignment: 'justify',
+        text: 'Corrective Actions', style: 'subheader'
+      },
+      {
+        table: {
+          widths: ['*', '*', 100, 100, 100],
+          body: descrepancyActions
+        }
       },
       '\n\n',
       {

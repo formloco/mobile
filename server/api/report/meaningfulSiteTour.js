@@ -55,7 +55,8 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
           [
             { text: 'Conducting Your Tour\n\n', style: 'subheader', alignment: 'center' },
             {
-              text: 'Name:  ' + header.Name + '\n' +
+              text: 'Others Included:  ' + header.Name + '\n' +
+                'Summit Representative:  ' + header.Worker + '\n' +
                 'Location:  ' + header.Location + '\n' +
                 'Date:  ' + header.Date + '\n\n'
 

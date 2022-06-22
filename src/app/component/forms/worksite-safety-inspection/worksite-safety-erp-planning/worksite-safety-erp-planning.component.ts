@@ -59,7 +59,7 @@ export class WorksiteSafetyErpPlanningComponent implements OnInit {
   openCommentOnly(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'ERP Planning', label: label, field: field, type: 'isErpPlanning', isCommentOnly: true }
+    dialogConfig.data = { title: 'ERP Planning', label: label, field: field, type: 'isErpPlanning' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

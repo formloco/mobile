@@ -34,7 +34,7 @@ export class HazardIdentificationControlComponent {
   openCommentOnly(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'Hazard Identification & Control', label: label, field: field, type: 'isHazardIdentification', isCommentOnly: true }
+    dialogConfig.data = { title: 'Hazard Identification & Control', label: label, field: field, type: 'isHazardIdentification' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

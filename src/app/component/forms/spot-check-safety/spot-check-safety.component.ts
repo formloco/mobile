@@ -285,6 +285,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       personalEquipment: this.personalEquipmentForm.value,
       safetyEquipment: this.safetyEquipmentForm.value,
       discrepancyComments: this.discrepancyForm.value,
+      comments: this.store.selectSnapshot(CommentState.comments),
       correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
@@ -356,8 +357,8 @@ export class SpotCheckSafetyComponent implements OnInit {
     this.personalEquipmentForm.reset()
     this.safetyEquipmentForm.reset()
     this.store.dispatch(new SetPics([]))
-    this.autoCompleteService.workersControl.setValue('')
-    this.autoCompleteService.supervisorsControl.setValue('')
+    this.autoCompleteService.workersControl.reset()
+    this.autoCompleteService.supervisorsControl.reset()
   }
 
 }

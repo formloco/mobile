@@ -10,7 +10,6 @@ import { CorrectiveActionState } from '../corrective-action/state/corrective-act
 import * as _ from 'lodash'
 import { SetCorrectiveActions } from './state/corrective-action.actions'
 import { AutoCompleteService } from "../../service/auto-complete.service"
-
 @Component({
   selector: 'app-corrective-action',
   templateUrl: './corrective-action.component.html',
@@ -19,6 +18,8 @@ import { AutoCompleteService } from "../../service/auto-complete.service"
 export class CorrectiveActionComponent implements OnInit {
 
   @Input() correctiveActionForm
+
+  isResetDateCompleted = false
   
   constructor(
     private store: Store,
@@ -41,6 +42,8 @@ export class CorrectiveActionComponent implements OnInit {
     const correctiveAction = correctiveActions.filter(c => c.field == this.data.field)
     
     if (correctiveAction.length > 0) {
+      console.log(correctiveAction[0].dateCompleted)
+      if (correctiveAction[0].dateCompleted) this.isResetDateCompleted = true
       this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
       this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
       this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
@@ -59,7 +62,7 @@ export class CorrectiveActionComponent implements OnInit {
         dateToComplete: this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value,
         actionItem: this.data.actionItem,
         correctiveActionRequired: this.correctiveActionForm.controls['CorrectiveActionRequired'].value,
-        personResponsible: this.autoCompleteService.personResonsibleCorrectiveActionControl.value,
+        personResponsible: this.autoCompleteService.workersControl.value,
         dateCompleted: this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value,
         field: this.data.field,
         type: this.data.type
@@ -67,7 +70,7 @@ export class CorrectiveActionComponent implements OnInit {
     else {
       correctiveActions[correctiveActionIdx].dateToComplete = this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].value
       correctiveActions[correctiveActionIdx].correctiveActionRequired = this.correctiveActionForm.controls['CorrectiveActionRequired'].value
-      correctiveActions[correctiveActionIdx].personResponsible = this.autoCompleteService.personResonsibleCorrectiveActionControl.value
+      correctiveActions[correctiveActionIdx].personResponsible = this.autoCompleteService.workersControl.value
       correctiveActions[correctiveActionIdx].dateCompleted = this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].value
       correctiveActions[correctiveActionIdx].signature = this.store.selectSnapshot(AuthState.user).email
     }  
@@ -78,6 +81,15 @@ export class CorrectiveActionComponent implements OnInit {
 
   openVoice(formField, title) {
     this.appService.popVoiceDialog(this.correctiveActionForm, formField, title)
+  }
+
+  clearDateCompleted() {
+    this.isResetDateCompleted = false
+    this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].reset()
+  }
+
+  setIsResetDateCompleted() {
+    this.isResetDateCompleted = true
   }
 
 }
