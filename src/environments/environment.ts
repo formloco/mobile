@@ -7,7 +7,7 @@ export const environment = {
   production: false,
 
   kioske: true,
-  designUrl: 'http://localhost:4201/kioske/true',
+  designUrl: Formloco.designKioskeUrl,
 
   // kioske: false,
   // designUrl: 'http://localhost:4201',
