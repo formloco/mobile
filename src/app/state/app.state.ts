@@ -18,6 +18,10 @@ export const States = [
   WorksiteSafetyInspectionState
 ]
 
+export enum Platform {
+  last_updated = 'June 29, 2022'
+  }
+
 export enum Formloco {
   pin = '111111',
   tenant = 'formloco',
