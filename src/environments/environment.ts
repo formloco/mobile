@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Formloco, Summit } from '../app/state/app.state'
+import { Formloco, Summit, Platform } from '../app/state/app.state'
 
 export const environment = {
   production: false,
@@ -31,41 +31,43 @@ export const environment = {
   redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
 
-  // apiUrl: Summit.apiUrl,
-  // authUrl: Summit.authUrl,
-  // formUrl: Summit.formUrl,
-  // emailUrl: Summit.emailUrl,
-  // assetUrl: Summit.assetUrl,
-  // notificationUrl: Summit.notificationUrl,
+  apiUrl: Summit.apiUrl,
+  authUrl: Summit.authUrl,
+  formUrl: Summit.formUrl,
+  emailUrl: Summit.emailUrl,
+  assetUrl: Summit.assetUrl,
+  notificationUrl: Summit.notificationUrl,
 
-  // messageUrl: Summit.messageUrl,
-  // signinUrl: Summit.signinUrl,
-  // // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+  messageUrl: Summit.messageUrl,
+  signinUrl: Summit.signinUrl,
+  // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
 
-  // tenant: { email: Summit.email, tenant_id: Summit.tenant },
-  // logo: Summit.logo,
-  // idbName: Summit.idbName,
-  // version: Summit.version,
-  // pin: Summit.pin,
+  tenant: { email: Summit.email, tenant_id: Summit.tenant },
+  logo: Summit.logo,
+  idbName: Summit.idbName,
+  version: Summit.version,
+  last_update: Platform.last_updated,
+  pin: Summit.pin,
 
   // kioske links
   linkedinUrl: Formloco.linkedinUrl,
   githubUrl: Formloco.githubUrl,
   
-  apiUrl: Formloco.apiUrl,
-  authUrl: Formloco.authUrl,
-  formUrl: Formloco.formUrl,
-  emailUrl: Formloco.emailUrl,
-  assetUrl: Formloco.assetUrl,
-  notificationUrl: Formloco.notificationUrl,
-  messageUrl: Formloco.messageUrl,
-  signinUrl: Formloco.signinUrl,
-  tenant: { email: Formloco.email, tenant_id: Formloco.tenant },  
+  // apiUrl: Formloco.apiUrl,
+  // authUrl: Formloco.authUrl,
+  // formUrl: Formloco.formUrl,
+  // emailUrl: Formloco.emailUrl,
+  // assetUrl: Formloco.assetUrl,
+  // notificationUrl: Formloco.notificationUrl,
+  // messageUrl: Formloco.messageUrl,
+  // signinUrl: Formloco.signinUrl,
+  // tenant: { email: Formloco.email, tenant_id: Formloco.tenant },  
 
-  logo: Formloco.logo,
-  version: Formloco.version,
-  idbName: Formloco.idbName,
-  pin: Formloco.pin
+  // logo: Formloco.logo,
+  // version: Formloco.version,
+  // last_update: Platform.last_updated,
+  // idbName: Formloco.idbName,
+  // pin: Formloco.pin
 };
 
 /*
