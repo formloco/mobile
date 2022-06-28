@@ -28,7 +28,7 @@ export const environment = {
 
   // router re-directs, message comes from email link
   // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+  // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
 
   apiUrl: Summit.apiUrl,
@@ -40,7 +40,7 @@ export const environment = {
 
   messageUrl: Summit.messageUrl,
   signinUrl: Summit.signinUrl,
-  // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+  redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
 
   tenant: { email: Summit.email, tenant_id: Summit.tenant },
   logo: Summit.logo,
