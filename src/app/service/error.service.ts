@@ -11,7 +11,7 @@ export class ErrorService {
 
   popSnackbar(message) {
     let msg = "Whoa, something went wrong"
-
+    msg = message
     this.snackBar.open(msg, "Heads Up!", {duration: 3000})
   }
   

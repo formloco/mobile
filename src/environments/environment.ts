@@ -6,13 +6,13 @@ import { Formloco, Summit, Platform } from '../app/state/app.state'
 export const environment = {
   production: false,
 
-  kioske: true,
-  designUrl: Formloco.designKioskeUrl,
+  // kioske: true,
+  // designUrl: Formloco.designKioskeUrl,
 
-  // kioske: false,
+  kioske: false,
   // designUrl: 'http://localhost:4201',
   // design is an external app
-  // designUrl: Formloco.designUrl,
+  designUrl: Formloco.designUrl,
   
   homeUrl: 'http://localhost:4200',
   // messageUrl is used by email service to embed link in notification email
