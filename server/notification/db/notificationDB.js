@@ -5,7 +5,6 @@ const { v4: uuidv4 } = require('uuid')
 
 
 const allNotificationSQL = async (req) => {
-  console.log('REQUEST:', req)
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
