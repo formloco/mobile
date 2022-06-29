@@ -24,7 +24,7 @@ export class KioskeComponent implements OnInit {
   tenant
   logo = environment.logo
   version = environment.version
-  last_updated = environment.last_update
+  lastUpdate = environment.lastUpdate
   linkedinUrl = environment.linkedinUrl
   githubUrl = environment.githubUrl
   designUrl = environment.designUrl

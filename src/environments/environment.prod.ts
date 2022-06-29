@@ -31,7 +31,7 @@ export const environment = {
   // logo: Formloco.logo,
   // idbName: Formloco.idbName,
   // version: Formloco.version,
-  // last_update: Platform.last_updated,
+  // lastUpdate: Platform.lastUpdate,
   // pin: Formloco.pin
 
   apiUrl: Summit.apiUrl,
@@ -53,6 +53,6 @@ export const environment = {
   logo: Summit.logo,
   idbName: Summit.idbName,
   version: Summit.version,
-  last_updated: Platform.last_updated,
+  lastUpdate: Platform.lastUpdate,
   pin: Summit.pin
 }

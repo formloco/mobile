@@ -22,31 +22,31 @@ export class AutoCompleteService {
 
   public filteredSupervisors$: Observable<any[]>
   private _filterSupervisors(value: any): any[] {
-    const filterValue = value.toLowerCase()
+    const filterValue = value?.toLowerCase()
     return this.supervisors.filter(supervisor => supervisor["name"]?.toLowerCase().includes(filterValue))
   }
 
   public filteredWorkers$: Observable<any[]>
   private _filterWorkers(value: any): any[] {
-    const filterValue = value.toLowerCase()
+    const filterValue = value?.toLowerCase()
     return this.workers.filter(worker => worker["name"]?.toLowerCase().includes(filterValue))
   }
 
   public filteredMakes$: Observable<any[]>
   private _filterMakes(value: any): any[] {
-    const filterValue = value.toLowerCase()
+    const filterValue = value?.toLowerCase()
     return this.makes.filter(m => m.toLowerCase().includes(filterValue))
   }
 
   public filteredModels$: Observable<any[]>
   private _filterModels(value: any): any[] {
-    const filterValue = value.toLowerCase()
+    const filterValue = value?.toLowerCase()
     return this.models.filter(m => m.toLowerCase().includes(filterValue))
   }
 
   public filteredClients$: Observable<any[]>
   private _filterClients(value: any): any[] {
-    const filterValue = value.toLowerCase()
+    const filterValue = value?.toLowerCase()
     return this.clients.filter(c => c.toLowerCase().includes(filterValue))
   }
 

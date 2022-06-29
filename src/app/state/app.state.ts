@@ -19,7 +19,7 @@ export const States = [
 ]
 
 export enum Platform {
-  last_updated = 'June 29, 2022'
+  lastUpdate = 'June 29, 2022'
   }
 
 export enum Formloco {

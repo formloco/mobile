@@ -347,18 +347,8 @@ export class AppService {
   }
 
   refreshToken() {
-    // this.idbCrudService.readAll('prefs').subscribe((prefs: any) => {
-      // if (prefs.length > 0) {
         this.authService.token().subscribe((token: any) => {
           localStorage.setItem('formToken', token.token)
-          // this.authService.user({ email: prefs.email }).subscribe((user: any) => {
-          //   this.store.dispatch(new SetUser(user.row))
-          //   this.router.navigate['']
-          // })
-          
         })
-      // }
-        this.authService.token()
-    // })
   }
 }
