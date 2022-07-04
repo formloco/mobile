@@ -349,6 +349,7 @@ export class AppService {
   refreshToken() {
         this.authService.token().subscribe((token: any) => {
           localStorage.setItem('formToken', token.token)
+          window.location.reload()
         })
   }
 }
