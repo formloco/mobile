@@ -13,6 +13,7 @@ export const environment = {
   // designUrl: 'http://localhost:4201',
   // design is an external app
   designUrl: Formloco.designUrl,
+  version: Platform.version,
   
   homeUrl: 'http://localhost:4200',
   // messageUrl is used by email service to embed link in notification email
@@ -45,8 +46,6 @@ export const environment = {
   tenant: { email: Summit.email, tenant_id: Summit.tenant },
   logo: Summit.logo,
   idbName: Summit.idbName,
-  version: Summit.version,
-  lastUpdate: Platform.lastUpdate,
   pin: Summit.pin,
 
   // kioske links
@@ -64,7 +63,6 @@ export const environment = {
   // tenant: { email: Formloco.email, tenant_id: Formloco.tenant },  
 
   // logo: Formloco.logo,
-  // version: Formloco.version,
   // lastUpdate: Platform.lastUpdate,
   // idbName: Formloco.idbName,
   // pin: Formloco.pin

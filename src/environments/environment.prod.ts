@@ -5,7 +5,7 @@ export const environment = {
 
   kioske: true,
   designUrl: Formloco.designKioskeUrl,
-
+  version: Platform.version,
   // kioske: false,
   // designUrl: Formloco.designUrl,
 
@@ -52,7 +52,5 @@ export const environment = {
   },
   logo: Summit.logo,
   idbName: Summit.idbName,
-  version: Summit.version,
-  lastUpdate: Platform.lastUpdate,
   pin: Summit.pin
 }
