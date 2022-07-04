@@ -17,7 +17,7 @@ export const environment = {
   
   homeUrl: 'http://localhost:4200',
   // messageUrl is used by email service to embed link in notification email
-  // messageUrl: 'http://localhost:4200/message/',
+  messageUrl: 'http://localhost:4200/message/',
 
   // local endpoints
   // apiUrl: 'http://localhost:9001/api/',
@@ -39,7 +39,6 @@ export const environment = {
   assetUrl: Summit.assetUrl,
   notificationUrl: Summit.notificationUrl,
 
-  messageUrl: Summit.messageUrl,
   signinUrl: Summit.signinUrl,
   redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
 
@@ -58,7 +57,7 @@ export const environment = {
   // emailUrl: Formloco.emailUrl,
   // assetUrl: Formloco.assetUrl,
   // notificationUrl: Formloco.notificationUrl,
-  // messageUrl: Formloco.messageUrl,
+  
   // signinUrl: Formloco.signinUrl,
   // tenant: { email: Formloco.email, tenant_id: Formloco.tenant },  
 

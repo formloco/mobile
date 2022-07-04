@@ -17,7 +17,7 @@ import { AuthState } from '../../state/auth/auth.state'
 import { DeviceState } from '../../state/device/device.state'
 
 import { SetPage, SetChildPageLabel, SetTenant, SetUser, SetKioske } from '../../state/auth/auth-state.actions'
-import { SetNotificationOpen, SetNotificationTab } from '../../state/notification/notification-state.actions'
+import { SetNotificationOpen, SetNotificationTab, SetNotificationIdx } from '../../state/notification/notification-state.actions'
 
 import { environment } from '../../../environments/environment'
 @Component({
@@ -78,13 +78,19 @@ export class LayoutComponent implements OnInit {
       // these params are used to get the notifications from email link
       this.route.queryParams.subscribe((params: Params) => {
         if (params && params.email && Object.keys(params.email).length) {
-          this.notificationService.getMyNotifications().subscribe((notifications: any) => {
-            let openNotifications: any = []
-            openNotifications = notifications.filter(not => not.date_signed === null)
-            this.store.dispatch(new SetNotificationOpen(openNotifications))
-            this.store.dispatch(new SetPage('notification'))
-            this.store.dispatch(new SetChildPageLabel('forms'))
-            this.store.dispatch(new SetNotificationTab(0))
+          this.authService.user({ email: params.email }).subscribe((user: any) => {
+            this.appService.initializeUser()
+            this.store.dispatch(new SetUser(user.row))
+            this.notificationService.getMyNotifications().subscribe((notifications: any) => {
+              let openNotifications: any = []
+              openNotifications = notifications.filter(not => not.date_signed === null)
+              const notificationIdx = notifications.findIndex(not => not.id == params.id)
+              this.store.dispatch(new SetNotificationIdx(notificationIdx))
+              this.store.dispatch(new SetNotificationOpen(openNotifications))
+              this.store.dispatch(new SetPage('notification'))
+              this.store.dispatch(new SetChildPageLabel('forms'))
+              this.store.dispatch(new SetNotificationTab(0))
+            })
           })
         }
         else {
