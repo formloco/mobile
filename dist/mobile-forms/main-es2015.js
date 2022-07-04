@@ -3200,7 +3200,7 @@ const environment = {
     version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Platform"].version,
     homeUrl: 'http://localhost:4200',
     // messageUrl is used by email service to embed link in notification email
-    // messageUrl: 'http://localhost:4200/message/',
+    messageUrl: 'http://localhost:4200/message/',
     // local endpoints
     // apiUrl: 'http://localhost:9001/api/',
     // authUrl: 'http://localhost:9000/auth/',
@@ -3217,7 +3217,6 @@ const environment = {
     emailUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].emailUrl,
     assetUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].assetUrl,
     notificationUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].notificationUrl,
-    messageUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].messageUrl,
     signinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].signinUrl,
     redirectForgotPasswordUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].redirectForgotPasswordUrl,
     tenant: { email: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].email, tenant_id: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].tenant },
@@ -4801,7 +4800,7 @@ class HomeComponent {
     }
     openNotifications(tabIndex) {
         if (tabIndex === 0) {
-            const user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].userIdb);
+            // const user = this.store.selectSnapshot(AuthState.userIdb)
             this.notificationService.getMyNotifications().subscribe((notifications) => {
                 let openNotifications = [];
                 notifications.forEach(element => {
@@ -11583,13 +11582,19 @@ class LayoutComponent {
             // these params are used to get the notifications from email link
             this.route.queryParams.subscribe((params) => {
                 if (params && params.email && Object.keys(params.email).length) {
-                    this.notificationService.getMyNotifications().subscribe((notifications) => {
-                        let openNotifications = [];
-                        openNotifications = notifications.filter(not => not.date_signed === null);
-                        this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
-                        this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
-                        this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
-                        this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
+                    this.authService.user({ email: params.email }).subscribe((user) => {
+                        this.appService.initializeUser();
+                        this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+                        this.notificationService.getMyNotifications().subscribe((notifications) => {
+                            let openNotifications = [];
+                            openNotifications = notifications.filter(not => not.date_signed === null);
+                            const notificationIdx = notifications.findIndex(not => not.id == params.id);
+                            this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationIdx"](notificationIdx));
+                            this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
+                            this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
+                            this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
+                            this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
+                        });
                     });
                 }
                 else {

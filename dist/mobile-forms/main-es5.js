@@ -6439,7 +6439,7 @@
         version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Platform"].version,
         homeUrl: 'http://localhost:4200',
         // messageUrl is used by email service to embed link in notification email
-        // messageUrl: 'http://localhost:4200/message/',
+        messageUrl: 'http://localhost:4200/message/',
         // local endpoints
         // apiUrl: 'http://localhost:9001/api/',
         // authUrl: 'http://localhost:9000/auth/',
@@ -6456,7 +6456,6 @@
         emailUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].emailUrl,
         assetUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].assetUrl,
         notificationUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].notificationUrl,
-        messageUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].messageUrl,
         signinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].signinUrl,
         redirectForgotPasswordUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].redirectForgotPasswordUrl,
         tenant: {
@@ -9666,7 +9665,7 @@
             var _this30 = this;
 
             if (tabIndex === 0) {
-              var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].userIdb);
+              // const user = this.store.selectSnapshot(AuthState.userIdb)
               this.notificationService.getMyNotifications().subscribe(function (notifications) {
                 var openNotifications = [];
                 notifications.forEach(function (element) {
@@ -22454,19 +22453,32 @@
               // these params are used to get the notifications from email link
               this.route.queryParams.subscribe(function (params) {
                 if (params && params.email && Object.keys(params.email).length) {
-                  _this61.notificationService.getMyNotifications().subscribe(function (notifications) {
-                    var openNotifications = [];
-                    openNotifications = notifications.filter(function (not) {
-                      return not.date_signed === null;
+                  _this61.authService.user({
+                    email: params.email
+                  }).subscribe(function (user) {
+                    _this61.appService.initializeUser();
+
+                    _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+
+                    _this61.notificationService.getMyNotifications().subscribe(function (notifications) {
+                      var openNotifications = [];
+                      openNotifications = notifications.filter(function (not) {
+                        return not.date_signed === null;
+                      });
+                      var notificationIdx = notifications.findIndex(function (not) {
+                        return not.id == params.id;
+                      });
+
+                      _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationIdx"](notificationIdx));
+
+                      _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
+
+                      _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
+
+                      _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
+
+                      _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
                     });
-
-                    _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
-
-                    _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
-
-                    _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
-
-                    _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
                   });
                 } else {
                   var isOnline = _this61.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_4__["DeviceState"].isOnline);
