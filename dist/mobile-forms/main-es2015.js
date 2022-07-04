@@ -925,8 +925,7 @@ class ErrorService {
     }
     popSnackbar(message) {
         let msg = "Whoa, something went wrong";
-        if (message)
-            msg = message;
+        msg = message;
         this.snackBar.open(msg, "Heads Up!", { duration: 3000 });
     }
 }
@@ -1447,17 +1446,9 @@ class AppService {
         });
     }
     refreshToken() {
-        this.idbCrudService.readAll('prefs').subscribe((prefs) => {
-            if (prefs.length > 0) {
-                this.authService.token().subscribe((token) => {
-                    localStorage.setItem('formToken', token.token);
-                    this.authService.user({ email: prefs.email }).subscribe((user) => {
-                        this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
-                        this.router.navigate[''];
-                    });
-                });
-            }
-            this.authService.token();
+        this.authService.token().subscribe((token) => {
+            localStorage.setItem('formToken', token.token);
+            window.location.reload();
         });
     }
 }
@@ -2587,12 +2578,13 @@ Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 /*!************************************!*\
   !*** ./src/app/state/app.state.ts ***!
   \************************************/
-/*! exports provided: States, Formloco, Summit, SummitForms, Rumzer */
+/*! exports provided: States, Platform, Formloco, Summit, SummitForms, Rumzer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "States", function() { return States; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Platform", function() { return Platform; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Formloco", function() { return Formloco; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Summit", function() { return Summit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummitForms", function() { return SummitForms; });
@@ -2623,6 +2615,10 @@ const States = [
     _component_forms_vehicle_inspection_state_vehicle_inspection_state__WEBPACK_IMPORTED_MODULE_6__["VehicleInspectionState"],
     _component_forms_worksite_safety_inspection_state_worksite_safety_inspection_state__WEBPACK_IMPORTED_MODULE_7__["WorksiteSafetyInspectionState"]
 ];
+var Platform;
+(function (Platform) {
+    Platform["version"] = "2.1";
+})(Platform || (Platform = {}));
 var Formloco;
 (function (Formloco) {
     Formloco["pin"] = "111111";
@@ -2634,7 +2630,6 @@ var Formloco;
     Formloco["idbName"] = "formlocoMobileDB";
     Formloco["email"] = "brock@formloco.com";
     Formloco["logo"] = "assets/logo-light.png";
-    Formloco["version"] = "2.0";
     Formloco["homeUrl"] = "https://formloco.com/";
     Formloco["apiUrl"] = "https://api.formloco.com/api/";
     Formloco["authUrl"] = "https://api.formloco.com/auth/";
@@ -2656,7 +2651,6 @@ var Summit;
     Summit["kioskeTenant"] = "formloco";
     Summit["email"] = "HSE@Summitearth.com";
     Summit["logo"] = "assets/logo-summit.svg";
-    Summit["version"] = "2.0";
     // endpoints
     Summit["apiUrl"] = "https://forms.summitearth.com/api/";
     Summit["authUrl"] = "https://forms.summitearth.com/auth/";
@@ -2681,7 +2675,6 @@ var Rumzer;
     Rumzer["kioskeEmail"] = "brock@formloco.com";
     Rumzer["kioskePassword"] = "simple";
     Rumzer["kioskeTenant"] = "formloco";
-    Rumzer["version"] = "2.0";
     Rumzer["homeUrl"] = "https://formloco.com/";
     Rumzer["email"] = "rumzerbot@rumzer.com";
     Rumzer["logo"] = "assets/logo-rumzer.svg";
@@ -3199,11 +3192,12 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
     production: false,
     // kioske: true,
-    // designUrl: 'http://localhost:4201/kioske/true',
+    // designUrl: Formloco.designKioskeUrl,
     kioske: false,
-    designUrl: 'http://localhost:4201',
+    // designUrl: 'http://localhost:4201',
     // design is an external app
-    // designUrl: Formloco.designUrl,
+    designUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Formloco"].designUrl,
+    version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Platform"].version,
     homeUrl: 'http://localhost:4200',
     // messageUrl is used by email service to embed link in notification email
     // messageUrl: 'http://localhost:4200/message/',
@@ -3216,7 +3210,7 @@ const environment = {
     // notificationUrl: 'http://localhost:9004/',
     // router re-directs, message comes from email link
     // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
-    redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+    // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
     apiUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].apiUrl,
     authUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].authUrl,
     formUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].formUrl,
@@ -3225,11 +3219,10 @@ const environment = {
     notificationUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].notificationUrl,
     messageUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].messageUrl,
     signinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].signinUrl,
-    // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+    redirectForgotPasswordUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].redirectForgotPasswordUrl,
     tenant: { email: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].email, tenant_id: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].tenant },
     logo: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].logo,
     idbName: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].idbName,
-    version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].version,
     pin: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].pin,
     // kioske links
     linkedinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Formloco"].linkedinUrl,
@@ -15031,9 +15024,10 @@ class HttpConfig {
             return event;
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((errorResponse) => {
             console.log(errorResponse);
-            if (errorResponse.status == 401) {
+            if (errorResponse.status == 401)
                 this.appService.refreshToken();
-            }
+            else if (errorResponse.status == 403)
+                this.appService.refreshToken();
             else {
                 this.errorService.popSnackbar(errorResponse.error);
                 if (errorResponse.error.type == 'timeout')
@@ -17578,7 +17572,7 @@ KioskeComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpropertyInterpolate"]("href", ctx.designUrl, _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵsanitizeUrl"]);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](14);
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](ctx.version);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"]("Updated: ", ctx.version, "");
     } }, directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_11__["MatToolbar"], _angular_material_button__WEBPACK_IMPORTED_MODULE_12__["MatButton"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["ɵangular_packages_forms_forms_ba"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["NgForm"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutAlignDirective"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__["MatIcon"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutGapDirective"], _angular_material_button__WEBPACK_IMPORTED_MODULE_12__["MatAnchor"]], styles: [".green[_ngcontent-%COMP%] {\n  color: #90ee90;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2tpb3NrZS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGNBQUE7QUFDRiIsImZpbGUiOiJraW9za2UuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZ3JlZW4ge1xuICBjb2xvcjogIzkwZWU5MDtcbn0iXX0= */"] });
 
 
@@ -17812,23 +17806,23 @@ class AutoCompleteService {
         this.filteredClients$ = this.modelsControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(value => this._filterClients(value)));
     }
     _filterSupervisors(value) {
-        const filterValue = value.toLowerCase();
+        const filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
         return this.supervisors.filter(supervisor => { var _a; return (_a = supervisor["name"]) === null || _a === void 0 ? void 0 : _a.toLowerCase().includes(filterValue); });
     }
     _filterWorkers(value) {
-        const filterValue = value.toLowerCase();
+        const filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
         return this.workers.filter(worker => { var _a; return (_a = worker["name"]) === null || _a === void 0 ? void 0 : _a.toLowerCase().includes(filterValue); });
     }
     _filterMakes(value) {
-        const filterValue = value.toLowerCase();
+        const filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
         return this.makes.filter(m => m.toLowerCase().includes(filterValue));
     }
     _filterModels(value) {
-        const filterValue = value.toLowerCase();
+        const filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
         return this.models.filter(m => m.toLowerCase().includes(filterValue));
     }
     _filterClients(value) {
-        const filterValue = value.toLowerCase();
+        const filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
         return this.clients.filter(c => c.toLowerCase().includes(filterValue));
     }
 }

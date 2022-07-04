@@ -1972,7 +1972,7 @@
           key: "popSnackbar",
           value: function popSnackbar(message) {
             var msg = "Whoa, something went wrong";
-            if (message) msg = message;
+            msg = message;
             this.snackBar.open(msg, "Heads Up!", {
               duration: 3000
             });
@@ -2865,24 +2865,9 @@
         }, {
           key: "refreshToken",
           value: function refreshToken() {
-            var _this14 = this;
-
-            this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              if (prefs.length > 0) {
-                _this14.authService.token().subscribe(function (token) {
-                  localStorage.setItem('formToken', token.token);
-
-                  _this14.authService.user({
-                    email: prefs.email
-                  }).subscribe(function (user) {
-                    _this14.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
-
-                    _this14.router.navigate[''];
-                  });
-                });
-              }
-
-              _this14.authService.token();
+            this.authService.token().subscribe(function (token) {
+              localStorage.setItem('formToken', token.token);
+              window.location.reload();
             });
           }
         }]);
@@ -2984,15 +2969,15 @@
         }, {
           key: "onStart",
           value: function onStart() {
-            var _this15 = this;
+            var _this14 = this;
 
             if (!this.recognition) {
               this.initialize();
             }
 
             return new rxjs__WEBPACK_IMPORTED_MODULE_0__["Observable"](function (observer) {
-              _this15.recognition.onstart = function () {
-                _this15.ngZone.run(function () {
+              _this14.recognition.onstart = function () {
+                _this14.ngZone.run(function () {
                   observer.next({
                     event: _model_speech__WEBPACK_IMPORTED_MODULE_1__["SpeechEvent"].Start
                   });
@@ -3003,15 +2988,15 @@
         }, {
           key: "onEnd",
           value: function onEnd() {
-            var _this16 = this;
+            var _this15 = this;
 
             return new rxjs__WEBPACK_IMPORTED_MODULE_0__["Observable"](function (observer) {
-              _this16.recognition.onend = function () {
-                _this16.ngZone.run(function () {
+              _this15.recognition.onend = function () {
+                _this15.ngZone.run(function () {
                   observer.next({
                     event: _model_speech__WEBPACK_IMPORTED_MODULE_1__["SpeechEvent"].End
                   });
-                  _this16.isListening = false;
+                  _this15.isListening = false;
                 });
               };
             });
@@ -3019,10 +3004,10 @@
         }, {
           key: "onResult",
           value: function onResult() {
-            var _this17 = this;
+            var _this16 = this;
 
             return new rxjs__WEBPACK_IMPORTED_MODULE_0__["Observable"](function (observer) {
-              _this17.recognition.onresult = function (event) {
+              _this16.recognition.onresult = function (event) {
                 var interimContent = '';
                 var finalContent = '';
 
@@ -3030,7 +3015,7 @@
                   if (event.results[i].isFinal) {
                     finalContent += event.results[i][0].transcript;
 
-                    _this17.ngZone.run(function () {
+                    _this16.ngZone.run(function () {
                       observer.next({
                         event: _model_speech__WEBPACK_IMPORTED_MODULE_1__["SpeechEvent"].FinalContent,
                         content: finalContent
@@ -3039,7 +3024,7 @@
                   } else {
                     interimContent += event.results[i][0].transcript;
 
-                    _this17.ngZone.run(function () {
+                    _this16.ngZone.run(function () {
                       observer.next({
                         event: _model_speech__WEBPACK_IMPORTED_MODULE_1__["SpeechEvent"].InterimContent,
                         content: interimContent
@@ -3053,10 +3038,10 @@
         }, {
           key: "onError",
           value: function onError() {
-            var _this18 = this;
+            var _this17 = this;
 
             return new rxjs__WEBPACK_IMPORTED_MODULE_0__["Observable"](function (observer) {
-              _this18.recognition.onerror = function (event) {
+              _this17.recognition.onerror = function (event) {
                 // tslint:disable-next-line:no-any
                 var eventError = event.error;
                 var error;
@@ -3079,7 +3064,7 @@
                     break;
                 }
 
-                _this18.ngZone.run(function () {
+                _this17.ngZone.run(function () {
                   observer.next({
                     error: error
                   });
@@ -3879,7 +3864,7 @@
         _createClass(WorksiteSafetyHeaderComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this19 = this;
+            var _this18 = this;
 
             this.headerForm.controls['Date'].setValue(new Date().toISOString());
             this.lookupLists = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_1__["AuthState"].lookupListData);
@@ -3897,9 +3882,9 @@
               var lat = position.coords.latitude;
               var _long = position.coords.longitude;
 
-              _this19.headerForm.controls['Latitude'].setValue(lat);
+              _this18.headerForm.controls['Latitude'].setValue(lat);
 
-              _this19.headerForm.controls['Longitude'].setValue(_long);
+              _this18.headerForm.controls['Longitude'].setValue(_long);
             });
           }
         }, {
@@ -4634,11 +4619,11 @@
         _createClass(CorrectiveActionComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this20 = this;
+            var _this19 = this;
 
             var correctiveActions = this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_2__["CorrectiveActionState"].correctiveActions);
             var correctiveAction = correctiveActions.filter(function (c) {
-              return c.field == _this20.data.field;
+              return c.field == _this19.data.field;
             });
 
             if (correctiveAction.length > 0) {
@@ -4654,11 +4639,11 @@
         }, {
           key: "save",
           value: function save() {
-            var _this21 = this;
+            var _this20 = this;
 
             var correctiveActions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_2__["CorrectiveActionState"].correctiveActions));
             var correctiveActionIdx = correctiveActions.findIndex(function (c) {
-              return c.field == _this21.data.field;
+              return c.field == _this20.data.field;
             });
             if (correctiveActionIdx == -1) correctiveActions.push({
               label: this.data.label,
@@ -5236,7 +5221,7 @@
       !*** ./src/app/state/app.state.ts ***!
       \************************************/
 
-    /*! exports provided: States, Formloco, Summit, SummitForms, Rumzer */
+    /*! exports provided: States, Platform, Formloco, Summit, SummitForms, Rumzer */
 
     /***/
     function BPn(module, __webpack_exports__, __webpack_require__) {
@@ -5248,6 +5233,12 @@
 
       __webpack_require__.d(__webpack_exports__, "States", function () {
         return States;
+      });
+      /* harmony export (binding) */
+
+
+      __webpack_require__.d(__webpack_exports__, "Platform", function () {
+        return Platform;
       });
       /* harmony export (binding) */
 
@@ -5323,6 +5314,12 @@
       "ODJg");
 
       var States = [_auth_auth_state__WEBPACK_IMPORTED_MODULE_0__["AuthState"], _device_device_state__WEBPACK_IMPORTED_MODULE_1__["DeviceState"], _component_comment_state_comment_state__WEBPACK_IMPORTED_MODULE_3__["CommentState"], _notification_notification_state__WEBPACK_IMPORTED_MODULE_2__["NotificationState"], _component_forms_spot_check_safety_state_spot_check_safety_state__WEBPACK_IMPORTED_MODULE_5__["SpotCheckSafetyState"], _component_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_4__["CorrectiveActionState"], _component_forms_vehicle_inspection_state_vehicle_inspection_state__WEBPACK_IMPORTED_MODULE_6__["VehicleInspectionState"], _component_forms_worksite_safety_inspection_state_worksite_safety_inspection_state__WEBPACK_IMPORTED_MODULE_7__["WorksiteSafetyInspectionState"]];
+      var Platform;
+
+      (function (Platform) {
+        Platform["version"] = "2.1";
+      })(Platform || (Platform = {}));
+
       var Formloco;
 
       (function (Formloco) {
@@ -5335,7 +5332,6 @@
         Formloco["idbName"] = "formlocoMobileDB";
         Formloco["email"] = "brock@formloco.com";
         Formloco["logo"] = "assets/logo-light.png";
-        Formloco["version"] = "2.0";
         Formloco["homeUrl"] = "https://formloco.com/";
         Formloco["apiUrl"] = "https://api.formloco.com/api/";
         Formloco["authUrl"] = "https://api.formloco.com/auth/";
@@ -5358,8 +5354,7 @@
         Summit["kioskePassword"] = "simple";
         Summit["kioskeTenant"] = "formloco";
         Summit["email"] = "HSE@Summitearth.com";
-        Summit["logo"] = "assets/logo-summit.svg";
-        Summit["version"] = "2.0"; // endpoints
+        Summit["logo"] = "assets/logo-summit.svg"; // endpoints
 
         Summit["apiUrl"] = "https://forms.summitearth.com/api/";
         Summit["authUrl"] = "https://forms.summitearth.com/auth/";
@@ -5388,7 +5383,6 @@
         Rumzer["kioskeEmail"] = "brock@formloco.com";
         Rumzer["kioskePassword"] = "simple";
         Rumzer["kioskeTenant"] = "formloco";
-        Rumzer["version"] = "2.0";
         Rumzer["homeUrl"] = "https://formloco.com/";
         Rumzer["email"] = "rumzerbot@rumzer.com";
         Rumzer["logo"] = "assets/logo-rumzer.svg";
@@ -5614,7 +5608,7 @@
         }, {
           key: "updateForm",
           value: function updateForm(form, formData, data) {
-            var _this22 = this;
+            var _this21 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_0__["AuthState"].user);
             var isOnline = this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_1__["DeviceState"].isOnline);
@@ -5642,7 +5636,7 @@
                 });
                 obj.data = idbData;
 
-                _this22.idbCrudService.put('data', obj);
+                _this21.idbCrudService.put('data', obj);
               });
             } else {
               var _obj2 = {
@@ -5655,11 +5649,11 @@
                 pics: this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_1__["DeviceState"].pics)
               };
               this.apiService.update(_obj2).subscribe(function (res) {
-                _this22.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_2__["SetPage"]('notification'));
+                _this21.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_2__["SetPage"]('notification'));
 
-                _this22.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_2__["SetChildPageLabel"]('Forms'));
+                _this21.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_2__["SetChildPageLabel"]('Forms'));
 
-                _this22.snackBar.open(res["message"], 'Success', {
+                _this21.snackBar.open(res["message"], 'Success', {
                   duration: 3000,
                   verticalPosition: 'bottom'
                 });
@@ -6437,11 +6431,12 @@
       var environment = {
         production: false,
         // kioske: true,
-        // designUrl: 'http://localhost:4201/kioske/true',
+        // designUrl: Formloco.designKioskeUrl,
         kioske: false,
-        designUrl: 'http://localhost:4201',
+        // designUrl: 'http://localhost:4201',
         // design is an external app
-        // designUrl: Formloco.designUrl,
+        designUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Formloco"].designUrl,
+        version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Platform"].version,
         homeUrl: 'http://localhost:4200',
         // messageUrl is used by email service to embed link in notification email
         // messageUrl: 'http://localhost:4200/message/',
@@ -6454,7 +6449,7 @@
         // notificationUrl: 'http://localhost:9004/',
         // router re-directs, message comes from email link
         // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
-        redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+        // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
         apiUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].apiUrl,
         authUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].authUrl,
         formUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].formUrl,
@@ -6463,14 +6458,13 @@
         notificationUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].notificationUrl,
         messageUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].messageUrl,
         signinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].signinUrl,
-        // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+        redirectForgotPasswordUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].redirectForgotPasswordUrl,
         tenant: {
           email: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].email,
           tenant_id: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].tenant
         },
         logo: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].logo,
         idbName: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].idbName,
-        version: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].version,
         pin: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].pin,
         // kioske links
         linkedinUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Formloco"].linkedinUrl,
@@ -6958,17 +6952,17 @@
         _createClass(MeaningfulSiteTourComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this23 = this;
+            var _this22 = this;
 
             this.kioske = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].kioske);
             this.isOnline = this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_3__["DeviceState"].isOnline);
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].formData).subscribe(function (formData) {
-              _this23.formData = formData;
+              _this22.formData = formData;
 
-              if (_this23.formData && formData["data"]) {
-                _this23.isEdit = true;
+              if (_this22.formData && formData["data"]) {
+                _this22.isEdit = true;
 
-                _this23.setFormData(formData["data"]);
+                _this22.setFormData(formData["data"]);
               }
             });
           }
@@ -7031,7 +7025,7 @@
         }, {
           key: "updateForm",
           value: function updateForm() {
-            var _this24 = this;
+            var _this23 = this;
 
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].selectedForm);
             var header = this.headerForm.value;
@@ -7044,13 +7038,13 @@
               notes: this.notesForm.value
             };
             this.formService.updateForm(form, this.formData, data).subscribe(function (_) {
-              _this24.resetForm();
+              _this23.resetForm();
             });
           }
         }, {
           key: "submitForm",
           value: function submitForm() {
-            var _this25 = this;
+            var _this24 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].user);
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].selectedForm);
@@ -7093,35 +7087,35 @@
               this.idbCrudService.put('data', obj);
             } else {
               this.apiService.save(obj).subscribe(function (idObj) {
-                _this25.formDataID = idObj;
+                _this24.formDataID = idObj;
 
-                var workers = _this25.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].workers);
+                var workers = _this24.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].workers);
 
-                var supervisors = _this25.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].supervisors);
+                var supervisors = _this24.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].supervisors);
 
-                if (workers.length == 0 && supervisors.length == 0) _this25.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+                if (workers.length == 0 && supervisors.length == 0) _this24.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
                   duration: 3000,
                   verticalPosition: 'bottom'
                 });else {
-                  var worker = _this25.appService.getWorker(header.Worker);
+                  var worker = _this24.appService.getWorker(header.Worker);
 
-                  var supervisor = _this25.appService.getSupervisor(header.Supervisor);
+                  var supervisor = _this24.appService.getSupervisor(header.Supervisor);
 
                   var _notificationObj = {
                     name: form["name"],
                     worker: worker,
                     supervisor: supervisor,
-                    description: 'Meaningful Site Tour ' + _this25.appService.now,
-                    message: 'Meaningful site tour completed for ' + _this25.headerForm.controls['Name'].value,
-                    subject: 'New Meaningful Site Tour from ' + header.Worker + ', ' + _this25.appService.now,
+                    description: 'Meaningful Site Tour ' + _this24.appService.now,
+                    message: 'Meaningful site tour completed for ' + _this24.headerForm.controls['Name'].value,
+                    subject: 'New Meaningful Site Tour from ' + header.Worker + ', ' + _this24.appService.now,
                     form_id: form["form_id"],
-                    data_id: _this25.formDataID,
-                    pdf: 'meaningful-site-tour' + _this25.formDataID
+                    data_id: _this24.formDataID,
+                    pdf: 'meaningful-site-tour' + _this24.formDataID
                   };
 
-                  _this25.appService.sendNotification(_notificationObj);
+                  _this24.appService.sendNotification(_notificationObj);
 
-                  _this25.resetForm();
+                  _this24.resetForm();
                 }
               });
             }
@@ -7864,16 +7858,16 @@
         }, {
           key: "getListsCloud",
           value: function getListsCloud() {
-            var _this26 = this;
+            var _this25 = this;
 
             var obj = {
               form_id: this.appService.detailArray[this.index].list.form_id,
               tenant_id: this.appService.detailArray[this.index].list.tenantID
             };
             this.apiService.getData(obj).subscribe(function (data) {
-              _this26.data = data;
-              if (_this26.data.length === 0) _this26.appService.detailArray[_this26.index].selectArray = [];
-              _this26.appService.detailArray[_this26.index].selectArray = _this26.data;
+              _this25.data = data;
+              if (_this25.data.length === 0) _this25.appService.detailArray[_this25.index].selectArray = [];
+              _this25.appService.detailArray[_this25.index].selectArray = _this25.data;
             });
           }
         }]);
@@ -8301,19 +8295,19 @@
         }, {
           key: "save",
           value: function save() {
-            var _this27 = this;
+            var _this26 = this;
 
             var obj = Object.assign(this.emailForm.value);
             this.authService.create(obj).subscribe(function (data) {
-              _this27.data = data;
-              if (_this27.data.rows.length == 0) _this27.errorService.popSnackbar(_this27.data.msg);else {
-                _this27.emailForm.reset();
+              _this26.data = data;
+              if (_this26.data.rows.length == 0) _this26.errorService.popSnackbar(_this26.data.msg);else {
+                _this26.emailForm.reset();
 
-                Object.keys(_this27.emailForm.controls).forEach(function (key) {
-                  var control = _this27.emailForm.controls[key];
+                Object.keys(_this26.emailForm.controls).forEach(function (key) {
+                  var control = _this26.emailForm.controls[key];
                   control.setErrors(null);
                 });
-                _this27.appService.dataSource.data = _this27.data.rows;
+                _this26.appService.dataSource.data = _this26.data.rows;
               }
             });
           }
@@ -8694,21 +8688,21 @@
         _createClass(IdentificationComponent, [{
           key: "signin",
           value: function signin() {
-            var _this28 = this;
+            var _this27 = this;
 
             if (this.kioske) {
               // tenant got from formloco kioske signin
               // endpoint runs against kioske user db
               this.authService.getTenant(this.idForm.value).subscribe(function (tenant) {
-                _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetTenant"]({
-                  email: _this28.idForm.value['email'],
+                _this27.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetTenant"]({
+                  email: _this27.idForm.value['email'],
                   tenant_id: tenant.tenant_id
                 }));
 
-                _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetKioske"](false)); // this.appService.setIndexedDbUser(this.idForm.value['email'], tenant.tenant_id)
+                _this27.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetKioske"](false)); // this.appService.setIndexedDbUser(this.idForm.value['email'], tenant.tenant_id)
 
 
-                _this28.registerUser(tenant.tenant_id);
+                _this27.registerUser(tenant.tenant_id);
               });
             } // tenant got from mobile environment
             // endpoint runs against tenant user db
@@ -8720,25 +8714,25 @@
         }, {
           key: "registerUser",
           value: function registerUser(tenant_id) {
-            var _this29 = this;
+            var _this28 = this;
 
             // if email account does not exist
             this.authService.register(this.idForm.value).subscribe(function (_) {
-              _this29.authService.user({
-                email: _this29.idForm.value['email']
+              _this28.authService.user({
+                email: _this28.idForm.value['email']
               }).subscribe(function (user) {
                 if (user.row) {
-                  _this29.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+                  _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
 
-                  _this29.appService.initializeUser();
+                  _this28.appService.initializeUser();
 
-                  if (_this29.kioske) _this29.router.navigate(['forms/' + _this29.idForm.value['email'] + '/' + tenant_id]);else _this29.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
+                  if (_this28.kioske) _this28.router.navigate(['forms/' + _this28.idForm.value['email'] + '/' + tenant_id]);else _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
 
-                  _this29.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetIsSignIn"](true));
+                  _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetIsSignIn"](true));
 
-                  _this29.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsDarkMode"](true));
+                  _this28.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsDarkMode"](true));
 
-                  _this29.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
+                  _this28.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
                 }
               });
             });
@@ -9614,14 +9608,14 @@
         _createClass(HomeComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this30 = this;
+            var _this29 = this;
 
             this.user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].user);
             this.tenant = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].tenant);
             setInterval(function () {
-              if (_this30.user) {
-                _this30.notificationService.getMyNotificationCount().subscribe(function (notification) {
-                  if (notification.count == 0) _this30.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationMyCount"](undefined));else _this30.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationMyCount"](notification.count));
+              if (_this29.user) {
+                _this29.notificationService.getMyNotificationCount().subscribe(function (notification) {
+                  if (notification.count == 0) _this29.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationMyCount"](undefined));else _this29.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationMyCount"](notification.count));
                 });
               }
             }, 120000);
@@ -9669,7 +9663,7 @@
         }, {
           key: "openNotifications",
           value: function openNotifications(tabIndex) {
-            var _this31 = this;
+            var _this30 = this;
 
             if (tabIndex === 0) {
               var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].userIdb);
@@ -9679,7 +9673,7 @@
                   if (!element.email_signed) openNotifications.push(element);
                 });
 
-                _this31.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationOpen"](openNotifications));
+                _this30.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_10__["SetNotificationOpen"](openNotifications));
               });
             }
 
@@ -10003,20 +9997,20 @@
         _createClass(FormListsComponent, [{
           key: "createLookuplist",
           value: function createLookuplist() {
-            var _this32 = this;
+            var _this31 = this;
 
             var form = this.appService.createList(this.lookupListForm.get('lookupListName').value);
             this.formService.createForm(form).subscribe(function (res) {
-              _this32.closeOverlay();
+              _this31.closeOverlay();
 
-              _this32.lookupListForm.reset();
+              _this31.lookupListForm.reset();
 
-              var tenant = _this32.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].tenant);
+              var tenant = _this31.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].tenant);
 
-              _this32.apiService.getLists({
+              _this31.apiService.getLists({
                 tenant_id: tenant.tenant_id
               }).subscribe(function (lists) {
-                _this32.appService.lookupLists = lists;
+                _this31.appService.lookupLists = lists;
               });
             });
           }
@@ -10174,10 +10168,10 @@
         _createClass(ToggleRunComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this33 = this;
+            var _this32 = this;
 
             this.appService.detailArray[this.index].toggleArray.forEach(function (element) {
-              if (element.required) _this33.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required));else _this33.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false));
+              if (element.required) _this32.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required));else _this32.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false));
             });
           }
         }]);
@@ -10468,7 +10462,7 @@
         _createClass(SendPasswordComponent, [{
           key: "forgotPasswordEmail",
           value: function forgotPasswordEmail() {
-            var _this34 = this;
+            var _this33 = this;
 
             var obj = {
               tenant: _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].tenant,
@@ -10476,9 +10470,9 @@
               url: this.redirectForgotPasswordUrl
             };
             if (obj.email !== null) this.emailService.forgotPassword(obj).subscribe(function () {
-              _this34.successService.popSnackbar('Email Sent.');
+              _this33.successService.popSnackbar('Email Sent.');
 
-              _this34.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('identify'));
+              _this33.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('identify'));
             });else this.errorService.popSnackbar('Please Enter a Valid Email.');
           }
         }, {
@@ -11296,7 +11290,7 @@
         _createClass(FormsComponent, [{
           key: "selectForm",
           value: function selectForm(form) {
-            var _this35 = this;
+            var _this34 = this;
 
             var formObjClone = lodash__WEBPACK_IMPORTED_MODULE_1__["cloneDeep"](form);
             if (!form.type) this.errorService.popSnackbar('Form is not Configured');else if (form.type === 'custom') {
@@ -11307,7 +11301,7 @@
               }; // forms are taken from local json and registered to the database
 
               this.formService.registerForm(formObjClone).subscribe(function (_) {
-                _this35.runForm(formObjClone);
+                _this34.runForm(formObjClone);
               });
             } else {
               this.appService.detailArray = form.details;
@@ -11330,7 +11324,7 @@
         }, {
           key: "publish",
           value: function publish(formObj, event) {
-            var _this36 = this;
+            var _this35 = this;
 
             var formObjClone = lodash__WEBPACK_IMPORTED_MODULE_1__["cloneDeep"](formObj);
             var accessDate = this.appService.now;
@@ -11344,21 +11338,21 @@
               date_last_accessed: accessDate
             };
             this.formService.statusToggle(obj).subscribe(function (response) {
-              _this36.updateIdb(formObjClone, response);
+              _this35.updateIdb(formObjClone, response);
 
-              _this36.idbCrudService.readAll('form').subscribe(function (forms) {
+              _this35.idbCrudService.readAll('form').subscribe(function (forms) {
                 var formsPublished = forms.filter(function (form) {
                   return form.is_published === true;
                 });
 
-                _this36.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetFormsPublished"](formsPublished));
+                _this35.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetFormsPublished"](formsPublished));
               });
             });
           }
         }, {
           key: "setPermission",
           value: function setPermission(formObj, event) {
-            var _this37 = this;
+            var _this36 = this;
 
             var formObjClone = lodash__WEBPACK_IMPORTED_MODULE_1__["cloneDeep"](formObj);
             var accessDate = this.appService.now;
@@ -11370,37 +11364,37 @@
               form_id: formObj.form_id
             };
             this.formService.setPermissions(obj).subscribe(function (response) {
-              _this37.updateIdb(formObjClone, response);
+              _this36.updateIdb(formObjClone, response);
             });
           }
         }, {
           key: "archive",
           value: function archive(formObj) {
-            var _this38 = this;
+            var _this37 = this;
 
             var formObjClone = lodash__WEBPACK_IMPORTED_MODULE_1__["cloneDeep"](formObj);
             formObjClone['date_archived'] = this.appService.now;
             formObjClone['user_archived'] = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_8__["AuthState"].user);
             formObjClone['is_deployed'] = false;
             this.formService.update(formObjClone).subscribe(function (response) {
-              _this38.updateIdb(formObjClone, response);
+              _this37.updateIdb(formObjClone, response);
             });
           }
         }, {
           key: "updateIdb",
           value: function updateIdb(formObjClone, response) {
-            var _this39 = this;
+            var _this38 = this;
 
             this.idbCrudService.put('form', formObjClone).subscribe(function (_) {
-              _this39.idbCrudService.readAll('form').subscribe(function (forms) {
+              _this38.idbCrudService.readAll('form').subscribe(function (forms) {
                 var formsDeployed = forms.filter(function (form) {
                   return !form.date_archived;
                 });
 
-                _this39.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetForms"](formsDeployed));
+                _this38.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetForms"](formsDeployed));
               });
 
-              _this39.successService.popSnackbar(response.message);
+              _this38.successService.popSnackbar(response.message);
             });
           }
         }]);
@@ -12006,7 +12000,7 @@
         }, {
           key: "sendMessage",
           value: function sendMessage(idx) {
-            var _this40 = this;
+            var _this39 = this;
 
             var notifications = this.store.selectSnapshot(_state_notification_notification_state__WEBPACK_IMPORTED_MODULE_10__["NotificationState"].notificationOpen);
             var notification = notifications[idx];
@@ -12023,30 +12017,30 @@
               message: message
             };
             this.notificationService.updateNotificationMessage(messageObj).subscribe(function (response) {
-              _this40.snackBar.open("Message Submitted!", 'Success', {
+              _this39.snackBar.open("Message Submitted!", 'Success', {
                 duration: 3000,
                 verticalPosition: 'bottom'
               });
 
-              _this40.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_11__["SetNotificationComments"](response.data.comments));
+              _this39.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_11__["SetNotificationComments"](response.data.comments));
 
               var subject = notification.form_name + ' form message from ' + user.name + 'date:' + new Date();
               var obj = {
                 toName: response.data.toName,
                 messageID: response.data.notificationID,
-                url: _this40.messageUrl,
+                url: _this39.messageUrl,
                 subject: subject,
                 emailTo: notification.email_from,
                 emailFrom: user.email
               };
 
-              _this40.emailService.sendNotificationEmail(obj).subscribe(function (_) {});
+              _this39.emailService.sendNotificationEmail(obj).subscribe(function (_) {});
             });
           }
         }, {
           key: "setNotification",
           value: function setNotification(notification) {
-            var _this41 = this;
+            var _this40 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].user);
             var workers = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].workers);
@@ -12064,15 +12058,15 @@
                 return f.form_id == notification.form_id;
               });
 
-              _this41.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetSelectedForm"](form));
+              _this40.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetSelectedForm"](form));
 
-              _this41.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_11__["SetNotificationComments"](notification.comment));
+              _this40.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_11__["SetNotificationComments"](notification.comment));
             });
           }
         }, {
           key: "openSign",
           value: function openSign(notification) {
-            var _this42 = this;
+            var _this41 = this;
 
             this.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_11__["SetNotification"](notification));
             this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(function (form) {
@@ -12085,7 +12079,7 @@
               dialogConfig.width = '100%';
               dialogConfig.maxWidth = '100vw', dialogConfig.maxHeight = '100vh', dialogConfig.data = obj;
 
-              _this42.dialog.open(_notification_action_notification_action_component__WEBPACK_IMPORTED_MODULE_6__["NotificationActionComponent"], dialogConfig);
+              _this41.dialog.open(_notification_action_notification_action_component__WEBPACK_IMPORTED_MODULE_6__["NotificationActionComponent"], dialogConfig);
             });
           }
         }, {
@@ -12097,7 +12091,7 @@
         }, {
           key: "openForm",
           value: function openForm(notification, idx) {
-            var _this43 = this;
+            var _this42 = this;
 
             this.store.dispatch(new _comment_state_comment_actions__WEBPACK_IMPORTED_MODULE_8__["SetComments"]([]));
             this.store.dispatch(new _corrective_action_state_corrective_action_actions__WEBPACK_IMPORTED_MODULE_13__["SetCorrectiveActions"]([]));
@@ -12106,17 +12100,17 @@
             var page = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].page);
             var childPage = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].childPage);
             this.apiService.getFormData(notification.form_id, notification.data_id).subscribe(function (data) {
-              var selectedForm = _this43.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].selectedForm);
+              var selectedForm = _this42.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_7__["AuthState"].selectedForm);
 
-              _this43.store.dispatch(new _forms_worksite_safety_inspection_state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_12__["SetIsWorksiteSafetyHeaderValid"](false));
+              _this42.store.dispatch(new _forms_worksite_safety_inspection_state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_12__["SetIsWorksiteSafetyHeaderValid"](false));
 
-              _this43.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetSelectedForm"](selectedForm));
+              _this42.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetSelectedForm"](selectedForm));
 
-              _this43.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetFormData"](data));
+              _this42.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetFormData"](data));
 
-              _this43.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetChildPage"]('notification'));
+              _this42.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetChildPage"]('notification'));
 
-              _this43.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetPage"]('form'));
+              _this42.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetPage"]('form'));
             });
           }
         }, {
@@ -12542,38 +12536,38 @@
         _createClass(ResetPasswordComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this44 = this;
+            var _this43 = this;
 
             this.route.queryParams.subscribe(function (params) {
-              _this44.email = params.email;
+              _this43.email = params.email;
             });
             this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              _this44.prefs = prefs;
+              _this43.prefs = prefs;
 
-              if (_this44.prefs.length > 0) {
-                if (_this44.prefs[0]["user"]["isDarkMode"]) _this44.appService.setMode('darkMode');else _this44.appService.setMode('');
+              if (_this43.prefs.length > 0) {
+                if (_this43.prefs[0]["user"]["isDarkMode"]) _this43.appService.setMode('darkMode');else _this43.appService.setMode('');
 
-                _this44.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsDarkMode"](_this44.prefs[0]["user"]["isDarkMode"]));
+                _this43.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsDarkMode"](_this43.prefs[0]["user"]["isDarkMode"]));
 
-                _this44.email = _this44.prefs[0]["user"]["email"];
+                _this43.email = _this43.prefs[0]["user"]["email"];
               } else {
-                _this44.appService.setMode('darkMode');
+                _this43.appService.setMode('darkMode');
 
-                _this44.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsDarkMode"](true));
+                _this43.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsDarkMode"](true));
               }
             });
           }
         }, {
           key: "resetPassword",
           value: function resetPassword() {
-            var _this45 = this;
+            var _this44 = this;
 
             var obj = this.passwordForm.value;
             obj["email"] = this.email;
             this.authService.resetPassword(obj).subscribe(function (res) {
-              _this45.successService.popSnackbar(res.message);
+              _this44.successService.popSnackbar(res.message);
 
-              _this45.router.navigate(['']);
+              _this44.router.navigate(['']);
             });
           }
         }, {
@@ -13393,18 +13387,18 @@
         }, {
           key: "save",
           value: function save() {
-            var _this46 = this;
+            var _this45 = this;
 
             var obj = {
               value: this.runForm.controls['item'].value,
               name: this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].lookupListName)
             };
             this.apiService.saveList(obj).subscribe(function (data) {
-              _this46.runForm.controls['item'].reset();
+              _this45.runForm.controls['item'].reset();
 
-              _this46.appService.dataSource = data.rows;
+              _this45.appService.dataSource = data.rows;
 
-              _this46.successService.popSnackbar('Item Saved');
+              _this45.successService.popSnackbar('Item Saved');
             });
           }
         }, {
@@ -14553,10 +14547,10 @@
         }, {
           key: "initRecognition",
           value: function initRecognition() {
-            var _this47 = this;
+            var _this46 = this;
 
             this.transcript$ = this.speechRecognitionService.onResult().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (notification) {
-              _this47.processNotification(notification);
+              _this46.processNotification(notification);
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (notification) {
               return notification.content || '';
             }));
@@ -15821,18 +15815,18 @@
         }, {
           key: "signupEmail",
           value: function signupEmail() {
-            var _this48 = this;
+            var _this47 = this;
 
             this.authService.signupEmail(this.emailSignupForm.value).subscribe(function (auth) {
-              _this48.auth = auth;
+              _this47.auth = auth;
 
-              if (_this48.auth.message === 'Signup sucessful.') {
-                _this48.step = 1;
+              if (_this47.auth.message === 'Signup sucessful.') {
+                _this47.step = 1;
 
-                _this48.emailService.signup({
-                  email: _this48.auth.user.email
+                _this47.emailService.signup({
+                  email: _this47.auth.user.email
                 }).subscribe(function (_) {});
-              } else _this48.errorService.popSnackbar(_this48.auth.message);
+              } else _this47.errorService.popSnackbar(_this47.auth.message);
             });
           }
         }, {
@@ -16781,11 +16775,11 @@
         }, {
           key: "save",
           value: function save() {
-            var _this49 = this;
+            var _this48 = this;
 
             var selectedComments = this.store.selectSnapshot(_state_vehicle_inspection_state__WEBPACK_IMPORTED_MODULE_3__["VehicleInspectionState"].selectedComments);
             var isSaved = selectedComments.find(function (c) {
-              return c == _this49.data.fieldName;
+              return c == _this48.data.fieldName;
             });
             if (!isSaved) selectedComments.push(this.data.fieldName);
             this.store.dispatch(new _state_vehicle_inspection_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetSelectedComments"](selectedComments));
@@ -16796,12 +16790,12 @@
         }, {
           key: "delete",
           value: function _delete() {
-            var _this50 = this;
+            var _this49 = this;
 
             //TODO - delete pics for formfield
             var selectedComments = this.store.selectSnapshot(_state_vehicle_inspection_state__WEBPACK_IMPORTED_MODULE_3__["VehicleInspectionState"].selectedComments);
             var idx = selectedComments.findIndex(function (c) {
-              return c == _this50.data.fieldName;
+              return c == _this49.data.fieldName;
             });
             selectedComments.splice(idx, 1);
             this.store.dispatch(new _state_vehicle_inspection_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetSelectedComments"](selectedComments));
@@ -18008,7 +18002,7 @@
 
       var AppComponent = /*#__PURE__*/function () {
         function AppComponent(store, platform, appService, authService, idbCrudService, breakpointObserver, overlayContainer) {
-          var _this51 = this;
+          var _this50 = this;
 
           _classCallCheck(this, AppComponent);
 
@@ -18033,9 +18027,9 @@
               var query = _Object$keys[_i];
 
               if (result.breakpoints[query]) {
-                _this51.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetScreenSize"]((_a = _this51.displayNameMap.get(query)) !== null && _a !== void 0 ? _a : 'Unknown'));
+                _this50.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetScreenSize"]((_a = _this50.displayNameMap.get(query)) !== null && _a !== void 0 ? _a : 'Unknown'));
 
-                _this51.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetScreenWidth"](_this51.myInnerWidth + 'px'));
+                _this50.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetScreenWidth"](_this50.myInnerWidth + 'px'));
               }
             }
           });
@@ -18044,26 +18038,26 @@
         _createClass(AppComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this52 = this;
+            var _this51 = this;
 
             this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetKioske"](this.kioske));
             this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetTenant"](this.tenant));
             this.checkNetworkStatus();
             this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              _this52.prefs = prefs;
+              _this51.prefs = prefs;
 
-              if (_this52.prefs.length > 0) {
-                if (_this52.prefs[0]["user"]["isDarkMode"]) _this52.setMode('darkMode');else _this52.setMode(''); // this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
+              if (_this51.prefs.length > 0) {
+                if (_this51.prefs[0]["user"]["isDarkMode"]) _this51.setMode('darkMode');else _this51.setMode(''); // this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
 
-                _this52.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetUser"](_this52.prefs[0]["user"]));
+                _this51.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetUser"](_this51.prefs[0]["user"]));
 
-                _this52.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsDarkMode"](_this52.prefs[0]["user"]["isDarkMode"]));
+                _this51.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsDarkMode"](_this51.prefs[0]["user"]["isDarkMode"]));
               } else {
-                _this52.setMode('darkMode');
+                _this51.setMode('darkMode');
 
-                _this52.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsDarkMode"](true));
+                _this51.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsDarkMode"](true));
 
-                if (_this52.kioske) _this52.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetPage"]('kioske'));else _this52.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetPage"]('identify'));
+                if (_this51.kioske) _this51.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetPage"]('kioske'));else _this51.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetPage"]('identify'));
               }
             });
           }
@@ -18083,18 +18077,18 @@
         }, {
           key: "checkNetworkStatus",
           value: function checkNetworkStatus() {
-            var _this53 = this;
+            var _this52 = this;
 
             this.networkStatus = navigator.onLine;
             this.networkStatus$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["merge"])(Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["of"])(null), Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["fromEvent"])(window, 'online'), Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["fromEvent"])(window, 'offline')).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function () {
               return navigator.onLine;
             })).subscribe(function (status) {
-              if (status) _this53.authService.token().subscribe(function (token) {
-                _this53.token = token;
-                localStorage.setItem('formToken', _this53.token.token);
+              if (status) _this52.authService.token().subscribe(function (token) {
+                _this52.token = token;
+                localStorage.setItem('formToken', _this52.token.token);
               });
 
-              _this53.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsOnline"](status)); // this.networkStatus = status
+              _this52.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetIsOnline"](status)); // this.networkStatus = status
 
             });
           }
@@ -18225,10 +18219,10 @@
         _createClass(CheckboxRunComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this54 = this;
+            var _this53 = this;
 
             this.appService.detailArray[this.index].checkboxArray.forEach(function (element) {
-              if (element.required) _this54.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required));else _this54.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false));
+              if (element.required) _this53.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required));else _this53.runForm.addControl(element.formControlName, new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](false));
             });
           }
         }]);
@@ -19324,16 +19318,16 @@
         }, {
           key: "getCloud",
           value: function getCloud() {
-            var _this55 = this;
+            var _this54 = this;
 
             this.idbCrudService.readAll('form').subscribe(function (forms) {
-              _this55.forms = forms;
+              _this54.forms = forms;
 
-              var selectedForm = _this55.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].selectedForm);
+              var selectedForm = _this54.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].selectedForm);
 
-              var tenant = _this55.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].tenant);
+              var tenant = _this54.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].tenant);
 
-              var form = _this55.forms.filter(function (f) {
+              var form = _this54.forms.filter(function (f) {
                 return f.id === selectedForm["id"];
               });
 
@@ -19342,9 +19336,9 @@
                 tenant_id: tenant["tenant_id"]
               };
 
-              _this55.apiService.getData(obj).subscribe(function (data) {
-                _this55.records = data;
-                if (_this55.records.length > 0) _this55.isData = true;
+              _this54.apiService.getData(obj).subscribe(function (data) {
+                _this54.records = data;
+                if (_this54.records.length > 0) _this54.isData = true;
               });
             });
           }
@@ -20034,17 +20028,17 @@
         _createClass(VehicleInspectionComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this56 = this;
+            var _this55 = this;
 
             this.kioske = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].kioske);
             this.isOnline = this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_5__["DeviceState"].isOnline);
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].formData).subscribe(function (formData) {
-              _this56.formData = formData;
+              _this55.formData = formData;
 
-              if (_this56.formData && formData["data"]) {
-                _this56.isEdit = true;
+              if (_this55.formData && formData["data"]) {
+                _this55.isEdit = true;
 
-                _this56.setFormData(formData["data"]);
+                _this55.setFormData(formData["data"]);
               }
             });
           }
@@ -20155,7 +20149,7 @@
         }, {
           key: "updateForm",
           value: function updateForm() {
-            var _this57 = this;
+            var _this56 = this;
 
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].selectedForm);
             var header = this.headerForm.value;
@@ -20170,13 +20164,13 @@
               correctiveActions: this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_12__["CorrectiveActionState"].correctiveActions)
             };
             this.formService.updateForm(form, this.formData, data).subscribe(function (_) {
-              _this57.resetForm();
+              _this56.resetForm();
             });
           }
         }, {
           key: "submitForm",
           value: function submitForm() {
-            var _this58 = this;
+            var _this57 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].user);
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].selectedForm);
@@ -20206,19 +20200,19 @@
               pics: this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_5__["DeviceState"].pics)
             };
             this.apiService.save(obj).subscribe(function (idObj) {
-              _this58.formDataID = idObj;
+              _this57.formDataID = idObj;
 
-              var workers = _this58.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].workers);
+              var workers = _this57.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].workers);
 
-              var supervisors = _this58.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].supervisors);
+              var supervisors = _this57.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].supervisors);
 
-              if (workers.length == 0 && supervisors.length == 0) _this58.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+              if (workers.length == 0 && supervisors.length == 0) _this57.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
                 duration: 3000,
                 verticalPosition: 'bottom'
               });else {
-                var worker = _this58.appService.getWorker(header.Worker);
+                var worker = _this57.appService.getWorker(header.Worker);
 
-                var supervisor = _this58.appService.getSupervisor(header.Supervisor);
+                var supervisor = _this57.appService.getSupervisor(header.Supervisor);
 
                 var message = 'No discrepancies.';
                 if (comments.length > 0) message = 'Discrepancies Exist.';
@@ -20227,16 +20221,16 @@
                   worker: worker,
                   supervisor: supervisor,
                   description: 'Vehicle Inspection, ' + moment__WEBPACK_IMPORTED_MODULE_1__().format('MMM D, h:mA'),
-                  subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + _this58.appService.now,
+                  subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + _this57.appService.now,
                   message: message,
                   form_id: form["form_id"],
-                  data_id: _this58.formDataID,
-                  pdf: 'vehicle-inspection' + _this58.formDataID
+                  data_id: _this57.formDataID,
+                  pdf: 'vehicle-inspection' + _this57.formDataID
                 };
 
-                _this58.appService.sendNotification(notificationObj);
+                _this57.appService.sendNotification(notificationObj);
 
-                _this58.resetForm();
+                _this57.resetForm();
               }
             });
           }
@@ -21627,17 +21621,17 @@
         _createClass(WorksiteSafetyInspectionComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this59 = this;
+            var _this58 = this;
 
             this.isOnline = this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_7__["DeviceState"].isOnline);
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].formData).subscribe(function (formData) {
-              _this59.formData = formData;
+              _this58.formData = formData;
 
-              if (_this59.formData && formData["data"]) {
-                _this59.isEdit = true;
+              if (_this58.formData && formData["data"]) {
+                _this58.isEdit = true;
 
-                _this59.setFormData(formData["data"]);
-              } else _this59.store.dispatch(new _state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetIsWorksiteSafetyHeaderValid"](true));
+                _this58.setFormData(formData["data"]);
+              } else _this58.store.dispatch(new _state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_9__["SetIsWorksiteSafetyHeaderValid"](true));
             });
           }
         }, {
@@ -21780,7 +21774,7 @@
         }, {
           key: "updateForm",
           value: function updateForm() {
-            var _this60 = this;
+            var _this59 = this;
 
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].selectedForm);
             var header = this.headerForm.value;
@@ -21801,13 +21795,13 @@
               hazard: this.hazardForm.value
             };
             this.formService.updateForm(form, this.formData, data).subscribe(function (_) {
-              _this60.resetForm();
+              _this59.resetForm();
             });
           }
         }, {
           key: "submitForm",
           value: function submitForm() {
-            var _this61 = this;
+            var _this60 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].user);
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].selectedForm);
@@ -21863,32 +21857,32 @@
               this.idbCrudService.put('data', obj);
             } else {
               this.apiService.save(obj).subscribe(function (idObj) {
-                _this61.formDataID = idObj;
+                _this60.formDataID = idObj;
 
-                var workers = _this61.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].workers);
+                var workers = _this60.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].workers);
 
-                var supervisors = _this61.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].supervisors);
+                var supervisors = _this60.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_6__["AuthState"].supervisors);
 
-                if (workers.length == 0 && supervisors.length == 0) _this61.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+                if (workers.length == 0 && supervisors.length == 0) _this60.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
                   duration: 3000,
                   verticalPosition: 'bottom'
                 });else {
                   if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.';
                   var _notificationObj2 = {
                     name: form["name"],
-                    worker: _this61.appService.getWorker(header.Worker),
-                    supervisor: _this61.appService.getSupervisor(header.Supervisor),
+                    worker: _this60.appService.getWorker(header.Worker),
+                    supervisor: _this60.appService.getSupervisor(header.Supervisor),
                     description: 'Worksite Safety Inspection, ' + moment__WEBPACK_IMPORTED_MODULE_1__().format('MMM D, h:mA'),
                     message: message.Discrepancy,
-                    subject: 'New Worksite Safety Inspection for ' + _this61.headerForm.controls['Client'].value + ', ' + now,
+                    subject: 'New Worksite Safety Inspection for ' + _this60.headerForm.controls['Client'].value + ', ' + now,
                     form_id: form["form_id"],
-                    data_id: _this61.formDataID,
-                    pdf: 'worksite-safety-inspection' + _this61.formDataID
+                    data_id: _this60.formDataID,
+                    pdf: 'worksite-safety-inspection' + _this60.formDataID
                   };
 
-                  _this61.appService.sendNotification(_notificationObj2);
+                  _this60.appService.sendNotification(_notificationObj2);
 
-                  _this61.resetForm();
+                  _this60.resetForm();
                 }
               });
             }
@@ -22415,7 +22409,7 @@
         _createClass(LayoutComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this62 = this;
+            var _this61 = this;
 
             this.kioske = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].kioske);
 
@@ -22428,20 +22422,20 @@
                 this.authService.user({
                   email: email
                 }).subscribe(function (user) {
-                  _this62.idbCrudService.clear('form');
+                  _this61.idbCrudService.clear('form');
 
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
 
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetKioske"](false));
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetKioske"](false));
 
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetTenant"]({
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetTenant"]({
                     tenant_id: tenant_id,
                     email: email
                   }));
 
-                  _this62.appService.initializeUser();
+                  _this61.appService.initializeUser();
 
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
                 });
               } else if (msg && !email && !tenant_id) this.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('signup'));else {
                 this.idbCrudService.clear('prefs');
@@ -22451,50 +22445,50 @@
                 this.authService.user({
                   email: this.tenant.email
                 }).subscribe(function (user) {
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
 
-                  _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('kioske'));
+                  _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('kioske'));
                 });
               }
             } else {
               // these params are used to get the notifications from email link
               this.route.queryParams.subscribe(function (params) {
                 if (params && params.email && Object.keys(params.email).length) {
-                  _this62.notificationService.getMyNotifications().subscribe(function (notifications) {
+                  _this61.notificationService.getMyNotifications().subscribe(function (notifications) {
                     var openNotifications = [];
                     openNotifications = notifications.filter(function (not) {
                       return not.date_signed === null;
                     });
 
-                    _this62.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
+                    _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationOpen"](openNotifications));
 
-                    _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
+                    _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('notification'));
 
-                    _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
+                    _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('forms'));
 
-                    _this62.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
+                    _this61.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetNotificationTab"](0));
                   });
                 } else {
-                  var isOnline = _this62.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_4__["DeviceState"].isOnline);
+                  var isOnline = _this61.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_4__["DeviceState"].isOnline);
 
-                  _this62.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-                    _this62.prefs = prefs;
+                  _this61.idbCrudService.readAll('prefs').subscribe(function (prefs) {
+                    _this61.prefs = prefs;
 
-                    if (_this62.prefs.length > 0) {
+                    if (_this61.prefs.length > 0) {
                       if (isOnline) {
-                        _this62.authService.user({
-                          email: _this62.prefs[0]['user']['email']
+                        _this61.authService.user({
+                          email: _this61.prefs[0]['user']['email']
                         }).subscribe(function (user) {
-                          _this62.appService.initializeUser();
+                          _this61.appService.initializeUser();
 
-                          _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+                          _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
 
-                          _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
+                          _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
 
-                          _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
+                          _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
                         });
-                      } else _this62.appService.initializeOfflineUser();
-                    } else _this62.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('identify'));
+                      } else _this61.appService.initializeOfflineUser();
+                    } else _this61.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('identify'));
                   });
                 }
               });
@@ -23411,12 +23405,12 @@
           key: "onSelect",
           value: function onSelect(event) {
             var _this$appService$file,
-                _this63 = this;
+                _this62 = this;
 
             (_this$appService$file = this.appService.fileArray).push.apply(_this$appService$file, _toConsumableArray(event.addedFiles));
 
             this.appService.fileArray.forEach(function (element) {
-              _this63.readFile(element).then(function (fileContents) {
+              _this62.readFile(element).then(function (fileContents) {
                 element.content = fileContents;
                 element.tenantID = localStorage.getItem('formTenantId');
               });
@@ -25530,21 +25524,21 @@
         }, {
           key: "close",
           value: function close() {
-            var _this64 = this;
+            var _this63 = this;
 
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].isSignIn).subscribe(function (isSignIn) {
               if (isSignIn) {
-                _this64.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('admin'));
+                _this63.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('admin'));
 
-                _this64.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPage"]('data-forms'));
+                _this63.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPage"]('data-forms'));
 
-                _this64.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Data Forms'));
+                _this63.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Data Forms'));
               } else {
-                _this64.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
+                _this63.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
 
-                _this64.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
+                _this63.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
 
-                _this64.router.navigate(['']);
+                _this63.router.navigate(['']);
               }
             });
           }
@@ -26688,7 +26682,7 @@
         }, {
           key: "saveCloud",
           value: function saveCloud() {
-            var _this65 = this;
+            var _this64 = this;
 
             var obj = {
               data: this.transformRunService.parseDataCloud(this.runForm.value, this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].selectedForm["formObject"])),
@@ -26697,7 +26691,7 @@
               formObj: this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].selectedForm["formObject"])
             };
             this.apiService.save(obj).subscribe(function () {
-              _this65.successService.popSnackbar('Successfully Saved.');
+              _this64.successService.popSnackbar('Successfully Saved.');
             });
           }
         }]);
@@ -27791,15 +27785,15 @@
         _createClass(PicsComponent, [{
           key: "selectPhoto",
           value: function selectPhoto(idx) {
-            var _this66 = this;
+            var _this65 = this;
 
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
             dialogConfig.width = '100%';
             dialogConfig.data = idx;
             this.dialog.open(_pic_delete_pic_delete_component__WEBPACK_IMPORTED_MODULE_3__["PicDeleteComponent"], dialogConfig).afterClosed().subscribe(function (_) {
-              var pics = _this66.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_6__["DeviceState"].pics);
+              var pics = _this65.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_6__["DeviceState"].pics);
 
-              if (pics.length == 0) _this66.close();
+              if (pics.length == 0) _this65.close();
             });
           }
         }, {
@@ -29139,14 +29133,14 @@
         }, {
           key: "signin",
           value: function signin() {
-            var _this67 = this;
+            var _this66 = this;
 
             var obj = {
               email: this.signinForm.controls['email'].value,
               password: this.signinForm.controls['password'].value
             };
             this.authService.signinEmail(obj).subscribe(function (user) {
-              _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetTenant"]({
+              _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetTenant"]({
                 tenant_id: user.tenant_id,
                 email: user.email
               }));
@@ -29159,22 +29153,22 @@
                 }
               };
 
-              _this67.idbCrudService.clear('prefs');
+              _this66.idbCrudService.clear('prefs');
 
-              _this67.idbCrudService.put('prefs', obj);
+              _this66.idbCrudService.put('prefs', obj);
 
-              _this67.authService.register(_this67.signinForm.value).subscribe(function (_) {
-                _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetPage"]('admin'));
+              _this66.authService.register(_this66.signinForm.value).subscribe(function (_) {
+                _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetPage"]('admin'));
 
-                _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPage"]('forms'));
+                _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPage"]('forms'));
 
-                _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPageLabel"]('Forms'));
+                _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPageLabel"]('Forms'));
 
-                _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPageIcon"]('dynamic_form'));
+                _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetChildPageIcon"]('dynamic_form'));
 
-                _this67.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsSignIn"](true));
+                _this66.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsSignIn"](true));
 
-                _this67.appService.initializeAdminNotifications();
+                _this66.appService.initializeAdminNotifications();
               });
             });
           }
@@ -29191,14 +29185,14 @@
         }, {
           key: "forgotPasswordEmail",
           value: function forgotPasswordEmail() {
-            var _this68 = this;
+            var _this67 = this;
 
             var obj = {
               email: this.tenant.email,
               url: this.redirectForgotPasswordUrl
             };
             if (obj.email !== null) this.emailService.forgotPassword(obj).subscribe(function () {
-              _this68.successService.popSnackbar('Email Sent.');
+              _this67.successService.popSnackbar('Email Sent.');
             });else this.errorService.popSnackbar('Please Enter a Valid Email.');
           }
         }]);
@@ -29552,7 +29546,7 @@
         _createClass(HttpConfig, [{
           key: "intercept",
           value: function intercept(request, next) {
-            var _this69 = this;
+            var _this68 = this;
 
             var token = localStorage.getItem('formToken');
             if (token) request = request.clone({
@@ -29565,11 +29559,8 @@
               return event;
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (errorResponse) {
               console.log(errorResponse);
-
-              if (errorResponse.status == 401) {
-                _this69.appService.refreshToken();
-              } else {
-                _this69.errorService.popSnackbar(errorResponse.error);
+              if (errorResponse.status == 401) _this68.appService.refreshToken();else if (errorResponse.status == 403) _this68.appService.refreshToken();else {
+                _this68.errorService.popSnackbar(errorResponse.error);
 
                 if (errorResponse.error.type == 'timeout') window.location.reload();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["throwError"])(errorResponse);
@@ -30284,7 +30275,7 @@
         _createClass(DetailComponent, [{
           key: "openComment",
           value: function openComment(label, field) {
-            var _this70 = this;
+            var _this69 = this;
 
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_0__["MatDialogConfig"]();
             dialogConfig.width = '100%';
@@ -30295,7 +30286,7 @@
               type: 'isVehicleInspection'
             };
             this.dialog.open(_comment_comment_component__WEBPACK_IMPORTED_MODULE_1__["CommentComponent"], dialogConfig).afterClosed().subscribe(function (isSave) {
-              _this70.detailForm.controls[field].patchValue(isSave);
+              _this69.detailForm.controls[field].patchValue(isSave);
             });
           }
         }, {
@@ -32525,7 +32516,7 @@
         }, {
           key: "update",
           value: function update() {
-            var _this71 = this;
+            var _this70 = this;
 
             var obj = {
               id: this.data['element']['id'],
@@ -32533,28 +32524,28 @@
               value: this.id.value
             };
             this.apiService.update(obj).subscribe(function (data) {
-              _this71.appService.dataSource = data.rows;
+              _this70.appService.dataSource = data.rows;
 
-              _this71.dialogRef.close();
+              _this70.dialogRef.close();
 
-              _this71.successService.popSnackbar('Item updated');
+              _this70.successService.popSnackbar('Item updated');
             });
           }
         }, {
           key: "delete",
           value: function _delete() {
-            var _this72 = this;
+            var _this71 = this;
 
             var obj = {
               id: this.data['element']['id'],
               name: this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_4__["AuthState"].lookupListName)
             };
             this.apiService["delete"](obj).subscribe(function (data) {
-              _this72.appService.dataSource = data.rows;
+              _this71.appService.dataSource = data.rows;
 
-              _this72.dialogRef.close();
+              _this71.dialogRef.close();
 
-              _this72.successService.popSnackbar('Item deleted');
+              _this71.successService.popSnackbar('Item deleted');
             });
           }
         }]);
@@ -32881,7 +32872,7 @@
         }, {
           key: "signForm",
           value: function signForm() {
-            var _this73 = this;
+            var _this72 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_5__["AuthState"].user);
             var selectedForm = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_5__["AuthState"].selectedForm);
@@ -32896,15 +32887,15 @@
               name: user.name
             };
             this.apiService.signForm(obj).subscribe(function (res) {
-              _this73.appService.initializeMyNotifications();
+              _this72.appService.initializeMyNotifications();
 
-              _this73.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetPage"]('home'));
+              _this72.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetPage"]('home'));
 
-              _this73.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetChildPageLabel"]('Forms'));
+              _this72.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_3__["SetChildPageLabel"]('Forms'));
 
-              _this73.dialogRef.close();
+              _this72.dialogRef.close();
 
-              _this73.snackBar.open(res.message, 'Success', {
+              _this72.snackBar.open(res.message, 'Success', {
                 duration: 3000,
                 verticalPosition: 'bottom'
               });
@@ -34500,7 +34491,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](14);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](ctx.version);
+            _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"]("Updated: ", ctx.version, "");
           }
         },
         directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_11__["MatToolbar"], _angular_material_button__WEBPACK_IMPORTED_MODULE_12__["MatButton"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["ɵangular_packages_forms_forms_ba"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_13__["NgForm"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutAlignDirective"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_15__["MatIcon"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutGapDirective"], _angular_material_button__WEBPACK_IMPORTED_MODULE_12__["MatAnchor"]],
@@ -34647,22 +34638,22 @@
         _createClass(CommentComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this74 = this;
+            var _this73 = this;
 
             var comments = this.store.selectSnapshot(_state_comment_state__WEBPACK_IMPORTED_MODULE_4__["CommentState"].comments);
             var comment = comments.filter(function (c) {
-              return c.field == _this74.data.field;
+              return c.field == _this73.data.field;
             });
             if (comment.length > 0) this.commentForm.controls['comment'].setValue(comment[0].text);
           }
         }, {
           key: "save",
           value: function save() {
-            var _this75 = this;
+            var _this74 = this;
 
             var comments = lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"](this.store.selectSnapshot(_state_comment_state__WEBPACK_IMPORTED_MODULE_4__["CommentState"].comments));
             var commentIdx = comments.findIndex(function (c) {
-              return c.field == _this75.data.field;
+              return c.field == _this74.data.field;
             });
             if (commentIdx == -1) comments.push({
               label: this.data.label,
@@ -34676,15 +34667,15 @@
         }, {
           key: "delete",
           value: function _delete() {
-            var _this76 = this;
+            var _this75 = this;
 
             var comments = lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"](this.store.selectSnapshot(_state_comment_state__WEBPACK_IMPORTED_MODULE_4__["CommentState"].comments));
             var commentIdx = comments.findIndex(function (c) {
-              return c.field == _this76.data.field;
+              return c.field == _this75.data.field;
             });
             var correctiveActions = lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"](this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_6__["CorrectiveActionState"].correctiveActions));
             var correctiveActionsIdx = correctiveActions.findIndex(function (c) {
-              return c.field == _this76.data.field;
+              return c.field == _this75.data.field;
             });
             if (commentIdx != -1) comments.splice(commentIdx, 1);
             if (correctiveActionsIdx != -1) comments.splice(correctiveActionsIdx, 1);
@@ -34940,7 +34931,7 @@
       var AutoCompleteService = /*#__PURE__*/function () {
         // public personResonsibleCorrectiveActionControl = new FormControl(null)
         function AutoCompleteService(store) {
-          var _this77 = this;
+          var _this76 = this;
 
           _classCallCheck(this, AutoCompleteService);
 
@@ -34959,11 +34950,11 @@
           this.workers = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].workers);
           console.log(this.workers);
           this.filteredWorkers$ = this.workersControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (value) {
-            return _this77._filterWorkers(value);
+            return _this76._filterWorkers(value);
           }));
           this.supervisors = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].supervisors);
           this.filteredSupervisors$ = this.supervisorsControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (value) {
-            return _this77._filterSupervisors(value);
+            return _this76._filterSupervisors(value);
           }));
           this.lookupLists = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].lookupListData);
           this.makes = this.lookupLists.filter(function (d) {
@@ -34972,7 +34963,7 @@
             return d.data;
           });
           this.filteredMakes$ = this.makesControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (value) {
-            return _this77._filterMakes(value);
+            return _this76._filterMakes(value);
           }));
           this.models = this.lookupLists.filter(function (d) {
             return d.name == "models";
@@ -34980,7 +34971,7 @@
             return d.data;
           });
           this.filteredModels$ = this.modelsControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (value) {
-            return _this77._filterModels(value);
+            return _this76._filterModels(value);
           }));
           this.clients = this.lookupLists.filter(function (d) {
             return d.name == "clients";
@@ -34988,14 +34979,14 @@
             return d.data;
           });
           this.filteredClients$ = this.modelsControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (value) {
-            return _this77._filterClients(value);
+            return _this76._filterClients(value);
           }));
         }
 
         _createClass(AutoCompleteService, [{
           key: "_filterSupervisors",
           value: function _filterSupervisors(value) {
-            var filterValue = value.toLowerCase();
+            var filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
             return this.supervisors.filter(function (supervisor) {
               var _a;
 
@@ -35005,7 +34996,7 @@
         }, {
           key: "_filterWorkers",
           value: function _filterWorkers(value) {
-            var filterValue = value.toLowerCase();
+            var filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
             return this.workers.filter(function (worker) {
               var _a;
 
@@ -35015,7 +35006,7 @@
         }, {
           key: "_filterMakes",
           value: function _filterMakes(value) {
-            var filterValue = value.toLowerCase();
+            var filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
             return this.makes.filter(function (m) {
               return m.toLowerCase().includes(filterValue);
             });
@@ -35023,7 +35014,7 @@
         }, {
           key: "_filterModels",
           value: function _filterModels(value) {
-            var filterValue = value.toLowerCase();
+            var filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
             return this.models.filter(function (m) {
               return m.toLowerCase().includes(filterValue);
             });
@@ -35031,7 +35022,7 @@
         }, {
           key: "_filterClients",
           value: function _filterClients(value) {
-            var filterValue = value.toLowerCase();
+            var filterValue = value === null || value === void 0 ? void 0 : value.toLowerCase();
             return this.clients.filter(function (c) {
               return c.toLowerCase().includes(filterValue);
             });
@@ -35800,11 +35791,11 @@
         _createClass(AdminComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this78 = this;
+            var _this77 = this;
 
             // const tenant = this.store.selectSnapshot(AuthState.tenant)
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_2__["AuthState"].tenant).subscribe(function (tenant) {
-              _this78.apiService.getEmailList({
+              _this77.apiService.getEmailList({
                 tenant_id: tenant.tenant_id
               }).subscribe(function (lists) {
                 var emailLists = lists;
@@ -35812,20 +35803,20 @@
                   return a.name.localeCompare(b.name);
                 });
 
-                _this78.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetEmailList"](emailLists));
+                _this77.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetEmailList"](emailLists));
               });
             });
             this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              _this78.prefs = prefs;
+              _this77.prefs = prefs;
 
-              if (_this78.prefs.length > 0) {
-                if (_this78.prefs[0]["user"]["isDarkMode"]) _this78.appService.setMode('darkMode');else _this78.appService.setMode('');
+              if (_this77.prefs.length > 0) {
+                if (_this77.prefs[0]["user"]["isDarkMode"]) _this77.appService.setMode('darkMode');else _this77.appService.setMode('');
 
-                _this78.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](_this78.prefs[0]["user"]["isDarkMode"]));
+                _this77.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](_this77.prefs[0]["user"]["isDarkMode"]));
               } else {
-                _this78.appService.setMode('darkMode');
+                _this77.appService.setMode('darkMode');
 
-                _this78.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](true));
+                _this77.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](true));
               }
             });
           }
@@ -36398,7 +36389,7 @@
         }, {
           key: "deploy",
           value: function deploy(form) {
-            var _this79 = this;
+            var _this78 = this;
 
             var formObjClone = lodash__WEBPACK_IMPORTED_MODULE_1__["cloneDeep"](form);
             if (!form.type) this.errorService.popSnackbar('Form is not Configured');else if (form.type === 'custom') {
@@ -36413,12 +36404,12 @@
               this.formService.registerForm(formObjClone).subscribe(function (form_id) {
                 formObjClone['form_id'] = form_id;
 
-                _this79.idbCrudService.put('form', formObjClone).subscribe(function (_) {
-                  _this79.idbCrudService.readAll('form').subscribe(function (forms) {
-                    _this79.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetForms"](forms));
+                _this78.idbCrudService.put('form', formObjClone).subscribe(function (_) {
+                  _this78.idbCrudService.readAll('form').subscribe(function (forms) {
+                    _this78.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetForms"](forms));
                   });
 
-                  _this79.successService.popSnackbar("Form Registered");
+                  _this78.successService.popSnackbar("Form Registered");
                 });
               });
             }
@@ -36648,35 +36639,35 @@
         _createClass(ProfileComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this80 = this;
+            var _this79 = this;
 
             this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              _this80.prefs = prefs;
+              _this79.prefs = prefs;
 
-              if (_this80.prefs.length > 0) {
-                if (_this80.prefs[0]["user"]["isDarkMode"]) _this80.appService.setMode('darkMode');else _this80.appService.setMode('');
+              if (_this79.prefs.length > 0) {
+                if (_this79.prefs[0]["user"]["isDarkMode"]) _this79.appService.setMode('darkMode');else _this79.appService.setMode('');
 
-                _this80.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](_this80.prefs[0]["user"]["isDarkMode"]));
+                _this79.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](_this79.prefs[0]["user"]["isDarkMode"]));
 
-                _this80.email = _this80.prefs[0]["user"]["email"];
+                _this79.email = _this79.prefs[0]["user"]["email"];
               } else {
-                _this80.appService.setMode('darkMode');
+                _this79.appService.setMode('darkMode');
 
-                _this80.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](true));
+                _this79.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetIsDarkMode"](true));
               }
             });
           }
         }, {
           key: "resetPassword",
           value: function resetPassword() {
-            var _this81 = this;
+            var _this80 = this;
 
             var obj = this.passwordForm.value;
             obj["email"] = this.email;
             this.authService.resetPassword(obj).subscribe(function (res) {
-              _this81.successService.popSnackbar(res.message);
+              _this80.successService.popSnackbar(res.message);
 
-              _this81.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetPage"]('home'));
+              _this80.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_7__["SetPage"]('home'));
             });
           }
         }, {
@@ -37559,17 +37550,17 @@
         _createClass(SpotCheckSafetyComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this82 = this;
+            var _this81 = this;
 
             this.kioske = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].kioske);
             this.isOnline = this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_4__["DeviceState"].isOnline);
             this.store.select(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].formData).subscribe(function (formData) {
-              _this82.formData = formData;
+              _this81.formData = formData;
 
-              if (_this82.formData && formData["data"]) {
-                _this82.isEdit = true;
+              if (_this81.formData && formData["data"]) {
+                _this81.isEdit = true;
 
-                _this82.setFormData(formData["data"]);
+                _this81.setFormData(formData["data"]);
               }
             });
           }
@@ -37671,7 +37662,7 @@
         }, {
           key: "updateForm",
           value: function updateForm() {
-            var _this83 = this;
+            var _this82 = this;
 
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].selectedForm);
             var header = this.headerForm.value;
@@ -37690,13 +37681,13 @@
               correctiveActions: this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_9__["CorrectiveActionState"].correctiveActions)
             };
             this.formService.updateForm(form, this.formData, data).subscribe(function (_) {
-              _this83.resetForm();
+              _this82.resetForm();
             });
           }
         }, {
           key: "submitForm",
           value: function submitForm() {
-            var _this84 = this;
+            var _this83 = this;
 
             var user = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].user);
             var form = this.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].selectedForm);
@@ -37747,35 +37738,35 @@
               this.idbCrudService.put('data', obj);
             } else {
               this.apiService.save(obj).subscribe(function (idObj) {
-                _this84.formDataID = idObj;
+                _this83.formDataID = idObj;
 
-                var workers = _this84.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].workers);
+                var workers = _this83.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].workers);
 
-                var supervisors = _this84.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].supervisors);
+                var supervisors = _this83.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_3__["AuthState"].supervisors);
 
-                if (workers.length == 0 && supervisors.length == 0) _this84.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
+                if (workers.length == 0 && supervisors.length == 0) _this83.snackBar.open("Notifications not setup, please add workers and supervisors.", 'Attention', {
                   duration: 3000,
                   verticalPosition: 'bottom'
                 });else {
-                  var worker = _this84.appService.getWorker(header.Worker);
+                  var worker = _this83.appService.getWorker(header.Worker);
 
-                  var supervisor = _this84.appService.getSupervisor(header.Supervisor);
+                  var supervisor = _this83.appService.getSupervisor(header.Supervisor);
 
                   var _notificationObj3 = {
                     name: form["name"],
                     worker: worker,
                     supervisor: supervisor,
                     description: 'Spot Check Safety, ' + moment__WEBPACK_IMPORTED_MODULE_0__().format('MMM D, h:mA'),
-                    message: 'Spot Check Safety completed for ' + _this84.headerForm.controls['CompanyName'].value + ', ' + _this84.headerForm.controls['Location'].value,
-                    subject: 'New Spot Check Safety from ' + header.Worker + ', ' + _this84.appService.now,
+                    message: 'Spot Check Safety completed for ' + _this83.headerForm.controls['CompanyName'].value + ', ' + _this83.headerForm.controls['Location'].value,
+                    subject: 'New Spot Check Safety from ' + header.Worker + ', ' + _this83.appService.now,
                     form_id: form["form_id"],
-                    data_id: _this84.formDataID,
-                    pdf: 'spot-check-safety' + _this84.formDataID
+                    data_id: _this83.formDataID,
+                    pdf: 'spot-check-safety' + _this83.formDataID
                   };
 
-                  _this84.appService.sendNotification(_notificationObj3);
+                  _this83.appService.sendNotification(_notificationObj3);
 
-                  _this84.resetForm();
+                  _this83.resetForm();
                 }
               });
             }
@@ -40023,19 +40014,19 @@
         _createClass(SettingsComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            var _this85 = this;
+            var _this84 = this;
 
             this.idbCrudService.readAll('prefs').subscribe(function (prefs) {
-              _this85.prefs = prefs[0];
+              _this84.prefs = prefs[0];
 
-              _this85.settingsForm.patchValue({
-                name: _this85.prefs.user.name
+              _this84.settingsForm.patchValue({
+                name: _this84.prefs.user.name
               });
 
-              if (_this85.prefs.pin === undefined) _this85.settingsForm.patchValue({
-                pin: _this85.pin
-              });else _this85.settingsForm.patchValue({
-                pin: _this85.prefs.pin
+              if (_this84.prefs.pin === undefined) _this84.settingsForm.patchValue({
+                pin: _this84.pin
+              });else _this84.settingsForm.patchValue({
+                pin: _this84.prefs.pin
               });
             });
           }
