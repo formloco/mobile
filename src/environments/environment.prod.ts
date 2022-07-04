@@ -1,4 +1,4 @@
-import { Formloco, Summit, Rumzer } from '../app/state/app.state'
+import { Formloco, Summit, Rumzer, Platform } from '../app/state/app.state'
 
 export const environment = {
   production: true,
@@ -31,6 +31,7 @@ export const environment = {
   // logo: Formloco.logo,
   // idbName: Formloco.idbName,
   // version: Formloco.version,
+  // lastUpdate: Platform.lastUpdate,
   // pin: Formloco.pin
 
   apiUrl: Summit.apiUrl,
@@ -52,5 +53,6 @@ export const environment = {
   logo: Summit.logo,
   idbName: Summit.idbName,
   version: Summit.version,
+  lastUpdate: Platform.lastUpdate,
   pin: Summit.pin
 }

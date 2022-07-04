@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
     "moment": "^2.29.1",
+    "nodemon": "^2.0.18",
     "pdfmake": "^0.2.2",
     "pg": "^8.0.3",
     "superagent": "^6.1.0",

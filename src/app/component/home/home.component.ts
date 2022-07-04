@@ -54,6 +54,7 @@ export class HomeComponent implements OnInit {
 
   kioske = environment.kioske
   version = environment.version
+  lastUpdate = environment.lastUpdate
   signinUrl = environment.signinUrl
   homeUrl = environment.homeUrl
   designUrl = environment.designUrl
