@@ -380,12 +380,12 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           body: [
             [{ text: 'Confined Space', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
             [
-              'Confined Space Permit Issued',
+              'Does the project involve Confined Space Entry?',
               { text: formObj.DoesTheProjectInvolveConfinedSpaceEntry, alignment: 'center' },
               { text: formObj.DoesTheProjectInvolveConfinedSpaceEntryNo, alignment: 'center' }
             ],
             [
-              'Ground disturbance checklist is in place',
+              'Confined Space Permit Issued',
               { text: formObj.ConfinedSpacePermitIssued, alignment: 'center' },
               { text: formObj.ConfinedSpacePermitIssuedNo, alignment: 'center' }
             ],
@@ -466,16 +466,26 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.VehicleWindshieldFreeOfMajorChipsAndCracks, alignment: 'center' },
               { text: formObj.VehicleWindshieldFreeOfMajorChipsAndCracksNo, alignment: 'center' },
               { text: formObj.VehicleWindshieldFreeOfMajorChipsAndCracksNa, alignment: 'center' },
-              { text: 'Safety / buggy whip equipped on vehicle' },
-              { text: formObj.SafetyBuggyWhipEquippedOnVehicle, alignment: 'center' },
-              { text: formObj.SafetyBuggyWhipEquippedOnVehicleNo, alignment: 'center' },
-              { text: formObj.SafetyBuggyWhipEquippedOnVehicleNa, alignment: 'center' }
+              { text: 'Emergency warning / strobe light equipped on vehicle' },
+              { text: formObj.EmergencyWarningStrobeLightEquippedOnVehicle, alignment: 'center' },
+              { text: formObj.EmergencyWarningStrobeLightEquippedOnVehicleNo, alignment: 'center' },
+              { text: formObj.EmergencyWarningStrobeLightEquippedOnVehicleNa, alignment: 'center' }
             ],
             [
               'Daily pre-use vehicle inspection completed',
               { text: formObj.DailyPreUseVehicleInspectionCompleted, alignment: 'center' },
               { text: formObj.DailyPreUseVehicleInspectionCompletedNo, alignment: 'center' },
               { text: formObj.DailyPreUseVehicleInspectionCompletedNa, alignment: 'center' },
+              { text: 'Safety / buggy whip equipped on vehicle' },
+              { text: formObj.SafetyBuggyWhipEquippedOnVehicle, alignment: 'center' },
+              { text: formObj.SafetyBuggyWhipEquippedOnVehicleNo, alignment: 'center' },
+              { text: formObj.SafetyBuggyWhipEquippedOnVehicleNa, alignment: 'center' }
+            ],
+            [
+              'Equipment pre-use inspection completed',
+              { text: formObj.EquipmentPreUseInspectionCompleted, alignment: 'center' },
+              { text: formObj.EquipmentPreUseInspectionCompletedNo, alignment: 'center' },
+              { text: formObj.EquipmentPreUseInspectionCompletedNa, alignment: 'center' },
               { text: 'First aid kit equipped in vehicle' },
               { text: formObj.FirstAidKitEquippedInVehicle, alignment: 'center' },
               { text: formObj.FirstAidKitEquippedInVehicleNo, alignment: 'center' },
