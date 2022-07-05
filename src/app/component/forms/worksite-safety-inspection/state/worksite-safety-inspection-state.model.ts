@@ -36,7 +36,6 @@ export enum HazardFormLabels {
 
 export enum JobsiteFormLabels {
   WorkAreaClearlyIdentified = 'Work area is clearly identified',
-  AppropriateAccessAndEgressRoutesAreEstablished = 'Appropriate access and egress routes are established',
   SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns = 'Site is free of trip hazards and other housekeeping concerns',
   AllOpenExcavationsAreClearlyMarked = 'All open excavations are clearly marked',
   PublicAccessToTheSiteControlled = 'Public access to the site controlled',

@@ -422,6 +422,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
+          console.log('MESSAGE:', message)
+          console.log('FORM:', this.discrepancyForm)
           if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
 
           let notificationObj = {

@@ -206,26 +206,6 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           body: [
             [{ text: 'Job Site Management', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }, { text: '', style: 'tableHeader', alignment: 'center' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
             [
-              'Work area is clearly identified Appropriate access and egress routes are established',
-              { text: formObj.WorkAreaClearlyIdentified, alignment: 'center' },
-              { text: formObj.WorkAreaClearlyIdentifiedNo, alignment: 'center' },
-              { text: formObj.WorkAreaClearlyIdentifiedNa, alignment: 'center' },
-              'Is there emergency equipment on site?',
-              { text: formObj.IsThereEmergencyEquipmentOnSite, alignment: 'center' },
-              { text: formObj.IsThereEmergencyEquipmentOnSiteNo, alignment: 'center' },
-              { text: formObj.IsThereEmergencyEquipmentOnSiteNa, alignment: 'center' }
-            ],
-            [
-              'Appropriate access and egress routes are established',
-              { text: formObj.AppropriateAccessAndEgressRoutesAreEstablished, alignment: 'center' },
-              { text: formObj.AppropriateAccessAndEgressRoutesAreEstablishedNo, alignment: 'center' },
-              { text: formObj.AppropriateAccessAndEgressRoutesAreEstablishedNa, alignment: 'center' },
-              'First aid kit available and stocked',
-              { text: formObj.FirstAidKitAvailable, alignment: 'center' },
-              { text: formObj.FirstAidKitAvailableNo, alignment: 'center' },
-              { text: formObj.FirstAidKitAvailableNa, alignment: 'center' }
-            ],
-            [
               'Site is free of trip hazards and other housekeeping concerns',
               { text: formObj.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns, alignment: 'center' },
               { text: formObj.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcernsNo, alignment: 'center' },
