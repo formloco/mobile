@@ -55,7 +55,7 @@ export enum FireExtinguisherFormLabels {
   FireExtinguisherCharged = 'Fire extinguishers showing charge (gauge indicator must be in the green zone indicating it is fully charged)',
   FireExtinguisherSafetyPinSecured = 'Fire extinguisher safety pins are in place and secured to prevent an accidental discharge',
   FireExtinguisherOperatingInstructions = 'Fire extinguishers operating instructions on the name plate are legible and face outwards',
-  FireExtinguisherNoVisibleDamage = 'No signs of visible damage to fire extinguisher (rust, dents or other sighs of damage)',
+  FireExtinguisherNoVisibleDamage = 'No signs of visible damage to fire extinguisher (rust, dents or other signs of damage)',
   FireExtinguisherCertification = 'External fire extinguisher certification within 12 months (must be certified by 3rd party annually)'
 }
 

@@ -275,7 +275,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               'Fire extinguisher(s) visible and unobstructed',
               { text: formObj.FireExtinguisherVisibleUnobstructed, alignment: 'center' },
               { text: formObj.FireExtinguisherVisibleUnobstructedNo, alignment: 'center' },
-              { text: 'No signs of visible damage to fire extinguisher (rust, dents or other sighs of damage)' },
+              { text: 'No signs of visible damage to fire extinguisher (rust, dents or other signs of damage)' },
               { text: formObj.FireExtinguisherNoVisibleDamage, alignment: 'center' },
               { text: formObj.FireExtinguisherNoVisibleDamageNo, alignment: 'center' }
             ],
