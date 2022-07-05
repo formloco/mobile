@@ -18,6 +18,10 @@ export const States = [
   WorksiteSafetyInspectionState
 ]
 
+export enum Platform {
+  version = '2.1'
+}
+
 export enum Formloco {
   pin = '111111',
   tenant = 'formloco',
@@ -28,7 +32,6 @@ export enum Formloco {
   idbName = 'formlocoMobileDB',
   email = 'brock@formloco.com',
   logo = 'assets/logo-light.png',
-  version = '2.0',
   homeUrl = 'https://formloco.com/',
   apiUrl = 'https://api.formloco.com/api/',
   authUrl = 'https://api.formloco.com/auth/',
@@ -50,7 +53,6 @@ export enum Summit {
   kioskeTenant = 'formloco',
   email = 'HSE@Summitearth.com',
   logo = 'assets/logo-summit.svg',
-  version = '2.0',
   // endpoints
   apiUrl = 'https://forms.summitearth.com/api/',
   authUrl = 'https://forms.summitearth.com/auth/',
@@ -66,7 +68,8 @@ export enum Summit {
 }
 
 export enum SummitForms {
-  pin = '333333'}
+  pin = '333333'
+}
 
 export enum Rumzer {
   pin = '333333',
@@ -75,7 +78,6 @@ export enum Rumzer {
   kioskeEmail = 'brock@formloco.com',
   kioskePassword = 'simple',
   kioskeTenant = 'formloco',
-  version = '2.0',
   homeUrl = 'https://formloco.com/',
   email = 'rumzerbot@rumzer.com',
   logo = 'assets/logo-rumzer.svg',

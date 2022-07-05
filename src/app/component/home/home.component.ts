@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
 
   openNotifications(tabIndex) {
     if (tabIndex === 0) {
-      const user = this.store.selectSnapshot(AuthState.userIdb)
+      // const user = this.store.selectSnapshot(AuthState.userIdb)
       this.notificationService.getMyNotifications().subscribe((notifications: any) => {
         let openNotifications: any = []
         notifications.forEach(element => {

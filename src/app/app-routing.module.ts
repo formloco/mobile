@@ -40,7 +40,6 @@ const routes: Routes = [{
   component: message
 }]
 
-
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]

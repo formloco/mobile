@@ -1,22 +1,23 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { Formloco, Summit } from '../app/state/app.state'
+import { Formloco, Summit, Platform } from '../app/state/app.state'
 
 export const environment = {
   production: false,
 
   // kioske: true,
-  // designUrl: 'http://localhost:4201/kioske/true',
+  // designUrl: Formloco.designKioskeUrl,
 
   kioske: false,
-  designUrl: 'http://localhost:4201',
+  // designUrl: 'http://localhost:4201',
   // design is an external app
-  // designUrl: Formloco.designUrl,
+  designUrl: Formloco.designUrl,
+  version: Platform.version,
   
   homeUrl: 'http://localhost:4200',
   // messageUrl is used by email service to embed link in notification email
-  // messageUrl: 'http://localhost:4200/message/',
+  messageUrl: 'http://localhost:4200/message/',
 
   // local endpoints
   // apiUrl: 'http://localhost:9001/api/',
@@ -28,7 +29,7 @@ export const environment = {
 
   // router re-directs, message comes from email link
   // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
-  redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
+  // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
 
   apiUrl: Summit.apiUrl,
@@ -38,14 +39,12 @@ export const environment = {
   assetUrl: Summit.assetUrl,
   notificationUrl: Summit.notificationUrl,
 
-  messageUrl: Summit.messageUrl,
   signinUrl: Summit.signinUrl,
-  // redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
+  redirectForgotPasswordUrl: Summit.redirectForgotPasswordUrl,
 
   tenant: { email: Summit.email, tenant_id: Summit.tenant },
   logo: Summit.logo,
   idbName: Summit.idbName,
-  version: Summit.version,
   pin: Summit.pin,
 
   // kioske links
@@ -58,12 +57,12 @@ export const environment = {
   // emailUrl: Formloco.emailUrl,
   // assetUrl: Formloco.assetUrl,
   // notificationUrl: Formloco.notificationUrl,
-  // messageUrl: Formloco.messageUrl,
+  
   // signinUrl: Formloco.signinUrl,
   // tenant: { email: Formloco.email, tenant_id: Formloco.tenant },  
 
   // logo: Formloco.logo,
-  // version: Formloco.version,
+  // lastUpdate: Platform.lastUpdate,
   // idbName: Formloco.idbName,
   // pin: Formloco.pin
 };
