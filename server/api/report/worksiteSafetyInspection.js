@@ -336,7 +336,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           body: [
             [{ text: 'Ground Disturbance', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
             [
-              'Does the project involve ground disturbance If YES, compelete the following',
+              'Does the project involve ground disturbance If YES, complete the following',
               { text: formObj.DoesTheProjectInvolveGroundDisturbance, alignment: 'center' },
               { text: formObj.DoesTheProjectInvolveGroundDisturbanceNo, alignment: 'center' }
             ],
