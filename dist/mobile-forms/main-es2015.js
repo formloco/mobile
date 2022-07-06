@@ -11129,7 +11129,7 @@ class WorksiteSafetyInspectionComponent {
         }
         if (data.jobsite) {
             this.jobsiteForm.controls['WorkAreaClearlyIdentified'].setValue(data.jobsite.WorkAreaClearlyIdentified);
-            this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished);
+            // this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
             this.jobsiteForm.controls['SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns'].setValue(data.jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns);
             this.jobsiteForm.controls['AllOpenExcavationsAreClearlyMarked'].setValue(data.jobsite.AllOpenExcavationsAreClearlyMarked);
             this.jobsiteForm.controls['PublicAccessToTheSiteControlled'].setValue(data.jobsite.PublicAccessToTheSiteControlled);
@@ -12213,7 +12213,12 @@ class DiscrepancyComponent {
     openComment(label, field) {
         const dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
         dialogConfig.width = '100%';
-        dialogConfig.data = { title: label, label: label, field: field, type: 'isSpotCheckSafety' };
+        dialogConfig.data = {
+            title: label,
+            label: label,
+            field: field,
+            type: 'isSpotCheckSafety',
+        };
         this.dialog.open(src_app_component_comment_comment_component__WEBPACK_IMPORTED_MODULE_3__["CommentComponent"], dialogConfig);
     }
     openCorrectiveActionDialog(comment) {
@@ -12222,7 +12227,12 @@ class DiscrepancyComponent {
         dialogConfig.maxHeight = '100vh';
         dialogConfig.width = '100vw';
         dialogConfig.height = '100vh';
-        dialogConfig.data = { label: comment.label, field: comment.field, type: comment.type, actionItem: comment.text };
+        dialogConfig.data = {
+            label: comment.label,
+            field: comment.field,
+            type: comment.type,
+            actionItem: comment.text,
+        };
         this.dialog.open(src_app_component_corrective_action_corrective_action_component__WEBPACK_IMPORTED_MODULE_4__["CorrectiveActionComponent"], dialogConfig);
     }
 }
