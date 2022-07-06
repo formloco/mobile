@@ -10,7 +10,7 @@ import { JobsiteFormLabels } from '../state/worksite-safety-inspection-state.mod
 @Component({
   selector: 'app-worksite-safety-jobsite',
   templateUrl: './worksite-safety-jobsite.component.html',
-  styleUrls: ['./worksite-safety-jobsite.component.scss']
+  styleUrls: ['./worksite-safety-jobsite.component.scss'],
 })
 export class WorksiteSafetyJobsiteComponent implements OnInit {
 

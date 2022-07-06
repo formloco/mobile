@@ -110,7 +110,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     })
     this.jobsiteForm = this.formBuilder.group({
       WorkAreaClearlyIdentified: [null, Validators.required],
-      AppropriateAccessAndEgressRoutesAreEstablished: [null, Validators.required],
       SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns: [null, Validators.required],
       AllOpenExcavationsAreClearlyMarked: [null, Validators.required],
       PublicAccessToTheSiteControlled: [null, Validators.required],
@@ -240,7 +239,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
     if (data.jobsite) {
       this.jobsiteForm.controls['WorkAreaClearlyIdentified'].setValue(data.jobsite.WorkAreaClearlyIdentified)
-      this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
+      // this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
       this.jobsiteForm.controls['SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns'].setValue(data.jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns)
       this.jobsiteForm.controls['AllOpenExcavationsAreClearlyMarked'].setValue(data.jobsite.AllOpenExcavationsAreClearlyMarked)
       this.jobsiteForm.controls['PublicAccessToTheSiteControlled'].setValue(data.jobsite.PublicAccessToTheSiteControlled)
@@ -407,7 +406,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         data_id: null,
         pdf: 'worksite-safety-inspection' + this.formDataID
       }
-      obj['nofification'] = notificationObj
+      obj['notification'] = notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {
