@@ -7,7 +7,7 @@ function verifyToken(req, res, next) {
 
   let token = req.headers['x-access-token']
   if (!token) token = req.params.token
-  console.log('TOKEN:', token)
+  
   if (!token) return res.status(403).send('No token provided.')
   
   jwt.verify(token, process.env.SECRET, function(err, decoded) {      
