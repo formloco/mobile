@@ -5317,7 +5317,7 @@
       var Platform;
 
       (function (Platform) {
-        Platform["version"] = "2.1";
+        Platform["version"] = "2.2";
       })(Platform || (Platform = {}));
 
       var Formloco;
@@ -21542,7 +21542,6 @@
           });
           this.jobsiteForm = this.formBuilder.group({
             WorkAreaClearlyIdentified: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
-            AppropriateAccessAndEgressRoutesAreEstablished: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             AllOpenExcavationsAreClearlyMarked: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             PublicAccessToTheSiteControlled: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
@@ -21852,7 +21851,7 @@
                 data_id: null,
                 pdf: 'worksite-safety-inspection' + this.formDataID
               };
-              obj['nofification'] = notificationObj;
+              obj['notification'] = notificationObj;
               this.idbCrudService.put('data', obj);
             } else {
               this.apiService.save(obj).subscribe(function (idObj) {
@@ -21866,6 +21865,8 @@
                   duration: 3000,
                   verticalPosition: 'bottom'
                 });else {
+                  console.log('MESSAGE:', message);
+                  console.log('FORM:', _this60.discrepancyForm);
                   if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.';
                   var _notificationObj2 = {
                     name: form["name"],
@@ -23171,7 +23172,6 @@
 
       (function (JobsiteFormLabels) {
         JobsiteFormLabels["WorkAreaClearlyIdentified"] = "Work area is clearly identified";
-        JobsiteFormLabels["AppropriateAccessAndEgressRoutesAreEstablished"] = "Appropriate access and egress routes are established";
         JobsiteFormLabels["SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns"] = "Site is free of trip hazards and other housekeeping concerns";
         JobsiteFormLabels["AllOpenExcavationsAreClearlyMarked"] = "All open excavations are clearly marked";
         JobsiteFormLabels["PublicAccessToTheSiteControlled"] = "Public access to the site controlled";
@@ -23193,7 +23193,7 @@
         FireExtinguisherFormLabels["FireExtinguisherCharged"] = "Fire extinguishers showing charge (gauge indicator must be in the green zone indicating it is fully charged)";
         FireExtinguisherFormLabels["FireExtinguisherSafetyPinSecured"] = "Fire extinguisher safety pins are in place and secured to prevent an accidental discharge";
         FireExtinguisherFormLabels["FireExtinguisherOperatingInstructions"] = "Fire extinguishers operating instructions on the name plate are legible and face outwards";
-        FireExtinguisherFormLabels["FireExtinguisherNoVisibleDamage"] = "No signs of visible damage to fire extinguisher (rust, dents or other sighs of damage)";
+        FireExtinguisherFormLabels["FireExtinguisherNoVisibleDamage"] = "No signs of visible damage to fire extinguisher (rust, dents or other signs of damage)";
         FireExtinguisherFormLabels["FireExtinguisherCertification"] = "External fire extinguisher certification within 12 months (must be certified by 3rd party annually)";
       })(FireExtinguisherFormLabels || (FireExtinguisherFormLabels = {}));
 
@@ -30886,9 +30886,9 @@
         inputs: {
           jobsiteForm: "jobsiteForm"
         },
-        decls: 118,
-        vars: 13,
-        consts: [["fxLayout", "row", "fxLayoutAlign", "center center"], ["fxLayout", "column", 3, "formGroup"], [1, "text-color", "radio-center"], ["fxLayoutAlign", "center center", 1, "text-color", "radio-margin"], ["formControlName", "WorkAreaClearlyIdentified"], ["value", "yes"], ["value", "no", 3, "click"], ["value", "na"], ["formControlName", "AppropriateAccessAndEgressRoutesAreEstablished"], ["formControlName", "SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns"], ["formControlName", "AllOpenExcavationsAreClearlyMarked"], ["formControlName", "PublicAccessToTheSiteControlled"], ["formControlName", "PrimeContractorClearlyIdentifiedWithSignage"], ["formControlName", "IsThereEmergencyEquipmentOnSite"], ["formControlName", "FirstAidKitAvailable"], ["formControlName", "BlanketsAndStretcherAvailable"], ["formControlName", "EyeWashBottleAvailable"], ["formControlName", "SpillKitAvailable"], ["formControlName", "H2SPersonalGasMonitorsOnsiteHaveBeenBumped"]],
+        decls: 108,
+        vars: 12,
+        consts: [["fxLayout", "row", "fxLayoutAlign", "center center"], ["fxLayout", "column", 3, "formGroup"], [1, "text-color", "radio-center"], ["fxLayoutAlign", "center center", 1, "text-color", "radio-margin"], ["formControlName", "WorkAreaClearlyIdentified"], ["value", "yes"], ["value", "no", 3, "click"], ["value", "na"], ["formControlName", "SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns"], ["formControlName", "AllOpenExcavationsAreClearlyMarked"], ["formControlName", "PublicAccessToTheSiteControlled"], ["formControlName", "PrimeContractorClearlyIdentifiedWithSignage"], ["formControlName", "IsThereEmergencyEquipmentOnSite"], ["formControlName", "FirstAidKitAvailable"], ["formControlName", "BlanketsAndStretcherAvailable"], ["formControlName", "EyeWashBottleAvailable"], ["formControlName", "SpillKitAvailable"], ["formControlName", "H2SPersonalGasMonitorsOnsiteHaveBeenBumped"]],
         template: function WorksiteSafetyJobsiteComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div", 0);
@@ -30950,46 +30950,46 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](18, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_18_listener() {
-              return ctx.openComment(ctx.label.AppropriateAccessAndEgressRoutesAreEstablished, "AppropriateAccessAndEgressRoutesAreEstablished");
+              return ctx.openComment(ctx.label.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns, "SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](19, "No");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](20, "mat-radio-button", 7);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](21, "N/A");
-
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](20, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](22, "div", 2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](23);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](21);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](24, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](22, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](25, "mat-radio-group", 9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](23, "mat-radio-group", 9);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](26, "mat-radio-button", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](24, "mat-radio-button", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](27, "Yes");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](25, "Yes");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](28, "mat-radio-button", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](26, "mat-radio-button", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_28_listener() {
-              return ctx.openComment(ctx.label.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns, "SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_26_listener() {
+              return ctx.openComment(ctx.label.AllOpenExcavationsAreClearlyMarked, "AllOpenExcavationsAreClearlyMarked");
             });
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](29, "No");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](27, "No");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](28, "mat-radio-button", 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](29, "N/A");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
@@ -31016,7 +31016,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](36, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_36_listener() {
-              return ctx.openComment(ctx.label.AllOpenExcavationsAreClearlyMarked, "AllOpenExcavationsAreClearlyMarked");
+              return ctx.openComment(ctx.label.PublicAccessToTheSiteControlled, "PublicAccessToTheSiteControlled");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](37, "No");
@@ -31052,7 +31052,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](46, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_46_listener() {
-              return ctx.openComment(ctx.label.PublicAccessToTheSiteControlled, "PublicAccessToTheSiteControlled");
+              return ctx.openComment(ctx.label.PrimeContractorClearlyIdentifiedWithSignage, "PrimeContractorClearlyIdentifiedWithSignage");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](47, "No");
@@ -31088,7 +31088,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](56, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_56_listener() {
-              return ctx.openComment(ctx.label.PrimeContractorClearlyIdentifiedWithSignage, "PrimeContractorClearlyIdentifiedWithSignage");
+              return ctx.openComment(ctx.label.IsThereEmergencyEquipmentOnSite, "IsThereEmergencyEquipmentOnSite");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](57, "No");
@@ -31124,46 +31124,46 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](66, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_66_listener() {
-              return ctx.openComment(ctx.label.IsThereEmergencyEquipmentOnSite, "IsThereEmergencyEquipmentOnSite");
+              return ctx.openComment(ctx.label.FirstAidKitAvailable, "FirstAidKitAvailable");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](67, "No");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](68, "mat-radio-button", 7);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](69, "N/A");
-
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](68, "div", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](70, "div", 2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](71);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](69);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](72, "div", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](70, "div", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](73, "mat-radio-group", 14);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](71, "mat-radio-group", 14);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](74, "mat-radio-button", 5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](72, "mat-radio-button", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](75, "Yes");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](73, "Yes");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](76, "mat-radio-button", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](74, "mat-radio-button", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_76_listener() {
-              return ctx.openComment(ctx.label.FirstAidKitAvailable, "FirstAidKitAvailable");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_74_listener() {
+              return ctx.openComment(ctx.label.BlanketsAndStretcherAvailable, "BlanketsAndStretcherAvailable");
             });
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](77, "No");
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](75, "No");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](76, "mat-radio-button", 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](77, "N/A");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
@@ -31190,7 +31190,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](84, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_84_listener() {
-              return ctx.openComment(ctx.label.BlanketsAndStretcherAvailable, "BlanketsAndStretcherAvailable");
+              return ctx.openComment(ctx.label.EyeWashBottleAvailable, "EyeWashBottleAvailable");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](85, "No");
@@ -31226,7 +31226,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](94, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_94_listener() {
-              return ctx.openComment(ctx.label.EyeWashBottleAvailable, "EyeWashBottleAvailable");
+              return ctx.openComment(ctx.label.SpillKitAvailable, "SpillKitAvailable");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](95, "No");
@@ -31262,7 +31262,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](104, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_104_listener() {
-              return ctx.openComment(ctx.label.SpillKitAvailable, "SpillKitAvailable");
+              return ctx.openComment(ctx.label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped, "H2SPersonalGasMonitorsOnsiteHaveBeenBumped");
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](105, "No");
@@ -31272,42 +31272,6 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](106, "mat-radio-button", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](107, "N/A");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](108, "div", 2);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](109);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](110, "div", 3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](111, "mat-radio-group", 18);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](112, "mat-radio-button", 5);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](113, "Yes");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](114, "mat-radio-button", 6);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function WorksiteSafetyJobsiteComponent_Template_mat_radio_button_click_114_listener() {
-              return ctx.openComment(ctx.label.H2SPersonalGasMonitorsOnsiteHaveBeenBumped, "H2SPersonalGasMonitorsOnsiteHaveBeenBumped");
-            });
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](115, "No");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](116, "mat-radio-button", 7);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](117, "N/A");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 
@@ -31328,10 +31292,6 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](ctx.label.WorkAreaClearlyIdentified);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](10);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](ctx.label.AppropriateAccessAndEgressRoutesAreEstablished);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](10);
 
