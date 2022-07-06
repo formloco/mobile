@@ -110,7 +110,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     })
     this.jobsiteForm = this.formBuilder.group({
       WorkAreaClearlyIdentified: [null, Validators.required],
-      AppropriateAccessAndEgressRoutesAreEstablished: [null, Validators.required],
       SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns: [null, Validators.required],
       AllOpenExcavationsAreClearlyMarked: [null, Validators.required],
       PublicAccessToTheSiteControlled: [null, Validators.required],
@@ -407,7 +406,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         data_id: null,
         pdf: 'worksite-safety-inspection' + this.formDataID
       }
-      obj['nofification'] = notificationObj
+      obj['notification'] = notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {
@@ -422,6 +421,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
+          console.log('MESSAGE:', message)
+          console.log('FORM:', this.discrepancyForm)
           if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
 
           let notificationObj = {
