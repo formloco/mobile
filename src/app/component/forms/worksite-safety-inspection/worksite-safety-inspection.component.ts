@@ -239,7 +239,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
     if (data.jobsite) {
       this.jobsiteForm.controls['WorkAreaClearlyIdentified'].setValue(data.jobsite.WorkAreaClearlyIdentified)
-      this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
+      // this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
       this.jobsiteForm.controls['SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns'].setValue(data.jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns)
       this.jobsiteForm.controls['AllOpenExcavationsAreClearlyMarked'].setValue(data.jobsite.AllOpenExcavationsAreClearlyMarked)
       this.jobsiteForm.controls['PublicAccessToTheSiteControlled'].setValue(data.jobsite.PublicAccessToTheSiteControlled)

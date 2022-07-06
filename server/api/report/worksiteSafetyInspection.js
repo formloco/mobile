@@ -10,10 +10,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
 
   const fonts = {
     Roboto: {
-      normal: currentPath+'/api/fonts/Roboto-Regular.ttf',
-      bold: currentPath+'/api/fonts/Roboto-Medium.ttf',
-      italics: currentPath+'/api/fonts/Roboto-Italic.ttf',
-      bolditalics: currentPath+'/api/fonts/Roboto-MediumItalic.ttf'
+      normal: currentPath + '/api/fonts/Roboto-Regular.ttf',
+      bold: currentPath + '/api/fonts/Roboto-Medium.ttf',
+      italics: currentPath + '/api/fonts/Roboto-Italic.ttf',
+      bolditalics: currentPath + '/api/fonts/Roboto-MediumItalic.ttf'
     }
   }
 
@@ -57,25 +57,42 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
     }
   })
 
-  descrepancies.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }])
+  descrepancies.push([
+    { text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }
+  ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      descrepancies.push([{ text: comment.label }, { text: comment.text }])
+      descrepancies.push([
+        { text: comment.label }, 
+        { text: comment.text }
+      ])
     })
   }
-  else  descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
+  else descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
 
-  descrepancyActions.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }, { text: 'Date Requested', style: 'tableHeader' }, { text: 'Date Completed', style: 'tableHeader' }, { text: 'Person Responsible', style: 'tableHeader' }])
+  descrepancyActions.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }, 
+    { text: 'Date Requested', style: 'tableHeader' }, 
+    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Person Responsible', style: 'tableHeader' }])
+
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
-      descrepancyActions.push([{ text: action.label }, { text: action.correctiveActionRequired }, { text: action.dateToComplete }, { text: action.dateCompleted }, { text: action.personResponsible }])
+    
+      descrepancyActions.push([
+        { text: action.label }, 
+        { text: action.correctiveActionRequired }, 
+        { text: action.dateToComplete.slice(0, 10) }, 
+        { text: action.dateCompleted}, 
+        { text: action.personResponsible }])
     })
   }
   else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
 
-  if (header.Location === null) header.Location = '' 
-  if (header.LSDUWI === null)header.LSDUWI = '' 
-  if (header.STARSSiteNumber === null) header.STARSSiteNumber = '' 
+  if (header.Location === null) header.Location = ''
+  if (header.LSDUWI === null) header.LSDUWI = ''
+  if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
 
   const docDefinition = {
     content: [
@@ -83,7 +100,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         alignment: 'justify',
         columns: [
           {
-            image: currentPath+'/api/images/logo.png'
+            image: currentPath + '/api/images/logo.png'
           }
         ]
       },
@@ -440,7 +457,15 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         table: {
           widths: ['*', 25, 25, 25, '*', 25, 25, 25],
           body: [
-            [{ text: 'Summit Vehicles & Equipment', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }, { text: '', style: 'tableHeader', alignment: 'center' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Summit Vehicles & Equipment', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' },
+              { text: '', style: 'tableHeader', alignment: 'center' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
             [
               'Exterior of vehicle generally clean and free of visual defects',
               { text: formObj.ExteriorOfVehicleGenerallyCleanAndFreeOfVisualDefects, alignment: 'center' },
@@ -512,7 +537,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       },
       {
         alignment: 'justify',
-        text: 'Descrepancies', style: 'subheader'
+        text: 'Discrepancies', style: 'subheader'
       },
       {
         table: {
