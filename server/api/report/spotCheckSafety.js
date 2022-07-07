@@ -522,7 +522,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         alignment: 'justify',
         columns: [
           {
-            text: 'Conducted by Signature: ' + header.Supervisor
+            text: 'Conducted by Signature: ' + header.Worker
           },
           {
             text: 'Date: ' + header.Date.slice(0, 10)
