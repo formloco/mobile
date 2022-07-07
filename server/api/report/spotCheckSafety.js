@@ -328,55 +328,55 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Hard Hat ' + data.HardHatComment },
+              { text: 'Hard Hat ' },
               { text: data.HardHatNA, alignment: 'center' },
               { text: data.HardHatU, alignment: 'center' },
               { text: data.HardHatS, alignment: 'center' }
             ],
             [
-              { text: 'Safety Glasses ' + data.SafetyGlassesComment },
+              { text: 'Safety Glasses ' },
               { text: data.SafetyGlassesNA, alignment: 'center' },
               { text: data.SafetyGlassesU, alignment: 'center' },
               { text: data.SafetyGlassesS, alignment: 'center' }
             ],
             [
-              { text: 'Footwear ' + data.FootwearComment },
+              { text: 'Footwear ' },
               { text: data.FootwearNA, alignment: 'center' },
               { text: data.FootwearU, alignment: 'center' },
               { text: data.FootwearS, alignment: 'center' }
             ],
             [
-              { text: 'Protective clothing (FR coveralls, gloves, etc) ' + data.ProtectiveClothingComment },
+              { text: 'Protective clothing (FR coveralls, gloves, etc) ' },
               { text: data.ProtectiveClothingNA, alignment: 'center' },
               { text: data.ProtectiveClothingU, alignment: 'center' },
               { text: data.ProtectiveClothingS, alignment: 'center' }
             ],
             [
-              { text: 'Hearing protection ' + data.HearingProtectionComment },
+              { text: 'Hearing protection ' },
               { text: data.HearingProtectionNA, alignment: 'center' },
               { text: data.HearingProtectionU, alignment: 'center' },
               { text: data.HearingProtectionS, alignment: 'center' }
             ],
             [
-              { text: 'Respiratory protection (Appropriate for the hazard) ' + data.RespiratoryProtectionComment },
+              { text: 'Respiratory protection (Appropriate for the hazard) ' },
               { text: data.RespiratoryProtectionNA, alignment: 'center' },
               { text: data.RespiratoryProtectionU, alignment: 'center' },
               { text: data.RespiratoryProtectionS, alignment: 'center' }
             ],
             [
-              { text: 'Personal gas monitor ' + data.PersonalGasMonitorComment },
+              { text: 'Personal gas monitor ' },
               { text: data.PersonalGasMonitorNA, alignment: 'center' },
               { text: data.PersonalGasMonitorU, alignment: 'center' },
               { text: data.PersonalGasMonitorS, alignment: 'center' }
             ],
             [
-              { text: 'Communication equipment ' + data.CommunicationEquipmentComment },
+              { text: 'Communication equipment ' },
               { text: data.CommunicationEquipmentNA, alignment: 'center' },
               { text: data.CommunicationEquipmentU, alignment: 'center' },
               { text: data.CommunicationEquipmentS, alignment: 'center' }
             ],
             [
-              { text: 'Other equipment (please specify) ' + data.OtherEquipmentComment },
+              { text: 'Other equipment (please specify) ' },
               { text: data.OtherEquipmentNA, alignment: 'center' },
               { text: data.OtherEquipmentU, alignment: 'center' },
               { text: data.OtherEquipmentS, alignment: 'center' }
@@ -384,7 +384,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + data.PersonalEquipmentComments
+                text: 'Comments:\n' +
+                  data.OtherEquipmentComment +
+                  '\n' + data.PersonalEquipmentComments
               }
             ]
           ]
