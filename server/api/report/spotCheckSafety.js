@@ -148,6 +148,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         columns: [
           {
             text: 'Evaluator: ' + header.Worker
+          },
+          {
+            text: 'Supervisor: ' + header.Supervisor
           }
         ]
       },
@@ -187,7 +190,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.hazard.HazardComments
+                text: 'Comments:\n' + reportData.hazard?.HazardComments
               }
             ]
           ]
@@ -219,7 +222,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n\n- ' + reportData.rules.RulesComments
+                text: 'Comments:\n' + reportData.rules?.RulesComments
               }
             ]
           ]
@@ -263,7 +266,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.incident.IncidentComments
+                text: 'Comments:\n' + reportData.incident?.IncidentComments
               }
             ]
           ]
@@ -342,7 +345,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.communication.CommunicationComments
+                text: 'Comments:\n' + reportData.communication?.CommunicationComments
               }
             ]
           ]
@@ -416,7 +419,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.personalEquipment.PersonalEquipmentComments
+                text: 'Comments:\n' + reportData.personalEquipment?.PersonalEquipmentComments
               }
             ]
           ]
@@ -480,7 +483,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
                 colSpan: 4,
                 text: 'Comments:\n' +
                   data.OtherComment +
-                  '\n' + reportData.safetyEquipment.SafetyEquipmentComments
+                  '\n' + reportData.safetyEquipment?.SafetyEquipmentComments
               }
             ]
           ]
