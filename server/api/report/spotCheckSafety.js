@@ -105,10 +105,6 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   }
   else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
 
-  console.log('DATA:', data)
-  console.log('REPORTDATA:', reportData)
-  console.log('DESC:', descrepancies)
-
   const docDefinition = {
     content: [
       {
@@ -500,6 +496,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
           body: descrepancies,
         }
       },
+      '\n\n',
       {
         alignment: 'justify',
         text: 'Corrective Actions', style: 'subheader'
@@ -510,7 +507,6 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
           body: descrepancyActions
         }
       },
-      // '\n\n',
       // {
       //   style: 'tableExample',
       //   table: {
