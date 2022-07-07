@@ -199,31 +199,31 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Is there an Incident reporting process in place? ' + data.IncidentReportingComment },
+              { text: 'Is there an Incident reporting process in place? ' },
               { text: data.IncidentReportingNA, alignment: 'center' },
               { text: data.IncidentReportingU, alignment: 'center' },
               { text: data.IncidentReportingS, alignment: 'center' }
             ],
             [
-              { text: 'Is there a near miss/incident reporting form which includes follow-up? ' + data.NearMissReportingComment },
+              { text: 'Is there a near miss/incident reporting form which includes follow-up? ' },
               { text: data.NearMissReportingNA, alignment: 'center' },
               { text: data.NearMissReportingU, alignment: 'center' },
               { text: data.NearMissReportingS, alignment: 'center' }
             ],
             [
-              { text: 'Are incidents reported and was the problem fixed the last time there was a near miss or incident? ' + data.ProblemFixedComment },
+              { text: 'Are incidents reported and was the problem fixed the last time there was a near miss or incident? ' },
               { text: data.ProblemFixedNA, alignment: 'center' },
               { text: data.ProblemFixedU, alignment: 'center' },
               { text: data.ProblemFixedS, alignment: 'center' }
             ],
             [
-              { text: 'Are management and workers involved in solving the issues? ' + data.SolvingIssuesComment },
+              { text: 'Are management and workers involved in solving the issues? ' },
               { text: data.SolvingIssuesNA, alignment: 'center' },
               { text: data.SolvingIssuesU, alignment: 'center' },
               { text: data.SolvingIssuesS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + data.IncidentComments }
+              { colSpan: 4, text: 'Comments\n' + reportData.incident.IncidentComments }
             ]
           ]
         }
