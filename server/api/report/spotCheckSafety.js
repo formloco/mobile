@@ -27,13 +27,16 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let personalEquipment = reportData.personalEquipment
   let safetyEquipment = reportData.safetyEquipment
   let comments = reportData.comments
-  let correctiveAction = reportData.correctiveAction
+  let correctiveActions = reportData.correctiveActions
 
   let data = {}
+  let descrepancies = []
+  let descrepancyActions = []
+
   // const commentObj = Object.assign(comments)
   // const commentData = Object.keys(commentObj).map((key) => [key, commentObj[key]])
 
-  const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveAction)
+  const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveActions)
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
 
   allFormData.forEach(rec => {
@@ -67,6 +70,41 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   })
 
 
+  descrepancies.push([
+    { text: 'Description', style: 'tableHeader' },
+    { text: 'Details', style: 'tableHeader' }
+  ]);
+
+  if (comments && comments.length > 0) {
+    comments.forEach(comment =>
+      data[comment.field] ?
+        descrepancies.push([
+          { text: comment.label },
+          { text: comment.text }
+        ]) : null
+    )
+  }
+  else descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }]);
+
+  descrepancyActions.push([
+    { text: 'Description', style: 'tableHeader' },
+    { text: 'Details', style: 'tableHeader' },
+    { text: 'Date Requested', style: 'tableHeader' },
+    { text: 'Date Completed', style: 'tableHeader' },
+    { text: 'Person Responsible', style: 'tableHeader' }])
+
+  if (correctiveActions && correctiveActions.length > 0) {
+    correctiveActions.forEach(action => {
+
+      descrepancyActions.push([
+        { text: action.label },
+        { text: action.correctiveActionsRequired },
+        { text: action.dateToComplete.slice(0, 10) },
+        { text: action.dateCompleted.slice(0, 10) },
+        { text: action.personResponsible }])
+    })
+  }
+  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
 
   const docDefinition = {
     content: [
@@ -150,7 +188,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' +
+                text: 'Comments:\n\n' +
                   'Inspection Frequency - ' +
                   data.InspectionFrequencyComment +
                   '\n - ' + reportData.hazard.HazardComments
@@ -185,7 +223,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n- ' + reportData.rules.RulesComments
+                text: 'Comments:\n\n- ' + reportData.rules.RulesComments
               }
             ]
           ]
@@ -229,7 +267,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.incident.IncidentComments
+                text: 'Comments:\n\n' + reportData.incident.IncidentComments
               }
             ]
           ]
@@ -308,8 +346,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' +
-                  'Safety Orientations:' +
+                text: 'Comments:\n\n' +
+                  'Safety Orientations: ' +
+                  data.SafetyOrientationComment +
                   '\n- ' + reportData.communication.CommunicationComments
               }
             ]
@@ -456,12 +495,32 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
           ]
         }
       },
+      {
+        alignment: 'justify',
+        text: 'Discrepancies', style: 'subheader'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: descrepancies,
+        }
+      },
+      {
+        alignment: 'justify',
+        text: 'Corrective Actions', style: 'subheader', pageBreak: 'before'
+      },
+      {
+        table: {
+          widths: ['*', '*', 100, 100, 100],
+          body: descrepancyActions
+        }
+      },
       // '\n\n',
       // {
       //   style: 'tableExample',
       //   table: {
       //     widths: ['*', '*', '*', 25, 25],
-      //     body: data.correctiveAction
+      //     body: data.correctiveActions
       //   }
       // },
       '\n\n',
