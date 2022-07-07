@@ -136,13 +136,13 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Are equipment and vehicles inspected, and at what frequency? (Examples and documentation) '},
+              { text: 'Are equipment and vehicles inspected, and at what frequency? (Examples and documentation) ' },
               { text: data.InspectionFrequencyNA, alignment: 'center' },
               { text: data.InspectionFrequencyU, alignment: 'center' },
               { text: data.InspectionFrequencyS, alignment: 'center' }
             ],
             [
-              { text: 'Is there a system for hazard assessment, reporting and follow-up? (Written or verbal) '},
+              { text: 'Is there a system for hazard assessment, reporting and follow-up? (Written or verbal) ' },
               { text: data.HazardAssessmentSystemNA, alignment: 'center' },
               { text: data.HazardAssessmentSystemU, alignment: 'center' },
               { text: data.HazardAssessmentSystemS, alignment: 'center' }
@@ -150,7 +150,10 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + 'Inspection Frequency - ' + data.InspectionFrequencyComment + '\n - ' + reportData.hazard.HazardComments
+                text: 'Comments:\n' +
+                  'Inspection Frequency - ' +
+                  data.InspectionFrequencyComment +
+                  '\n - ' + reportData.hazard.HazardComments
               }
             ]
           ]
@@ -168,21 +171,22 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Are there procedures for high risk or critical work? Are they available and used? '},
+              { text: 'Are there procedures for high risk or critical work? Are they available and used? ' },
               { text: data.ProceduresNA, alignment: 'center' },
               { text: data.ProceduresU, alignment: 'center' },
               { text: data.ProceduresS, alignment: 'center' }
             ],
             [
-              { text: 'Are there written emergency plans available and communicated to personnel on the work site? '},
+              { text: 'Are there written emergency plans available and communicated to personnel on the work site? ' },
               { text: data.EmergencyPlanNA, alignment: 'center' },
               { text: data.EmergencyPlanU, alignment: 'center' },
               { text: data.EmergencyPlanS, alignment: 'center' }
             ],
             [
-              { 
-                colSpan: 4, 
-                text: 'Comments:\n- ' + reportData.rules.RulesComments }
+              {
+                colSpan: 4,
+                text: 'Comments:\n- ' + reportData.rules.RulesComments
+              }
             ]
           ]
         }
@@ -223,7 +227,10 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: data.SolvingIssuesS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + reportData.incident.IncidentComments }
+              {
+                colSpan: 4,
+                text: 'Comments:\n' + reportData.incident.IncidentComments
+              }
             ]
           ]
         }
@@ -240,66 +247,71 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Have you received a safety orientation (When and what) ' + data.SafetyOrientationComment },
+              { text: 'Have you received a safety orientation (When and what) ' },
               { text: data.SafetyOrientationNA, alignment: 'center' },
               { text: data.SafetyOrientationU, alignment: 'center' },
               { text: data.SafetyOrientationS, alignment: 'center' }
             ],
             [
-              { text: 'Are safety meetings held within the (prescribed) frequency ' + data.SafetyMeetingFrequencyComment },
+              { text: 'Are safety meetings held within the (prescribed) frequency ' },
               { text: data.SafetyMeetingFrequencyNA, alignment: 'center' },
               { text: data.SafetyMeetingFrequencyU, alignment: 'center' },
               { text: data.SafetyMeetingFrequencyS, alignment: 'center' }
             ],
             [
-              { text: 'Is the appropriate training in place ' + data.AppropriateTrainingComment },
+              { text: 'Is the appropriate training in place ' },
               { text: data.AppropriateTrainingNA, alignment: 'center' },
               { text: data.AppropriateTrainingU, alignment: 'center' },
               { text: data.AppropriateTrainingS, alignment: 'center' }
             ],
             [
-              { text: 'First aid training ' + data.FirstAidTrainingComment },
+              { text: 'First aid training ' },
               { text: data.FirstAidTrainingNA, alignment: 'center' },
               { text: data.FirstAidTrainingU, alignment: 'center' },
               { text: data.FirstAidTrainingS, alignment: 'center' }
             ],
             [
-              { text: 'H2S training ' + data.H2STrainingComment },
+              { text: 'H2S training ' },
               { text: data.H2STrainingNA, alignment: 'center' },
               { text: data.H2STrainingU, alignment: 'center' },
               { text: data.H2STrainingS, alignment: 'center' }
             ],
             [
-              { text: 'WHMIS training ' + data.WHMISTrainingComment },
+              { text: 'WHMIS training ' },
               { text: data.WHMISTrainingNA, alignment: 'center' },
               { text: data.WHMISTrainingU, alignment: 'center' },
               { text: data.WHMISTrainingS, alignment: 'center' }
             ],
             [
-              { text: 'TDG training ' + data.TDGTrainingComment },
+              { text: 'TDG training ' },
               { text: data.TDGTrainingNA, alignment: 'center' },
               { text: data.TDGTrainingU, alignment: 'center' },
               { text: data.TDGTrainingS, alignment: 'center' }
             ],
             [
-              { text: 'Ground disturbance training ' + data.GroundDisturbanceTrainingComment },
+              { text: 'Ground disturbance training ' },
               { text: data.GroundDisturbanceTrainingNA, alignment: 'center' },
               { text: data.GroundDisturbanceTrainingU, alignment: 'center' },
               { text: data.GroundDisturbanceTrainingS, alignment: 'center' }
             ],
             [
-              { text: 'eGSO/ CSO training ' + data.EGSOCSOTrainingComment },
+              { text: 'eGSO/ CSO training ' },
               { text: data.EGSOCSOTrainingNA, alignment: 'center' },
               { text: data.EGSOCSOTrainingU, alignment: 'center' },
               { text: data.EGSOCSOTrainingS, alignment: 'center' },],
             [
-              { text: 'Job Specific training (List any that apply) ' + data.JobSpecificTrainingComment },
+              { text: 'Job Specific training (List any that apply) ' },
               { text: data.JobSpecificTrainingNA, alignment: 'center' },
               { text: data.JobSpecificTrainingU, alignment: 'center' },
               { text: data.JobSpecificTrainingS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + data.CommunicationComments }
+              {
+                colSpan: 4,
+                text: 'Comments:\n' +
+                  'Safety Orientations:' +
+                  '\n- ' + reportData.communication.CommunicationComments
+              }
             ]
           ]
         }
@@ -370,7 +382,10 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: data.OtherEquipmentS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + data.PersonalEquipmentComments }
+              {
+                colSpan: 4,
+                text: 'Comments:\n' + data.PersonalEquipmentComments
+              }
             ]
           ]
         }
@@ -429,7 +444,10 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: data.OtherS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + data.SafetyEquipmentComments }
+              {
+                colSpan: 4,
+                text: 'Comments:\n' + data.SafetyEquipmentComments
+              }
             ]
           ]
         }
