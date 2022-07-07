@@ -39,7 +39,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveActions)
   const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
 
-  allFormData.forEach(rec => {
+  allFormData.forEach(async rec => {
     comment = ''
     let foundComment = comments.find(c => c.field == rec[0])
 
@@ -76,7 +76,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   ]);
 
   if (comments && comments.length > 0) {
-    comments.forEach(comment =>
+    await comments.forEach(comment =>
         descrepancies.push([
           { text: comment.label },
           { text: comment.text }
@@ -93,13 +93,13 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     { text: 'Person Responsible', style: 'tableHeader' }])
 
   if (correctiveActions && correctiveActions.length > 0) {
-    correctiveActions.forEach(action => {
+    await correctiveActions.forEach(action => {
 
       descrepancyActions.push([
         { text: action.label },
-        { text: action.correctiveActionsRequired },
-        { text: action.dateToComplete.slice(0, 10) },
-        { text: action.dateCompleted },
+        { text: action.actionItem },
+        { text: action?.dateToComplete?.slice(0, 10) },
+        { text: action?.dateCompleted?.slice(0, 10) },
         { text: action.personResponsible }])
     })
   }
@@ -191,10 +191,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n\n' +
-                  'Inspection Frequency - ' +
-                  data.InspectionFrequencyComment +
-                  '\n - ' + reportData.hazard.HazardComments
+                text: 'Comments:\n' + reportData.hazard.HazardComments
               }
             ]
           ]
@@ -270,7 +267,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n\n' + reportData.incident.IncidentComments
+                text: 'Comments:\n' + reportData.incident.IncidentComments
               }
             ]
           ]
@@ -349,10 +346,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n\n' +
-                  'Safety Orientations: ' +
-                  data.SafetyOrientationComment +
-                  '\n- ' + reportData.communication.CommunicationComments
+                text: 'Comments:\n' + reportData.communication.CommunicationComments
               }
             ]
           ]
@@ -426,9 +420,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' +
-                  data.OtherEquipmentComment +
-                  '\n' + reportData.personalEquipment.PersonalEquipmentComments
+                text: 'Comments:\n' + reportData.personalEquipment.PersonalEquipmentComments
               }
             ]
           ]
@@ -500,7 +492,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       },
       {
         alignment: 'justify',
-        text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
+        text: 'Discrepancies / Notes', style: 'subheader', pageBreak: 'before'
       },
       {
         table: {
@@ -534,7 +526,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             text: 'Conducted by Signature: ' + header.Supervisor
           },
           {
-            text: 'Date: ' + dateSigned
+            text: 'Date: ' + header.Date.slice(0, 10)
           }
         ],
       },

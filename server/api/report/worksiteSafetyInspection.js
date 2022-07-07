@@ -84,7 +84,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         { text: action.label }, 
         { text: action.correctiveActionRequired }, 
         { text: action.dateToComplete.slice(0, 10) }, 
-        { text: action.dateCompleted}, 
+        { text: action.dateCompleted.slice(0, 10)}, 
         { text: action.personResponsible }])
     })
   }
