@@ -386,7 +386,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
                 colSpan: 4,
                 text: 'Comments:\n' +
                   data.OtherEquipmentComment +
-                  '\n' + data.PersonalEquipmentComments
+                  '\n' + reportData.personalEquipment.PersonalEquipmentComments
               }
             ]
           ]
@@ -404,43 +404,43 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Is the appropriate safety equipment available and being used ' + data.SafetyEquipmentAvailableComment },
+              { text: 'Is the appropriate safety equipment available and being used ' },
               { text: data.SafetyEquipmentAvailableNA, alignment: 'center' },
               { text: data.SafetyEquipmentAvailableU, alignment: 'center' },
               { text: data.SafetyEquipmentAvailableS, alignment: 'center' }
             ],
             [
-              { text: 'Fire Fighting equipment (inspected, tagged, accessible, good condition) ' + data.FireFightingEquipmentComment },
+              { text: 'Fire Fighting equipment (inspected, tagged, accessible, good condition) ' },
               { text: data.FireFightingEquipmentNA, alignment: 'center' },
               { text: data.FireFightingEquipmentU, alignment: 'center' },
               { text: data.FireFightingEquipmentS, alignment: 'center' }
             ],
             [
-              { text: 'Rotating equipment guards ' + data.RotatingEquimentGuardsComment },
+              { text: 'Rotating equipment guards ' },
               { text: data.RotatingEquimentGuardsNA, alignment: 'center' },
               { text: data.RotatingEquimentGuardsU, alignment: 'center' },
               { text: data.RotatingEquimentGuardsS, alignment: 'center' }
             ],
             [
-              { text: 'First aid kit ' + data.FirstAidKitCommen },
+              { text: 'First aid kit ' },
               { text: data.FirstAidKitNA, alignment: 'center' },
               { text: data.FirstAidKitU, alignment: 'center' },
               { text: data.FirstAidKitS, alignment: 'center' }
             ],
             [
-              { text: 'Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.) ' + data.FallArrestEquipmentComment },
+              { text: 'Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.) ' },
               { text: data.FallArrestEquipmentNA, alignment: 'center' },
               { text: data.FallArrestEquipmentU, alignment: 'center' },
               { text: data.FallArrestEquipmentS, alignment: 'center' }
             ],
             [
-              { text: 'Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.) ' + data.EmergencySystemComment },
+              { text: 'Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.) ' },
               { text: data.EmergencySystemsNA, alignment: 'center' },
               { text: data.EmergencySystemsU, alignment: 'center' },
               { text: data.EmergencySystemsS, alignment: 'center' }
             ],
             [
-              { text: 'Other (Specify) ' + data.OtherComment },
+              { text: 'Other (Specify) ' },
               { text: data.OtherNA, alignment: 'center' },
               { text: data.OtherU, alignment: 'center' },
               { text: data.OtherS, alignment: 'center' }
@@ -448,7 +448,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + data.SafetyEquipmentComments
+                text: 'Comments:\n' +
+                  data.OtherComment +
+                  '\n' + reportData.safetyEquipment.SafetyEquipmentComments
               }
             ]
           ]
