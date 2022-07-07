@@ -168,19 +168,21 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: 'S', style: 'tableHeader', alignment: 'center' }
             ],
             [
-              { text: 'Are there procedures for high risk or critical work? Are they available and used? ' + data.ProceduresComment },
+              { text: 'Are there procedures for high risk or critical work? Are they available and used? '},
               { text: data.ProceduresNA, alignment: 'center' },
               { text: data.ProceduresU, alignment: 'center' },
               { text: data.ProceduresS, alignment: 'center' }
             ],
             [
-              { text: 'Are there written emergency plans available and communicated to personnel on the work site? ' + data.EmergencyPlanComment },
+              { text: 'Are there written emergency plans available and communicated to personnel on the work site? '},
               { text: data.EmergencyPlanNA, alignment: 'center' },
               { text: data.EmergencyPlanU, alignment: 'center' },
               { text: data.EmergencyPlanS, alignment: 'center' }
             ],
             [
-              { colSpan: 4, text: 'Comments\n' + data.RulesComments }
+              { 
+                colSpan: 4, 
+                text: 'Comments:\n- ' + reportData.rules.RulesComments }
             ]
           ]
         }
