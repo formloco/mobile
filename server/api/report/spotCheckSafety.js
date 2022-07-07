@@ -357,10 +357,16 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
           widths: ['*', 25, 25, 25],
           body: [
             [
-              { text: 'Is the appropriate PPE available and being used ', style: 'tableHeader' },
+              { text: 'Personal Protective Equipment ', style: 'tableHeader' },
               { text: 'N/A', style: 'tableHeader', alignment: 'center' },
               { text: 'U', style: 'tableHeader', alignment: 'center' },
               { text: 'S', style: 'tableHeader', alignment: 'center' }
+            ],
+            [
+              { text: 'Is the appropriate PPE available and being used ' },
+              { text: data.PPEAvailableNA, alignment: 'center' },
+              { text: data.PPEAvailableU, alignment: 'center' },
+              { text: data.PPEAvailableS, alignment: 'center' },
             ],
             [
               { text: 'Hard Hat ' },
@@ -455,7 +461,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
               { text: data.RotatingEquimentGuardsS, alignment: 'center' }
             ],
             [
-              { text: 'First aid kit ' },
+              { text: 'First Aid Kit ' },
               { text: data.FirstAidKitNA, alignment: 'center' },
               { text: data.FirstAidKitU, alignment: 'center' },
               { text: data.FirstAidKitS, alignment: 'center' }
