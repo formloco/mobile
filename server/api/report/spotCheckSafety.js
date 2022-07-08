@@ -90,7 +90,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             text: 'Company name: ' + header.CompanyName
           },
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },

@@ -88,7 +88,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },
@@ -106,7 +106,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Unit #: ' + header.UnitNumber + '  Milage: ' + header.Mileage + '  Registration Expiry Date: ' + header.RegistrationDate.slice(0, 10)
+            text: 'Unit #: ' + header.UnitNumber + '  Milage: ' + header.Mileage + '  Registration Expiry Date: ' + header.RegistrationDate?.slice(0, 10)
           }
         ]
       },
@@ -158,7 +158,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
             text: 'Driver’s Signature: ' + header.Worker
           },
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },
