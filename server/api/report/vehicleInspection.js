@@ -153,6 +153,28 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       '\nFor monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
       {
         alignment: 'justify',
+        text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: descrepancies,
+        }
+      },
+      '\n\n',
+      {
+        alignment: 'justify',
+        text: 'Corrective Actions', style: 'subheader'
+      },
+      {
+        table: {
+          widths: ['*', '*', 100, 100, 100],
+          body: descrepancyActions
+        }
+      },
+      '\n\n',
+      {
+        alignment: 'justify',
         columns: [
           {
             text: 'Driver’s Signature: ' + header.Worker
@@ -177,27 +199,6 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
           { text: '', style: 'icon' }, //icon gift
           " my present"
         ]
-      },
-      {
-        alignment: 'justify',
-        text: 'Comments', style: 'subheader', pageBreak: 'before'
-      },
-      {
-        table: {
-          widths: ['*', '*'],
-          body: descrepancies,
-        }
-      },
-      '\n\n',
-      {
-        alignment: 'justify',
-        text: 'Corrective Actions', style: 'subheader'
-      },
-      {
-        table: {
-          widths: ['*', '*', 100, 100, 100],
-          body: descrepancyActions
-        }
       },
       '\n\n',
       {
