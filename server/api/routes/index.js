@@ -4,7 +4,7 @@ const VerifyToken = require('../../helper')
 const { readData, readForm, signForm, createData, updateData, deleteData, getLists, getEmails, saveList, getPDF, syncData } = require('../controllers/dataCtrl')
 
 const router = express.Router()
- 
+
 //file
 router.get('/api/pdf/:name/', VerifyToken, getPDF)
 

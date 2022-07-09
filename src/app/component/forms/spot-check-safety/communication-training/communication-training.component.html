@@ -82,7 +82,7 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="JobSpecificTraining">
           <mat-radio-button (click)="openCommentOnly('Job Specific training (List any that apply)','JobSpecificTraining')" value="satisfactory">S</mat-radio-button>
-          <mat-radio-button (click)="openCommentOnly('Job Specific training (List any that apply)','JobSpecificTraining')"
+          <mat-radio-button (click)="toggle('JobSpecificTraining')"
             value="unsatisfactory">No</mat-radio-button>
         </mat-radio-group>
       </div>
