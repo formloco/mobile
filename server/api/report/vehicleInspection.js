@@ -27,21 +27,43 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
 
-  descrepancies.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }])
+  descrepancies.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }
+  ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      descrepancies.push([{ text: comment.label }, { text: comment.text }])
+      descrepancies.push([
+        { text: comment.label }, 
+        { text: comment.text }
+      ])
     })
   }
-  else  descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
+  else  descrepancies.push([
+    { text: 'No descrepancies', colSpan: 2 }
+  ])
 
-  descrepancyActions.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }, { text: 'Date Requested', style: 'tableHeader' }, { text: 'Date Completed', style: 'tableHeader' }, { text: 'Person Responsible', style: 'tableHeader' }])
+  descrepancyActions.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }, 
+    { text: 'Date Requested', style: 'tableHeader' }, 
+    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Person Responsible', style: 'tableHeader' }
+  ])
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
-      descrepancyActions.push([{ text: action.label }, { text: action.correctiveActionRequired }, { text: action.dateToComplete }, { text: action.dateCompleted }, { text: action.personResponsible }])
+      descrepancyActions.push([
+        { text: action.label }, 
+        { text: action.correctiveActionRequired }, 
+        { text: action.dateToComplete }, 
+        { text: action.dateCompleted }, 
+        { text: action.personResponsible }
+      ])
     })
   }
-  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
+  else descrepancyActions.push([
+    { text: 'No corrective actions', colSpan: 5 }
+  ])
 
   IgnitionKey = detail.IgnitionKey ? '√ Ignition Key' : 'Ignition Key'
   FuelKey = detail.FuelKey ? '√ Fuel Key, check used' : 'Fuel Key, check used'
