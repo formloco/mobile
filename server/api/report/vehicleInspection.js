@@ -40,7 +40,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
     })
   }
   else  descrepancies.push([
-    { text: 'No descrepancies', colSpan: 2 }
+    { text: 'No Discrepancies', colSpan: 2 }
   ])
 
   descrepancyActions.push([
@@ -73,7 +73,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   PowerSteeringFluidLevel = detail.PowerSteeringFluidLevel ? '√ Power Steering Fluid Level' : 'Power Steering Fluid Level'
   AirGauge = detail.AirGauge ? '√ Check for Air Gauge' : 'Check for Air Gauge'
   Horn = detail.Horn ? '√ Check Horn' : 'Check Horn'
-  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroster' : 'Check Heater/Defroste'
+  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroster' : 'Check Heater/Defroster'
   WindshieldWipersWashers = detail.WindshieldWipersWashers ? '√ Check Windshield Wipers/Washers' : 'Check Windshield Wipers/Washers'
   AllSignalLights = detail.AllSignalLights ? '√ Check all signal lights' : 'Check all signal lights'
   InteriorLights = detail.InteriorLights ? '√ Check Interior lights' : 'Check Interior lights'
