@@ -234,15 +234,14 @@ export class SpotCheckSafetyComponent implements OnInit {
     if (data.correctiveAction) {
       this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
     }
-
   }
 
   updateForm() {
     const form = this.store.selectSnapshot(AuthState.selectedForm)
 
-    let header = this.headerForm.value
-    header.Worker = this.autoCompleteService.workersControl.value
-    header.Supervisor = this.autoCompleteService.supervisorsControl.value
+    let header = this.headerForm.value;
+    header.Worker = this.autoCompleteService.workersControl.value;
+    header.Supervisor = this.autoCompleteService.supervisorsControl.value;
 
     let data = {
       header: header,
@@ -257,7 +256,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
-    this.formService.updateForm(form, this.formData, data).subscribe(_ => {
+    this.formService.updateForm(form, this.formData, data).subscribe((_) => {
       this.resetForm()
     })
     
@@ -313,7 +312,8 @@ export class SpotCheckSafetyComponent implements OnInit {
         data_id: this.formDataID,
         pdf: 'spot-check-safety' + this.formDataID
       }
-      obj['nofification'] = notificationObj
+
+      obj['notification'] = notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {

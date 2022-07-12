@@ -60,7 +60,6 @@ export class AutoCompleteService {
 
   constructor(private store: Store) { 
     this.workers = this.store.selectSnapshot(AuthState.workers)
-    console.log(this.workers)
     this.filteredWorkers$ = this.workersControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filterWorkers(value))

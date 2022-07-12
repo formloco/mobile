@@ -58,7 +58,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   })
 
   descrepancies.push([
-    { text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }
   ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
@@ -537,7 +538,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       },
       {
         alignment: 'justify',
-        text: 'Discrepancies', style: 'subheader'
+        text: 'Discrepancies', 
+        style: 'subheader'
       },
       {
         table: {

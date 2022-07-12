@@ -86,8 +86,6 @@ const formSignSQL = async (dataObj) => {
 
 const dataCreateSQL = async (dataObj) => {
 
-  console.log(dataObj["data"])
-
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,

@@ -239,7 +239,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
     if (data.jobsite) {
       this.jobsiteForm.controls['WorkAreaClearlyIdentified'].setValue(data.jobsite.WorkAreaClearlyIdentified)
-      // this.jobsiteForm.controls['AppropriateAccessAndEgressRoutesAreEstablished'].setValue(data.jobsite.AppropriateAccessAndEgressRoutesAreEstablished)
       this.jobsiteForm.controls['SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns'].setValue(data.jobsite.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns)
       this.jobsiteForm.controls['AllOpenExcavationsAreClearlyMarked'].setValue(data.jobsite.AllOpenExcavationsAreClearlyMarked)
       this.jobsiteForm.controls['PublicAccessToTheSiteControlled'].setValue(data.jobsite.PublicAccessToTheSiteControlled)
@@ -421,8 +420,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
-          console.log('MESSAGE:', message)
-          console.log('FORM:', this.discrepancyForm)
           if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
 
           let notificationObj = {
