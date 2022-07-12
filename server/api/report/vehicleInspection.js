@@ -27,21 +27,43 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
 
-  descrepancies.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }])
+  descrepancies.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }
+  ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      descrepancies.push([{ text: comment.label }, { text: comment.text }])
+      descrepancies.push([
+        { text: comment.label }, 
+        { text: comment.text }
+      ])
     })
   }
-  else  descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
+  else  descrepancies.push([
+    { text: 'No Discrepancies', colSpan: 2 }
+  ])
 
-  descrepancyActions.push([{ text: 'Description', style: 'tableHeader' }, { text: 'Details', style: 'tableHeader' }, { text: 'Date Requested', style: 'tableHeader' }, { text: 'Date Completed', style: 'tableHeader' }, { text: 'Person Responsible', style: 'tableHeader' }])
+  descrepancyActions.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }, 
+    { text: 'Date Requested', style: 'tableHeader' }, 
+    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Person Responsible', style: 'tableHeader' }
+  ])
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
-      descrepancyActions.push([{ text: action.label }, { text: action.correctiveActionRequired }, { text: action.dateToComplete }, { text: action.dateCompleted }, { text: action.personResponsible }])
+      descrepancyActions.push([
+        { text: action.label }, 
+        { text: action.correctiveActionRequired }, 
+        { text: action.dateToComplete?.slice(0, 10) }, 
+        { text: action.dateCompleted?.slice(0, 10) }, 
+        { text: action.personResponsible }
+      ])
     })
   }
-  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
+  else descrepancyActions.push([
+    { text: 'No corrective actions', colSpan: 5 }
+  ])
 
   IgnitionKey = detail.IgnitionKey ? '√ Ignition Key' : 'Ignition Key'
   FuelKey = detail.FuelKey ? '√ Fuel Key, check used' : 'Fuel Key, check used'
@@ -51,7 +73,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   PowerSteeringFluidLevel = detail.PowerSteeringFluidLevel ? '√ Power Steering Fluid Level' : 'Power Steering Fluid Level'
   AirGauge = detail.AirGauge ? '√ Check for Air Gauge' : 'Check for Air Gauge'
   Horn = detail.Horn ? '√ Check Horn' : 'Check Horn'
-  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroster' : 'Check Heater/Defroste'
+  HeaterDefroster = detail.HeaterDefroster ? '√ Check Heater/Defroster' : 'Check Heater/Defroster'
   WindshieldWipersWashers = detail.WindshieldWipersWashers ? '√ Check Windshield Wipers/Washers' : 'Check Windshield Wipers/Washers'
   AllSignalLights = detail.AllSignalLights ? '√ Check all signal lights' : 'Check all signal lights'
   InteriorLights = detail.InteriorLights ? '√ Check Interior lights' : 'Check Interior lights'
@@ -88,7 +110,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },
@@ -106,7 +128,14 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Unit #: ' + header.UnitNumber + '  Milage: ' + header.Mileage + '  Registration Expiry Date: ' + header.RegistrationDate.slice(0, 10)
+            text: 'Unit #: ' + 
+            header.UnitNumber + 
+            'License Plate #: ' + 
+            header.LicensePlate +
+            '  Milage: ' + 
+            header.Mileage + 
+            '  Insurance Expiry Date: ' + 
+            header.RegistrationDate?.slice(0, 10)
           }
         ]
       },
@@ -150,37 +179,11 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       },
       '\nAs you drive, continually check for any strange smells, sounds, vibrations, or Anything that does not feel right.\n',
       '\n**Vehicles should be serviced as per manufacturer’s recommendations and repairs made only by competent accredited personnel.\n',
-      '\nFor monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
       {
         alignment: 'justify',
-        columns: [
-          {
-            text: 'Driver’s Signature: ' + header.Worker
-          },
-          {
-            text: 'Date: ' + header.Date.slice(0, 10)
-          }
-        ]
-      },
-      '\n',
-      {
-        alignment: 'justify',
-        columns: [
-          {
-            text: 'Manager/Supervisor Signature: ' + header.Supervisor
-          },
-          {
-            text: 'Date: ' + dateSigned
-          }
-        ],
-        text: [
-          { text: '', style: 'icon' }, //icon gift
-          " my present"
-        ]
-      },
-      {
-        alignment: 'justify',
-        text: 'Comments', style: 'subheader', pageBreak: 'before'
+        text: 'Discrepancies', 
+        style: 'subheader', 
+        pageBreak: 'before'
       },
       {
         table: {
@@ -200,6 +203,35 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         }
       },
       '\n\n',
+      {
+        alignment: 'justify',
+        columns: [
+          {
+            text: 'Driver’s Signature: ' + header.Worker
+          },
+          {
+            text: 'Date: ' + header.Date?.slice(0, 10)
+          }
+        ]
+      },
+      '\n',
+      {
+        alignment: 'justify',
+        columns: [
+          {
+            text: 'Manager/Supervisor Signature: ' + header.Supervisor
+          },
+          {
+            text: 'Date: ' + dateSigned
+          }
+        ],
+        text: [
+          { text: '', style: 'icon' }, //icon gift
+          " my present"
+        ]
+      },
+      '\n\n',
+      'For monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
       {
         alignment: 'justify',
         text: 'Messages', style: 'subheader'

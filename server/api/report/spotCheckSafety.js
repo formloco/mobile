@@ -83,7 +83,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         ]) 
     )
   }
-  else descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }]);
+  else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
 
   descrepancyActions.push([
     { text: 'Description', style: 'tableHeader' },
@@ -126,7 +126,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             text: 'Company name: ' + header.CompanyName
           },
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },
