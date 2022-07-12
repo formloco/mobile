@@ -179,7 +179,6 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       },
       '\nAs you drive, continually check for any strange smells, sounds, vibrations, or Anything that does not feel right.\n',
       '\n**Vehicles should be serviced as per manufacturer’s recommendations and repairs made only by competent accredited personnel.\n',
-      '\nFor monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
       {
         alignment: 'justify',
         text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
@@ -230,6 +229,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         ]
       },
       '\n\n',
+      'For monthly inspections done by the employee: This vehicle inspection was done by myself and not by an accredited mechanic. There were no issues or problems identified at the time of inspection and therefore, no corrective actions are necessary to be undertaken. The employee completing this form takes full responsibility of the completeness and accuracy of this inspection as per PP20 IP (Inspection Policy).\n\n',
       {
         alignment: 'justify',
         text: 'Messages', style: 'subheader'
