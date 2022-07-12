@@ -181,7 +181,9 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       '\n**Vehicles should be serviced as per manufacturer’s recommendations and repairs made only by competent accredited personnel.\n',
       {
         alignment: 'justify',
-        text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
+        text: 'Discrepancies', 
+        style: 'subheader', 
+        pageBreak: 'before'
       },
       {
         table: {
