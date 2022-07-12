@@ -128,7 +128,14 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
         alignment: 'justify',
         columns: [
           {
-            text: 'Unit #: ' + header.UnitNumber + '  Milage: ' + header.Mileage + '  Insurance Expiry Date: ' + header.RegistrationDate?.slice(0, 10)
+            text: 'Unit #: ' + 
+            header.UnitNumber + 
+            'License Plate #: ' + 
+            header.LicensePlate +
+            '  Milage: ' + 
+            header.Mileage + 
+            '  Insurance Expiry Date: ' + 
+            header.RegistrationDate?.slice(0, 10)
           }
         ]
       },

@@ -201,7 +201,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
         data_id: null,
         pdf: 'meaningful-site-tour'
       }
-      obj['nofification'] = notificationObj
+      obj['notification'] = notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {

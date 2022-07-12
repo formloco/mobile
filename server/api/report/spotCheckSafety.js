@@ -66,9 +66,6 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     }
   })
 
-  console.log('------------**********REPORTDATA*********------------:', reportData)
-  console.log('------------**********DATA*********------------:', data)
-
   const docDefinition = {
     content: [
       {

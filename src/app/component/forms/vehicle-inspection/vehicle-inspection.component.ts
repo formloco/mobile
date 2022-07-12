@@ -9,7 +9,7 @@ import { IdbCrudService } from '../../../service-idb/idb-crud.service';
 
 import { AutoCompleteService } from '../../../service/auto-complete.service';
 
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -47,20 +47,22 @@ export class VehicleInspectionComponent implements OnInit {
   isHeaderValid$: Observable<boolean>;
 
   pics;
-  kioske;
+  isEdit = false;
+  isOnline;
   formData;
   formDataID;
   step = 0;
   history = [];
   lookupLists;
+  kioske;
 
   headerForm: FormGroup;
   detailForm: FormGroup;
+  correctiveActionForm: FormGroup
+  discrepancyForm: FormGroup
 
   VEHICLE_INSPECTION = VEHICLE_INSPECTION;
 
-  isEdit = false;
-  isOnline;
   isPanelOpen = false;
 
   apiURL = environment.apiUrl;
@@ -144,6 +146,9 @@ export class VehicleInspectionComponent implements OnInit {
       SpillKit: [],
       SpillKitComments: [],
     });
+    this.discrepancyForm = this.formBuilder.group({
+      Discrepancy: [null, Validators.required]
+    })
   }
 
   ngOnInit(): void {
@@ -153,11 +158,10 @@ export class VehicleInspectionComponent implements OnInit {
     this.store.select(AuthState.formData).subscribe((formData) => {
       this.formData = formData;
       if (this.formData && formData['data']) {
-        console.log('CORRECTIVEACTIONSTATE:', CorrectiveActionState.correctiveActions);
-        console.log('FORMDATA:', this.formData);
         this.isEdit = true;
         this.setFormData(formData['data']);
       }
+      else this.store.dispatch(new SetIsHeaderValid(true))
     });
   }
 
@@ -342,7 +346,7 @@ export class VehicleInspectionComponent implements OnInit {
     }
 
     if (data.correctiveActions) {
-      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction));
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveActions));
     }
   }
 
@@ -388,10 +392,9 @@ export class VehicleInspectionComponent implements OnInit {
     let data = {
       header: header,
       detail: this.detailForm.value,
-      comments: comments,
+      comments: this.store.selectSnapshot(CommentState.comments),
       correctiveActions: this.store.selectSnapshot(
-        CorrectiveActionState.correctiveActions
-      ),
+        CorrectiveActionState.correctiveActions)
     };
 
     let obj = {
@@ -399,12 +402,32 @@ export class VehicleInspectionComponent implements OnInit {
       user: userCreated,
       form: form,
       type: 'custom',
-      date: this.appService.now,
       name: form['name'],
+      date: this.appService.now,
       pics: this.store.selectSnapshot(DeviceState.pics),
+      correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
     };
-
-    this.apiService.save(obj).subscribe((idObj) => {
+if (!this.isOnline){
+  let notificationObj = {
+    name: form['name'],
+          worker: this.appService.getWorker(header.Worker),
+          supervisor: this.appService.getWorker(header.Supervisor),
+          description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
+          subject:
+            'New Vehicle Inspection from ' +
+            header.Worker +
+            ', ' +
+            this.appService.now,
+          message: this.discrepancyForm.value,
+          form_id: form['form_id'],
+          data_id: this.formDataID,
+          pdf: 'vehicle-inspection' + this.formDataID,
+  }
+  obj['notification'] = notificationObj
+  this.idbCrudService.put('data', obj)
+}
+else
+{    this.apiService.save(obj).subscribe((idObj) => {
       this.formDataID = idObj;
 
       const workers: any = this.store.selectSnapshot(AuthState.workers);
@@ -446,7 +469,7 @@ export class VehicleInspectionComponent implements OnInit {
         this.appService.sendNotification(notificationObj);
         this.resetForm();
       }
-    });
+    })}
   }
 
   checkValidHeader() {

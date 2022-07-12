@@ -165,7 +165,6 @@ export class NotificationOpenComponent implements OnInit {
     const page = this.store.selectSnapshot(AuthState.page)
     const childPage = this.store.selectSnapshot(AuthState.childPage)
     this.apiService.getFormData(notification.form_id, notification.data_id).subscribe((data: any) => {
-      console.log('DATA:', data)
       const selectedForm: any = this.store.selectSnapshot(AuthState.selectedForm)
       this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false))
       this.store.dispatch(new SetSelectedForm(selectedForm))
