@@ -329,6 +329,10 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     header.Worker = this.autoCompleteService.workersControl.value
     header.Supervisor = this.autoCompleteService.supervisorsControl.value
 
+    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
+
+    
+
     let data = {
       header: header,
       erpPlanning: this.erpPlanningForm.value,
@@ -343,7 +347,22 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
       hazard: this.hazardForm.value
     }
-
+    
+    let message = 'No discrepancies.';
+    if (data.comments.length > 0) message = 'Discrepancies Exist!';
+    
+    let notificationObj = {
+      name: form["name"],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getSupervisor(header.Supervisor),
+      description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
+      message: message,
+      subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
+      form_id: form["form_id"],
+      data_id: this.formDataID,
+      pdf: 'worksite-safety-inspection' + this.formDataID
+    }
+    this.appService.sendNotification(notificationObj)
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
     })
@@ -391,7 +410,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
 
-    let message = this.discrepancyForm.value
+    let message = 'No discrepancies.';
+        if (data.comments.length > 0) message = 'Discrepancies Exist!';
+
 
     if (!this.isOnline) {
       let notificationObj = {
@@ -399,7 +420,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message: message.Discrepancy,
+        message: message,
         subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
         form_id: form["form_id"],
         data_id: null,
@@ -420,14 +441,13 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
-          if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
-
+          
           let notificationObj = {
             name: form["name"],
             worker: this.appService.getWorker(header.Worker),
             supervisor: this.appService.getSupervisor(header.Supervisor),
             description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-            message: message.Discrepancy,
+            message: message,
             subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
             form_id: form["form_id"],
             data_id: this.formDataID,
