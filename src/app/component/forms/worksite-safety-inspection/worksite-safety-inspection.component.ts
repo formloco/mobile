@@ -331,7 +331,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
 
     const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
-    
+    console.log('HEADER:', header)
 
     let data = {
       header: header,
@@ -356,13 +356,12 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       worker: this.appService.getWorker(header.Worker),
       supervisor: this.appService.getSupervisor(header.Supervisor),
       description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-      message: message,
+      message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
       subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
       form_id: form["form_id"],
       data_id: this.formDataID,
       pdf: 'worksite-safety-inspection' + this.formDataID
     }
-    this.appService.sendNotification(notificationObj)
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
     })
@@ -420,7 +419,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message: message,
+        message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
         subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
         form_id: form["form_id"],
         data_id: null,
