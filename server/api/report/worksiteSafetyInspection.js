@@ -34,6 +34,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
 
+  console.log('REPORT.DATA:', reportData)
+
   const formObj = Object.assign(hazard, jobsite, fireExtinguisher, erpPlanning, ground, equipment, confinedSpace, hotWork);
 
   Object.entries(formObj).forEach(([key, value]) => {
@@ -534,6 +536,17 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.HornIsInProperWorkingConditionNa, alignment: 'center' }, '', '', '', ''
             ]
           ]
+        }
+      },
+      {
+        alignment: 'justify',
+        text: 'Key Positive Findings', 
+        style: 'subheader'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: descrepancies,
         }
       },
       {

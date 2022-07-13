@@ -329,10 +329,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     header.Worker = this.autoCompleteService.workersControl.value
     header.Supervisor = this.autoCompleteService.supervisorsControl.value
 
-    const now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
-
-    console.log('HEADER:', header)
-
     let data = {
       header: header,
       erpPlanning: this.erpPlanningForm.value,
@@ -348,20 +344,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       hazard: this.hazardForm.value
     }
     
-    let message = 'No discrepancies.';
-    if (data.comments.length > 0) message = 'Discrepancies Exist!';
-    
-    let notificationObj = {
-      name: form["name"],
-      worker: this.appService.getWorker(header.Worker),
-      supervisor: this.appService.getSupervisor(header.Supervisor),
-      description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-      message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
-      subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
-      form_id: form["form_id"],
-      data_id: this.formDataID,
-      pdf: 'worksite-safety-inspection' + this.formDataID
-    }
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
     })
