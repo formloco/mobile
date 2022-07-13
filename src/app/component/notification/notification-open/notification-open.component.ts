@@ -83,14 +83,14 @@ export class NotificationOpenComponent implements OnInit {
     const notifications = this.store.selectSnapshot(NotificationState.notificationOpen)
 
     const notification = notifications[idx]
-    const user = this.store.selectSnapshot(AuthState.user)
+    const user = this.user
 
     const message = this.messageForm.get('message').value
 
     this.messageForm.reset()
     let messageObj = {
-      email_to_id: notification.email_to_id,
-      email_from_id: notification.email_from_id,
+      email_to_id: notification.email_to_id === user.id ? notification.email_from_id : notification.email_to_id,
+      email_from_id: notification.email_to_id !== user.id ? notification.email_from_id : notification.email_to_id,
       notificationID: notification.id,
       date: new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }),
       message: message
@@ -103,7 +103,6 @@ export class NotificationOpenComponent implements OnInit {
       })
 
       this.store.dispatch(new SetNotificationComments(response.data.comments))
-
       const subject = notification.form_name + ' form message from ' + user.name + 'date:' + new Date()
 
       const obj = {
