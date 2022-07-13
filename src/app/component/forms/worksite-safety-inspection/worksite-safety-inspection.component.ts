@@ -343,7 +343,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
       hazard: this.hazardForm.value
     }
-    
+
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
       this.resetForm()
     })
@@ -422,7 +422,6 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
-          
           let notificationObj = {
             name: form["name"],
             worker: this.appService.getWorker(header.Worker),
