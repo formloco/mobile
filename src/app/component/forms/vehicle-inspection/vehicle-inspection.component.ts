@@ -461,7 +461,7 @@ else
             header.Worker +
             ', ' +
             this.appService.now,
-          message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
+          message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
           form_id: form['form_id'],
           data_id: this.formDataID,
           pdf: 'vehicle-inspection' + this.formDataID,
