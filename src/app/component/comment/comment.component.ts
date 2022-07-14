@@ -52,7 +52,7 @@ export class CommentComponent implements OnInit {
         field: this.data.field,
         type: this.data.type
       })
-    else comments[commentIdx].text = comments[commentIdx].text + this.commentForm.controls['comment'].value
+    else comments[commentIdx].text = this.commentForm.controls['comment'].value
       
     this.store.dispatch(new SetComments(comments))
     this.dialogRef.close(true)

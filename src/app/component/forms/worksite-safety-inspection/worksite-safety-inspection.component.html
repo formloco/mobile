@@ -68,7 +68,7 @@
     <br>
     <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
       <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
-      <button mat-stroked-button color="primary" (click)="nextStep()" [disabled]="!erpPlanningForm.valid">Next</button>
+      <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
   <mat-expansion-panel *ngIf="!(isWorksiteSafetyHeaderValid$ | async)" [expanded]="step === 5" (opened)="setStep(5)">
@@ -158,11 +158,11 @@
     </mat-expansion-panel-header>
     <br>
     <div class="action-btn" fxLayoutAlign="center center">
-      <mat-icon *ngIf="!erpPlanningForm.valid || !hazardForm.valid || !jobsiteForm.valid || !fireExtinguisherForm.valid"
+      <mat-icon *ngIf="!hazardForm.valid || !jobsiteForm.valid || !fireExtinguisherForm.valid"
         class="icon-169px text-color">fingerprint</mat-icon>
-      <mat-icon *ngIf="!isEdit && erpPlanningForm.valid && hazardForm.valid && jobsiteForm.valid && fireExtinguisherForm.valid"
+      <mat-icon *ngIf="!isEdit && hazardForm.valid && jobsiteForm.valid && fireExtinguisherForm.valid"
         class="hand icon-169px-action" (click)="submitForm()">fingerprint</mat-icon>
-      <mat-icon *ngIf="isEdit && erpPlanningForm.valid && hazardForm.valid && jobsiteForm.valid && fireExtinguisherForm.valid"
+      <mat-icon *ngIf="isEdit && hazardForm.valid && jobsiteForm.valid && fireExtinguisherForm.valid"
         class="hand icon-169px-action" (click)="updateForm()">fingerprint</mat-icon>
     </div>
   </mat-expansion-panel>
