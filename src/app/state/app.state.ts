@@ -19,7 +19,7 @@ export const States = [
 ]
 
 export enum Platform {
-  version = '2.4'
+  version = '2.5'
 }
 
 export enum Formloco {
