@@ -33,6 +33,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let hotWork = reportData.hotWork
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
+  let keyPositiveFindings = reportData.keyPositiveFindings.KeyPositiveFindings
+  
 
   const formObj = Object.assign(hazard, jobsite, fireExtinguisher, erpPlanning, ground, equipment, confinedSpace, hotWork);
 
@@ -58,34 +60,34 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   })
 
   descrepancies.push([
-    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' }
   ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
       descrepancies.push([
-        { text: comment.label }, 
+        { text: comment.label },
         { text: comment.text }
       ])
     })
   }
-  else descrepancies.push([{ text: 'No descrepancies', colSpan: 2 }])
+  else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }])
 
   descrepancyActions.push([
-    { text: 'Description', style: 'tableHeader' }, 
-    { text: 'Details', style: 'tableHeader' }, 
-    { text: 'Date Requested', style: 'tableHeader' }, 
-    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Description', style: 'tableHeader' },
+    { text: 'Details', style: 'tableHeader' },
+    { text: 'Date Requested', style: 'tableHeader' },
+    { text: 'Date Completed', style: 'tableHeader' },
     { text: 'Person Responsible', style: 'tableHeader' }])
 
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
-    
+
       descrepancyActions.push([
-        { text: action.label }, 
-        { text: action.correctiveActionRequired }, 
-        { text: action.dateToComplete.slice(0, 10) }, 
-        { text: action.dateCompleted.slice(0, 10)}, 
+        { text: action.label },
+        { text: action.correctiveActionRequired },
+        { text: action.dateToComplete?.slice(0, 10) },
+        { text: action.dateCompleted?.slice(0, 10) },
         { text: action.personResponsible }])
     })
   }
@@ -94,6 +96,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   if (header.Location === null) header.Location = ''
   if (header.LSDUWI === null) header.LSDUWI = ''
   if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
+  if (!reportData.keyPositiveFindings.KeyPositiveFindings) keyPositiveFindings = 'No Key Positive Findings'
 
   const docDefinition = {
     content: [
@@ -118,7 +121,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       {
         columns: [
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ]
       },
@@ -425,7 +428,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           ]
         }
       },
-      '\n\n',
+      '\n',
       {
         style: 'tableExample',
         table: {
@@ -538,7 +541,20 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       },
       {
         alignment: 'justify',
-        text: 'Discrepancies', 
+        text: 'Key Positive Findings',
+        style: 'subheader'
+      },
+      {
+        style: 'tableExample',
+        table: {
+          widths: ['*', '*'],
+          body: [[{ text: keyPositiveFindings, colSpan: 2 }]],
+        }
+      },
+      '\n',
+      {
+        alignment: 'justify',
+        text: 'Discrepancies',
         style: 'subheader'
       },
       {
@@ -547,9 +563,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           body: descrepancies,
         }
       },
+      '\n',
       {
         alignment: 'justify',
-        text: 'Corrective Actions', style: 'subheader', pageBreak: 'before'
+        text: 'Corrective Actions', style: 'subheader'
       },
       {
         table: {
@@ -570,7 +587,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
             text: 'Conducted by Signature: ' + header.Worker
           },
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date: ' + header.Date?.slice(0, 10)
           }
         ],
       },
