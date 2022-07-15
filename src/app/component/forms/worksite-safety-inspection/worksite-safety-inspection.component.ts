@@ -391,7 +391,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       pics: this.store.selectSnapshot(DeviceState.pics)
     }
 
-    let message = this.discrepancyForm.value
+    let message = 'No discrepancies.';
+        if (data.comments.length > 0) message = 'Discrepancies Exist!';
+
 
     if (!this.isOnline) {
       let notificationObj = {
@@ -399,7 +401,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message: message.Discrepancy,
+        message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
         subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
         form_id: form["form_id"],
         data_id: null,
@@ -420,14 +422,12 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
-          if (message.Discrepancy == null) message.Discrepancy = 'No discrepancies.'
-
           let notificationObj = {
             name: form["name"],
             worker: this.appService.getWorker(header.Worker),
             supervisor: this.appService.getSupervisor(header.Supervisor),
             description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-            message: message.Discrepancy,
+            message: message,
             subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
             form_id: form["form_id"],
             data_id: this.formDataID,
