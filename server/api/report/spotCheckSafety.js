@@ -531,7 +531,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             text: 'Conducted by Signature: ' + header.Worker
           },
           {
-            text: 'Date: ' + dateSigned
+            text: 'Date Signed: ' + dateSigned
           }
         ],
       },
