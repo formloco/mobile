@@ -243,9 +243,6 @@ export class SpotCheckSafetyComponent implements OnInit {
     header.Worker = this.autoCompleteService.workersControl.value;
     header.Supervisor = this.autoCompleteService.supervisorsControl.value;
 
-    const worker: any = this.appService.getWorker(header.Worker)
-    const supervisor: any = this.appService.getSupervisor(header.Supervisor)
-
     let data = {
       header: header,
       hazard: this.hazardForm.value,
@@ -259,22 +256,6 @@ export class SpotCheckSafetyComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
-    let message = 'No discrepancies.';
-        if (data.comments.length > 0) message = 'Discrepancies Exist.';
-
-    let notificationObj = {
-      name: form["name"],
-      worker: worker,
-      supervisor: supervisor,
-      description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
-      message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value  + '\n' + message,
-      subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
-      form_id: form["form_id"],
-      data_id: this.formDataID,
-      pdf: 'spot-check-safety' + this.formDataID
-    }
-
-    this.appService.sendNotification(notificationObj)
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
       this.resetForm()
     })

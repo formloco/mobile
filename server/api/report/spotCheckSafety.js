@@ -27,7 +27,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let personalEquipment = reportData.personalEquipment
   let safetyEquipment = reportData.safetyEquipment
   let comments = reportData.comments
-  let correctiveActions = reportData.correctiveActions
+  let correctiveActions = reportData.correctiveAction
 
   let data = {}
   let descrepancies = []
@@ -531,7 +531,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             text: 'Conducted by Signature: ' + header.Worker
           },
           {
-            text: 'Date: ' + header.Date.slice(0, 10)
+            text: 'Date Signed: ' + dateSigned
           }
         ],
       },

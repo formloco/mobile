@@ -130,7 +130,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
           {
             text: 'Unit #: ' + 
             header.UnitNumber + 
-            'License Plate #: ' + 
+            ' License Plate #: ' + 
             header.LicensePlate +
             '  Milage: ' + 
             header.Mileage + 
