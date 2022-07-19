@@ -427,7 +427,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             worker: this.appService.getWorker(header.Worker),
             supervisor: this.appService.getSupervisor(header.Supervisor),
             description: 'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-            message: message,
+            message: 'Worksite Safety Inspection completed for ' + header.Client + ', ' + header.Location + '\n' + message,
             subject: 'New Worksite Safety Inspection for ' + this.headerForm.controls['Client'].value + ', ' + now,
             form_id: form["form_id"],
             data_id: this.formDataID,
