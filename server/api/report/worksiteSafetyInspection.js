@@ -100,7 +100,6 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
   if (!reportData.keyPositiveFindings.KeyPositiveFindings) keyPositiveFindings = 'No Key Positive Findings'
 
-  console.log('FORMOBJ:', formObj)
 
   const docDefinition = {
     content: [
@@ -292,7 +291,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               'Is there emergency equipment on site',
               { text: formObj.IsThereEmergencyEquipmentOnSite, alignment: 'center' },
               { text: formObj.IsThereEmergencyEquipmentOnSiteNo, alignment: 'center' },
-              { text: formObj.IsThereEmergencyEquipmentOnSiteNa, alignment: 'center' }, '', '', '', '',
+              { text: formObj.IsThereEmergencyEquipmentOnSiteNa, alignment: 'center' },
+              '', '','','',
             ]
           ]
         }
