@@ -140,7 +140,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       CellularOrRadioCoverageConfirmed: [null, Validators.required]
     })
     this.groundForm = this.formBuilder.group({
-      DoesTheProjectInvolveGroundDisturbance: ['na'],
+      DoesTheProjectInvolveGroundDisturbance: [null],
       GroundDisturbanceChecklistIsInPlace: [null],
       OneCallNotificationHasBeenRegistered: [null],
       AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed: [null],
