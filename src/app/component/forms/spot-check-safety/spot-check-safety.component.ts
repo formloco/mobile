@@ -309,7 +309,7 @@ export class SpotCheckSafetyComponent implements OnInit {
         worker: this.appService.getWorker(header.Worker),
         supervisor: this.appService.getSupervisor(header.Supervisor),
         description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
-        message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value + '\n' + message,
+        message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value + ' ' + message,
         subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
         form_id: form["form_id"],
         data_id: this.formDataID,
