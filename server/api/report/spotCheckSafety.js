@@ -30,6 +30,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let correctiveActions = reportData.correctiveAction
 
   let data = {}
+  let notes = []
   let descrepancies = []
   let descrepancyActions = []
 
@@ -497,7 +498,18 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       },
       {
         alignment: 'justify',
-        text: 'Discrepancies / Notes', style: 'subheader', pageBreak: 'before'
+        text: 'Notes', style: 'subheader', pageBreak: 'before'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: notes,
+        }
+      },
+      '\n\n',
+      {
+        alignment: 'justify',
+        text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
       },
       {
         table: {
