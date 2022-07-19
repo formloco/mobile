@@ -93,7 +93,7 @@
   <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
-        Discrepancies
+        Comments
       </mat-panel-title>
     </mat-expansion-panel-header>
     <app-discrepancy></app-discrepancy>
@@ -104,6 +104,19 @@
     </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title class="text-color">
+        Discrepancies
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-discrepancy></app-discrepancy>
+    <br>
+    <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)">
     <mat-expansion-panel-header>
       <mat-panel-title class="text-color">
         Signature
