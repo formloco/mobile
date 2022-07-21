@@ -30,7 +30,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let correctiveActions = reportData.correctiveAction
 
   let data = {}
-  let notes = []
+  let answers = []
   let descrepancies = []
   let descrepancyActions = []
 
@@ -70,32 +70,47 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     }
   })
 
+  const tableHeader = [
+    { text: 'Description', style: 'tableHeader' },
+    { text: 'Details', style: 'tableHeader' }
+  ];
 
+  answers.push(tableHeader);
   descrepancies.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' }
   ]);
 
   if (comments && comments.length > 0) {
-    await comments.forEach(comment =>
-        descrepancies.push([
-          { text: comment.label },
-          { text: comment.text }
-        ]) 
-    )
+
+    comments.forEach(comment => {
+      const tableBody = [
+        { text: comment.label },
+        { text: comment.text }
+      ];
+
+      return (reportData.hazard[comment.field] === 'unsatisfactory' ||
+        reportData.communication[comment.field] === 'unsatisfactory' ||
+        reportData.personalEquipment[comment.field] === 'unsatisfactory' ||
+        reportData.safetyEquipment[comment.field] === 'unsatisfactory') ?
+        descrepancies.push(tableBody) :
+        answers.push(tableBody)
+    })
   }
   else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
+
+  if (answers.length === 0) answers.push([{ text: 'No discrepancies', colSpan: 2 }])
 
   descrepancyActions.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' },
     { text: 'Date Requested', style: 'tableHeader' },
     { text: 'Date Completed', style: 'tableHeader' },
-    { text: 'Person Responsible', style: 'tableHeader' }])
+    { text: 'Person Responsible', style: 'tableHeader' }]
+  );
 
   if (correctiveActions && correctiveActions.length > 0) {
     await correctiveActions.forEach(action => {
-
       descrepancyActions.push([
         { text: action.label },
         { text: action.actionItem },
@@ -503,13 +518,13 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       {
         table: {
           widths: ['*', '*'],
-          body: notes,
+          body: answers,
         }
       },
       '\n\n',
       {
         alignment: 'justify',
-        text: 'Discrepancies', style: 'subheader', pageBreak: 'before'
+        text: 'Discrepancies', style: 'subheader'
       },
       {
         table: {

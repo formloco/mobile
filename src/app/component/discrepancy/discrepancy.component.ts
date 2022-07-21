@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CommentComponent } from 'src/app/component/comment/comment.component';
 import { CorrectiveActionComponent } from 'src/app/component/corrective-action/corrective-action.component';
@@ -20,7 +20,14 @@ export class DiscrepancyComponent {
   @Select(CommentState.comments) comments$: Observable<any[]>;
   @Select(CommentState.commentLabel) label$: Observable<string>;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store) {
+
+      const formData = this.store.selectSnapshot(AuthState.formData)
+      const data = (formData as any)?.data
+      
+  }
 
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig();
@@ -47,5 +54,16 @@ export class DiscrepancyComponent {
       actionItem: comment.text,
     };
     this.dialog.open(CorrectiveActionComponent, dialogConfig);
+  }
+  
+  
+  isDiscrepancy(comment) {
+    const formData = this.store.selectSnapshot(AuthState.formData)
+    const data = (formData as any)?.data
+
+    if (data.hazard[comment.field] === 'unsatisfactory' ||
+    data.communication[comment.field] === 'unsatisfactory' ||
+    data.personalEquipment[comment.field] === 'unsatisfactory' ||
+    data.safetyEquipment[comment.field] === 'unsatisfactory') return true
   }
 }
