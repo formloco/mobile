@@ -613,7 +613,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
               header.Client +
               ', ' +
               header.Location +
-              '\n' +
+              ' ' +
               message,
             subject:
               'New Worksite Safety Inspection for ' +
