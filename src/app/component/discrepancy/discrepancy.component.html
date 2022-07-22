@@ -8,7 +8,7 @@
       class="mat-list-item-linked hand" 
       (click)="openComment(comment.label, comment.field)">{{ comment.label | truncate:[12, '...']}} {{ comment.text | truncate:[15, '...']}}</span>
       <button mat-icon-button color="primary">
-        <mat-icon *ngIf="!isComment(step)" class="material-icons-outlined" (click)="openCorrectiveActionDialog(comment)">fact_check</mat-icon>
+        <mat-icon class="material-icons-outlined" (click)="openCorrectiveActionDialog(comment)">fact_check</mat-icon>
       </button>
     </div>
   </mat-list-item>

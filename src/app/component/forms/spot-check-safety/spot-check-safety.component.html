@@ -70,7 +70,8 @@
         Personal Protective Equipment
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-personal-protective-equipment [personalEquipmentForm]=personalEquipmentForm></app-personal-protective-equipment>
+    <app-personal-protective-equipment [personalEquipmentForm]=personalEquipmentForm>
+    </app-personal-protective-equipment>
     <br>
     <div class="action-btn" fxLayoutAlign="center center" fxLayoutGap="20px">
       <button mat-stroked-button color="accent" (click)="prevStep()">Previous</button>
@@ -90,10 +91,11 @@
       <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
     </div>
   </mat-expansion-panel>
+
   <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
-        Comments
+        Discrepancies
       </mat-panel-title>
     </mat-expansion-panel-header>
     <app-discrepancy [step]='step'></app-discrepancy>
@@ -106,7 +108,7 @@
   <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
     <mat-expansion-panel-header class="right-aligned-header">
       <mat-panel-title class="text-color">
-        Discrepancies
+        Comments
       </mat-panel-title>
     </mat-expansion-panel-header>
     <app-discrepancy [step]='step'></app-discrepancy>
@@ -135,4 +137,3 @@
     </div>
   </mat-expansion-panel>
 </mat-accordion>
-

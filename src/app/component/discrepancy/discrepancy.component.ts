@@ -20,14 +20,10 @@ export class DiscrepancyComponent implements OnInit {
   @Select(CommentState.comments) comments$: Observable<any[]>;
   @Select(CommentState.commentLabel) label$: Observable<string>;
 
-
-  constructor(private dialog: MatDialog, private store: Store) {
-  
-  }
+  constructor(private dialog: MatDialog, private store: Store) {}
 
   @Input() step: number;
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig();
@@ -57,8 +53,8 @@ export class DiscrepancyComponent implements OnInit {
   }
 
   isComment = (step: number) => {
-    if (step === 7) return true
-  }
+    if (step === 8 || step === 2 || step === 10) return true;
+  };
 
   isDiscrepancy(comment) {
     const formData = this.store.selectSnapshot(AuthState.formData);
