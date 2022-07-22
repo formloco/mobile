@@ -363,9 +363,7 @@ export class VehicleInspectionComponent implements OnInit {
       header: header,
       detail: this.detailForm.value,
       comments: this.store.selectSnapshot(CommentState.comments),
-      correctiveActions: this.store.selectSnapshot(
-        CorrectiveActionState.correctiveActions
-      ),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions),
     };
 
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
@@ -405,7 +403,7 @@ export class VehicleInspectionComponent implements OnInit {
       name: form['name'],
       date: this.appService.now,
       pics: this.store.selectSnapshot(DeviceState.pics),
-      correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     };
 if (!this.isOnline){
   let notificationObj = {

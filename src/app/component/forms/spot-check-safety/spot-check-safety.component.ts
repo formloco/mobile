@@ -259,7 +259,6 @@ export class SpotCheckSafetyComponent implements OnInit {
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
       this.resetForm()
     })
-    
   }
 
   submitForm() {
@@ -297,11 +296,11 @@ export class SpotCheckSafetyComponent implements OnInit {
       date: this.appService.now,
       pics: this.store.selectSnapshot(DeviceState.pics),
       location: data.header.Location,
-      correctiveActions: (this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
 
     let message = 'No discrepancies.';
-        if (data.comments.length > 0) message = 'Discrepancies Exist.';
+        if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
 
     if (!this.isOnline) {
       let notificationObj = {
