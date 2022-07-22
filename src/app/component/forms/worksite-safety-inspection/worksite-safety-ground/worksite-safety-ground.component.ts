@@ -34,7 +34,7 @@ export class WorksiteSafetyGroundComponent implements OnInit {
 
     ngOnInit() {
       this.store.dispatch(new SetTypeFilter('isGroundwork'))
-      this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('yes')
+      // this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('yes')
     }
   
     toggle(toggle) {

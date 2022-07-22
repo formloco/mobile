@@ -34,7 +34,7 @@ export class WorksiteSafetyConfinedSpaceComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new SetTypeFilter('isConfinedSpace'))
-    this.confinedSpaceForm.controls['DoesTheProjectInvolveConfinedSpaceEntry'].patchValue('yes')
+    // this.confinedSpaceForm.controls['DoesTheProjectInvolveConfinedSpaceEntry'].patchValue('yes')
   }
 
   toggle(toggle) {
