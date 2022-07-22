@@ -3,12 +3,12 @@
 </div>
 <mat-list role="list">
   <mat-list-item color="primary" class="mat-list-item-font" *ngFor="let comment of (comments$ | async)">
-    <div *ngIf="isComment() ? isDiscrepancy(comment) : !isDiscrepancy(comment)" style="display: flex; justify-content: space-between; align-items: center;">
+    <div *ngIf="isComment(step) ? !isDiscrepancy(comment) : isDiscrepancy(comment)" style="display: flex; justify-content: space-between; align-items: center;">
       <span 
       class="mat-list-item-linked hand" 
       (click)="openComment(comment.label, comment.field)">{{ comment.label | truncate:[12, '...']}} {{ comment.text | truncate:[15, '...']}}</span>
       <button mat-icon-button color="primary">
-        <mat-icon class="material-icons-outlined" (click)="openCorrectiveActionDialog(comment)">fact_check</mat-icon>
+        <mat-icon *ngIf="!isComment(step)" class="material-icons-outlined" (click)="openCorrectiveActionDialog(comment)">fact_check</mat-icon>
       </button>
     </div>
   </mat-list-item>

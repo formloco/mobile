@@ -84,17 +84,18 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   if (comments && comments.length > 0) {
 
     comments.forEach(comment => {
-      const tableBody = [
-        { text: comment.label },
-        { text: comment.text }
-      ];
 
       return (reportData.hazard[comment.field] === 'unsatisfactory' ||
         reportData.communication[comment.field] === 'unsatisfactory' ||
-        reportData.personalEquipment[comment.field] === 'unsatisfactory' ||
-        reportData.safetyEquipment[comment.field] === 'unsatisfactory') ?
-        descrepancies.push(tableBody) :
-        answers.push(tableBody)
+        reportData.personalEquipment[comment.field] === 'unsatisfactory') ?
+        descrepancies.push([
+          { text: comment.label },
+          { text: comment.text }
+        ]) :
+        answers.push([
+          { text: comment.field + ': ' + comment.label },
+          { text: comment.text }
+        ])
     })
   }
   else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
