@@ -181,7 +181,7 @@ export class NotificationOpenComponent implements OnInit {
   }
 
   openSign(notification) {
-    console.log('TEST open sign');
+
     this.store.dispatch(new SetNotification(notification));
     this.apiService
       .getFormData(notification.form_id, notification.data_id)
