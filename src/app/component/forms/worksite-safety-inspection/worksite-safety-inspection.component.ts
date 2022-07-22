@@ -392,7 +392,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     }
 
     let message = 'No discrepancies.';
-        if (data.comments.length > 0) message = 'Discrepancies Exist!';
+        if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
 
 
     if (!this.isOnline) {

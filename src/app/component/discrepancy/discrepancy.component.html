@@ -3,7 +3,7 @@
 </div>
 <mat-list role="list">
   <mat-list-item color="primary" class="mat-list-item-font" *ngFor="let comment of (comments$ | async)">
-    <div *ngIf="isDiscrepancy(comment)" style="display: flex; justify-content: space-between; align-items: center;">
+    <div *ngIf="isComment() ? isDiscrepancy(comment) : !isDiscrepancy(comment)" style="display: flex; justify-content: space-between; align-items: center;">
       <span 
       class="mat-list-item-linked hand" 
       (click)="openComment(comment.label, comment.field)">{{ comment.label | truncate:[12, '...']}} {{ comment.text | truncate:[15, '...']}}</span>

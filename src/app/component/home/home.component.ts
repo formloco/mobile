@@ -115,10 +115,6 @@ export class HomeComponent implements OnInit {
   }
 
   openNotifications(tabIndex) {
-    const NC = this.store.selectSnapshot(NotificationState)
-    const count = (NC as any)?.notificationMyCount
-    console.log('NOTIFICATIONSTATE:', NC)
-    console.log('NOTIFICATIONCOUNT:', count)
     if (tabIndex === 0) {
       // const user = this.store.selectSnapshot(AuthState.userIdb)
       this.notificationService.getMyNotifications().subscribe((notifications: any) => {

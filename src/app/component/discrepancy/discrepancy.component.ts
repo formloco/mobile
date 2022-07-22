@@ -19,11 +19,8 @@ export class DiscrepancyComponent {
   @Select(AuthState.selectedForm) selectedForm$: Observable<any>;
   @Select(CommentState.comments) comments$: Observable<any[]>;
   @Select(CommentState.commentLabel) label$: Observable<string>;
-  
-  constructor(
-    private dialog: MatDialog,
-    private store: Store) {
-  }
+
+  constructor(private dialog: MatDialog, private store: Store) {}
 
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig();
@@ -36,8 +33,6 @@ export class DiscrepancyComponent {
     };
     this.dialog.open(CommentComponent, dialogConfig);
   }
-
-
 
   openCorrectiveActionDialog(comment) {
     const dialogConfig = new MatDialogConfig();
@@ -54,13 +49,20 @@ export class DiscrepancyComponent {
     this.dialog.open(CorrectiveActionComponent, dialogConfig);
   }
 
-  isDiscrepancy(comment) {
-    const formData = this.store.selectSnapshot(AuthState.formData)
-    const data = (formData as any)?.data
+  isComment = () => {
+    
+  }
 
-    if (data.hazard[comment.field] === 'unsatisfactory' ||
-    data.communication[comment.field] === 'unsatisfactory' ||
-    data.personalEquipment[comment.field] === 'unsatisfactory' ||
-    data.safetyEquipment[comment.field] === 'unsatisfactory') return true
+  isDiscrepancy(comment) {
+    const formData = this.store.selectSnapshot(AuthState.formData);
+    const data = (formData as any)?.data;
+
+    if (
+      data?.hazard?.[comment.field] === 'unsatisfactory' ||
+      data?.communication?.[comment.field] === 'unsatisfactory' ||
+      data?.personalEquipment?.[comment.field] === 'unsatisfactory' ||
+      data?.safetyEquipment?.[comment.field] === 'unsatisfactory'
+    )
+      return true;
   }
 }
