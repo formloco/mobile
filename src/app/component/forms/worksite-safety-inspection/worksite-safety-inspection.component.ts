@@ -553,6 +553,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       date: now,
       name: form['name'],
       pics: this.store.selectSnapshot(DeviceState.pics),
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     };
 
     let message = 'No discrepancies.';

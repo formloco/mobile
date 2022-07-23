@@ -100,9 +100,6 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
   if (!reportData.keyPositiveFindings.KeyPositiveFindings) keyPositiveFindings = 'No Key Positive Findings'
 
-  console.log('REPORTDATA', reportData)
-  console.log('CORRECTIVE ACTIONS', reportData.correctiveActions)
-
   const docDefinition = {
     content: [
       {

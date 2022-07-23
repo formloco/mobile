@@ -157,6 +157,7 @@ export class VehicleInspectionComponent implements OnInit {
 
     this.store.select(AuthState.formData).subscribe((formData) => {
       this.formData = formData;
+
       if (this.formData && formData['data']) {
         this.isEdit = true;
         this.setFormData(formData['data']);

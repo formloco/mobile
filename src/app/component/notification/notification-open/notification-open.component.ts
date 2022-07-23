@@ -206,7 +206,6 @@ export class NotificationOpenComponent implements OnInit {
   }
 
   openForm(notification, idx) {
-    console.log('TEST open form');
     this.store.dispatch(new SetComments([]));
     this.store.dispatch(new SetCorrectiveActions([]));
     this.store.dispatch(new SetNotification(notification));

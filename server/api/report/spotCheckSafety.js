@@ -27,7 +27,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let personalEquipment = reportData.personalEquipment
   let safetyEquipment = reportData.safetyEquipment
   let comments = reportData.comments
-  let correctiveActions = reportData.correctiveAction
+  let correctiveActions = reportData.correctiveActions
 
   let data = {}
   let answers = []
@@ -38,9 +38,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   // const commentData = Object.keys(commentObj).map((key) => [key, commentObj[key]])
 
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveActions)
-  const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
+  // const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
 
-  allFormData.forEach(async rec => {
+  Object.entries(formObj).forEach(rec => {
     comment = ''
     let foundComment = comments.find(c => c.field == rec[0])
 
@@ -114,19 +114,16 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   );
 
   if (correctiveActions && correctiveActions.length > 0) {
-    await correctiveActions.forEach(action => {
+    correctiveActions.forEach(action => {
       discrepancyActions.push([
         { text: action.label },
-        { text: action.actionItem },
+        { text: action.correctiveActionRequired },
         { text: action?.dateToComplete?.slice(0, 10) },
         { text: action?.dateCompleted?.slice(0, 10) },
         { text: action.personResponsible }])
     })
   }
   else discrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
-
-  console.log('REPORTDATA', reportData)
-  console.log('CORRECTIVE ACTIONS', reportData.correctiveActions)
 
   const docDefinition = {
     content: [
