@@ -395,7 +395,7 @@ export class SpotCheckSafetyComponent implements OnInit {
 
     let message = 'No discrepancies.';
     if (data.comments.length > 0)
-      message = `${data.comments.length} Discrepancies Exist!`;
+      message = `Number of Discrepancies: ${data.comments.length}`;
 
     if (!this.isOnline) {
       let notificationObj = {
@@ -454,7 +454,9 @@ export class SpotCheckSafetyComponent implements OnInit {
               'Spot Check Safety completed for ' +
               this.headerForm.controls['CompanyName'].value +
               ', ' +
-              this.headerForm.controls['Location'].value,
+              this.headerForm.controls['Location'].value + 
+              ' ' +
+              message,
             subject:
               'New Spot Check Safety from ' +
               header.Worker +

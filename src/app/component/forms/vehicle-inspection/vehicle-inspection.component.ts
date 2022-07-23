@@ -448,7 +448,7 @@ else
         );
 
         let message = 'No discrepancies.';
-        if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
+        if (comments.length > 0) message = `Number of Discrepancies: ${comments.length}`;
 
         let notificationObj = {
           name: form['name'],
