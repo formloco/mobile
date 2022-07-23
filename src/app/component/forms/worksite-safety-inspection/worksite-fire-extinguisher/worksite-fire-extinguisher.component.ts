@@ -36,7 +36,7 @@ export class WorksiteFireExtinguisherComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new SetTypeFilter('isFireExtinguisher'))
-    this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].patchValue('yes')
+    // this.fireExtinguisherForm.controls['TwentyPoundMinimumFireExtinguisherAvailable'].patchValue('yes')
   }
 
   toggle(toggle) {

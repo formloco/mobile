@@ -34,7 +34,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
   let keyPositiveFindings = reportData.keyPositiveFindings.KeyPositiveFindings
-  
+
 
   const formObj = Object.assign(hazard, jobsite, fireExtinguisher, erpPlanning, ground, equipment, confinedSpace, hotWork);
 
@@ -71,7 +71,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       ])
     })
   }
-  else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }])
+  else descrepancies.push([
+    { text: 'No discrepancies', colSpan: 2 }])
 
   descrepancyActions.push([
     { text: 'Description', style: 'tableHeader' },
@@ -91,12 +92,14 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         { text: action.personResponsible }])
     })
   }
-  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
+  else descrepancyActions.push([
+    { text: 'No corrective actions', colSpan: 5 }])
 
   if (header.Location === null) header.Location = ''
   if (header.LSDUWI === null) header.LSDUWI = ''
   if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
   if (!reportData.keyPositiveFindings.KeyPositiveFindings) keyPositiveFindings = 'No Key Positive Findings'
+
 
   const docDefinition = {
     content: [
@@ -225,7 +228,25 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         table: {
           widths: ['*', 25, 25, 25, '*', 25, 25, 25],
           body: [
-            [{ text: 'Job Site Management', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }, { text: '', style: 'tableHeader', alignment: 'center' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Job Site Management', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' },
+              { text: '', style: 'tableHeader', alignment: 'center' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
+            [
+              'Work area is clearly identified',
+              { text: formObj.WorkAreaClearlyIdentified, alignment: 'center' },
+              { text: formObj.WorkAreaClearlyIdentifiedNo, alignment: 'center' },
+              { text: formObj.WorkAreaClearlyIdentifiedNa, alignment: 'center' },
+              'First Aid Kit available and stocked',
+              { text: formObj.FirstAidKitAvailable, alignment: 'center' },
+              { text: formObj.FirstAidKitAvailableNo, alignment: 'center' },
+              { text: formObj.FirstAidKitAvailableNa, alignment: 'center' },
+            ],
             [
               'Site is free of trip hazards and other housekeeping concerns',
               { text: formObj.SiteIsFreeOfTripHazardsAndOtherHousekeepingConcerns, alignment: 'center' },
@@ -265,6 +286,13 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
               { text: formObj.H2SPersonalGasMonitorsOnsiteHaveBeenBumped, alignment: 'center' },
               { text: formObj.H2SPersonalGasMonitorsOnsiteHaveBeenBumpedNo, alignment: 'center' },
               { text: formObj.H2SPersonalGasMonitorsOnsiteHaveBeenBumpedNa, alignment: 'center' }
+            ],
+            [
+              'Is there emergency equipment on site',
+              { text: formObj.IsThereEmergencyEquipmentOnSite, alignment: 'center' },
+              { text: formObj.IsThereEmergencyEquipmentOnSiteNo, alignment: 'center' },
+              { text: formObj.IsThereEmergencyEquipmentOnSiteNa, alignment: 'center' },
+              '', '','','',
             ]
           ]
         }
@@ -275,7 +303,13 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           widths: ['*', 25, 25, '*', 25, 25],
           pageBreak: 'before',
           body: [
-            [{ text: 'Fire Extinguisher(s)', style: 'tableHeader' }, { text: 'Y', alignment: 'center' }, { text: 'N', alignment: 'center' }, { text: ' ' }, { text: 'Y', alignment: 'center' }, { text: 'N', alignment: 'center' }],
+            [
+              { text: 'Fire Extinguisher(s)', style: 'tableHeader' },
+              { text: 'Y', alignment: 'center' },
+              { text: 'N', alignment: 'center' },
+              { text: ' ' },
+              { text: 'Y', alignment: 'center' },
+              { text: 'N', alignment: 'center' }],
             [
               '20 lb minimum fire extinguisher available',
               { text: formObj.TwentyPoundMinimumFireExtinguisherAvailable, alignment: 'center' },
@@ -316,7 +350,15 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         table: {
           widths: ['*', 25, 25, 25, '*', 25, 25, 25],
           body: [
-            [{ text: 'Emergency Response Planning', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }, { text: '', style: 'tableHeader', alignment: 'center' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }, { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Emergency Response Planning', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' },
+              { text: '', style: 'tableHeader', alignment: 'center' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' },
+              { text: 'N/A', style: 'tableHeader', alignment: 'center' }],
             [
               'Emergency Response Plan (ERP) onsite',
               { text: formObj.EmergencyResponsePlanOnSite, alignment: 'center' },
@@ -355,7 +397,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         table: {
           widths: ['*', 25, 25],
           body: [
-            [{ text: 'Ground Disturbance', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Ground Disturbance', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' }],
             [
               'Does the project involve ground disturbance If YES, complete the following',
               { text: formObj.DoesTheProjectInvolveGroundDisturbance, alignment: 'center' },
@@ -399,7 +444,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         table: {
           widths: ['*', 25, 25],
           body: [
-            [{ text: 'Confined Space', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Confined Space', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' }],
             [
               'Does the project involve Confined Space Entry?',
               { text: formObj.DoesTheProjectInvolveConfinedSpaceEntry, alignment: 'center' },
@@ -435,7 +483,10 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
           widths: ['*', 25, 25],
           pageBreak: 'before',
           body: [
-            [{ text: 'Hot Work', style: 'tableHeader' }, { text: 'Y', style: 'tableHeader', alignment: 'center' }, { text: 'N', style: 'tableHeader', alignment: 'center' }],
+            [
+              { text: 'Hot Work', style: 'tableHeader' },
+              { text: 'Y', style: 'tableHeader', alignment: 'center' },
+              { text: 'N', style: 'tableHeader', alignment: 'center' }],
             ['Does the project involve Hot Work (work that could produce a source of ignition, such as a spark or open flame)',
               { text: formObj.DoesTheProjectInvolveHotWork, alignment: 'center' },
               { text: formObj.DoesTheProjectInvolveHotWorkNo, alignment: 'center' }
@@ -548,7 +599,8 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         style: 'tableExample',
         table: {
           widths: ['*', '*'],
-          body: [[{ text: keyPositiveFindings, colSpan: 2 }]],
+          body: [[
+            { text: keyPositiveFindings, colSpan: 2 }]],
         }
       },
       '\n',

@@ -30,6 +30,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let correctiveActions = reportData.correctiveAction
 
   let data = {}
+  let answers = []
   let descrepancies = []
   let descrepancyActions = []
 
@@ -69,32 +70,48 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     }
   })
 
+  const tableHeader = [
+    { text: 'Description', style: 'tableHeader' },
+    { text: 'Details', style: 'tableHeader' }
+  ];
 
+  answers.push(tableHeader);
   descrepancies.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' }
   ]);
 
   if (comments && comments.length > 0) {
-    await comments.forEach(comment =>
+
+    comments.forEach(comment => {
+
+      return (reportData.hazard[comment.field] === 'unsatisfactory' ||
+        reportData.communication[comment.field] === 'unsatisfactory' ||
+        reportData.personalEquipment[comment.field] === 'unsatisfactory') ?
         descrepancies.push([
           { text: comment.label },
           { text: comment.text }
-        ]) 
-    )
+        ]) :
+        answers.push([
+          { text: comment.field + ': ' + comment.label },
+          { text: comment.text }
+        ])
+    })
   }
   else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
+
+  if (answers.length === 0) answers.push([{ text: 'No discrepancies', colSpan: 2 }])
 
   descrepancyActions.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' },
     { text: 'Date Requested', style: 'tableHeader' },
     { text: 'Date Completed', style: 'tableHeader' },
-    { text: 'Person Responsible', style: 'tableHeader' }])
+    { text: 'Person Responsible', style: 'tableHeader' }]
+  );
 
   if (correctiveActions && correctiveActions.length > 0) {
     await correctiveActions.forEach(action => {
-
       descrepancyActions.push([
         { text: action.label },
         { text: action.actionItem },
@@ -190,7 +207,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.hazard?.HazardComments
+                text: 'Comments:\n' + (reportData.hazard?.HazardComments || '')
               }
             ]
           ]
@@ -222,7 +239,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.rules?.RulesComments
+                text: 'Comments:\n' + (reportData.rules?.RulesComments || '')
               }
             ]
           ]
@@ -266,7 +283,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.incident?.IncidentComments
+                text: 'Comments:\n' + (reportData.incident?.IncidentComments || '')
               }
             ]
           ]
@@ -345,7 +362,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.communication?.CommunicationComments
+                text: 'Comments:\n' + (reportData.communication?.CommunicationComments || '')
               }
             ]
           ]
@@ -425,7 +442,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
             [
               {
                 colSpan: 4,
-                text: 'Comments:\n' + reportData.personalEquipment?.PersonalEquipmentComments
+                text: 'Comments:\n' + (reportData.personalEquipment?.PersonalEquipmentComments || '')
               }
             ]
           ]
@@ -489,7 +506,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
                 colSpan: 4,
                 text: 'Comments:\n' +
                   data.OtherComment +
-                  '\n' + reportData.safetyEquipment?.SafetyEquipmentComments
+                  '\n' + (reportData.safetyEquipment?.SafetyEquipmentComments || '')
               }
             ]
           ]
@@ -497,7 +514,18 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       },
       {
         alignment: 'justify',
-        text: 'Discrepancies / Notes', style: 'subheader', pageBreak: 'before'
+        text: 'Notes', style: 'subheader', pageBreak: 'before'
+      },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: answers,
+        }
+      },
+      '\n\n',
+      {
+        alignment: 'justify',
+        text: 'Discrepancies', style: 'subheader'
       },
       {
         table: {

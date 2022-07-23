@@ -37,8 +37,8 @@ export class NotificationState {
   }
 
   @Selector()
-  static notificationMyCount(state: NotificationStateModel): number {
-    return state.notificationMyCount
+  static notificationMyCount(state: any): number {
+    return state.notificationOpen.length
   }
 
   @Selector()

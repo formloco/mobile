@@ -37,7 +37,7 @@ async function meaningfulSiteTourPDF(path, reportData, messages, pics, signDate)
   OpenTeamDiscussion = todo.OpenTeamDiscussion ? '√ Hold an open discussion with the team' : '  Hold an open discussion with the team'
   SafetyAlert = todo.SafetyAlert ? '√ Share a recent "Safety Alert" verbally if required' : '  Share a recent "Safety Alert" verbally if required'
   ProvideFeedback = todo.ProvideFeedback ? '√ Provide feedback and follow-up' : '  Provide feedback and follow-up'
-  FormalAuditInspection = todo.FormalAuditInspection ? '√ Participate in a formal audit/insepctions if available or applicable' : '  Participate in a formal audit/insepctions if available or applicable'
+  FormalAuditInspection = todo.FormalAuditInspection ? '√ Participate in a formal audit/inspections if available or applicable' : '  Participate in a formal audit/inspections if available or applicable'
 
   const docDefinition = {
     pageOrientation: 'landscape',

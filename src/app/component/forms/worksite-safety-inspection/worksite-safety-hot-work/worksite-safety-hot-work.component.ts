@@ -34,7 +34,7 @@ export class WorksiteSafetyHotWorkComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new SetTypeFilter('isFireExtinguisher'))
-    this.hotWorkForm.controls['DoesTheProjectInvolveHotWork'].patchValue('yes')
+    // this.hotWorkForm.controls['DoesTheProjectInvolveHotWork'].patchValue('yes')
   }
 
   toggle(toggle) {

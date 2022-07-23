@@ -53,7 +53,7 @@ export class CorrectiveActionComponent implements OnInit {
 
   async save() {
     const correctiveActions = await _.cloneDeep(this.store.selectSnapshot(CorrectiveActionState.correctiveActions))
-    const correctiveActionIdx = correctiveActions.findIndex(c => c.field == this.data.field)
+    const correctiveActionIdx = correctiveActions?.findIndex(c => c.field == this.data.field)
     
     if (correctiveActionIdx == -1) 
       correctiveActions.push({
