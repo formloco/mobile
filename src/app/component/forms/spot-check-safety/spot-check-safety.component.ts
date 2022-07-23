@@ -159,7 +159,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
-    console.log('DATA:', data)
+
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
