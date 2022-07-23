@@ -1,7 +1,7 @@
-export interface SpotCheckSafeyModel {
+export interface SpotCheckSafetyModel {
   isWorksiteSafetyHeaderValid: boolean
   isAppropriateTraining?: boolean
-  isSpotCheckSafeyCompleted?: boolean // used to display message in descrepancies
+  isSpotCheckSafetyCompleted?: boolean // used to display message in discrepancies
 }
 
 export const SPOT_CHECK_SAFETY = {

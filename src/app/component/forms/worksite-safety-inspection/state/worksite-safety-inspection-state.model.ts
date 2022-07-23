@@ -2,7 +2,7 @@ export interface WorksiteSafetyInspectionStateModel {
   isWorksiteSafetyHeaderValid: boolean
   labels?: any[]
   transcribed?: any[]
-  // isSiteHazardAssessmentCompleted?: boolean // used to display message in descrepancies
+  // isSiteHazardAssessmentCompleted?: boolean // used to display message in discrepancies
   isFireExtinguisher: boolean
   isErpPlanning: boolean
   isGroundwork: boolean

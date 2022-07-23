@@ -31,9 +31,9 @@ export class CorrectiveActionComponent implements OnInit {
     this.correctiveActionForm = this.formBuilder.group({
       CorrectiveActionRequired: [],
       DateCorrectiveActionToBeCompleted: [],
-      PersonResonsibleCorrectiveAction: [],
+      PersonResponsibleCorrectiveAction: [],
       DateCorrectiveActionCompleted: [],
-      PersonResonsible: []
+      PersonResponsible: []
     })
   }
 
@@ -45,9 +45,9 @@ export class CorrectiveActionComponent implements OnInit {
       if (correctiveAction[0].dateCompleted) this.isResetDateCompleted = true
       this.correctiveActionForm.controls['DateCorrectiveActionToBeCompleted'].setValue(correctiveAction[0].dateToComplete)
       this.correctiveActionForm.controls['CorrectiveActionRequired'].setValue(correctiveAction[0].correctiveActionRequired)
-      this.correctiveActionForm.controls['PersonResonsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
+      this.correctiveActionForm.controls['PersonResponsibleCorrectiveAction'].setValue(correctiveAction[0].personResponsible)
       this.correctiveActionForm.controls['DateCorrectiveActionCompleted'].setValue(correctiveAction[0].dateCompleted)
-      this.correctiveActionForm.controls['PersonResonsible'].setValue(correctiveAction[0].signature)
+      this.correctiveActionForm.controls['PersonResponsible'].setValue(correctiveAction[0].signature)
     }
   }
 
