@@ -142,7 +142,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       if (this.formData && formData["data"]) {
         this.isEdit = true
         this.setFormData(formData["data"])
-      }
+      } 
     })
   }
 
@@ -159,6 +159,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   }
 
   setFormData(data) {
+    console.log('DATA:', data)
     if (data.header) {
       this.headerForm.controls['Date'].setValue(data.header.Date)
       this.headerForm.controls['CompanyName'].setValue(data.header.CompanyName)
@@ -231,8 +232,8 @@ export class SpotCheckSafetyComponent implements OnInit {
       this.store.dispatch(new SetComments(data.comments))
     }
 
-    if (data.correctiveAction) {
-      this.store.dispatch(new SetCorrectiveActions(data.correctiveAction))
+    if (data.correctiveActions) {
+      this.store.dispatch(new SetCorrectiveActions(data.correctiveActions))
     }
   }
 
@@ -253,7 +254,9 @@ export class SpotCheckSafetyComponent implements OnInit {
       safetyEquipment: this.safetyEquipmentForm.value,
       discrepancyComments: this.discrepancyForm.value,
       comments: this.store.selectSnapshot(CommentState.comments),
-      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+      correctiveActions: this.store.selectSnapshot(
+        CorrectiveActionState.correctiveActions
+      ),
     }
 
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
@@ -284,7 +287,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       safetyEquipment: this.safetyEquipmentForm.value,
       discrepancyComments: this.discrepancyForm.value,
       comments: this.store.selectSnapshot(CommentState.comments),
-      correctiveAction: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
+      correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     }
     
     let obj = {
