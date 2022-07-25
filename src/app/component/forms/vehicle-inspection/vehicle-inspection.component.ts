@@ -157,6 +157,7 @@ export class VehicleInspectionComponent implements OnInit {
 
     this.store.select(AuthState.formData).subscribe((formData) => {
       this.formData = formData;
+
       if (this.formData && formData['data']) {
         this.isEdit = true;
         this.setFormData(formData['data']);
@@ -447,7 +448,7 @@ else
         );
 
         let message = 'No discrepancies.';
-        if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
+        if (comments.length > 0) message = `Number of Discrepancies: ${comments.length}`;
 
         let notificationObj = {
           name: form['name'],

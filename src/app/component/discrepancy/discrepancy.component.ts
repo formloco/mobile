@@ -55,8 +55,7 @@ export class DiscrepancyComponent implements OnInit {
     this.dialog.open(CorrectiveActionComponent, dialogConfig);
   }
 
-  isComment = (step: number) => {
-
+  isCommentTab = (step: number) => {
     if (step === 8 || step === 2 || step === 10) return true;
   };
 
@@ -66,6 +65,8 @@ export class DiscrepancyComponent implements OnInit {
     const data = (formData as any)?.data;
 
     return data?.hazard?.[comment.field] === 'unsatisfactory' ||
+      data?.rules?.[comment.field] === 'unsatisfactory' ||
+      data?.incident?.[comment.field] === 'unsatisfactory' ||
       data?.communication?.[comment.field] === 'unsatisfactory' ||
       data?.personalEquipment?.[comment.field] === 'unsatisfactory' ||
       data?.safetyEquipment?.[comment.field] === 'unsatisfactory'

@@ -3,8 +3,8 @@ const fs = require('fs')
 
 async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, signDate) {
 
-  let descrepancies = []
-  let descrepancyActions = []
+  let discrepancies = []
+  let discrepancyActions = []
 
   let currentPath = process.cwd()
 
@@ -59,22 +59,22 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
     }
   })
 
-  descrepancies.push([
+  discrepancies.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' }
   ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      descrepancies.push([
+      discrepancies.push([
         { text: comment.label },
         { text: comment.text }
       ])
     })
   }
-  else descrepancies.push([
+  else discrepancies.push([
     { text: 'No discrepancies', colSpan: 2 }])
 
-  descrepancyActions.push([
+  discrepancyActions.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' },
     { text: 'Date Requested', style: 'tableHeader' },
@@ -84,7 +84,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
 
-      descrepancyActions.push([
+      discrepancyActions.push([
         { text: action.label },
         { text: action.correctiveActionRequired },
         { text: action.dateToComplete?.slice(0, 10) },
@@ -92,14 +92,13 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
         { text: action.personResponsible }])
     })
   }
-  else descrepancyActions.push([
+  else discrepancyActions.push([
     { text: 'No corrective actions', colSpan: 5 }])
 
   if (header.Location === null) header.Location = ''
   if (header.LSDUWI === null) header.LSDUWI = ''
   if (header.STARSSiteNumber === null) header.STARSSiteNumber = ''
   if (!reportData.keyPositiveFindings.KeyPositiveFindings) keyPositiveFindings = 'No Key Positive Findings'
-
 
   const docDefinition = {
     content: [
@@ -612,7 +611,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       {
         table: {
           widths: ['*', '*'],
-          body: descrepancies,
+          body: discrepancies,
         }
       },
       '\n',
@@ -623,7 +622,7 @@ async function worksiteSafetyInspectionPDF(path, reportData, messages, pics, sig
       {
         table: {
           widths: ['*', '*', 100, 100, 100],
-          body: descrepancyActions
+          body: discrepancyActions
         }
       },
       '\n',
