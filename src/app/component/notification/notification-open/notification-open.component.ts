@@ -137,6 +137,7 @@ export class NotificationOpenComponent implements OnInit {
           new Date();
 
         const obj = {
+          tenant: this.store.selectSnapshot(AuthState.tenant),
           toName: response.data.toName,
           messageID: response.data.notificationID,
           url: this.messageUrl,

@@ -8,15 +8,26 @@ const notification = async(req, res) => {
   const emailTemplate = getTemplate(req.body.tenant)
 
   const msg = {
-    from:     emailTemplate.fromEmail,
+    from:     req.body.emailForm,
     to:       req.body.emailTo,
     subject:  req.body.subject,
-    html:     'Hi, ' +req.body.toName+','
+    html:     'Hi ' +req.body.toName+','
               +'\r\n'+emailTemplate.notificationMessage
               +'\r\n'+'<p><a href="'+req.body.url+'?email='+req.body.emailTo+'&id='+req.body.messageID+'&target=blank">Click here to get access.</a></p>'
   }
   sendNotificationEmail(msg, req, res)
 }
+
+//not-open
+const obj = {
+  tenant: this.store.selectSnapshot(AuthState.tenant),
+  toName: response.data.toName,
+  messageID: response.data.notificationID,
+  url: this.messageUrl,
+  subject: subject,
+  emailTo: notification.email_from,
+  emailFrom: user.email,
+};
 
 const forgotPassword = async(req, res) => {
   const token = jwt.sign({ id: .369 }, api.secret, {expiresIn: 3600})

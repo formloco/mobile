@@ -331,7 +331,8 @@ export class AppService {
           messageID: myNotifications.data[0]["id"],
           url: this.messageUrl,
           subject: notificationObj.subject,
-          emailTo: notificationObj.email_to
+          emailTo: notificationObj.email_to,
+          emailFrom: this.tenant.email
         }
   
         this.emailService.sendNotificationEmail(obj).subscribe(() => {
