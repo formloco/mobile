@@ -129,12 +129,17 @@ export class NotificationOpenComponent implements OnInit {
         this.store.dispatch(
           new SetNotificationComments(response.data.comments)
         );
-        const subject =
-          notification.form_name +
-          ' form message from ' +
-          user.name +
-          'date:' +
-          new Date();
+
+        let toEmail, fromEmail
+        toEmail = notification.email_to_id === user.id
+          ? notification.email_from
+          : notification.email_to
+  
+        fromEmail = notification.email_to_id !== user.id
+          ? notification.email_from
+          : notification.email_to
+
+        const subject = notification.form_name+' message from '+user.name+' '+new Date()
 
         const obj = {
           tenant: this.store.selectSnapshot(AuthState.tenant),
@@ -142,8 +147,8 @@ export class NotificationOpenComponent implements OnInit {
           messageID: response.data.notificationID,
           url: this.messageUrl,
           subject: subject,
-          emailTo: notification.email_from,
-          emailFrom: user.email,
+          emailTo: toEmail,
+          emailFrom: fromEmail
         };
         this.emailService.sendNotificationEmail(obj).subscribe((_) => {});
       });
@@ -207,7 +212,6 @@ export class NotificationOpenComponent implements OnInit {
   }
 
   openForm(notification, idx) {
-    console.log('TEST open form');
     this.store.dispatch(new SetComments([]));
     this.store.dispatch(new SetCorrectiveActions([]));
     this.store.dispatch(new SetNotification(notification));

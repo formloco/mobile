@@ -367,6 +367,7 @@ export class VehicleInspectionComponent implements OnInit {
     };
 
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
+      this.appService.sendEmail()
       this.resetForm();
     });
   }
@@ -464,7 +465,7 @@ else
           data_id: this.formDataID,
           pdf: 'vehicle-inspection' + this.formDataID,
         };
-        this.appService.sendNotification(notificationObj);
+        this.appService.createNotification(notificationObj);
         this.resetForm();
       }
     })}

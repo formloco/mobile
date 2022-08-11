@@ -30,6 +30,7 @@ import { SetSelectedVoiceFieldLabel, SetUserIdb, SetUser } from 'src/app/state/a
 
 import { VoiceComponent } from '../component/voice/voice.component'
 import { DeviceState } from '../state/device/device.state'
+import { NotificationState } from '../state/notification/notification.state'
 
 import * as uuid from 'uuid'
 
@@ -290,7 +291,27 @@ export class AppService {
     return supervisor
   }
 
-  sendNotification(obj) {
+  sendEmail() {
+    const user = this.store.selectSnapshot(AuthState.user)
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+    const notification = this.store.selectSnapshot(NotificationState.notification)
+
+    const subject =
+        form["name"]+' updated by '+user.name+' '+new Date()
+
+      const obj = {
+        tenant: this.store.selectSnapshot(AuthState.tenant),
+        toName: notification.email_to.substring(0, notification.email_to.indexOf('@')),
+        messageID: notification.id,
+        url: this.messageUrl,
+        subject: subject,
+        emailTo: notification.email_to,
+        emailFrom: user.email
+      }
+      this.emailService.sendNotificationEmail(obj).subscribe((_) => {});
+  }
+
+  createNotification(obj) {
     const tenant = this.store.selectSnapshot(AuthState.tenant)
     let now = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
 

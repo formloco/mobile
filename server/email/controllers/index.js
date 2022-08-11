@@ -4,11 +4,10 @@ const api = { secret: process.env.SECRET }
 const getTemplate = require('../templates/emailHelper')
 
 const notification = async(req, res) => {
-
   const emailTemplate = getTemplate(req.body.tenant)
 
   const msg = {
-    from:     req.body.emailForm,
+    from:     req.body.emailFrom,
     to:       req.body.emailTo,
     subject:  req.body.subject,
     html:     'Hi ' +req.body.toName+','
@@ -17,17 +16,6 @@ const notification = async(req, res) => {
   }
   sendNotificationEmail(msg, req, res)
 }
-
-//not-open
-const obj = {
-  tenant: this.store.selectSnapshot(AuthState.tenant),
-  toName: response.data.toName,
-  messageID: response.data.notificationID,
-  url: this.messageUrl,
-  subject: subject,
-  emailTo: notification.email_from,
-  emailFrom: user.email,
-};
 
 const forgotPassword = async(req, res) => {
   const token = jwt.sign({ id: .369 }, api.secret, {expiresIn: 3600})

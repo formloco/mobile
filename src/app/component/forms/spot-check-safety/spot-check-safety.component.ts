@@ -260,6 +260,7 @@ export class SpotCheckSafetyComponent implements OnInit {
     }
 
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
+      this.appService.sendEmail()
       this.resetForm()
     })
   }
@@ -346,7 +347,7 @@ export class SpotCheckSafetyComponent implements OnInit {
             data_id: this.formDataID,
             pdf: 'spot-check-safety' + this.formDataID
           }
-          this.appService.sendNotification(notificationObj)
+          this.appService.createNotification(notificationObj)
           this.resetForm()
         }
       })

@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ApiService } from "../../../service/api.service"
 import { AppService } from "../../../service/app.service"
 import { FormService } from "../../../service/form.service"
+import { EmailService } from '../../../service/email.service'
+
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 import { AutoCompleteService } from "../../../service/auto-complete.service"
 
@@ -15,6 +17,9 @@ import { MEANINGFUL_SITE_TOUR } from './state/meaningful-site-tour.model'
 import { Store } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { DeviceState } from '../../../state/device/device.state'
+
+import { NotificationState } from '../../../state/notification/notification.state'
+import { environment } from '../../../../environments/environment';
 
 import { SetPics } from '../../../state/device/device-state.actions'
 @Component({
@@ -31,6 +36,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
   step = 0
   isEdit = false
   isOnline
+  messageUrl = environment.messageUrl;
 
   headerForm: FormGroup
   notesForm: FormGroup
@@ -45,6 +51,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private formService: FormService,
+    private emailService: EmailService,
     private idbCrudService: IdbCrudService,
     private autoCompleteService: AutoCompleteService) {
     this.headerForm = this.formBuilder.group({
@@ -140,6 +147,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
 
   updateForm() {
     const form = this.store.selectSnapshot(AuthState.selectedForm)
+    const user = this.store.selectSnapshot(AuthState.user)
+    const notification = this.store.selectSnapshot(NotificationState.notification)
 
     let header = this.headerForm.value
     let todo = this.todoForm.value
@@ -153,6 +162,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
     }
 
     this.formService.updateForm(form, this.formData, data).subscribe(_ => {
+      this.appService.sendEmail()
       this.resetForm()
     })
 
@@ -161,7 +171,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
   submitForm() {
     const user = this.store.selectSnapshot(AuthState.user)
     const form = this.store.selectSnapshot(AuthState.selectedForm)
-    
+
     let userCreated = {
       email: user.email,
       date_created: this.appService.now
@@ -231,8 +241,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
             data_id: this.formDataID,
             pdf: 'meaningful-site-tour' + this.formDataID
           }
-          
-          this.appService.sendNotification(notificationObj)
+
+          this.appService.createNotification(notificationObj)
           this.resetForm()
         }
       })

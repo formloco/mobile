@@ -506,6 +506,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
     };
 
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
+      this.appService.sendEmail();
       this.resetForm();
     });
   }
@@ -624,7 +625,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             data_id: this.formDataID,
             pdf: 'worksite-safety-inspection' + this.formDataID,
           };
-          this.appService.sendNotification(notificationObj);
+          this.appService.createNotification(notificationObj);
           this.resetForm();
         }
       });
