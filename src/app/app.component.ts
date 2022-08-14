@@ -2,8 +2,8 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core'
 
 import { OverlayContainer } from '@angular/cdk/overlay'
 
-import { fromEvent, merge, of, Subscription, Subject } from 'rxjs'
-import { takeUntil, map } from 'rxjs/operators'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 import { Platform } from '@angular/cdk/platform'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
@@ -13,9 +13,11 @@ import { AuthService } from "./service/auth.service"
 import { IdbCrudService } from "./service-idb/idb-crud.service"
 
 import { Store } from '@ngxs/store'
+import { DeviceState } from './state/device/device.state'
+
 import { SetScreenSize, SetScreenWidth } from './state/device/device-state.actions'
 import { SetUser, SetPage, SetTenant, SetKioske } from './state/auth/auth-state.actions'
-import { SetBackground, SetIsDarkMode, SetIsOnline } from './state/device/device-state.actions'
+import { SetBackground, SetIsDarkMode } from './state/device/device-state.actions'
 
 import { environment } from '../environments/environment'
 @Component({
@@ -26,8 +28,6 @@ import { environment } from '../environments/environment'
 export class AppComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') className = 'darkMode'
-  networkStatus: any
-  networkStatus$: Subscription = Subscription.EMPTY
 
   kioske = environment.kioske
   tenant = environment.tenant
@@ -35,7 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   title = 'MOBILE FORMS'
 
-  token
   prefs
 
   myInnerWidth = window.innerWidth
@@ -76,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetKioske(this.kioske))
     this.store.dispatch(new SetTenant(this.tenant))
 
-    this.checkNetworkStatus()
+    this.appService.checkNetworkStatus()
 
     this.idbCrudService.readAll('prefs').subscribe(prefs => {
       this.prefs = prefs
@@ -84,10 +83,12 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.prefs[0]["user"]["isDarkMode"]) this.setMode('darkMode')
         else this.setMode('')
 
-        // this.store.dispatch(new SetUserIdb(this.prefs[0]["user"]))
         this.store.dispatch(new SetUser(this.prefs[0]["user"]))
-
         this.store.dispatch(new SetIsDarkMode(this.prefs[0]["user"]["isDarkMode"]))
+
+        const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
+        if (isOnline) this.appService.checkOfflineData()
       }
       else {
         this.setMode('darkMode')
@@ -110,25 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetBackground(''))
       this.overlayContainer.getContainerElement().classList.remove('darkMode')
     }
-  }
-
-  checkNetworkStatus() {
-    this.networkStatus = navigator.onLine
-    this.networkStatus$ = merge(
-      of(null),
-      fromEvent(window, 'online'),
-      fromEvent(window, 'offline')
-    )
-      .pipe(map(() => navigator.onLine))
-      .subscribe(status => {
-        if (status)
-          this.authService.token().subscribe(token => {
-            this.token = token
-            localStorage.setItem('formToken', this.token.token)
-          })
-        this.store.dispatch(new SetIsOnline(status))
-        // this.networkStatus = status
-      })
   }
 
   ngOnDestroy() {

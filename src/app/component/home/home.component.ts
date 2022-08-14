@@ -71,7 +71,9 @@ export class HomeComponent implements OnInit {
     this.tenant = this.store.selectSnapshot(AuthState.tenant)
 
     setInterval(() => {
-      if (this.user) {
+      const isOnline = this.store.selectSnapshot(DeviceState.isOnline)
+
+      if (this.user && isOnline) {
         this.notificationService.getMyNotificationCount().subscribe((notification: any) => {
           if (notification.count == 0) this.store.dispatch(new SetNotificationMyCount(undefined))
           else this.store.dispatch(new SetNotificationMyCount(notification.count))

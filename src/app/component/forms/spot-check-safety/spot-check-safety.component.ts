@@ -41,6 +41,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   step = 0
   isEdit = false
   isOnline
+  notificationObj
 
   kioske
 
@@ -307,19 +308,8 @@ export class SpotCheckSafetyComponent implements OnInit {
         if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
 
     if (!this.isOnline) {
-      let notificationObj = {
-        name: form["name"],
-        worker: this.appService.getWorker(header.Worker),
-        supervisor: this.appService.getSupervisor(header.Supervisor),
-        description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
-        message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value + ' ' + message,
-        subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
-        form_id: form["form_id"],
-        data_id: this.formDataID,
-        pdf: 'spot-check-safety' + this.formDataID
-      }
-
-      obj['notification'] = notificationObj
+      this.setNotificationObj(header, form)
+      obj['notification'] = this.notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {
@@ -333,24 +323,25 @@ export class SpotCheckSafetyComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
-          const worker: any = this.appService.getWorker(header.Worker)
-          const supervisor: any = this.appService.getSupervisor(header.Supervisor)
-
-          let notificationObj = {
-            name: form["name"],
-            worker: worker,
-            supervisor: supervisor,
-            description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
-            message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
-            subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
-            form_id: form["form_id"],
-            data_id: this.formDataID,
-            pdf: 'spot-check-safety' + this.formDataID
-          }
-          this.appService.createNotification(notificationObj)
+          this.setNotificationObj(header, form)
+          this.appService.createNotification(this.notificationObj)
           this.resetForm()
         }
       })
+    }
+  }
+
+  setNotificationObj(header, form) {
+    this.notificationObj = {
+      name: form["name"],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getSupervisor(header.Supervisor),
+      description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
+      message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
+      subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
+      form_id: form["form_id"],
+      data_id: this.formDataID,
+      pdf: 'spot-check-safety' + this.formDataID
     }
   }
 

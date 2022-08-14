@@ -52,6 +52,7 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
   step = 0;
   history = [];
   lookupLists;
+  notificationObj
 
   headerForm: FormGroup;
   hazardForm: FormGroup;
@@ -556,34 +557,9 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       pics: this.store.selectSnapshot(DeviceState.pics),
     };
 
-    let message = 'No discrepancies.';
-        if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
-
-
     if (!this.isOnline) {
-      let notificationObj = {
-        name: form['name'],
-        worker: this.appService.getWorker(header.Worker),
-        supervisor: this.appService.getSupervisor(header.Supervisor),
-        description:
-          'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-        message:
-          'Worksite Safety Inspection completed for ' +
-          header.Client +
-          ', ' +
-          header.Location +
-          ' ' +
-          message,
-        subject:
-          'New Worksite Safety Inspection for ' +
-          this.headerForm.controls['Client'].value +
-          ', ' +
-          now,
-        form_id: form['form_id'],
-        data_id: null,
-        pdf: 'worksite-safety-inspection' + this.formDataID,
-      };
-      obj['notification'] = notificationObj;
+      this.setNotificationObj(header, form, data, now)
+      obj['notification'] = this.notificationObj;
       this.idbCrudService.put('data', obj);
     } else {
       this.apiService.save(obj).subscribe((idObj) => {
@@ -603,29 +579,8 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
             }
           );
         else {
-          let notificationObj = {
-            name: form['name'],
-            worker: this.appService.getWorker(header.Worker),
-            supervisor: this.appService.getSupervisor(header.Supervisor),
-            description:
-              'Worksite Safety Inspection, ' + _moment().format('MMM D, h:mA'),
-            message:
-              'Worksite Safety Inspection completed for ' +
-              header.Client +
-              ', ' +
-              header.Location +
-              ' ' +
-              message,
-            subject:
-              'New Worksite Safety Inspection for ' +
-              this.headerForm.controls['Client'].value +
-              ', ' +
-              now,
-            form_id: form['form_id'],
-            data_id: this.formDataID,
-            pdf: 'worksite-safety-inspection' + this.formDataID,
-          };
-          this.appService.createNotification(notificationObj);
+          this.setNotificationObj(header, form, data, now)
+          this.appService.createNotification(this.notificationObj);
           this.resetForm();
         }
       });
@@ -645,6 +600,24 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       header.ScopeOfWork != null
     )
       this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false));
+  }
+
+  setNotificationObj(header, form, data, now) {
+
+    let message = 'No discrepancies.';
+    if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
+
+    this.notificationObj = {
+      name: form['name'],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getSupervisor(header.Supervisor),
+      description: 'Worksite Safety Inspection, '+_moment().format('MMM D, h:mA'),
+      message: 'Worksite Safety Inspection completed for '+header.Client+', '+header.Location+' '+message,
+      subject: 'New Worksite Safety Inspection for '+this.headerForm.controls['Client'].value+', '+now,
+      form_id: form['form_id'],
+      data_id: null,
+      pdf: 'worksite-safety-inspection' + this.formDataID,
+    };
   }
 
   resetForm() {

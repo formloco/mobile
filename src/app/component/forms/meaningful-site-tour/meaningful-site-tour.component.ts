@@ -36,6 +36,7 @@ export class MeaningfulSiteTourComponent implements OnInit {
   step = 0
   isEdit = false
   isOnline
+  notificationObj
   messageUrl = environment.messageUrl;
 
   headerForm: FormGroup
@@ -200,18 +201,8 @@ export class MeaningfulSiteTourComponent implements OnInit {
     }
 
     if (!this.isOnline) {
-      let notificationObj = {
-        name: form["name"],
-        worker: this.appService.getWorker(header.Worker),
-        supervisor: this.appService.getSupervisor(header.Supervisor),
-        description: 'Meaningful Site Tour ' + this.appService.now,
-        message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-        subject: 'New Meaningful Site Tour from ' + this.headerForm.controls['Name'].value + ', ' + this.appService.now,
-        form_id: form["form_id"],
-        data_id: null,
-        pdf: 'meaningful-site-tour'
-      }
-      obj['notification'] = notificationObj
+      this.setNotificationObj(header, form)
+      obj['notification'] = this.notificationObj
       this.idbCrudService.put('data', obj)
     }
     else {
@@ -227,25 +218,28 @@ export class MeaningfulSiteTourComponent implements OnInit {
             verticalPosition: 'bottom'
           })
         else {
+          this.setNotificationObj(header, form)
           const worker: any = this.appService.getWorker(header.Worker)
           const supervisor: any = this.appService.getSupervisor(header.Supervisor)
 
-          let notificationObj = {
-            name: form["name"],
-            worker: worker,
-            supervisor: supervisor,
-            description: 'Meaningful Site Tour ' + this.appService.now,
-            message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
-            subject: 'New Meaningful Site Tour from ' + header.Worker + ', ' + this.appService.now,
-            form_id: form["form_id"],
-            data_id: this.formDataID,
-            pdf: 'meaningful-site-tour' + this.formDataID
-          }
-
-          this.appService.createNotification(notificationObj)
+          this.appService.createNotification(this.notificationObj)
           this.resetForm()
         }
       })
+    }
+  }
+
+  setNotificationObj(header, form) {
+    this.notificationObj = {
+      name: form["name"],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getSupervisor(header.Supervisor),
+      description: 'Meaningful Site Tour ' + this.appService.now,
+      message: 'Meaningful site tour completed for ' + this.headerForm.controls['Name'].value,
+      subject: 'New Meaningful Site Tour from ' + header.Worker + ', ' + this.appService.now,
+      form_id: form["form_id"],
+      data_id: this.formDataID,
+      pdf: 'meaningful-site-tour' + this.formDataID
     }
   }
 

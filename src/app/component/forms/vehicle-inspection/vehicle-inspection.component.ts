@@ -55,7 +55,8 @@ export class VehicleInspectionComponent implements OnInit {
   history = [];
   lookupLists;
   kioske;
-
+  notificationObj
+  
   headerForm: FormGroup;
   detailForm: FormGroup;
   correctiveActionForm: FormGroup
@@ -406,69 +407,56 @@ export class VehicleInspectionComponent implements OnInit {
       pics: this.store.selectSnapshot(DeviceState.pics),
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     };
-if (!this.isOnline){
-  let notificationObj = {
-    name: form['name'],
-          worker: this.appService.getWorker(header.Worker),
-          supervisor: this.appService.getWorker(header.Supervisor),
-          description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
-          subject:
-            'New Vehicle Inspection from ' +
-            header.Worker +
-            ', ' +
-            this.appService.now,
-          message: this.discrepancyForm.value,
-          form_id: form['form_id'],
-          data_id: this.formDataID,
-          pdf: 'vehicle-inspection' + this.formDataID,
+    if (!this.isOnline) {
+      this.setNotificationObj(header, form)
+      obj['notification'] = this.notificationObj
+      this.idbCrudService.put('data', obj)
+    }
+    else {
+      this.apiService.save(obj).subscribe((idObj) => {
+        this.formDataID = idObj;
+
+        const workers: any = this.store.selectSnapshot(AuthState.workers);
+        const supervisors: any = this.store.selectSnapshot(AuthState.supervisors);
+
+        if (workers.length == 0 && supervisors.length == 0)
+          this.snackBar.open(
+            'Notifications not setup, please add workers and supervisors.',
+            'Attention',
+            {
+              duration: 3000,
+              verticalPosition: 'bottom',
+            }
+          );
+        else {
+          const worker: any = this.appService.getWorker(header.Worker);
+          const supervisor: any = this.appService.getSupervisor(
+            header.Supervisor
+          );
+
+          let message = 'No discrepancies.';
+          if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
+
+          this.setNotificationObj(header, form)
+          this.appService.createNotification(this.notificationObj);
+          this.resetForm();
+        }
+      })
+    }
   }
-  obj['notification'] = notificationObj
-  this.idbCrudService.put('data', obj)
-}
-else
-{    this.apiService.save(obj).subscribe((idObj) => {
-      this.formDataID = idObj;
 
-      const workers: any = this.store.selectSnapshot(AuthState.workers);
-      const supervisors: any = this.store.selectSnapshot(AuthState.supervisors);
-
-      if (workers.length == 0 && supervisors.length == 0)
-        this.snackBar.open(
-          'Notifications not setup, please add workers and supervisors.',
-          'Attention',
-          {
-            duration: 3000,
-            verticalPosition: 'bottom',
-          }
-        );
-      else {
-        const worker: any = this.appService.getWorker(header.Worker);
-        const supervisor: any = this.appService.getSupervisor(
-          header.Supervisor
-        );
-
-        let message = 'No discrepancies.';
-        if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
-
-        let notificationObj = {
-          name: form['name'],
-          worker: worker,
-          supervisor: supervisor,
-          description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
-          subject:
-            'New Vehicle Inspection from ' +
-            header.Worker +
-            ', ' +
-            this.appService.now,
-          message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
-          form_id: form['form_id'],
-          data_id: this.formDataID,
-          pdf: 'vehicle-inspection' + this.formDataID,
-        };
-        this.appService.createNotification(notificationObj);
-        this.resetForm();
-      }
-    })}
+  setNotificationObj(header, form) {
+    this.notificationObj = {
+      name: form['name'],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getWorker(header.Supervisor),
+      description: 'Vehicle Inspection, '+_moment().format('MMM D, h:mA'),
+      subject: 'New Vehicle Inspection from '+header.Worker+', '+this.appService.now,
+      message: this.discrepancyForm.value,
+      form_id: form['form_id'],
+      data_id: this.formDataID,
+      pdf: 'vehicle-inspection' + this.formDataID,
+    }
   }
 
   checkValidHeader() {
