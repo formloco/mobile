@@ -11,7 +11,7 @@ const dataReadSQL = async (tenant_id, form_id) => {
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
-    database: data['tenant_id'],
+    database: tenant_id,
     password: process.env.PASSWORD,
     port: process.env.PORT
   })

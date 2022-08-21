@@ -21,6 +21,7 @@ import { IdbCrudService } from "../../service-idb/idb-crud.service"
 import { environment } from '../../../environments/environment'
 
 import { SetIsDarkMode } from '../../state/device/device-state.actions'
+import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes'
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -76,10 +77,10 @@ export class AdminComponent implements OnInit {
     }
   
   ngOnInit() {
-    // const tenant = this.store.selectSnapshot(AuthState.tenant)
     this.store.select(AuthState.tenant).subscribe((tenant: any) => {
       this.apiService.getEmailList({ tenant_id: tenant.tenant_id }).subscribe(lists => {
-        const emailLists:any = lists
+        let emailLists:any = lists
+        emailLists = emailLists.filter(l => {return l.name !== null})
         emailLists.sort((a, b) => a.name.localeCompare(b.name))
         this.store.dispatch(new SetEmailList(emailLists))
       })

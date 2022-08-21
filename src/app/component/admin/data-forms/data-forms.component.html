@@ -1,11 +1,46 @@
-<div class="form-padding" *ngFor="let formObj of (forms$ | async)">
-  <mat-card class="custom hand" (click)=selectForm(formObj)>
+<div class="form-padding">
+  <mat-card class="custom hand" (click)=selectForm($event)>
     <mat-card-header>
       <div mat-card-avatar>
-        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+        <mat-icon class="form-icon material-icons-outlined">dynamic_form</mat-icon>
       </div>
-      <mat-card-title>{{ formObj.name }}</mat-card-title>
-      <mat-card-subtitle>{{ formObj.description }}</mat-card-subtitle>
+      <mat-card-title>All Forms</mat-card-title>
+      <mat-card-subtitle>
+        <div>{{(forms$ | async)?.length}} Submitted</div>
+        <div>{{(forms$ | async)?.length}} Completed</div>
+      </mat-card-subtitle>
+      <div fxFlex></div>
+      <div>
+        <mat-card-subtitle>
+          <div class="biglabel">Discrepancies</div>
+          <div>15 Total</div>
+          <div>10 Open</div>
+          <div>5 Resolved</div>
+        </mat-card-subtitle>
+      </div>
     </mat-card-header>
   </mat-card>
-</div>
+  <div *ngFor="let formObj of (forms$ | async)">
+    <mat-card class="custom hand" (click)=selectForm(formObj)>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+        </div>
+        <mat-card-title>{{ formObj.name }}</mat-card-title>
+        <mat-card-subtitle>
+          <div>{{(forms$ | async)?.length}} Submitted</div>
+          <div>{{(forms$ | async)?.length}} Completed</div>
+        </mat-card-subtitle>
+        <div fxFlex></div>
+        <div>
+          <mat-card-subtitle>
+            <div class="biglabel">Discrepancies</div>
+            <div>15 Total</div>
+            <div>10 Open</div>
+            <div>5 Resolved</div>
+          </mat-card-subtitle>
+        </div>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div> 
