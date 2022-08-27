@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { ApiService } from "../../../service/api.service"
 import { IdbCrudService } from "../../../service-idb/idb-crud.service"
 
+import { MatSort } from '@angular/material/sort'
+import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
+
 import { saveAs } from 'file-saver'
 
 import { Store, Select } from '@ngxs/store'
@@ -20,15 +23,18 @@ export class DataComponent implements OnInit {
 
   @Select(AuthState.selectedForm) selectedForm$: Observable<string>
 
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort
+
+  dataSource
+  displayedColumns: string[] = ['Worker', 'Supervisor', 'date_created', 'SignoffDate', 'pdf', 'comments', 'corrective_actions', 'notifications', 'form']
+ 
   name
   forms
   records
 
   isData = false
-
-  public dataSource = new MatTableDataSource()
-  displayedColumns: string[] = ['worker', 'supervisor', 'create_date', 'signoff_date', 'pdf', 'comments', 'corrective_actions', 'notifications', 'form']
-
+  
   constructor(
     private store: Store,
     private apiService: ApiService,
@@ -37,6 +43,15 @@ export class DataComponent implements OnInit {
 
   ngOnInit() {
     this.getCloud()
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   getCloud() {
@@ -51,7 +66,10 @@ export class DataComponent implements OnInit {
       }
       this.apiService.getData(obj).subscribe((data: any) => {
         console.log(data)
-        this.dataSource.data = data
+        this.dataSource = new MatTableDataSource(data)
+        // this.dataSource.data = data
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         // this.appService.
         if (data.length > 0) this.isData = true
       })
