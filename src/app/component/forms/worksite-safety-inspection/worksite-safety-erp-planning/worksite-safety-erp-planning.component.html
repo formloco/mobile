@@ -13,7 +13,7 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="MusterPointsIdentified">
           <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment(label.MusterPointsIdentified,'MusterPointsIdentified')" value="no">No
+          <mat-radio-button (click)="openDiscrepancy(label.MusterPointsIdentified,'MusterPointsIdentified', true)" value="no">No
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -22,7 +22,7 @@
         <mat-radio-group formControlName="ERPIncludesDirectionsToNearestHospital">
           <mat-radio-button value="yes">Yes</mat-radio-button>
           <mat-radio-button
-            (click)="openComment(label.ERPIncludesDirectionsToNearestHospital,'ERPIncludesDirectionsToNearestHospital')"
+            (click)="openDiscrepancy(label.ERPIncludesDirectionsToNearestHospital,'ERPIncludesDirectionsToNearestHospital', true)"
             value="no">No</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -30,7 +30,7 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="STARSNumber">
           <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment(label.STARSNumber,'STARSNumber')" value="no">No</mat-radio-button>
+          <mat-radio-button (click)="openDiscrepancy(label.STARSNumber,'STARSNumber', true)" value="no">No</mat-radio-button>
           <mat-radio-button value="na">N/A</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -39,7 +39,7 @@
         <mat-radio-group formControlName="ERPResponderRolesAndResponsibilitiesIdentified">
           <mat-radio-button value="yes">Yes</mat-radio-button>
           <mat-radio-button
-            (click)="openComment(label.ERPResponderRolesAndResponsibilitiesIdentified,'ERPResponderRolesAndResponsibilitiesIdentified')"
+            (click)="openDiscrepancy(label.ERPResponderRolesAndResponsibilitiesIdentified,'ERPResponderRolesAndResponsibilitiesIdentified', true)"
             value="no">No</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -50,7 +50,7 @@
         <mat-radio-group formControlName="CellularOrRadioCoverageConfirmed">
           <mat-radio-button value="yes">Yes</mat-radio-button>
           <mat-radio-button
-            (click)="openCommentOnly(label.CellularOrRadioCoverageConfirmed,'CellularOrRadioCoverageConfirmed')"
+            (click)="openDiscrepancy(label.CellularOrRadioCoverageConfirmed,'CellularOrRadioCoverageConfirmed', true)"
             value="no">No</mat-radio-button>
           <mat-radio-button value="na">N/A</mat-radio-button>
         </mat-radio-group>

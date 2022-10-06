@@ -56,10 +56,15 @@ export class WorksiteSafetyErpPlanningComponent implements OnInit {
     this.dialog.open(CommentComponent, dialogConfig)
   }
 
-  openCommentOnly(label, field) {
+  openDiscrepancy(label, field, discrepancy) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'ERP Planning', label: label, field: field, type: 'isErpPlanning' }
+    dialogConfig.data = { 
+      title: 'ERP Planning', 
+      label, field, 
+      type: 'isErpPlanning',
+      discrepancy
+    }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

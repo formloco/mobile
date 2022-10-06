@@ -6,7 +6,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyEquipmentAvailable">
         <mat-radio-button (click)="toggle('SafetyEquipmentAvailable')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Is the appropriate safety equipment available and being used','SafetyEquipmentAvailable')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Is the appropriate safety equipment available and being used','SafetyEquipmentAvailable', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -14,7 +14,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="FireFightingEquipment">
         <mat-radio-button (click)="toggle('FireFightingEquipment')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Fire Fighting equipment (inspected, tagged, accessible, good condition)','FireFightingEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Fire Fighting equipment (inspected, tagged, accessible, good condition)','FireFightingEquipment', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -22,7 +22,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="RotatingEquimentGuards">
         <mat-radio-button (click)="toggle('RotatingEquimentGuards')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Rotating Equiment Guards','RotatingEquimentGuards')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Rotating Equiment Guards','RotatingEquimentGuards', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -30,14 +30,14 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="FirstAidKit">
         <mat-radio-button (click)="toggle('FirstAidKit')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('First Aid Kit','FirstAidKit')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('First Aid Kit','FirstAidKit', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="FallArrestEquipment">
         <mat-radio-button (click)="toggle('FallArrestEquipment')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.)','FallArrestEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Fall Arrest equipment (Ladders, steps, harness, lanyards, etc.)','FallArrestEquipment', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -45,15 +45,15 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="EmergencySystems">
         <mat-radio-button (click)="toggle('EmergencySystems')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.)','EmergencySystems')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Emergency Shut down and Alarm Systems (positive air shutoffs, backup alarms, etc.)','EmergencySystems', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 
     <div class="text-color radio-center">Other (Specify)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="Other">
-        <mat-radio-button (click)="openCommentOnly('Other (Specify)','Other')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openCommentOnly('Other (Specify)','Other')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openComment('Other (Specify)','Other')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Other (Specify)','Other', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>

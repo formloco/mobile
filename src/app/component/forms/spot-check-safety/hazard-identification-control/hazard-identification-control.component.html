@@ -5,8 +5,8 @@
     <div class="text-color radio-center">Are equipment and vehicles inspected, and at what frequency? (Examples and documentation)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="InspectionFrequency">
-        <mat-radio-button (click)="openCommentOnly('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openCommentOnly('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openComment('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Are equipment and vehicles inspected, and at what frequency?','InspectionFrequency', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -14,7 +14,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="HazardAssessmentSystem">
         <mat-radio-button (click)="toggle('HazardAssessmentSystem')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Is there a system for hazard assessment, reporting and follow-up?','HazardAssessmentSystem')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Is there a system for hazard assessment, reporting and follow-up?','HazardAssessmentSystem', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 

@@ -18,15 +18,14 @@ import { AuthState } from '../../state/auth/auth.state';
 export class DiscrepancyComponent implements OnInit {
   @Select(AuthState.selectedForm) selectedForm$: Observable<any>;
   @Select(CommentState.comments) comments$: Observable<any[]>;
+  @Select(CommentState.comments) discrepancies$: Observable<any[]>;
   @Select(CommentState.commentLabel) label$: Observable<string>;
   @Select(AuthState) state$: Observable<any[]>;
-
 
   constructor(private dialog: MatDialog, private store: Store) {}
 
   @Input() step: number;
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig();
@@ -60,17 +59,6 @@ export class DiscrepancyComponent implements OnInit {
   };
 
   isDiscrepancy(comment) {
-
-    const formData = this.store.selectSnapshot(AuthState.formData);
-    const data = (formData as any)?.data;
-
-    return data?.hazard?.[comment.field] === 'unsatisfactory' ||
-      data?.rules?.[comment.field] === 'unsatisfactory' ||
-      data?.incident?.[comment.field] === 'unsatisfactory' ||
-      data?.communication?.[comment.field] === 'unsatisfactory' ||
-      data?.personalEquipment?.[comment.field] === 'unsatisfactory' ||
-      data?.safetyEquipment?.[comment.field] === 'unsatisfactory'
-      ? true
-      : false;
+    return comment.discrepancy
   }
 }

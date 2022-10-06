@@ -6,21 +6,21 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="IncidentReporting">
         <mat-radio-button (click)="toggle('IncidentReporting')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Is there an Incident reporting process in place?','IncidentReporting')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Is there an Incident reporting process in place?','IncidentReporting', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Is there a near miss/incident reporting form which includes follow-up?</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="NearMissReporting">
         <mat-radio-button (click)="toggle('NearMissReporting')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Is there a near miss/incident reporting form which includes follow-up?','NearMissReporting')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Is there a near miss/incident reporting form which includes follow-up?','NearMissReporting', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Are incidents reported and was the problem fixed the last time there was a near miss or incident?</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="ProblemFixed">
         <mat-radio-button (click)="toggle('ProblemFixed')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Are incidents reported and was the problem fixed the last time there was a near miss or incident?','ProblemFixed')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Are incidents reported and was the problem fixed the last time there was a near miss or incident?','ProblemFixed', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -29,7 +29,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SolvingIssues">
         <mat-radio-button (click)="toggle('SolvingIssues')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Are management and workers involved in solving the issues?','SolvingIssues')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Are management and workers involved in solving the issues?','SolvingIssues', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 

@@ -34,11 +34,17 @@ export class SafetyEquipmentComponent {
     dialogConfig.data = { title: 'Safety Equipment', label: label, field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
+  
 
-  openCommentOnly(label, field) {
+  openDiscrepancy(label, field, discrepancy) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
-    dialogConfig.data = { title: 'Safety Equipment', label: label, field: field, type: 'isSpotCheckSafety' }
+    dialogConfig.data = { title: 
+      'Safety Equipment', 
+      label, 
+      field, 
+      type: 'isSpotCheckSafety', 
+      discrepancy }
     this.dialog.open(CommentComponent, dialogConfig)
   }
 

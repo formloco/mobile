@@ -1,9 +1,9 @@
 <div fxLayout="column">
   {{(label$ | async)}}
 </div>
-<mat-list role="list">
-  <mat-list-item color="primary" class="mat-list-item-font" *ngFor="let comment of (comments$ | async)">
-    <div *ngIf="isCommentTab(step) ? !isDiscrepancy(comment) : isDiscrepancy(comment)" style="display: flex; justify-content: space-between; align-items: center;">
+<mat-list role="list" *ngFor="let comment of (comments$ | async)">
+  <mat-list-item color="primary" class="mat-list-item-font" *ngIf="isCommentTab(step) ? !isDiscrepancy(comment) : isDiscrepancy(comment)" >
+    <div style="display: flex; justify-content: space-between; align-items: center;">
       <span 
       class="mat-list-item-linked hand" 
       (click)="openComment(comment.label, comment.field)">{{ comment.label | truncate:[12, '...']}} {{ comment.text | truncate:[15, '...']}}</span>
@@ -13,6 +13,6 @@
     </div>
   </mat-list-item>
   <mat-list-item class="mat-list-item-font" *ngIf="(comments$ | async)?.length == 0">
-    <div mat-line>None added</div>
+    <div mat-line>-- None Added --</div>
   </mat-list-item>
 </mat-list>

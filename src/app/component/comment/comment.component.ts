@@ -50,10 +50,12 @@ export class CommentComponent implements OnInit {
         label: this.data.label,
         text: this.commentForm.controls['comment'].value,
         field: this.data.field,
-        type: this.data.type
+        type: this.data.type,
+        discrepancy: this.data.discrepancy
       })
     else comments[commentIdx].text = this.commentForm.controls['comment'].value
       
+    console.log('COMMENT-COMP:', {comments})
     this.store.dispatch(new SetComments(comments))
     this.dialogRef.close(true)
   }
