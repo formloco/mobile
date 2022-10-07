@@ -106,7 +106,6 @@ export class CorrectiveActionComponent implements OnInit {
       correctiveActions[correctiveActionIdx].signature =
         this.store.selectSnapshot(AuthState.user).email;
     }
-
     this.store.dispatch(new SetCorrectiveActions(correctiveActions));
     this.dialogRef.close();
   }

@@ -388,7 +388,7 @@ export class SpotCheckSafetyComponent implements OnInit {
       date: this.appService.now,
       pics: this.store.selectSnapshot(DeviceState.pics),
       location: data.header.Location,
-      correctiveAction: this.store.selectSnapshot(
+      correctiveActions: this.store.selectSnapshot(
         CorrectiveActionState.correctiveActions
       ),
     };

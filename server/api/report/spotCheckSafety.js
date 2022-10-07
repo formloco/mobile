@@ -106,24 +106,26 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   if (answers.length === 0) answers.push([{ text: 'No additional notes', colSpan: 2 }])
 
   discrepancyActions.push([
-    { text: 'Description', style: 'tableHeader' },
-    { text: 'Details', style: 'tableHeader' },
-    { text: 'Date Requested', style: 'tableHeader' },
-    { text: 'Date Completed', style: 'tableHeader' },
-    { text: 'Person Responsible', style: 'tableHeader' }]
-  );
-
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }, 
+    { text: 'Date Requested', style: 'tableHeader' }, 
+    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Person Responsible', style: 'tableHeader' }
+  ])
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
       discrepancyActions.push([
-        { text: action.label },
-        { text: action.correctiveActionRequired },
-        { text: action?.dateToComplete?.slice(0, 10) },
-        { text: action?.dateCompleted?.slice(0, 10) },
-        { text: action.personResponsible }])
+        { text: action.label }, 
+        { text: action.correctiveActionRequired }, 
+        { text: action.dateToComplete?.slice(0, 10) }, 
+        { text: action.dateCompleted?.slice(0, 10) }, 
+        { text: action.personResponsible }
+      ])
     })
   }
-  else discrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
+  else discrepancyActions.push([
+    { text: 'No Corrective Actions', colSpan: 5 }
+  ])
 
   const docDefinition = {
     content: [
