@@ -264,9 +264,7 @@ import { DashboardComponent } from './component/admin/dashboard/dashboard.compon
     WebcamModule,
     IonicModule.forRoot(),
     NgxsModule.forRoot(States, { developmentMode: !environment.production }),
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

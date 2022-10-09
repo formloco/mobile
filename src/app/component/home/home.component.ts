@@ -101,9 +101,9 @@ export class HomeComponent implements OnInit {
 
   signin() {
     this.store.dispatch(new SetPage('admin'))
-    this.store.dispatch(new SetChildPage('forms'))
-    this.store.dispatch(new SetChildPageLabel('Forms'))
-    this.store.dispatch(new SetChildPageIcon('dynamic_form'))
+    this.store.dispatch(new SetChildPage('dashboard'))
+    this.store.dispatch(new SetChildPageLabel('Dashboard'))
+    this.store.dispatch(new SetChildPageIcon('space_dashboard'))
     this.store.dispatch(new SetIsSignIn(true))
     this.appService.initializeAdminNotifications()
   }

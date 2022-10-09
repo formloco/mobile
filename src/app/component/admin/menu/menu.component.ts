@@ -21,6 +21,11 @@ export class MenuComponent {
     public appService: AppService) { }
 
   selectMenu(child) {
+    if (child === 'dashboard') {
+      this.store.dispatch(new SetChildPageIcon('space_dashboard'))
+      this.store.dispatch(new SetChildPageLabel('Dashboard'))
+    }
+
     if (child === 'data-forms') {
       this.store.dispatch(new SetChildPageIcon('table_chart'))
       this.store.dispatch(new SetChildPageLabel('Data'))

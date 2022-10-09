@@ -1,0 +1,73 @@
+<!-- <mat-toolbar>
+  <span>Discrepancies by Division</span>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" (click)="exportData()">
+    <mat-icon>file_download</mat-icon>
+  </button>
+</mat-toolbar>
+<div echarts [options]="options" class="demo-chart"></div>
+<mat-toolbar>
+  <span>Inspections by Division</span>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" (click)="exportData()">
+    <mat-icon>file_download</mat-icon>
+  </button>
+</mat-toolbar>
+<div echarts [options]="options" class="demo-chart"></div>
+<mat-toolbar>
+  <span>Inspections by Supervisor</span>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" (click)="exportData()">
+    <mat-icon>file_download</mat-icon>
+  </button>
+</mat-toolbar>
+<div echarts [options]="options" class="demo-chart"></div>
+<mat-accordion multi [togglePosition]="'before'" *ngFor="let formObj of (forms$ | async);  index as i">
+  <mat-expansion-panel (click)="setStep(i)" class="accordion-padding" [expanded]="step === i">
+    <mat-expansion-panel-header>
+      <mat-panel-title fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-icon class="material-icons-outlined">{{ formObj.icon }}</mat-icon>
+        &nbsp;{{ formObj.name }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div fxLayoutGap="15px">
+      Inspections by Division
+      <div echarts [options]="options" class="demo-chart"></div>
+      Inspections by Supervisor
+      <div echarts [options]="options" class="demo-chart"></div>
+      Discrepancies
+      <div echarts [options]="options" class="demo-chart"></div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion> -->
+<div fxLayout="row wrap">
+  <div *ngFor="let chart of charts;  index as i" fxFlex="33">
+    <mat-card class="custom hand" (click)=selectForm($event)>
+      <mat-card-header>
+        <mat-card-title>{{chart}}</mat-card-title>
+      </mat-card-header>
+      <div echarts [options]="options"></div>
+    </mat-card>
+  </div>
+</div>
+
+
+<!-- <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+      </div>
+      <mat-card-title>{{ formObj.name }}</mat-card-title>
+      <mat-card-subtitle>
+        <div>{{(forms$ | async)?.length}} Submitted</div>
+        <div>{{(forms$ | async)?.length}} Completed</div>
+      </mat-card-subtitle>
+      <div fxFlex></div>
+      <div>
+        <mat-card-subtitle>
+          <div class="biglabel">Discrepancies</div>
+          <div>15 Total</div>
+          <div>10 Open</div>
+          <div>5 Resolved</div>
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header> -->
