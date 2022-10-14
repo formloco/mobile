@@ -6,42 +6,42 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="PPEAvailable">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Is the appropriate PPE available and being used','PPEAvailable')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Is the appropriate PPE available and being used','PPEAvailable', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Hard Hat</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="HardHat">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Hard Hat','HardHat')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Hard Hat','HardHat', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Safety Glasses</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyGlasses">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Safety Glasses','SafetyGlasses')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Safety Glasses','SafetyGlasses', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Footwear</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="Footwear">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Footwear','Footwear')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Footwear','Footwear', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Protective clothing (FR coveralls, gloves, etc)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="ProtectiveClothing">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Protective clothing (FR coveralls, gloves, etc)','ProtectiveClothing')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Protective clothing (FR coveralls, gloves, etc)','ProtectiveClothing', true)" value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Hearing protection</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="HearingProtection">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Hearing protection','HearingProtection')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Hearing protection','HearingProtection', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 
@@ -49,7 +49,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="RespiratoryProtection">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Respiratory protection (Appropriate for the hazard)','RespiratoryProtection')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Respiratory protection (Appropriate for the hazard)','RespiratoryProtection', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -57,7 +57,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="PersonalGasMonitor">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Personal gas monitor','PersonalGasMonitor')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Personal gas monitor','PersonalGasMonitor', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -65,15 +65,15 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="CommunicationEquipment">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Communication equipment','CommunicationEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Communication equipment','CommunicationEquipment', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="text-color radio-center">Other equipment (please specify)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="OtherEquipment">
-        <mat-radio-button (click)="openCommentOnly('Other equipment (please specify)','OtherEquipment')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openCommentOnly('Other equipment (please specify)','OtherEquipment')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openComment('Other equipment (please specify)','OtherEquipment')" value="satisfactory">S</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Other equipment (please specify)','OtherEquipment', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 

@@ -555,8 +555,14 @@ export class WorksiteSafetyInspectionComponent implements OnInit {
       date: now,
       name: form['name'],
       pics: this.store.selectSnapshot(DeviceState.pics),
+      correctiveActions: this.store.selectSnapshot(
+        CorrectiveActionState.correctiveActions
+      ),
     };
 
+    let message = 'No discrepancies.';
+    if (data.comments.length > 0)
+      message = `Number of Discrepancies: ${data.comments.length}`;
     if (!this.isOnline) {
       this.setNotificationObj(header, form, data, now)
       obj['notification'] = this.notificationObj;

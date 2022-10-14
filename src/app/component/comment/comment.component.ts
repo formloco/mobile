@@ -50,10 +50,11 @@ export class CommentComponent implements OnInit {
         label: this.data.label,
         text: this.commentForm.controls['comment'].value,
         field: this.data.field,
-        type: this.data.type
+        type: this.data.type,
+        discrepancy: this.data.discrepancy
       })
     else comments[commentIdx].text = this.commentForm.controls['comment'].value
-      
+
     this.store.dispatch(new SetComments(comments))
     this.dialogRef.close(true)
   }
@@ -80,7 +81,12 @@ export class CommentComponent implements OnInit {
     dialogConfig.maxHeight = '100vh'
     dialogConfig.width = '100vw'
     dialogConfig.height = '100vh'
-    dialogConfig.data = { title: this.data.label, label: this.data.label, field: this.data.field, type: this.data.type, actionItem: this.commentForm.controls['comment'].value }
+    dialogConfig.data = { 
+      title: this.data.label, 
+      label: this.data.label, 
+      field: this.data.field, 
+      type: this.data.type, 
+      actionItem: this.commentForm.controls['comment'].value }
     this.dialog.open(CorrectiveActionComponent, dialogConfig)
   }
 }

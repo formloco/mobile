@@ -158,6 +158,7 @@ export class VehicleInspectionComponent implements OnInit {
 
     this.store.select(AuthState.formData).subscribe((formData) => {
       this.formData = formData;
+
       if (this.formData && formData['data']) {
         this.isEdit = true;
         this.setFormData(formData['data']);
@@ -444,19 +445,55 @@ export class VehicleInspectionComponent implements OnInit {
       })
     }
   }
+  
+  obj['notification'] = notificationObj
+  this.idbCrudService.put('data', obj)
+}
+else
+{    this.apiService.save(obj).subscribe((idObj) => {
+      this.formDataID = idObj;
 
-  setNotificationObj(header, form) {
-    this.notificationObj = {
-      name: form['name'],
-      worker: this.appService.getWorker(header.Worker),
-      supervisor: this.appService.getWorker(header.Supervisor),
-      description: 'Vehicle Inspection, '+_moment().format('MMM D, h:mA'),
-      subject: 'New Vehicle Inspection from '+header.Worker+', '+this.appService.now,
-      message: this.discrepancyForm.value,
-      form_id: form['form_id'],
-      data_id: this.formDataID,
-      pdf: 'vehicle-inspection' + this.formDataID,
-    }
+      const workers: any = this.store.selectSnapshot(AuthState.workers);
+      const supervisors: any = this.store.selectSnapshot(AuthState.supervisors);
+
+      if (workers.length == 0 && supervisors.length == 0)
+        this.snackBar.open(
+          'Notifications not setup, please add workers and supervisors.',
+          'Attention',
+          {
+            duration: 3000,
+            verticalPosition: 'bottom',
+          }
+        );
+      else {
+        const worker: any = this.appService.getWorker(header.Worker);
+        const supervisor: any = this.appService.getSupervisor(
+          header.Supervisor
+        );
+
+        let message = 'No discrepancies.';
+        if (comments.length > 0) message = `Number of Discrepancies: ${comments.length}`;
+
+        let notificationObj = {
+          name: form['name'],
+          worker: worker,
+          supervisor: supervisor,
+          description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
+          subject:
+            'New Vehicle Inspection from ' +
+            header.Worker +
+            ', ' +
+            this.appService.now,
+          message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
+          form_id: form['form_id'],
+          data_id: this.formDataID,
+          pdf: 'vehicle-inspection' + this.formDataID,
+        };
+        this.appService.sendNotification(notificationObj);
+        this.resetForm();
+      }
+    })}
+
   }
 
   checkValidHeader() {

@@ -27,20 +27,20 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   let personalEquipment = reportData.personalEquipment
   let safetyEquipment = reportData.safetyEquipment
   let comments = reportData.comments
-  let correctiveActions = reportData.correctiveAction
+  let correctiveActions = reportData.correctiveActions
 
   let data = {}
   let answers = []
-  let descrepancies = []
-  let descrepancyActions = []
+  let discrepancies = []
+  let discrepancyActions = []
 
   // const commentObj = Object.assign(comments)
   // const commentData = Object.keys(commentObj).map((key) => [key, commentObj[key]])
 
   const formObj = Object.assign(hazard, rules, incident, communication, personalEquipment, safetyEquipment, correctiveActions)
-  const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
+  // const allFormData = Object.keys(formObj).map((key) => [key, formObj[key]])
 
-  allFormData.forEach(async rec => {
+  Object.entries(formObj).forEach(rec => {
     comment = ''
     let foundComment = comments.find(c => c.field == rec[0])
 
@@ -76,7 +76,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
   ];
 
   answers.push(tableHeader);
-  descrepancies.push([
+  discrepancies.push([
     { text: 'Description', style: 'tableHeader' },
     { text: 'Details', style: 'tableHeader' }
   ]);
@@ -86,9 +86,12 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     comments.forEach(comment => {
 
       return (reportData.hazard[comment.field] === 'unsatisfactory' ||
+        reportData.rules[comment.field] === 'unsatisfactory' ||
+        reportData.incident[comment.field] === 'unsatisfactory' ||
         reportData.communication[comment.field] === 'unsatisfactory' ||
-        reportData.personalEquipment[comment.field] === 'unsatisfactory') ?
-        descrepancies.push([
+        reportData.personalEquipment[comment.field] === 'unsatisfactory' ||
+        reportData.safetyEquipment[comment.field] === 'unsatisfactory') ?
+        discrepancies.push([
           { text: comment.label },
           { text: comment.text }
         ]) :
@@ -98,29 +101,31 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         ])
     })
   }
-  else descrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
+  else discrepancies.push([{ text: 'No discrepancies', colSpan: 2 }]);
 
-  if (answers.length === 0) answers.push([{ text: 'No discrepancies', colSpan: 2 }])
+  if (answers.length === 0) answers.push([{ text: 'No additional notes', colSpan: 2 }])
 
-  descrepancyActions.push([
-    { text: 'Description', style: 'tableHeader' },
-    { text: 'Details', style: 'tableHeader' },
-    { text: 'Date Requested', style: 'tableHeader' },
-    { text: 'Date Completed', style: 'tableHeader' },
-    { text: 'Person Responsible', style: 'tableHeader' }]
-  );
-
+  discrepancyActions.push([
+    { text: 'Description', style: 'tableHeader' }, 
+    { text: 'Details', style: 'tableHeader' }, 
+    { text: 'Date Requested', style: 'tableHeader' }, 
+    { text: 'Date Completed', style: 'tableHeader' }, 
+    { text: 'Person Responsible', style: 'tableHeader' }
+  ])
   if (correctiveActions && correctiveActions.length > 0) {
-    await correctiveActions.forEach(action => {
-      descrepancyActions.push([
-        { text: action.label },
-        { text: action.actionItem },
-        { text: action?.dateToComplete?.slice(0, 10) },
-        { text: action?.dateCompleted?.slice(0, 10) },
-        { text: action.personResponsible }])
+    correctiveActions.forEach(action => {
+      discrepancyActions.push([
+        { text: action.label }, 
+        { text: action.correctiveActionRequired }, 
+        { text: action.dateToComplete?.slice(0, 10) }, 
+        { text: action.dateCompleted?.slice(0, 10) }, 
+        { text: action.personResponsible }
+      ])
     })
   }
-  else descrepancyActions.push([{ text: 'No corrective actions', colSpan: 5 }])
+  else discrepancyActions.push([
+    { text: 'No Corrective Actions', colSpan: 5 }
+  ])
 
   const docDefinition = {
     content: [
@@ -530,7 +535,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       {
         table: {
           widths: ['*', '*'],
-          body: descrepancies,
+          body: discrepancies,
         }
       },
       '\n\n',
@@ -541,7 +546,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
       {
         table: {
           widths: ['*', '*', 100, 100, 100],
-          body: descrepancyActions
+          body: discrepancyActions
         }
       },
       // {

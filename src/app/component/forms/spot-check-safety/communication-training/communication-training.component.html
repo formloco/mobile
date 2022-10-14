@@ -5,9 +5,11 @@
     <div class="text-color radio-center">Have you received a safety orientation (When and what)</div>
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="SafetyOrientation">
-        <mat-radio-button (click)="openCommentOnly('Have you received a safety orientation (When and what)','SafetyOrientation')" value="satisfactory">S</mat-radio-button>
         <mat-radio-button
-          (click)="openCommentOnly('Have you received a safety orientation (When and what)','SafetyOrientation')"
+          (click)="openComment('Have you received a safety orientation (When and what)','SafetyOrientation')"
+          value="satisfactory">S</mat-radio-button>
+        <mat-radio-button
+          (click)="openDiscrepancy('Have you received a safety orientation (When and what)','SafetyOrientation', true)"
           value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
@@ -17,7 +19,7 @@
       <mat-radio-group formControlName="SafetyMeetingFrequency">
         <mat-radio-button value="satisfactory">S</mat-radio-button>
         <mat-radio-button
-          (click)="openComment('Are safety meetings held within the (prescribed) frequency)','SafetyMeetingFrequency')"
+          (click)="openDiscrepancy('Are safety meetings held within the (prescribed) frequency)','SafetyMeetingFrequency', true)"
           value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -26,7 +28,7 @@
       <mat-radio-group formControlName="AppropriateTraining">
         <mat-radio-button (click)="toggleAppropriateTraining('AppropriateTraining')" value="satisfactory">S
         </mat-radio-button>
-        <mat-radio-button (click)="openComment('Is the appropriate training in place','AppropriateTraining')"
+        <mat-radio-button (click)="openDiscrepancy('Is the appropriate training in place','AppropriateTraining', true)"
           value="unsatisfactory">U</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -35,7 +37,8 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="FirstAidTraining">
           <mat-radio-button (click)="toggle('FirstAidTraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('First aid training','FirstAidTraining')" value="unsatisfactory">No
+          <mat-radio-button (click)="openDiscrepancy('First aid training','FirstAidTraining', true)"
+            value="unsatisfactory">No
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -44,28 +47,32 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="H2STraining">
           <mat-radio-button (click)="toggle('H2STraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('H2S training','H2STraining')" value="unsatisfactory">No</mat-radio-button>
+          <mat-radio-button (click)="openDiscrepancy('H2S training','H2STraining', true)" value="unsatisfactory">No
+          </mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">WHMIS training</div>
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="WHMISTraining">
           <mat-radio-button (click)="toggle('WHMISTraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('WHMIS training','WHMISTraining')" value="unsatisfactory">No</mat-radio-button>
+          <mat-radio-button (click)="openDiscrepancy('WHMIS training','WHMISTraining', true)" value="unsatisfactory">No
+          </mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">TDG training</div>
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="TDGTraining">
           <mat-radio-button (click)="toggle('TDGTraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('TDG training','TDGTraining')" value="unsatisfactory">No</mat-radio-button>
+          <mat-radio-button (click)="openDiscrepancy('TDG training','TDGTraining', true)" value="unsatisfactory">No
+          </mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">Ground disturbance training</div>
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="GroundDisturbanceTraining">
           <mat-radio-button (click)="toggle('GroundDisturbanceTraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('Ground disturbance training','GroundDisturbanceTraining')" value="unsatisfactory">
+          <mat-radio-button (click)="openDiscrepancy('Ground disturbance training','GroundDisturbanceTraining', true)"
+            value="unsatisfactory">
             No</mat-radio-button>
           <mat-radio-button value="na">N/A</mat-radio-button>
         </mat-radio-group>
@@ -74,16 +81,17 @@
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="EGSOCSOTraining">
           <mat-radio-button (click)="toggle('EGSOCSOTraining')" value="satisfactory">Yes</mat-radio-button>
-          <mat-radio-button (click)="openComment('eGSO/ CSO training','EGSOCSOTraining')" value="unsatisfactory">No
+          <mat-radio-button (click)="openDiscrepancy('eGSO/ CSO training','EGSOCSOTraining', true)"
+            value="unsatisfactory">No
           </mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="text-color radio-center">Job Specific training (List any that apply)</div>
       <div class="text-color radio-margin" fxLayoutAlign="center center">
         <mat-radio-group formControlName="JobSpecificTraining">
-          <mat-radio-button (click)="openCommentOnly('Job Specific training (List any that apply)','JobSpecificTraining')" value="satisfactory">S</mat-radio-button>
-          <mat-radio-button (click)="toggle('JobSpecificTraining')"
-            value="unsatisfactory">No</mat-radio-button>
+          <mat-radio-button (click)="openComment('Job Specific training (List any that apply)','JobSpecificTraining')"
+            value="satisfactory">S</mat-radio-button>
+          <mat-radio-button (click)="toggle('JobSpecificTraining')" value="unsatisfactory">No</mat-radio-button>
         </mat-radio-group>
       </div>
     </span>

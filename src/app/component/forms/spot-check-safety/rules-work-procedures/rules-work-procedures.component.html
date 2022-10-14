@@ -6,7 +6,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="Procedures">
         <mat-radio-button (click)="toggle('Procedures')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Are there procedures for high risk or critical work? Are they available and used?','Procedures')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Are there procedures for high risk or critical work? Are they available and used?','Procedures', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div>
@@ -14,7 +14,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="EmergencyPlan">
         <mat-radio-button (click)="toggle('EmergencyPlan')" value="satisfactory">S</mat-radio-button>
-        <mat-radio-button (click)="openComment('Are there written emergency plans available and communicated to personnel on the work site?','EmergencyPlan')" value="unsatisfactory">U</mat-radio-button>
+        <mat-radio-button (click)="openDiscrepancy('Are there written emergency plans available and communicated to personnel on the work site?','EmergencyPlan', true)" value="unsatisfactory">U</mat-radio-button>
         <mat-radio-button value="na">N/A</mat-radio-button>
       </mat-radio-group>
     </div> 

@@ -3,8 +3,8 @@ const fs = require('fs')
 
 async function vehicleInspectionPDF(path, reportData, messages, pics, signDate ) {
 
-  let descrepancies = []
-  let descrepancyActions = []
+  let discrepancies = []
+  let discrepancyActions = []
 
   let currentPath = process.cwd()
 
@@ -27,23 +27,23 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   let correctiveActions = reportData.correctiveActions
   let comments = reportData.comments
 
-  descrepancies.push([
+  discrepancies.push([
     { text: 'Description', style: 'tableHeader' }, 
     { text: 'Details', style: 'tableHeader' }
   ])
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      descrepancies.push([
+      discrepancies.push([
         { text: comment.label }, 
         { text: comment.text }
       ])
     })
   }
-  else  descrepancies.push([
+  else  discrepancies.push([
     { text: 'No Discrepancies', colSpan: 2 }
   ])
 
-  descrepancyActions.push([
+  discrepancyActions.push([
     { text: 'Description', style: 'tableHeader' }, 
     { text: 'Details', style: 'tableHeader' }, 
     { text: 'Date Requested', style: 'tableHeader' }, 
@@ -52,7 +52,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
   ])
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
-      descrepancyActions.push([
+      discrepancyActions.push([
         { text: action.label }, 
         { text: action.correctiveActionRequired }, 
         { text: action.dateToComplete?.slice(0, 10) }, 
@@ -61,7 +61,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       ])
     })
   }
-  else descrepancyActions.push([
+  else discrepancyActions.push([
     { text: 'No corrective actions', colSpan: 5 }
   ])
 
@@ -188,7 +188,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       {
         table: {
           widths: ['*', '*'],
-          body: descrepancies,
+          body: discrepancies,
         }
       },
       '\n\n',
@@ -199,7 +199,7 @@ async function vehicleInspectionPDF(path, reportData, messages, pics, signDate )
       {
         table: {
           widths: ['*', '*', 100, 100, 100],
-          body: descrepancyActions
+          body: discrepancyActions
         }
       },
       '\n\n',

@@ -128,7 +128,7 @@ const dataCreateSQL = async (dataObj) => {
 
   const comments = [{
     "date": dataObj["date"],
-    "message": "Created by " + dataObj["user"]["email"] + '\n'
+    "message": "Created by " + dataObj["user"]["email"]
   }]
 
   let messages = []

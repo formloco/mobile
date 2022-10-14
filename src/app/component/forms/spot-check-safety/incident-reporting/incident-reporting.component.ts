@@ -34,6 +34,18 @@ export class IncidentReportingComponent {
     dialogConfig.data = { title: 'Incident Reporting', label: label, field: field, type: 'isSpotCheckSafety' }
     this.dialog.open(CommentComponent, dialogConfig)
   }
+  openDiscrepancy(label, field, discrepancy) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '100%';
+    dialogConfig.data = {
+      title: 'Incident Reporting',
+      label,
+      field,
+      type: 'isSpotCheckSafety',
+      discrepancy,
+    };
+    this.dialog.open(CommentComponent, dialogConfig);
+  }
 
   toggle(field) {
     this.commentService.bottomSheetComment(field, this.incidentForm)
