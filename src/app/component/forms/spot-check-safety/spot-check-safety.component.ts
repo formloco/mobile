@@ -36,6 +36,7 @@ import { CorrectiveActionState } from '../../corrective-action/state/corrective-
   styleUrls: ['./spot-check-safety.component.scss'],
 })
 export class SpotCheckSafetyComponent implements OnInit {
+
   pics;
   formData;
   formDataID;
@@ -349,6 +350,7 @@ export class SpotCheckSafetyComponent implements OnInit {
     this.formService.updateForm(form, this.formData, data).subscribe((_) => {
       this.resetForm();
     });
+
   }
 
   submitForm() {
@@ -429,6 +431,7 @@ export class SpotCheckSafetyComponent implements OnInit {
         const supervisors: any = this.store.selectSnapshot(
           AuthState.supervisors
         );
+        
         if (workers.length == 0 && supervisors.length == 0)
           this.snackBar.open(
             'Notifications not setup, please add workers and supervisors.',
@@ -470,6 +473,20 @@ export class SpotCheckSafetyComponent implements OnInit {
           this.resetForm();
         }
       });
+    }
+  }
+
+  setNotificationObj(header, form) {
+    this.notificationObj = {
+      name: form["name"],
+      worker: this.appService.getWorker(header.Worker),
+      supervisor: this.appService.getSupervisor(header.Supervisor),
+      description: 'Spot Check Safety, ' + _moment().format('MMM D, h:mA'),
+      message: 'Spot Check Safety completed for ' + this.headerForm.controls['CompanyName'].value + ', ' + this.headerForm.controls['Location'].value,
+      subject: 'New Spot Check Safety from ' + header.Worker + ', ' + this.appService.now,
+      form_id: form["form_id"],
+      data_id: this.formDataID,
+      pdf: 'spot-check-safety' + this.formDataID
     }
   }
 

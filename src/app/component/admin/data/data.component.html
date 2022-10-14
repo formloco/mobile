@@ -1,20 +1,98 @@
 <div class="container-padding">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxFlex="50">
-      <h2>{{ name$ | async }}</h2>
+    <div fxFlex="70">
+      <h2>{{ (selectedForm$ | async)?.name }}</h2>
     </div>
-    <div *ngIf="isData" fxLayoutGap="20px">
+    <!-- <div *ngIf="isData" fxLayoutGap="20px">
       <button mat-raised-button color="primary" (click)="exportData()">
         Export Data
       </button>
-    </div>
+    </div> -->
   </div>
-  <mat-list role="list" *ngFor="let element of records;">
-    <mat-list-item role="listitem">
-      Year:&nbsp;{{ element.data.header.Year }}&nbsp;
-      Make:&nbsp;{{ element.data.header.Make }}&nbsp;
-      Model:&nbsp;{{ element.data.header.Model }}&nbsp;
-      User:&nbsp;{{ element.user_created.name }}
-    </mat-list-item>
-  </mat-list>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+    <mat-form-field>
+      <mat-label>Filter by Worker</mat-label>
+      <mat-select (selectionChange)="applyFilter($event)">
+        <mat-option *ngFor="let worker of autoCompleteService.filteredWorkers$ | async" [value]="worker.name">
+          {{worker.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Filter by Supervisor</mat-label>
+      <mat-select (selectionChange)="applyFilter($event)">
+        <mat-option *ngFor="let supervisor of autoCompleteService.filteredSupervisors$ | async" [value]="supervisor.name"
+          required>
+          {{supervisor.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+      <ng-container matColumnDef="Worker">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Worker</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          {{row.data.header.Worker}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Supervisor">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          {{row.data.header.Supervisor}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="date_created">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Create Date</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          {{row.user_created.date_created}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="SignoffDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Signoff Date</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          {{row.data.SignoffDate}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="comments">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          <div *ngIf="row.data.comments" (click)="openPdf(element.pdf)">
+            <mat-icon class="material-icons-outlined" matBadgeColor="primary" matBadge="{{row.data.comments.length}}">comment</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="corrective_actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          <div *ngIf="row.data.correctiveActions && row.data.correctiveActions.length > 0" (click)="openPdf(element.pdf)">
+            <mat-icon class="material-icons-outlined" matBadgeColor="primary" matBadge="{{row.data.correctiveActions.length}}">check_circle</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="notifications">
+        <th mat-header-cell *matHeaderCellDef>Notifications</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          <div (click)="openNotification(element)">
+            <mat-icon class="material-icons-outlined">notifications</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pdf">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>PDF</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          <div (click)="openPdf(element.pdf)"><u>{{ row.pdf }}</u></div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="form">
+        <th mat-header-cell *matHeaderCellDef>Form</th>
+        <td class="hand" mat-cell *matCellDef="let row">
+          <mat-icon class="material-icons-outlined">dynamic_form</mat-icon>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row (click)="edit(i)" *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[25, 50, 75, 100]"></mat-paginator>
+  </div>
 </div>

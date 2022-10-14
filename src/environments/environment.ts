@@ -20,7 +20,7 @@ export const environment = {
   messageUrl: 'http://localhost:4200/message/',
 
   // local endpoints
-  apiUrl: 'http://localhost:9001/api/',
+  // apiUrl: 'http://localhost:9001/api/',
   // authUrl: 'http://localhost:9000/auth/',
   // formUrl: 'http://localhost:9002/form/',
   // emailUrl: 'http://localhost:9003/email/',
@@ -32,7 +32,7 @@ export const environment = {
   // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
 
 
-  // apiUrl: Summit.apiUrl,
+  apiUrl: Summit.apiUrl,
   authUrl: Summit.authUrl,
   formUrl: Summit.formUrl,
   emailUrl: Summit.emailUrl,

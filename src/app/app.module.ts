@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 
 import { IonicModule } from '@ionic/angular'
+import { NgxEchartsModule } from 'ngx-echarts'
 
 import { environment } from '../environments/environment'
 
@@ -149,7 +150,8 @@ import { WhyusComponent } from './component/whyus/whyus.component'
 import { ContactComponent } from './component/contact/contact.component'
 import { TermsComponent } from './component/terms/terms.component'
 import { SigninComponent } from './component/admin/signin/signin.component'
-import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component'
+import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
+import { DashboardComponent } from './component/admin/dashboard/dashboard.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -243,7 +245,8 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     SignupBottomComponent,
     SdkComponent,
     MeaningfulSiteTourSuggestionsComponent,
-    MeaningfulSiteTourTodoComponent
+    MeaningfulSiteTourTodoComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -261,6 +264,7 @@ import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bo
     WebcamModule,
     IonicModule.forRoot(),
     NgxsModule.forRoot(States, { developmentMode: !environment.production }),
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

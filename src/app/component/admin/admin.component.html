@@ -25,6 +25,7 @@
         <div class="content-full">
           <app-run *ngIf="(childPage$ | async) === 'run'"></app-run>
           <app-sdk *ngIf="(childPage$ | async) === 'sdk'"></app-sdk>
+          <app-dashboard *ngIf="(childPage$ | async) === 'dashboard'"></app-dashboard>
           <app-list-run *ngIf="(childPage$ | async) === 'list'"></app-list-run>
           <app-data *ngIf="(childPage$ | async) === 'data'"></app-data>
           <app-forms *ngIf="(childPage$ | async) === 'forms'" (selectData)=selectPage()></app-forms>

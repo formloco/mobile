@@ -1,5 +1,8 @@
 import { Injectable, HostBinding } from '@angular/core'
 
+import { fromEvent, merge, of, Subscription, Subject } from 'rxjs'
+import { takeUntil, map } from 'rxjs/operators'
+
 import { OverlayContainer } from '@angular/cdk/overlay'
 
 import { HttpClient } from '@angular/common/http'
@@ -26,12 +29,15 @@ import { IdbCrudService } from "../service-idb/idb-crud.service"
 import { LISTS, LIST_FORM } from '../model/forms'
 
 import { SetTranscription } from 'src/app/state/device/device-state.actions'
-import { SetSelectedVoiceFieldLabel, SetUserIdb, SetUser } from 'src/app/state/auth/auth-state.actions'
+import { SetSelectedVoiceFieldLabel } from 'src/app/state/auth/auth-state.actions'
+import { SetIsOnline } from '../state/device/device-state.actions'
 
 import { VoiceComponent } from '../component/voice/voice.component'
 import { DeviceState } from '../state/device/device.state'
+import { NotificationState } from '../state/notification/notification.state'
 
 import * as uuid from 'uuid'
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable'
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +69,10 @@ export class AppService {
 
   private notificationOpen: any = []
   private notificationSigned: any = []
+
+  token
+  networkStatus: any
+  networkStatus$: Subscription = Subscription.EMPTY
 
   private setNotifications(data) {
     this.notificationOpen = []
@@ -151,6 +161,7 @@ export class AppService {
             lookupLists.push({ name: element, rows: [] })
         })
         this.store.dispatch(new SetLookupListData(lookupLists))
+        this.idbCrudService.clear('lists')
         this.idbCrudService.put('lists', lookupLists)
       })
       // get worker and supervisor lists and dispatch to state
@@ -171,13 +182,15 @@ export class AppService {
         supervisors.sort()
         this.store.dispatch(new SetWorkers(workers))
         this.store.dispatch(new SetSupervisors(supervisors))
+        this.idbCrudService.clear('workers')
+        this.idbCrudService.clear('supervisors')
         this.idbCrudService.put('workers', workers)
         this.idbCrudService.put('supervisors', supervisors)
       })
 
       this.formService.getForms().subscribe((forms: any) => {
         this.idbCrudService.clear('form')
-        
+
         // form_id needs to be added idb form
         forms.forEach((ele) => {
           ele.form["form_id"] = ele.form_id
@@ -196,13 +209,13 @@ export class AppService {
 
   initializeOfflineUser() {
     this.idbCrudService.readAll('lists').subscribe((lookupLists: any) => {
-      this.store.dispatch(new SetLookupListData(lookupLists))
+      this.store.dispatch(new SetLookupListData(lookupLists[0]))
     })
     this.idbCrudService.readAll('workers').subscribe((workers: any) => {
-      this.store.dispatch(new SetWorkers(workers))
+      this.store.dispatch(new SetWorkers(workers[0]))
     })
     this.idbCrudService.readAll('supervisors').subscribe((supervisors: any) => {
-      this.store.dispatch(new SetSupervisors(supervisors))
+      this.store.dispatch(new SetSupervisors(supervisors[0]))
     })
     this.idbCrudService.readAll('form').subscribe((forms: any) => {
       this.store.dispatch(new SetForms(forms))
@@ -274,7 +287,7 @@ export class AppService {
     const workers: any = this.store.selectSnapshot(AuthState.workers)
     let worker = workers.find(worker => worker.name === name)
     if (!worker) {
-      let worker = {name: name, email: null}
+      let worker = { name: name, email: null }
       return worker
     }
     return worker
@@ -290,9 +303,29 @@ export class AppService {
     return supervisor
   }
 
-  sendNotification(obj) {
+  sendEmail() {
+    const user = this.store.selectSnapshot(AuthState.user)
+    const form = this.store.selectSnapshot(AuthState.selectedForm)
+    const notification = this.store.selectSnapshot(NotificationState.notification)
+
+    const subject =
+      form["name"] + ' updated by ' + user.name + ' ' + new Date()
+
+    const obj = {
+      tenant: this.store.selectSnapshot(AuthState.tenant),
+      toName: notification.email_to.substring(0, notification.email_to.indexOf('@')),
+      messageID: notification.id,
+      url: this.messageUrl,
+      subject: subject,
+      emailTo: notification.email_to,
+      emailFrom: user.email
+    }
+    this.emailService.sendNotificationEmail(obj).subscribe((_) => { });
+  }
+
+  createNotification(obj) {
     const tenant = this.store.selectSnapshot(AuthState.tenant)
-    let now = new Date().toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+    let now = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })
 
     // if a worker is added to the form manually send the name entered
     // the name will be used as the email address, can be updated
@@ -331,9 +364,10 @@ export class AppService {
           messageID: myNotifications.data[0]["id"],
           url: this.messageUrl,
           subject: notificationObj.subject,
-          emailTo: notificationObj.email_to
+          emailTo: notificationObj.email_to,
+          emailFrom: this.tenant.email
         }
-  
+
         this.emailService.sendNotificationEmail(obj).subscribe(() => {
           this.store.dispatch(new SetPage('home'))
           this.store.dispatch(new SetChildPage('Forms'))
@@ -347,9 +381,88 @@ export class AppService {
   }
 
   refreshToken() {
-        this.authService.token().subscribe((token: any) => {
-          localStorage.setItem('formToken', token.token)
-          window.location.reload()
-        })
+    this.authService.token().subscribe((token: any) => {
+      localStorage.setItem('formToken', token.token)
+      window.location.reload()
+    })
   }
+
+  checkNetworkStatus() {
+    this.networkStatus = navigator.onLine
+    this.networkStatus$ = merge(
+      of(null),
+      fromEvent(window, 'online'),
+      fromEvent(window, 'offline')
+    )
+      .pipe(map(() => navigator.onLine))
+      .subscribe(status => {
+        if (status)
+          this.authService.token().subscribe(token => {
+            this.token = token
+            localStorage.setItem('formToken', this.token.token)
+          })
+        this.store.dispatch(new SetIsOnline(status))
+      })
+  }
+
+  checkOfflineData() {
+    this.idbCrudService.readAll('data').subscribe((data: any) => {
+      if (data.length > 0) {
+        data.forEach(element => {
+          let saveObj = {
+            data: element.data,
+            user: element.user,
+            form: element.form,
+            type: 'custom',
+            date: element.date,
+            name: element.name,
+            pics: element.pics
+          }
+
+          this.apiService.save(saveObj).subscribe(id => {
+            element.notification["date"] = this.now,
+            element.notification["form_name"] = element.notification.name,
+            element.notification["email_from"] = element.notification.worker.email,
+            element.notification["worker_name"] = element.notification.worker.name,
+            element.notification["email_to"] = element.notification.supervisor.email,
+            element.notification["supervisor_name"] = element.notification.supervisor.name,
+            element.notification["correctiveAction"] = false,
+            element.notification["comment"] = [{
+              from: element.notification.worker.name,
+              to: element.notification.supervisor.name,
+              date: this.now.toString(),
+              message: element.notification.message
+            }]
+            element.notification.data_id = id
+            element.notification.pdf = element.form.id + id
+            element.notification["tenant_id"] = this.tenant.tenant_id
+            
+            this.notificationService.createNotification(element.notification).subscribe((myNotifications: any) => {
+              if (myNotifications) {
+                this.store.dispatch(new SetNotificationOpen(myNotifications.data))
+                const obj = {
+                  tenant: this.store.selectSnapshot(AuthState.tenant),
+                  toName: element.notification.supervisor.name,
+                  messageID: myNotifications.data[0]["id"],
+                  url: this.messageUrl,
+                  subject: element.notification.subject,
+                  emailTo: element.notification.supervisor.email,
+                  emailFrom: this.tenant.email
+                }
+                this.emailService.sendNotificationEmail(obj).subscribe(() => { })
+              }
+            })
+          })
+        })
+        this.idbCrudService.clear('data').subscribe()
+        this.store.dispatch(new SetPage('home'))
+        this.store.dispatch(new SetChildPage('Forms'))
+        this.snackBar.open('Offline data saved', 'Success', {
+          duration: 3000,
+          verticalPosition: 'bottom'
+        })
+      }
+    })
+  }
+
 }

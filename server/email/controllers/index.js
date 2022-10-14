@@ -4,14 +4,13 @@ const api = { secret: process.env.SECRET }
 const getTemplate = require('../templates/emailHelper')
 
 const notification = async(req, res) => {
-
   const emailTemplate = getTemplate(req.body.tenant)
 
   const msg = {
-    from:     emailTemplate.fromEmail,
+    from:     req.body.emailFrom,
     to:       req.body.emailTo,
     subject:  req.body.subject,
-    html:     'Hi, ' +req.body.toName+','
+    html:     'Hi ' +req.body.toName+','
               +'\r\n'+emailTemplate.notificationMessage
               +'\r\n'+'<p><a href="'+req.body.url+'?email='+req.body.emailTo+'&id='+req.body.messageID+'&target=blank">Click here to get access.</a></p>'
   }

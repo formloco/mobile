@@ -45,21 +45,4 @@ export class SyncService {
     return this.http.post(this.apiUrl+'sync/', data)
   }
 
-  checkNetworkStatus() {
-    const networkStatus = navigator.onLine
-    this.networkStatus$ = merge(
-      of(null),
-      fromEvent(window, 'online'),
-      fromEvent(window, 'offline')
-    )
-      .pipe(map(() => navigator.onLine))
-      .subscribe(status => {
-        if (status)
-          this.authService.token().subscribe((token: any) => {
-            localStorage.setItem('formToken', token.token)
-          })
-        this.store.dispatch(new SetIsOnline(status))
-        // this.networkStatus = status
-      })
-  }
 }
