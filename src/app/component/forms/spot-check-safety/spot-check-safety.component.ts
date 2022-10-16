@@ -56,6 +56,7 @@ export class SpotCheckSafetyComponent implements OnInit {
   correctiveActionForm: FormGroup;
   discrepancyForm: FormGroup;
 
+  notificationObj
   // messageUrl = environment.messageUrl
 
   SPOT_CHECK_SAFETY = SPOT_CHECK_SAFETY;
@@ -469,7 +470,7 @@ export class SpotCheckSafetyComponent implements OnInit {
             data_id: this.formDataID,
             pdf: 'spot-check-safety' + this.formDataID,
           };
-          this.appService.sendNotification(notificationObj);
+          this.appService.createNotification(notificationObj);
           this.resetForm();
         }
       });

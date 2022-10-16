@@ -56,7 +56,7 @@ export class VehicleInspectionComponent implements OnInit {
   lookupLists;
   kioske;
   notificationObj
-  
+
   headerForm: FormGroup;
   detailForm: FormGroup;
   correctiveActionForm: FormGroup
@@ -409,7 +409,7 @@ export class VehicleInspectionComponent implements OnInit {
       correctiveActions: this.store.selectSnapshot(CorrectiveActionState.correctiveActions)
     };
     if (!this.isOnline) {
-      this.setNotificationObj(header, form)
+      this.setNotificationObj(header, form, data)
       obj['notification'] = this.notificationObj
       this.idbCrudService.put('data', obj)
     }
@@ -438,61 +438,42 @@ export class VehicleInspectionComponent implements OnInit {
           let message = 'No discrepancies.';
           if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
 
-          this.setNotificationObj(header, form)
+          this.setNotificationObj(header, form, data);
+          
           this.appService.createNotification(this.notificationObj);
           this.resetForm();
         }
       })
     }
   }
-  
-  obj['notification'] = notificationObj
-  this.idbCrudService.put('data', obj)
-}
-else
-{    this.apiService.save(obj).subscribe((idObj) => {
-      this.formDataID = idObj;
 
-      const workers: any = this.store.selectSnapshot(AuthState.workers);
-      const supervisors: any = this.store.selectSnapshot(AuthState.supervisors);
+  setNotificationObj(header, form, data) {
 
-      if (workers.length == 0 && supervisors.length == 0)
-        this.snackBar.open(
-          'Notifications not setup, please add workers and supervisors.',
-          'Attention',
-          {
-            duration: 3000,
-            verticalPosition: 'bottom',
-          }
-        );
-      else {
-        const worker: any = this.appService.getWorker(header.Worker);
-        const supervisor: any = this.appService.getSupervisor(
-          header.Supervisor
-        );
+    const worker: any = this.appService.getWorker(header.Worker);
+    const supervisor: any = this.appService.getSupervisor(
+      header.Supervisor
+    );
 
-        let message = 'No discrepancies.';
-        if (comments.length > 0) message = `Number of Discrepancies: ${comments.length}`;
+    let message = 'No discrepancies.';
+    if (data.comments.length > 0) message = `${data.comments.length} Discrepancies Exist!`;
 
-        let notificationObj = {
-          name: form['name'],
-          worker: worker,
-          supervisor: supervisor,
-          description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
-          subject:
-            'New Vehicle Inspection from ' +
-            header.Worker +
-            ', ' +
-            this.appService.now,
-          message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
-          form_id: form['form_id'],
-          data_id: this.formDataID,
-          pdf: 'vehicle-inspection' + this.formDataID,
-        };
-        this.appService.sendNotification(notificationObj);
-        this.resetForm();
-      }
-    })}
+    let notificationObj = {
+      name: form['name'],
+      worker: worker,
+      supervisor: supervisor,
+      description: 'Vehicle Inspection, ' + _moment().format('MMM D, h:mA'),
+      subject:
+        'New Vehicle Inspection from ' +
+        header.Worker +
+        ', ' +
+        this.appService.now,
+      message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
+      form_id: form['form_id'],
+      data_id: this.formDataID,
+      pdf: 'vehicle-inspection' + this.formDataID,
+    };
+
+
 
   }
 
