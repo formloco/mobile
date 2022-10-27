@@ -118,7 +118,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         { text: action.label }, 
         { text: action.correctiveActionRequired }, 
         { text: action.dateToComplete?.slice(0, 10) }, 
-        { text: action.dateCompleted?.slice(0, 10) }, 
+        { text: action.dateCompleted?.slice(0, 10) },-- 
         { text: action.personResponsible }
       ])
     })
