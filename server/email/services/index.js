@@ -16,7 +16,6 @@ function sendNotificationEmail(msg, req, res) {
     res.status(201).send({message: 'Email sent to ' + req.body.emailTo})
   })
   .catch(err => {
-    console.log(err)
     res.status(500).send('Failed to send email.')
   })
 }
