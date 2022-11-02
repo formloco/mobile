@@ -110,7 +110,7 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
     { text: 'Details', style: 'tableHeader' }, 
     { text: 'Date Requested', style: 'tableHeader' }, 
     { text: 'Date Completed', style: 'tableHeader' }, 
-    { text: 'Person Responsible', style: 'tableHeader' }
+    // { text: 'Person Responsible', style: 'tableHeader' }
   ])
   if (correctiveActions && correctiveActions.length > 0) {
     correctiveActions.forEach(action => {
@@ -118,8 +118,9 @@ async function spotCheckSafetyPDF(path, reportData, messages, pics, signDate) {
         { text: action.label }, 
         { text: action.correctiveActionRequired }, 
         { text: action.dateToComplete?.slice(0, 10) }, 
-        { text: action.dateCompleted?.slice(0, 10) },-- 
-        { text: action.personResponsible }
+        { text: action.dateCompleted?.slice(0, 10) },
+        
+        // { text: action.personResponsible }
       ])
     })
   }
