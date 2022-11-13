@@ -41,6 +41,12 @@ export class WorksiteSafetyHotWorkComponent implements OnInit {
     this.store.dispatch(new SetIsHotwork(toggle))
   }
 
+  clearFields() {
+    this.hotWorkForm.controls['HotWorkPermitIssued'].patchValue('')
+    this.hotWorkForm.controls['FireHazardsIdentifiedControls'].patchValue('')
+    this.hotWorkForm.controls['FireSafetyWatchAvailable'].patchValue('')
+  }
+
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'

@@ -34,13 +34,23 @@ export class WorksiteSafetyGroundComponent implements OnInit {
 
     ngOnInit() {
       this.store.dispatch(new SetTypeFilter('isGroundwork'))
-      // this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('yes')
     }
-  
+    
     toggle(toggle) {
       this.store.dispatch(new SetIsGroundwork(toggle))
     }
-  
+    
+    clearFields() {
+      console.log(this.groundForm.controls)
+      this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('')
+      this.groundForm.controls['GroundDisturbanceChecklistIsInPlace'].patchValue('')
+      this.groundForm.controls['OneCallNotificationHasBeenRegistered'].patchValue('')
+      this.groundForm.controls['AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed'].patchValue('')
+      this.groundForm.controls['ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined'].patchValue('')
+      this.groundForm.controls['ThirdPartyLineLocatesCompletedWithinTheSearchArea'].patchValue('')
+      this.groundForm.controls['AllRequiredCrossingOrProximityAgreementsInPlace'].patchValue('')
+    }
+    
     openComment(label, field) {
       const dialogConfig = new MatDialogConfig()
       dialogConfig.width = '100%'

@@ -49,6 +49,14 @@ export class WorksiteSafetyErpPlanningComponent implements OnInit {
     }
   }
 
+  clearFields() {
+    this.erpPlanningForm.controls['MusterPointsIdentified'].patchValue('')
+    this.erpPlanningForm.controls['ERPIncludesDirectionsToNearestHospital'].patchValue('')
+    this.erpPlanningForm.controls['STARSNumber'].patchValue('')
+    this.erpPlanningForm.controls['ERPResponderRolesAndResponsibilitiesIdentified'].patchValue('')
+    this.erpPlanningForm.controls['CellularOrRadioCoverageConfirmed'].patchValue('')
+  }
+
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'
