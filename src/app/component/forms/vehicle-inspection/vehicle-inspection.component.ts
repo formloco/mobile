@@ -439,7 +439,6 @@ export class VehicleInspectionComponent implements OnInit {
           if (comments.length > 0) message = `${comments.length} Discrepancies Exist.`;
 
           this.setNotificationObj(header, form, data);
-          console.log('NOTIFICATION:', this.notificationObj)
           this.appService.createNotification(this.notificationObj);
           this.resetForm();
         }
@@ -472,8 +471,6 @@ export class VehicleInspectionComponent implements OnInit {
       data_id: this.formDataID,
       pdf: 'vehicle-inspection' + this.formDataID,
     };
-
-    console.log({notificationObj})
 
     this.notificationObj = notificationObj 
 
