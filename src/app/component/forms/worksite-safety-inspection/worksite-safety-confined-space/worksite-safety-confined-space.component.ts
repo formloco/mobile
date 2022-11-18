@@ -41,6 +41,13 @@ export class WorksiteSafetyConfinedSpaceComponent implements OnInit {
     this.store.dispatch(new SetIsConfinedSpace(toggle))
   }
 
+  clearFields() {
+    this.confinedSpaceForm.controls['ConfinedSpacePermitIssued'].patchValue('')
+    this.confinedSpaceForm.controls['ConfinedSpaceSafetyTraining'].patchValue('')
+    this.confinedSpaceForm.controls['SafetyWatchInPlace'].patchValue('')
+    this.confinedSpaceForm.controls['RescuePlanAvailable'].patchValue('')
+  }
+
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'

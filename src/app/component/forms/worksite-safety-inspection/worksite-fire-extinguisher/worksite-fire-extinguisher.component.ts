@@ -50,6 +50,17 @@ export class WorksiteFireExtinguisherComponent implements OnInit {
     }
   }
 
+  clearFields() {
+    this.fireExtinguisherForm.controls['FireExtinguisherInspected'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherVisibleUnobstructed'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherCharged'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherSafetyPinSecured'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherOperatingInstructions'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherNoVisibleDamage'].patchValue('')
+    this.fireExtinguisherForm.controls['FireExtinguisherCertification'].patchValue('')
+
+  }
+
   openComment(label, field) {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '100%'

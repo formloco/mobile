@@ -3319,7 +3319,7 @@ const environment = {
     // messageUrl is used by email service to embed link in notification email
     messageUrl: 'http://localhost:4200/message/',
     // local endpoints
-    // apiUrl: 'http://localhost:9001/api/',
+    apiUrl: 'http://localhost:9001/api/',
     // authUrl: 'http://localhost:9000/auth/',
     // formUrl: 'http://localhost:9002/form/',
     // emailUrl: 'http://localhost:9003/email/',
@@ -3328,7 +3328,7 @@ const environment = {
     // router re-directs, message comes from email link
     // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
     // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
-    apiUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].apiUrl,
+    // apiUrl: Summit.apiUrl,
     authUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].authUrl,
     formUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].formUrl,
     emailUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].emailUrl,
@@ -11758,9 +11758,6 @@ class WorksiteSafetyInspectionComponent {
             pics: this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_7__["DeviceState"].pics),
             correctiveActions: this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_13__["CorrectiveActionState"].correctiveActions),
         };
-        let message = 'No discrepancies.';
-        if (data.comments.length > 0)
-            message = `Number of Discrepancies: ${data.comments.length}`;
         if (!this.isOnline) {
             this.setNotificationObj(header, form, data, now);
             obj['notification'] = this.notificationObj;
@@ -11799,7 +11796,7 @@ class WorksiteSafetyInspectionComponent {
     setNotificationObj(header, form, data, now) {
         let message = 'No discrepancies.';
         if (data.comments.length > 0)
-            message = `${data.comments.length} Discrepancies Exist!`;
+            message = `Actions to be addressed: ${data.correctiveActions.length}`;
         this.notificationObj = {
             name: form['name'],
             worker: this.appService.getWorker(header.Worker),
@@ -19892,7 +19889,7 @@ class SpotCheckSafetyComponent {
         };
         let message = 'No discrepancies.';
         if (data.comments.length > 0)
-            message = `Number of Discrepancies: ${data.comments.length}`;
+            message = `Actions to be addressed: ${data.correctiveActions.length}`;
         if (!this.isOnline) {
             let notificationObj = {
                 name: form['name'],
@@ -20752,98 +20749,110 @@ function CommunicationTrainingComponent_span_31_Template(rf, ctx) { if (rf & 1) 
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_7_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r3.openDiscrepancy("First aid training", "FirstAidTraining", true); });
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](8, "No ");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](9, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10, "H2S training");
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](11, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](12, "mat-radio-group", 18);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](13, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_13_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r4.toggle("H2STraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](14, "Yes");
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](15, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_15_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r5.openDiscrepancy("H2S training", "H2STraining", true); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](16, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](9, "mat-radio-button", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10, "N/A");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](17, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](18, "WHMIS training");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](11, "div", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](12, "H2S training");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](19, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](20, "mat-radio-group", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](21, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_21_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r6.toggle("WHMISTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](22, "Yes");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](13, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](14, "mat-radio-group", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](15, "mat-radio-button", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_15_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r4.toggle("H2STraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](16, "Yes");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](23, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_23_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r7.openDiscrepancy("WHMIS training", "WHMISTraining", true); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](24, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](17, "mat-radio-button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_17_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r5.openDiscrepancy("H2S training", "H2STraining", true); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](18, "No ");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](25, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](26, "TDG training");
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](27, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](28, "mat-radio-group", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](29, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_29_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r8.toggle("TDGTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](30, "Yes");
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](31, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_31_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r9.openDiscrepancy("TDG training", "TDGTraining", true); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](32, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](19, "mat-radio-button", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](20, "N/A");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](34, "Ground disturbance training");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](21, "div", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](22, "WHMIS training");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](35, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](36, "mat-radio-group", 21);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](37, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_37_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r10.toggle("GroundDisturbanceTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](38, "Yes");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](23, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](24, "mat-radio-group", 19);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](25, "mat-radio-button", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_25_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r6.toggle("WHMISTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](26, "Yes");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](39, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_39_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r11.openDiscrepancy("Ground disturbance training", "GroundDisturbanceTraining", true); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](40, " No");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](27, "mat-radio-button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_27_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r7.openDiscrepancy("WHMIS training", "WHMISTraining", true); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](28, "No ");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](41, "mat-radio-button", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](42, "N/A");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](29, "mat-radio-button", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](30, "N/A");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](43, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](44, "eGSO/ CSO training");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](31, "div", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](32, "TDG training");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](45, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](46, "mat-radio-group", 22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](47, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_47_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r12 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r12.toggle("EGSOCSOTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](48, "Yes");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](34, "mat-radio-group", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](35, "mat-radio-button", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_35_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r8.toggle("TDGTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](36, "Yes");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](49, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_49_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r13.openDiscrepancy("eGSO/ CSO training", "EGSOCSOTraining", true); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](50, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](37, "mat-radio-button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_37_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r9.openDiscrepancy("TDG training", "TDGTraining", true); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](38, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](39, "mat-radio-button", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](40, "N/A");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](41, "div", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](42, "Ground disturbance training");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](43, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](44, "mat-radio-group", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](45, "mat-radio-button", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_45_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r10.toggle("GroundDisturbanceTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](46, "Yes");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](47, "mat-radio-button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_47_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r11.openDiscrepancy("Ground disturbance training", "GroundDisturbanceTraining", true); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](48, " No");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](49, "mat-radio-button", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](50, "N/A");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](51, "div", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](52, "Job Specific training (List any that apply)");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](52, "eGSO/ CSO training");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](53, "div", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](54, "mat-radio-group", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](54, "mat-radio-group", 22);
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](55, "mat-radio-button", 5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_55_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r14.openComment("Job Specific training (List any that apply)", "JobSpecificTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](56, "S");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_55_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r12 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r12.toggle("EGSOCSOTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](56, "Yes");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](57, "mat-radio-button", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_57_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r15.toggle("JobSpecificTraining"); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](58, "No");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_57_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r13.openDiscrepancy("eGSO/ CSO training", "EGSOCSOTraining", true); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](58, "No ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](59, "div", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](60, "Job Specific training (List any that apply)");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](61, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](62, "mat-radio-group", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](63, "mat-radio-button", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_63_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r14.openComment("Job Specific training (List any that apply)", "JobSpecificTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](64, "S");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](65, "mat-radio-button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_65_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2); const ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](); return ctx_r15.toggle("JobSpecificTraining"); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](66, "No");
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
@@ -20954,7 +20963,7 @@ CommunicationTrainingComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7_
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](31, CommunicationTrainingComponent_span_31_Template, 59, 0, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](31, CommunicationTrainingComponent_span_31_Template, 67, 0, "span", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](32, "async");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "div");
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](34, "div", 12);

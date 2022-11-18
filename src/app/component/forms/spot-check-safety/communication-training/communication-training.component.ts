@@ -38,9 +38,9 @@ export class CommunicationTrainingComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new SetIsAppropriateTraining(true));
-    this.communicationForm.controls['AppropriateTraining'].patchValue(
-      'satisfactory'
-    );
+    // this.communicationForm.controls['AppropriateTraining'].patchValue(
+    //   'satisfactory'
+    // );
   }
 
   openVoice(formField, title) {

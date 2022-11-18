@@ -4,7 +4,7 @@
     <div class="text-color radio-margin" fxLayoutAlign="center center">
       <mat-radio-group formControlName="DoesTheProjectInvolveHotWork">
         <mat-radio-button (click)="toggle(true)" value="yes">Yes</mat-radio-button>
-        <mat-radio-button (click)="toggle(false)" value="no">No</mat-radio-button>
+        <mat-radio-button (click)="toggle(false); clearFields()" value="no">No</mat-radio-button>
       </mat-radio-group>
     </div>
     <span *ngIf="(isHotwork$ | async)">
