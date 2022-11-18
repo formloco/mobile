@@ -43,7 +43,8 @@ export class HttpConfig implements HttpInterceptor {
         if (errorResponse.status == 401) this.appService.refreshToken()
         else if (errorResponse.status == 403) this.appService.refreshToken()
         else {
-          this.errorService.popSnackbar(errorResponse.error);
+          console.log(errorResponse.error)
+          this.errorService.popInterceeptorSnackbar();
           if (errorResponse.error.type == 'timeout') window.location.reload()
           return throwError(errorResponse);
         }

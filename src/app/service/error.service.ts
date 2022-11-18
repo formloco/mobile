@@ -10,9 +10,11 @@ export class ErrorService {
   constructor(private snackBar: MatSnackBar) { }
 
   popSnackbar(message) {
-    let msg = typeof message === 'string' ? message : "Whoa, something went wrong"
-        
-    this.snackBar.open(msg, "Heads Up!", {duration: 3000})
+    this.snackBar.open(message, "Heads Up!", {duration: 3000})
+  }
+
+  popInterceeptorSnackbar() {        
+    this.snackBar.open("Whoa, something went wrong", "Heads Up!", {duration: 3000})
   }
   
 }

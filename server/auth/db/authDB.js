@@ -15,7 +15,7 @@ const emailRegisterSQL = async (data) => {
   const client = await pool.connect()
 
   let obj = {
-    message: 'Registion successful.'
+    message: 'Registration successful.'
   }
   let checkEmail = await client.query('SELECT * FROM email WHERE email = $1', [data["email"]])
 
@@ -37,14 +37,14 @@ const emailRegisterSQL = async (data) => {
 
     if (emailPassword.rowCount === 1) {
       let passwordIsValid = bcrypt.compareSync(data["password"], emailPassword.rows[0].password)
-
+    
       if (!passwordIsValid) obj = { message: 'Failed to authenticate.' }
 
       if (passwordIsValid) {
         updatedEmail = await client.query('SELECT email FROM email WHERE email = $1', [data["email"]])
         obj = {
           row: updatedEmail.rows[0],
-          message: 'Registion successful.'
+          message: 'Registration successful.'
         }
       }
     }
@@ -252,7 +252,7 @@ const emailSignupSQL = async (data) => {
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
-    database: 'kioske',
+    database: 'global',
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
@@ -331,7 +331,7 @@ const tenantFetchSQL = async (data) => {
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
-    database: 'kioske',
+    database: 'global',
     password: process.env.PASSWORD,
     port: process.env.PORT
   })
@@ -367,7 +367,7 @@ const signinKioskeSQL = async (data) => {
   const pool = new Pool({
     user: process.env.DBUSER,
     host: process.env.HOST,
-    database: 'kioske',
+    database: 'global',
     password: process.env.PASSWORD,
     port: process.env.PORT
   })

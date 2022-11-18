@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment'
 
 import { AppService } from "../../../service/app.service"
 import { AuthService } from "../../../service/auth.service"
+import { ErrorService } from "../../../service/error.service"
 
 import { Store, Select } from '@ngxs/store'
 import { DeviceState } from '../../../state/device/device.state'
@@ -39,6 +40,7 @@ export class IdentificationComponent {
     private fb: FormBuilder,
     public appService: AppService,
     private authService: AuthService,
+    private errorService: ErrorService,
     private idbCrudService: IdbCrudService,
     private idbPersistenceService: IdbPersistenceService,) {
     this.idForm = this.fb.group({
@@ -70,21 +72,25 @@ export class IdentificationComponent {
   }
 
   registerUser(tenant_id) {
-    // if email account does not exist
-    this.authService.register(this.idForm.value).subscribe(_ => {
-      this.authService.user({ email: this.idForm.value['email'] }).subscribe((user: any) => {
-        if (user.row) {
-          this.store.dispatch(new SetUser(user.row))
-          this.appService.initializeUser()
-  
-          if (this.kioske) this.router.navigate(['forms/' + this.idForm.value['email'] + '/' + tenant_id])
-          else this.store.dispatch(new SetPage('home'))
-  
-          this.store.dispatch(new SetIsSignIn(true))
-          this.store.dispatch(new SetIsDarkMode(true))
-          this.store.dispatch(new SetChildPageLabel('Forms'))
-        }
-      })
+    // register cheecks for account, account disabled, no account and valid password
+    this.authService.register(this.idForm.value).subscribe(response => {
+
+      if (response['row']) {
+        this.authService.user({ email: this.idForm.value['email'] }).subscribe((user: any) => {
+          if (user.row) {
+            this.store.dispatch(new SetUser(user.row))
+            this.appService.initializeUser()
+    
+            if (this.kioske) this.router.navigate(['forms/' + this.idForm.value['email'] + '/' + tenant_id])
+            else this.store.dispatch(new SetPage('home'))
+    
+            this.store.dispatch(new SetIsSignIn(true))
+            this.store.dispatch(new SetIsDarkMode(true))
+            this.store.dispatch(new SetChildPageLabel('Forms'))
+          }
+        })
+      }
+      else this.errorService.popSnackbar(response['message'])
     })
   }
 
