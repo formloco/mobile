@@ -21,7 +21,7 @@ export const environment = {
 
   // local endpoints
   // apiUrl: 'http://localhost:9001/api/',
-  authUrl: 'http://localhost:9000/auth/',
+  // authUrl: 'http://localhost:9000/auth/',
   // formUrl: 'http://localhost:9002/form/',
   // emailUrl: 'http://localhost:9003/email/',
   // assetUrl: 'http://localhost:9005/asset/',
@@ -33,7 +33,7 @@ export const environment = {
 
 
   apiUrl: Summit.apiUrl,
-  // authUrl: Summit.authUrl,
+  authUrl: Summit.authUrl,
   formUrl: Summit.formUrl,
   emailUrl: Summit.emailUrl,
   assetUrl: Summit.assetUrl,
