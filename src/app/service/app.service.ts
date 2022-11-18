@@ -356,7 +356,7 @@ export class AppService {
     notificationObj["tenant_id"] = tenant.tenant_id
     this.notificationService.createNotification(notificationObj).subscribe((myNotifications: any) => {
       if (myNotifications) {
-        this.store.dispatch(new SetNotificationOpen(myNotifications.data))
+        this.store.dispatch(new SetNotificationOpen(this.notificationOpen))
 
         const obj = {
           tenant: this.store.selectSnapshot(AuthState.tenant),
