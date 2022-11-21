@@ -3,5 +3,42 @@
 }
 
 .chart-thumbnail {
-  width: "100px"
+  width: '100px';
+}
+
+.chart-box {
+  height: 100%;
+  margin: 3rem;
+}
+
+.title-number {
+  margin-bottom: 1rem;
+}
+
+.title-number__open {
+  color: red;
+}
+
+.title-number__signed {
+  color: green;
+}
+
+.list {
+  height: 25vh;
+  margin-bottom: 2rem;
+  overflow-y: auto;
+}
+
+.form {
+  width: '100%';
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__title {
+  padding: 0 0.5rem 0 1rem;
+}
+
+.form__column-right {
+  width: 50%
 }

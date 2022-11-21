@@ -23,7 +23,6 @@ export class NotificationState {
 
   @Selector()
   static notificationSigned(state: NotificationStateModel): NotificationModel {
-    console.log({state, signed: state.notificationSigned})
     return state.notificationSigned
   }
 

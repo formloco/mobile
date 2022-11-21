@@ -40,7 +40,7 @@
     </div>
   </mat-expansion-panel>
 </mat-accordion> -->
-<div fxLayout="row wrap">
+<!-- <div fxLayout="row wrap">
   <div *ngFor="let chart of charts;  index as i" fxFlex="33">
     <mat-card class="custom hand" (click)=selectForm($event)>
       <mat-card-header>
@@ -49,15 +49,15 @@
       <div echarts [options]="options"></div>
     </mat-card>
   </div>
-</div>
+</div> -->
 
 
 <!-- <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
-      </div>
-      <mat-card-title>{{ formObj.name }}</mat-card-title>
-      <mat-card-subtitle>
+  <div mat-card-avatar>
+    <mat-icon class="form-icon material-icons-outlined">{{ formObj.icon }}</mat-icon>
+  </div>
+  <mat-card-title>{{ formObj.name }}</mat-card-title>
+  <mat-card-subtitle>
         <div>{{(forms$ | async)?.length}} Submitted</div>
         <div>{{(forms$ | async)?.length}} Completed</div>
       </mat-card-subtitle>
@@ -71,3 +71,69 @@
         </mat-card-subtitle>
       </div>
     </mat-card-header> -->
+<di fxLayout="column" class='chart-box'>
+  <div fxLayout='column'>
+    <div class='title-number'>Open / Unsigned Forms <span class='title-number__open'>({{openForms.length}})</span></div>
+    <div class='form form__title' fxLayout='row'>
+      <div>
+        Form
+      </div>
+      <div class='form form__title form__column-right'>
+        <div>
+          Date
+        </div>
+        <div>
+          Supervisor
+        </div>
+      </div>
+    </div>
+    <div class='list'>
+      <div *ngFor="let form of openForms;  index as i">
+        <mat-card class="form" fxLayout='row'>
+          <div>
+            {{form.form_name}}
+          </div>
+          <div class='form form__column-right'>
+            <div>
+              {{getDate(form.date)}}
+            </div>
+            <div>
+              {{getSupervisor(form.email_to)}}
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class='title-number'>Signed Forms <span class='title-number__signed'>({{signedForms.length}})</span></div>
+  <div class='form form__title' fxLayout='row'>
+    <div>
+      Form
+    </div>
+    <div class='form form__title form__column-right'>
+      <div>
+        Date
+      </div>
+      <div>
+        Supervisor
+      </div>
+    </div>
+  </div>
+  <div class='list'>
+    <div *ngFor="let form of signedForms;  index as i">
+      <mat-card class="form" fxLayout='row'>
+        <div>
+          {{form.form_name}}
+        </div>
+        <div class='form form__column-right'>
+          <div>
+            {{getDate(form.date)}}
+          </div>
+          <div>
+            {{getSupervisor(form.email_to)}}
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
