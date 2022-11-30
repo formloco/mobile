@@ -1971,8 +1971,14 @@
         _createClass(ErrorService, [{
           key: "popSnackbar",
           value: function popSnackbar(message) {
-            var msg = typeof message === 'string' ? message : "Whoa, something went wrong";
-            this.snackBar.open(msg, "Heads Up!", {
+            this.snackBar.open(message, "Heads Up!", {
+              duration: 3000
+            });
+          }
+        }, {
+          key: "popInterceeptorSnackbar",
+          value: function popInterceeptorSnackbar() {
+            this.snackBar.open("Whoa, something went wrong", "Heads Up!", {
               duration: 3000
             });
           }
@@ -2880,7 +2886,7 @@
             notificationObj["tenant_id"] = tenant.tenant_id;
             this.notificationService.createNotification(notificationObj).subscribe(function (myNotifications) {
               if (myNotifications) {
-                _this13.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetNotificationOpen"](myNotifications.data));
+                _this13.store.dispatch(new _state_notification_notification_state_actions__WEBPACK_IMPORTED_MODULE_8__["SetNotificationOpen"](_this13.notificationOpen));
 
                 var _obj = {
                   tenant: _this13.store.selectSnapshot(_state_auth_auth_state__WEBPACK_IMPORTED_MODULE_5__["AuthState"].tenant),
@@ -3642,6 +3648,17 @@
             }
           }
         }, {
+          key: "clearFields",
+          value: function clearFields() {
+            this.fireExtinguisherForm.controls['FireExtinguisherInspected'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherVisibleUnobstructed'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherCharged'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherSafetyPinSecured'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherOperatingInstructions'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherNoVisibleDamage'].patchValue('');
+            this.fireExtinguisherForm.controls['FireExtinguisherCertification'].patchValue('');
+          }
+        }, {
           key: "openComment",
           value: function openComment(label, field) {
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
@@ -3701,7 +3718,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](8, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵlistener"]("click", function WorksiteFireExtinguisherComponent_Template_mat_radio_button_click_8_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtext"](9, "No");
@@ -5461,7 +5479,7 @@
       var Platform;
 
       (function (Platform) {
-        Platform["version"] = "2.9";
+        Platform["version"] = "3.0";
       })(Platform || (Platform = {}));
 
       var Formloco;
@@ -6586,7 +6604,7 @@
         // messageUrl is used by email service to embed link in notification email
         messageUrl: 'http://localhost:4200/message/',
         // local endpoints
-        apiUrl: 'http://localhost:9001/api/',
+        // apiUrl: 'http://localhost:9001/api/',
         // authUrl: 'http://localhost:9000/auth/',
         // formUrl: 'http://localhost:9002/form/',
         // emailUrl: 'http://localhost:9003/email/',
@@ -6595,7 +6613,7 @@
         // router re-directs, message comes from email link
         // signinUrl: 'http://localhost:4200/e93f63d8e62d44da93009229f8a7f890/',
         // redirectForgotPasswordUrl: 'http://localhost:4200/O451fd2702f54a00b1007f6e80b32e45/',
-        // apiUrl: Summit.apiUrl,
+        apiUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].apiUrl,
         authUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].authUrl,
         formUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].formUrl,
         emailUrl: _app_state_app_state__WEBPACK_IMPORTED_MODULE_0__["Summit"].emailUrl,
@@ -8715,49 +8733,55 @@
       /* harmony import */
 
 
-      var _service_idb_idb_crud_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+      var _service_error_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+      /*! ../../../service/error.service */
+      "2EMw");
+      /* harmony import */
+
+
+      var _service_idb_idb_crud_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
       /*! ../../../service-idb/idb-crud.service */
       "OKIH");
       /* harmony import */
 
 
-      var _service_idb_idb_persistence_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
+      var _service_idb_idb_persistence_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
       /*! ../../../service-idb/idb-persistence.service */
       "BLjs");
       /* harmony import */
 
 
-      var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
       /*! @angular/common */
       "ofXK");
       /* harmony import */
 
 
-      var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
+      var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
       /*! @angular/flex-layout/flex */
       "XiUz");
       /* harmony import */
 
 
-      var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
+      var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(
       /*! @angular/material/form-field */
       "kmnG");
       /* harmony import */
 
 
-      var _angular_material_input__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(
+      var _angular_material_input__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(
       /*! @angular/material/input */
       "qFsG");
       /* harmony import */
 
 
-      var _angular_material_button__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(
+      var _angular_material_button__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(
       /*! @angular/material/button */
       "bTqV");
       /* harmony import */
 
 
-      var _angular_material_icon__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(
+      var _angular_material_icon__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(
       /*! @angular/material/icon */
       "NFeN");
 
@@ -8828,7 +8852,7 @@
       }
 
       var IdentificationComponent = /*#__PURE__*/function () {
-        function IdentificationComponent(store, router, fb, appService, authService, idbCrudService, idbPersistenceService) {
+        function IdentificationComponent(store, router, fb, appService, authService, errorService, idbCrudService, idbPersistenceService) {
           _classCallCheck(this, IdentificationComponent);
 
           this.store = store;
@@ -8836,6 +8860,7 @@
           this.fb = fb;
           this.appService = appService;
           this.authService = authService;
+          this.errorService = errorService;
           this.idbCrudService = idbCrudService;
           this.idbPersistenceService = idbPersistenceService;
           this.version = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].version;
@@ -8879,25 +8904,27 @@
           value: function registerUser(tenant_id) {
             var _this30 = this;
 
-            // if email account does not exist
-            this.authService.register(this.idForm.value).subscribe(function (_) {
-              _this30.authService.user({
-                email: _this30.idForm.value['email']
-              }).subscribe(function (user) {
-                if (user.row) {
-                  _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
+            // register cheecks for account, account disabled, no account and valid password
+            this.authService.register(this.idForm.value).subscribe(function (response) {
+              if (response['row']) {
+                _this30.authService.user({
+                  email: _this30.idForm.value['email']
+                }).subscribe(function (user) {
+                  if (user.row) {
+                    _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetUser"](user.row));
 
-                  _this30.appService.initializeUser();
+                    _this30.appService.initializeUser();
 
-                  if (_this30.kioske) _this30.router.navigate(['forms/' + _this30.idForm.value['email'] + '/' + tenant_id]);else _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
+                    if (_this30.kioske) _this30.router.navigate(['forms/' + _this30.idForm.value['email'] + '/' + tenant_id]);else _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetPage"]('home'));
 
-                  _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetIsSignIn"](true));
+                    _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetIsSignIn"](true));
 
-                  _this30.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsDarkMode"](true));
+                    _this30.store.dispatch(new _state_device_device_state_actions__WEBPACK_IMPORTED_MODULE_6__["SetIsDarkMode"](true));
 
-                  _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
-                }
-              });
+                    _this30.store.dispatch(new _state_auth_auth_state_actions__WEBPACK_IMPORTED_MODULE_5__["SetChildPageLabel"]('Forms'));
+                  }
+                });
+              } else _this30.errorService.popSnackbar(response['message']);
             });
           }
         }, {
@@ -8921,7 +8948,7 @@
       }();
 
       IdentificationComponent.ɵfac = function IdentificationComponent_Factory(t) {
-        return new (t || IdentificationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_ngxs_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_app_service__WEBPACK_IMPORTED_MODULE_9__["AppService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_auth_service__WEBPACK_IMPORTED_MODULE_10__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_idb_idb_crud_service__WEBPACK_IMPORTED_MODULE_11__["IdbCrudService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_idb_idb_persistence_service__WEBPACK_IMPORTED_MODULE_12__["IdbPersistenceService"]));
+        return new (t || IdentificationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_ngxs_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_app_service__WEBPACK_IMPORTED_MODULE_9__["AppService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_auth_service__WEBPACK_IMPORTED_MODULE_10__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_error_service__WEBPACK_IMPORTED_MODULE_11__["ErrorService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_idb_idb_crud_service__WEBPACK_IMPORTED_MODULE_12__["IdbCrudService"]), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_service_idb_idb_persistence_service__WEBPACK_IMPORTED_MODULE_13__["IdbPersistenceService"]));
       };
 
       IdentificationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineComponent"]({
@@ -9039,7 +9066,7 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx.idForm.valid);
           }
         },
-        directives: [_angular_common__WEBPACK_IMPORTED_MODULE_13__["NgIf"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_ba"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__["MatFormField"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultFlexDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_16__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["RequiredValidator"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__["MatError"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_14__["DefaultLayoutAlignDirective"], _angular_material_button__WEBPACK_IMPORTED_MODULE_17__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_18__["MatIcon"]],
+        directives: [_angular_common__WEBPACK_IMPORTED_MODULE_14__["NgIf"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_15__["DefaultLayoutDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_ba"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__["MatFormField"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_15__["DefaultFlexDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_17__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["RequiredValidator"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_16__["MatError"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_15__["DefaultLayoutAlignDirective"], _angular_material_button__WEBPACK_IMPORTED_MODULE_18__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_19__["MatIcon"]],
         styles: [".padding[_ngcontent-%COMP%] {\n  padding: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2lkZW50aWZpY2F0aW9uLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtBQUNGIiwiZmlsZSI6ImlkZW50aWZpY2F0aW9uLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnBhZGRpbmcge1xuICBwYWRkaW5nOiAxMHB4O1xufSJdfQ== */"]
       });
       Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_ngxs_store__WEBPACK_IMPORTED_MODULE_3__["Select"])(_state_device_device_state__WEBPACK_IMPORTED_MODULE_4__["DeviceState"].isDarkMode)], IdentificationComponent.prototype, "isDarkMode$", void 0);
@@ -14314,6 +14341,15 @@
             }
           }
         }, {
+          key: "clearFields",
+          value: function clearFields() {
+            this.erpPlanningForm.controls['MusterPointsIdentified'].patchValue('');
+            this.erpPlanningForm.controls['ERPIncludesDirectionsToNearestHospital'].patchValue('');
+            this.erpPlanningForm.controls['STARSNumber'].patchValue('');
+            this.erpPlanningForm.controls['ERPResponderRolesAndResponsibilitiesIdentified'].patchValue('');
+            this.erpPlanningForm.controls['CellularOrRadioCoverageConfirmed'].patchValue('');
+          }
+        }, {
           key: "openComment",
           value: function openComment(label, field) {
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
@@ -14387,7 +14423,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](8, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵlistener"]("click", function WorksiteSafetyErpPlanningComponent_Template_mat_radio_button_click_8_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtext"](9, "No");
@@ -14397,7 +14434,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](10, "mat-radio-button", 7);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵlistener"]("click", function WorksiteSafetyErpPlanningComponent_Template_mat_radio_button_click_10_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtext"](11, "N/A");
@@ -15510,6 +15548,10 @@
         }, {
           key: "notificationSigned",
           value: function notificationSigned(state) {
+            console.log({
+              state: state,
+              signed: state.notificationSigned
+            });
             return state.notificationSigned;
           }
         }, {
@@ -21034,11 +21076,12 @@
               supervisor: supervisor,
               description: 'Vehicle Inspection, ' + moment__WEBPACK_IMPORTED_MODULE_1__().format('MMM D, h:mA'),
               subject: 'New Vehicle Inspection from ' + header.Worker + ', ' + this.appService.now,
-              message: 'Worksite Safety Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
+              message: 'Vehicle Inspection completed for Unit #: ' + header.UnitNumber + '. ' + message,
               form_id: form['form_id'],
               data_id: this.formDataID,
               pdf: 'vehicle-inspection' + this.formDataID
             };
+            this.notificationObj = notificationObj;
           }
         }, {
           key: "checkValidHeader",
@@ -22646,6 +22689,8 @@
               pics: this.store.selectSnapshot(_state_device_device_state__WEBPACK_IMPORTED_MODULE_7__["DeviceState"].pics),
               correctiveActions: this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_13__["CorrectiveActionState"].correctiveActions)
             };
+            var message = 'No discrepancies.';
+            if (data.comments.length > 0) message = "Number of Discrepancies: ".concat(data.comments.length);
 
             if (!this.isOnline) {
               this.setNotificationObj(header, form, data, now);
@@ -22682,7 +22727,7 @@
           key: "setNotificationObj",
           value: function setNotificationObj(header, form, data, now) {
             var message = 'No discrepancies.';
-            if (data.comments.length > 0) message = "Actions to be addressed: ".concat(data.correctiveActions.length);
+            if (data.comments.length > 0) message = "".concat(data.comments.length, " Discrepancies Exist!");
             this.notificationObj = {
               name: form['name'],
               worker: this.appService.getWorker(header.Worker),
@@ -23775,6 +23820,14 @@
             this.store.dispatch(new _state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsConfinedSpace"](_toggle3));
           }
         }, {
+          key: "clearFields",
+          value: function clearFields() {
+            this.confinedSpaceForm.controls['ConfinedSpacePermitIssued'].patchValue('');
+            this.confinedSpaceForm.controls['ConfinedSpaceSafetyTraining'].patchValue('');
+            this.confinedSpaceForm.controls['SafetyWatchInPlace'].patchValue('');
+            this.confinedSpaceForm.controls['RescuePlanAvailable'].patchValue('');
+          }
+        }, {
           key: "openComment",
           value: function openComment(label, field) {
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
@@ -23834,7 +23887,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](8, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("click", function WorksiteSafetyConfinedSpaceComponent_Template_mat_radio_button_click_8_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](9, "No");
@@ -30460,7 +30514,9 @@
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (errorResponse) {
               console.log(errorResponse);
               if (errorResponse.status == 401) _this70.appService.refreshToken();else if (errorResponse.status == 403) _this70.appService.refreshToken();else {
-                _this70.errorService.popSnackbar(errorResponse.error);
+                console.log(errorResponse.error);
+
+                _this70.errorService.popInterceeptorSnackbar();
 
                 if (errorResponse.error.type == 'timeout') window.location.reload();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["throwError"])(errorResponse);
@@ -30990,6 +31046,13 @@
             this.store.dispatch(new _state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsHotwork"](_toggle4));
           }
         }, {
+          key: "clearFields",
+          value: function clearFields() {
+            this.hotWorkForm.controls['HotWorkPermitIssued'].patchValue('');
+            this.hotWorkForm.controls['FireHazardsIdentifiedControls'].patchValue('');
+            this.hotWorkForm.controls['FireSafetyWatchAvailable'].patchValue('');
+          }
+        }, {
           key: "openComment",
           value: function openComment(label, field) {
             var dialogConfig = new _angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
@@ -31049,7 +31112,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](8, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("click", function WorksiteSafetyHotWorkComponent_Template_mat_radio_button_click_8_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](9, "No");
@@ -38849,7 +38913,7 @@
               correctiveActions: this.store.selectSnapshot(_corrective_action_state_corrective_action_state__WEBPACK_IMPORTED_MODULE_9__["CorrectiveActionState"].correctiveActions)
             };
             var message = 'No discrepancies.';
-            if (data.comments.length > 0) message = "Actions to be addressed: ".concat(data.correctiveActions.length);
+            if (data.comments.length > 0) message = "Number of Discrepancies: ".concat(data.comments.length);
 
             if (!this.isOnline) {
               var notificationObj = {
@@ -40639,29 +40703,23 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](9, "mat-radio-button", 7);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10, "N/A");
-
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](9, "div", 2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](11, "div", 2);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](12, "H2S training");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10, "H2S training");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](13, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](11, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](14, "mat-radio-group", 18);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](12, "mat-radio-group", 18);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](15, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](13, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_15_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_13_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40669,13 +40727,13 @@
             return ctx_r4.toggle("H2STraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](16, "Yes");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](14, "Yes");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](17, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](15, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_17_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_15_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40683,13 +40741,7 @@
             return ctx_r5.openDiscrepancy("H2S training", "H2STraining", true);
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](18, "No ");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](19, "mat-radio-button", 7);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](20, "N/A");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](16, "No ");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
@@ -40697,19 +40749,19 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](21, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](17, "div", 2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](22, "WHMIS training");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](18, "WHMIS training");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](23, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](19, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](24, "mat-radio-group", 19);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](20, "mat-radio-group", 19);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](25, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](21, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_25_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_21_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40717,13 +40769,13 @@
             return ctx_r6.toggle("WHMISTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](26, "Yes");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](22, "Yes");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](27, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](23, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_27_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_23_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40731,13 +40783,7 @@
             return ctx_r7.openDiscrepancy("WHMIS training", "WHMISTraining", true);
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](28, "No ");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](29, "mat-radio-button", 7);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](30, "N/A");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](24, "No ");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
@@ -40745,19 +40791,19 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](31, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](25, "div", 2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](32, "TDG training");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](26, "TDG training");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](27, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](34, "mat-radio-group", 20);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](28, "mat-radio-group", 20);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](35, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](29, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_35_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_29_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40765,13 +40811,13 @@
             return ctx_r8.toggle("TDGTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](36, "Yes");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](30, "Yes");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](37, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](31, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_37_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_31_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40779,33 +40825,33 @@
             return ctx_r9.openDiscrepancy("TDG training", "TDGTraining", true);
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](38, "No ");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](32, "No ");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](39, "mat-radio-button", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "mat-radio-button", 7);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](40, "N/A");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](34, "N/A");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](41, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](42, "Ground disturbance training");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](35, "div", 2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](36, "Ground disturbance training");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](43, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](37, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](44, "mat-radio-group", 21);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](38, "mat-radio-group", 21);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](45, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](39, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_45_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_39_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40813,13 +40859,13 @@
             return ctx_r10.toggle("GroundDisturbanceTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](46, "Yes");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](40, "Yes");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](47, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](41, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_47_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_41_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40827,33 +40873,33 @@
             return ctx_r11.openDiscrepancy("Ground disturbance training", "GroundDisturbanceTraining", true);
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](48, " No");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](42, " No");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](49, "mat-radio-button", 7);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](43, "mat-radio-button", 7);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](50, "N/A");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](44, "N/A");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](51, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](52, "eGSO/ CSO training");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](45, "div", 2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](46, "eGSO/ CSO training");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](53, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](47, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](54, "mat-radio-group", 22);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](48, "mat-radio-group", 22);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](55, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](49, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_55_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_49_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r12 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40861,13 +40907,13 @@
             return ctx_r12.toggle("EGSOCSOTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](56, "Yes");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](50, "Yes");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](57, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](51, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_57_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_51_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40875,7 +40921,7 @@
             return ctx_r13.openDiscrepancy("eGSO/ CSO training", "EGSOCSOTraining", true);
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](58, "No ");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](52, "No ");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
@@ -40883,19 +40929,19 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](59, "div", 2);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](53, "div", 2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](60, "Job Specific training (List any that apply)");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](54, "Job Specific training (List any that apply)");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](61, "div", 3);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](55, "div", 3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](62, "mat-radio-group", 23);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](56, "mat-radio-group", 23);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](63, "mat-radio-button", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](57, "mat-radio-button", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_63_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_57_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r14 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40903,13 +40949,13 @@
             return ctx_r14.openComment("Job Specific training (List any that apply)", "JobSpecificTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](64, "S");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](58, "S");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](65, "mat-radio-button", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](59, "mat-radio-button", 6);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_65_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function CommunicationTrainingComponent_span_31_Template_mat_radio_button_click_59_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r2);
 
             var ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
@@ -40917,7 +40963,7 @@
             return ctx_r15.toggle("JobSpecificTraining");
           });
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](66, "No");
+          _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](60, "No");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
@@ -40942,8 +40988,9 @@
         _createClass(CommunicationTrainingComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            this.store.dispatch(new _state_spot_check_safety_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsAppropriateTraining"](true));
-            this.communicationForm.controls['AppropriateTraining'].patchValue('satisfactory');
+            this.store.dispatch(new _state_spot_check_safety_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsAppropriateTraining"](true)); // this.communicationForm.controls['AppropriateTraining'].patchValue(
+            //   'satisfactory'
+            // );
           }
         }, {
           key: "openVoice",
@@ -41129,7 +41176,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](31, CommunicationTrainingComponent_span_31_Template, 67, 0, "span", 11);
+            _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](31, CommunicationTrainingComponent_span_31_Template, 61, 0, "span", 11);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](32, "async");
 
@@ -41868,12 +41915,24 @@
         _createClass(WorksiteSafetyGroundComponent, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            this.store.dispatch(new _comment_state_comment_actions__WEBPACK_IMPORTED_MODULE_6__["SetTypeFilter"]('isGroundwork')); // this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('yes')
+            this.store.dispatch(new _comment_state_comment_actions__WEBPACK_IMPORTED_MODULE_6__["SetTypeFilter"]('isGroundwork'));
           }
         }, {
           key: "toggle",
           value: function toggle(_toggle5) {
             this.store.dispatch(new _state_worksite_safety_inspection_state_actions__WEBPACK_IMPORTED_MODULE_4__["SetIsGroundwork"](_toggle5));
+          }
+        }, {
+          key: "clearFields",
+          value: function clearFields() {
+            console.log(this.groundForm.controls);
+            this.groundForm.controls['DoesTheProjectInvolveGroundDisturbance'].patchValue('');
+            this.groundForm.controls['GroundDisturbanceChecklistIsInPlace'].patchValue('');
+            this.groundForm.controls['OneCallNotificationHasBeenRegistered'].patchValue('');
+            this.groundForm.controls['AllUndergroundLinesWithinFiveMetresOfTheWorkAreaManuallyExposed'].patchValue('');
+            this.groundForm.controls['ThirtyMetreSearchAreaAroundTheWorkAreaClearlyDefined'].patchValue('');
+            this.groundForm.controls['ThirdPartyLineLocatesCompletedWithinTheSearchArea'].patchValue('');
+            this.groundForm.controls['AllRequiredCrossingOrProximityAgreementsInPlace'].patchValue('');
           }
         }, {
           key: "openComment",
@@ -41935,7 +41994,8 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](8, "mat-radio-button", 6);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("click", function WorksiteSafetyGroundComponent_Template_mat_radio_button_click_8_listener() {
-              return ctx.toggle(false);
+              ctx.toggle(false);
+              return ctx.clearFields();
             });
 
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](9, "No");
