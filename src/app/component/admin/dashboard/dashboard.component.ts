@@ -163,9 +163,6 @@ export class DashboardComponent implements OnInit {
     this.filters = $event;
     this.openForms = [];
     this.signedForms = [];
-    console.log(this.filters, this.supervisors)
-    // form.date.includes(`-${this.filters.month}-`)
-    // form.date.includes(`${this.filters.year}-`)
     
     if (
       form !== 'all' ||
@@ -179,8 +176,10 @@ export class DashboardComponent implements OnInit {
           if (forms) {
             forms.forEach((form: any) => {
               if (
-                form.form_name === this.filters.form && 
-                form.form
+                (form.form_name === this.filters.form || this.filters.form === 'all') &&
+                (form.date.includes(`-${this.filters.month}-`) || this.filters.month === 'all')&&
+                (form.date.includes(`${this.filters.year}-`)|| this.filters.year === 'all') &&
+                (form.email_to === this.filters.supervisor || this.filters.supervisor === 'all')
                 ) {
                   this.openForms.push(form);
                 }
@@ -193,7 +192,12 @@ export class DashboardComponent implements OnInit {
           if (forms) {
             forms.forEach((form: any) => {
               if (
-                form.form_name === this.filters.form                ) {
+                (form.form_name === this.filters.form || this.filters.form === 'all') &&
+                (form.date.includes(`-${this.filters.month}-`) || this.filters.month === 'all') &&
+                (form.date.includes(`${this.filters.year}-`)|| this.filters.year === 'all') &&
+                (form.email_to === this.filters.supervisor || this.filters.supervisor === 'all')
+                  )
+                {
                 this.signedForms.push(form);
               }
             });

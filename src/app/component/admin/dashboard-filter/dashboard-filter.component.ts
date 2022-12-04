@@ -9,14 +9,17 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 export class DashboardFilterComponent implements OnInit {
 
   @Input() filters;
+  @Input() supervisors;
   @Output() filterUpdate = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
   updateFilters(key, value) {
     this.filters[key] = value
     this.filterUpdate.emit(this.filters)
   }
+
 }

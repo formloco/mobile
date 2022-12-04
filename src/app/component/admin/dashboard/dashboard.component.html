@@ -72,7 +72,7 @@
       </div>
     </mat-card-header> -->
 <div fxLayout="column" class='chart-box'>
-  <dashboard-filter [filters]='filters' (filterUpdate)='getUpdatedFilter($event)'>
+  <dashboard-filter [supervisors]='supervisors'[filters]='filters' (filterUpdate)='getUpdatedFilter($event)'>
   </dashboard-filter>
   <div fxLayout='column'>
     <div class='title-number'>Open / Unsigned Forms <span class='title-number__open'>({{openForms.length}})</span></div>

@@ -33,10 +33,6 @@
   <select name="supervisor" id="dashboard-supervisor-select" class='filter-select'
     (change)='updateFilters("supervisor", $event.target.value)'>
     <option value="all" selected>All Supervisors</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
+    <option *ngFor='let supervisor of supervisors' value="{{supervisor.email}}">{{supervisor.name}}</option>
   </select>
 </div>
