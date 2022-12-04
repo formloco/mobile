@@ -71,7 +71,9 @@
         </mat-card-subtitle>
       </div>
     </mat-card-header> -->
-<di fxLayout="column" class='chart-box'>
+<div fxLayout="column" class='chart-box'>
+  <dashboard-filter [filters]='filters' (filterUpdate)='getUpdatedFilter($event)'>
+  </dashboard-filter>
   <div fxLayout='column'>
     <div class='title-number'>Open / Unsigned Forms <span class='title-number__open'>({{openForms.length}})</span></div>
     <div class='form form__title' fxLayout='row'>

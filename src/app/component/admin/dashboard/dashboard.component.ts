@@ -3,6 +3,8 @@ import {
   ComponentFactoryResolver,
   OnInit,
   ViewChild,
+  // Output,
+  // EventEmitter,
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -24,12 +26,25 @@ export class DashboardComponent implements OnInit {
   notificationSigned$: Observable<string>;
   @Select(AuthState.supervisors)
   supervisors$: Observable<string>;
+  // @Output() filterUpdate = new EventEmitter()
 
   public charts: any[] = [];
   options: any;
   openForms: any[] = [];
   signedForms: any[] = [];
   supervisors: any[] = [];
+  filters = {
+    form: 'all',
+    month: 'all',
+    year: 'all',
+    supervisor: 'all',
+  };
+  getAllOpen;
+  getAllSigned;
+
+  // updateFilters(key, value) {
+  //   this.filterUpdate.emit(this.filters[key] = value)
+  // }
 
   constructor(private store: Store) {}
 
@@ -42,27 +57,28 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.store
-      .select(NotificationState.notificationAllOpen)
-      .subscribe((forms: any) => {
-        if (forms) {
-          forms.forEach((form: any) => {
-            this.openForms.push(form);
-          });
-        }
-      });
-
-    this.store
-      .select(NotificationState.notificationAllSigned)
-      .subscribe((forms: any) => {
-        if (forms) {
-          forms.forEach((form: any) => {
-            this.signedForms.push(form);
-          });
-        }
-      });
-
-      
+    this.getAllOpen = () =>
+      this.store
+        .select(NotificationState.notificationAllOpen)
+        .subscribe((forms: any) => {
+          if (forms) {
+            forms.forEach((form: any) => {
+              this.openForms.push(form);
+            });
+          }
+        });
+    this.getAllOpen();
+    this.getAllSigned = () =>
+      this.store
+        .select(NotificationState.notificationAllSigned)
+        .subscribe((forms: any) => {
+          if (forms) {
+            forms.forEach((form: any) => {
+              this.signedForms.push(form);
+            });
+          }
+        });
+    this.getAllSigned();
 
     // this.store.select(AuthState.forms).subscribe((forms: any) => {
     //   forms.forEach(element => {
@@ -116,13 +132,80 @@ export class DashboardComponent implements OnInit {
   }
 
   exportData() {}
-
-  getSupervisor(email) {
-    const index = this.supervisors.findIndex((target: any) => target.email === email)
-    return this.supervisors[index].name
+    // corrective_action: false;
+  // data_id: null;
+  // date: '2022-12-03T15:00:41.000Z';
+  // date_signed: null;
+  // description: 'Worksite Safety Inspection, Dec 3, 3:0PM';
+  // email_from: 'brock@formloco.com';
+  // email_from_id: 352;
+  // email_signed: null;
+  // email_to: 'alvin.tol@hotmail.com';
+  // email_to_id: 2;
+  // form_id: 'f17f0bf7-bacd-4bee-97d8-e4e35a44b1f1';
+  // form_name: 'Worksite Safety Inspection';
+  // id: 406;
+  // pdf: 'worksite-safety-inspection479';
+  // read: true;
+  // signed: null;
+  // signed_name: null;
+  
+    getSupervisor(email) {
+      const index = this.supervisors.findIndex(
+        (target: any) =>
+          target.email === email
+      );
+      return this.supervisors[index].name;
+    }
+  
+  getUpdatedFilter($event) {
+    const { form, month, year, supervisor } = this.filters;
+    this.filters = $event;
+    this.openForms = [];
+    this.signedForms = [];
+    console.log(this.filters, this.supervisors)
+    // form.date.includes(`-${this.filters.month}-`)
+    // form.date.includes(`${this.filters.year}-`)
+    
+    if (
+      form !== 'all' ||
+      month !== 'all' ||
+      year !== 'all' ||
+      supervisor !== 'all'
+    ) {
+      this.store
+        .select(NotificationState.notificationAllOpen)
+        .subscribe((forms: any) => {
+          if (forms) {
+            forms.forEach((form: any) => {
+              if (
+                form.form_name === this.filters.form && 
+                form.form
+                ) {
+                  this.openForms.push(form);
+                }
+              });
+          }
+        });
+      this.store
+        .select(NotificationState.notificationAllSigned)
+        .subscribe((forms: any) => {
+          if (forms) {
+            forms.forEach((form: any) => {
+              if (
+                form.form_name === this.filters.form                ) {
+                this.signedForms.push(form);
+              }
+            });
+          }
+        });
+    } else {
+      this.getAllOpen();
+      this.getAllSigned();
+    }
   }
 
   getDate(date) {
-    return date.split('').slice(0, 10).join('')
+    return date.split('').slice(0, 10).join('');
   }
 }

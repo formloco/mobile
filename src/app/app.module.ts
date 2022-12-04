@@ -151,7 +151,8 @@ import { ContactComponent } from './component/contact/contact.component'
 import { TermsComponent } from './component/terms/terms.component'
 import { SigninComponent } from './component/admin/signin/signin.component'
 import { SignupBottomComponent } from './component/admin/signup-bottom/signup-bottom.component';
-import { DashboardComponent } from './component/admin/dashboard/dashboard.component'
+import { DashboardComponent } from './component/admin/dashboard/dashboard.component';
+import { DashboardFilterComponent } from './component/admin/dashboard-filter/dashboard-filter.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -246,7 +247,8 @@ import { DashboardComponent } from './component/admin/dashboard/dashboard.compon
     SdkComponent,
     MeaningfulSiteTourSuggestionsComponent,
     MeaningfulSiteTourTodoComponent,
-    DashboardComponent
+    DashboardComponent,
+    DashboardFilterComponent
   ],
   imports: [
     BrowserModule,

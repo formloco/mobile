@@ -1,0 +1,10 @@
+.filter-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  .filter-select {
+    background-color: inherit;
+  }
+}
