@@ -13,6 +13,9 @@ import { Store, Select } from '@ngxs/store';
 import { AuthState } from '../../../state/auth/auth.state';
 import { SetSelectedForm } from '../../../state/auth/auth-state.actions';
 import { NotificationState } from 'src/app/state/notification/notification.state';
+import { ApiService } from "../../../service/api.service"
+
+import { SetNotification } from 'src/app/state/notification/notification-state.actions';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -46,7 +49,8 @@ export class DashboardComponent implements OnInit {
   //   this.filterUpdate.emit(this.filters[key] = value)
   // }
 
-  constructor(private store: Store) {}
+  constructor(private store: Store,
+    private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.store.select(AuthState.supervisors).subscribe((supers: any) => {
@@ -211,5 +215,13 @@ export class DashboardComponent implements OnInit {
 
   getDate(date) {
     return date.split('').slice(0, 10).join('');
+  }
+
+  getPdf(form) {
+    console.log('get pdf', form)
+    // this.store.dispatch(new SetNotification(form));
+    // const notification = this.store.selectSnapshot(NotificationState.notification)
+    // console.log({notification})
+    this.apiService.getPDF(form.pdf)
   }
 }

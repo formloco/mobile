@@ -72,7 +72,7 @@
       </div>
     </mat-card-header> -->
 <div fxLayout="column" class='chart-box'>
-  <dashboard-filter [supervisors]='supervisors'[filters]='filters' (filterUpdate)='getUpdatedFilter($event)'>
+  <dashboard-filter [supervisors]='supervisors' [filters]='filters' (filterUpdate)='getUpdatedFilter($event)'>
   </dashboard-filter>
   <div fxLayout='column'>
     <div class='title-number'>Open / Unsigned Forms <span class='title-number__open'>({{openForms.length}})</span></div>
@@ -90,8 +90,9 @@
       </div>
     </div>
     <div class='list'>
-      <div *ngFor="let form of openForms;  index as i">
+      <div *ngFor="let form of openForms">
         <mat-card class="form" fxLayout='row'>
+          <!-- <a href='#' (click)="getPdf(form)"> -->
           <div>
             {{form.form_name}}
           </div>
@@ -123,11 +124,11 @@
     </div>
   </div>
   <div class='list'>
-    <div *ngFor="let form of signedForms;  index as i">
+    <div *ngFor="let form of signedForms">
       <mat-card class="form" fxLayout='row'>
-        <div>
+        <a href='#' (click)="getPdf(form)">
           {{form.form_name}}
-        </div>
+        </a>
         <div class='form form__column-right'>
           <div>
             {{getDate(form.date)}}

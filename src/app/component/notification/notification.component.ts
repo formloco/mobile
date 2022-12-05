@@ -54,7 +54,7 @@ export class NotificationComponent implements OnInit {
 
   pdf() {
     const notification = this.store.selectSnapshot(NotificationState.notification)
+    console.log(notification)
     this.apiService.getPDF(notification.pdf)
   }
-  
 }
