@@ -224,4 +224,28 @@ export class DashboardComponent implements OnInit {
     // console.log({notification})
     this.apiService.getPDF(form.pdf)
   }
+
+  openForm(notification, idx) {
+    // this.store.dispatch(new SetComments([]));
+    // this.store.dispatch(new SetCorrectiveActions([]));
+    // this.store.dispatch(new SetNotification(notification));
+    // this.store.dispatch(new SetNotificationIdx(idx));
+    // const page = this.store.selectSnapshot(AuthState.page);
+    // const childPage = this.store.selectSnapshot(AuthState.childPage);
+    // this.apiService
+    //   .getFormData(notification.form_id, notification.data_id)
+    //   .subscribe((data: any) => {
+    //     const selectedForm: any = this.store.selectSnapshot(
+    //       AuthState.selectedForm
+    //     );
+    //     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false));
+    //     this.store.dispatch(new SetSelectedForm(selectedForm));
+    //     this.store.dispatch(new SetFormData(data));
+    //     this.store.dispatch(new SetCorrectiveActions(data.correctiveAction));
+    //     this.store.dispatch(new SetChildPage('notification'));
+    //     this.store.dispatch(new SetPage('form'));
+    //   });
+  }
+
+
 }

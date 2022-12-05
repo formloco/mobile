@@ -92,6 +92,14 @@
     <div class='list'>
       <div *ngFor="let form of openForms">
         <mat-card class="form" fxLayout='row'>
+          <div fxLayoutGap="30px">
+            <button color="primary" mat-mini-fab>
+              <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
+            </button>
+            <button color="primary" mat-mini-fab>
+              <mat-icon class="material-icons-outlined" (click)="openForm(notification, i)">dynamic_form</mat-icon>
+            </button>
+          </div>
           <!-- <a href='#' (click)="getPdf(form)"> -->
           <div>
             {{form.form_name}}
@@ -126,9 +134,14 @@
   <div class='list'>
     <div *ngFor="let form of signedForms">
       <mat-card class="form" fxLayout='row'>
-        <a href='#' (click)="getPdf(form)">
+        <div>
+          <button color="primary" mat-mini-fab>
+            <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
+          </button>
+        </div>
+        <div>
           {{form.form_name}}
-        </a>
+        </div>
         <div class='form form__column-right'>
           <div>
             {{getDate(form.date)}}
