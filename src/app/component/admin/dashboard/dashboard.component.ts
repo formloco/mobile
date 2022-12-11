@@ -11,11 +11,14 @@ import { Observable } from 'rxjs';
 import { Store, Select } from '@ngxs/store';
 
 import { AuthState } from '../../../state/auth/auth.state';
-import { SetSelectedForm } from '../../../state/auth/auth-state.actions';
+import { SetChildPage, SetFormData, SetPage, SetSelectedForm } from '../../../state/auth/auth-state.actions';
 import { NotificationState } from 'src/app/state/notification/notification.state';
 import { ApiService } from "../../../service/api.service"
 
-import { SetNotification } from 'src/app/state/notification/notification-state.actions';
+import { SetNotification, SetNotificationIdx } from 'src/app/state/notification/notification-state.actions';
+import { SetComments } from '../../comment/state/comment.actions';
+import { SetCorrectiveActions } from '../../corrective-action/state/corrective-action.actions';
+import { SetIsWorksiteSafetyHeaderValid } from '../../forms/spot-check-safety/state/spot-check-safety.actions';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -226,25 +229,25 @@ export class DashboardComponent implements OnInit {
   }
 
   openForm(notification, idx) {
-    // this.store.dispatch(new SetComments([]));
-    // this.store.dispatch(new SetCorrectiveActions([]));
-    // this.store.dispatch(new SetNotification(notification));
-    // this.store.dispatch(new SetNotificationIdx(idx));
-    // const page = this.store.selectSnapshot(AuthState.page);
-    // const childPage = this.store.selectSnapshot(AuthState.childPage);
-    // this.apiService
-    //   .getFormData(notification.form_id, notification.data_id)
-    //   .subscribe((data: any) => {
-    //     const selectedForm: any = this.store.selectSnapshot(
-    //       AuthState.selectedForm
-    //     );
-    //     this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false));
-    //     this.store.dispatch(new SetSelectedForm(selectedForm));
-    //     this.store.dispatch(new SetFormData(data));
-    //     this.store.dispatch(new SetCorrectiveActions(data.correctiveAction));
-    //     this.store.dispatch(new SetChildPage('notification'));
-    //     this.store.dispatch(new SetPage('form'));
-    //   });
+    this.store.dispatch(new SetComments([]));
+    this.store.dispatch(new SetCorrectiveActions([]));
+    this.store.dispatch(new SetNotification(notification));
+    this.store.dispatch(new SetNotificationIdx(idx));
+    const page = this.store.selectSnapshot(AuthState.page);
+    const childPage = this.store.selectSnapshot(AuthState.childPage);
+    this.apiService
+      .getFormData(notification.form_id, notification.data_id)
+      .subscribe((data: any) => {
+        const selectedForm: any = this.store.selectSnapshot(
+          AuthState.selectedForm
+        );
+        this.store.dispatch(new SetIsWorksiteSafetyHeaderValid(false));
+        this.store.dispatch(new SetSelectedForm(selectedForm));
+        this.store.dispatch(new SetFormData(data));
+        this.store.dispatch(new SetCorrectiveActions(data.correctiveAction));
+        this.store.dispatch(new SetChildPage('notification'));
+        this.store.dispatch(new SetPage('form'));
+      });
   }
 
 

@@ -29,16 +29,79 @@
   overflow-y: auto;
 }
 
-.form {
-  width: '100%';
-  display: flex;
-  justify-content: space-between;
+.full {
+  width: 100%;
 }
 
-.form__title {
-  padding: 0 0.5rem 0 1rem;
+.form__card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  @media only screen and (min-width: 700px) {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+}
+
+.form__titles {
+  display: flex;
+  flex-direction: column;
+  margin-left: 4rem;
+  margin-right: 1rem;
+  @media only screen and (min-width: 700px) {
+    flex-direction: row;
+  }
+}
+
+.form__title-left {
+  @media only screen and (max-width: 550px) {
+    visibility: hidden;
+  }
+}
+.form__title-right {
+  @media only screen and (max-width: 700px) {
+    visibility: hidden;
+  }
+}
+
+.form__columns-left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (min-width: 550px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  @media only screen and (min-width: 700px) {
+    margin: 0 2rem 0 2rem;
+  }
+}
+
+.form__column-center {
+  width: 100%;
+  justify-content: space-around;
+  @media only screen and (min-width: 550px) {
+    width: 50%;
+    justify-content: space-between;
+  }
 }
 
 .form__column-right {
-  width: 50%
+  width: 150px;
+  justify-content: space-around;
+  margin-right: 0.5rem;
+}
+
+.form__column-pdf {
+  width: 70px;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+.form__buttons {
+  margin: 1rem 0 1rem 0;
 }

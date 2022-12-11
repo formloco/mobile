@@ -76,80 +76,106 @@
   </dashboard-filter>
   <div fxLayout='column'>
     <div class='title-number'>Open / Unsigned Forms <span class='title-number__open'>({{openForms.length}})</span></div>
-    <div class='form form__title' fxLayout='row'>
-      <div>
-        Form
-      </div>
-      <div class='form form__title form__column-right'>
-        <div>
-          Date
-        </div>
-        <div>
-          Supervisor
-        </div>
-      </div>
-    </div>
-    <div class='list'>
-      <div *ngFor="let form of openForms">
-        <mat-card class="form" fxLayout='row'>
-          <div fxLayoutGap="30px">
-            <button color="primary" mat-mini-fab>
-              <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
-            </button>
-            <button color="primary" mat-mini-fab>
-              <mat-icon class="material-icons-outlined" (click)="openForm(notification, i)">dynamic_form</mat-icon>
-            </button>
-          </div>
-          <!-- <a href='#' (click)="getPdf(form)"> -->
+    <div class='full' fxLayout='column'>
+      <div class='full' class='form__titles'>
+        <div class='full form__columns-left form__title-left' fxLayout='row'>
           <div>
-            {{form.form_name}}
+            Form
           </div>
-          <div class='form form__column-right'>
+          <div class='full form__column-center' fxLayout='row'>
             <div>
-              {{getDate(form.date)}}
+              Date
             </div>
             <div>
-              {{getSupervisor(form.email_to)}}
+              Supervisor
             </div>
           </div>
-        </mat-card>
+        </div>
+        <div fxLayout='row' class='form__column-right form__title-right'>
+          <div>
+            Edit
+          </div>
+          <div>
+            PDF
+          </div>
+        </div>
+      </div>
+      <div class='list'>
+        <div *ngFor="let form of openForms; index as i">
+          <mat-card class='full form__card'>
+            <!-- <a href='#' (click)="getPdf(form)"> -->
+            <div class='full form__columns-left'>
+              <div>
+                {{form.form_name}}
+              </div>
+              <div class='full form__column-center' fxLayout='row'>
+                <div>
+                  {{getDate(form.date)}}
+                </div>
+                <div>
+                  {{getSupervisor(form.email_to)}}
+                </div>
+              </div>
+            </div>
+            <div fxLayoutGap="30px" fxLayout='row' class='form__buttons'>
+              <button color="primary" mat-mini-fab>
+                <mat-icon class="material-icons-outlined" (click)="openForm(form, i)">dynamic_form</mat-icon>
+              </button>
+              <button color="primary" mat-mini-fab>
+                <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
+              </button>
+            </div>
+          </mat-card>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class='title-number'>Signed Forms <span class='title-number__signed'>({{signedForms.length}})</span></div>
-  <div class='form form__title' fxLayout='row'>
-    <div>
-      Form
-    </div>
-    <div class='form form__title form__column-right'>
-      <div>
-        Date
-      </div>
-      <div>
-        Supervisor
-      </div>
-    </div>
-  </div>
-  <div class='list'>
-    <div *ngFor="let form of signedForms">
-      <mat-card class="form" fxLayout='row'>
-        <div>
-          <button color="primary" mat-mini-fab>
-            <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
-          </button>
-        </div>
-        <div>
-          {{form.form_name}}
-        </div>
-        <div class='form form__column-right'>
+    <div class='title-number'>Signed Forms <span class='title-number__signed'>({{signedForms.length}})</span></div>
+    <div class='full' fxLayout='column'>
+      <div class='full' class='form__titles'>
+        <div class='full form__columns-left form__title-left' fxLayout='row'>
           <div>
-            {{getDate(form.date)}}
+            Form
           </div>
-          <div>
-            {{getSupervisor(form.email_to)}}
+          <div class='full form__column-center' fxLayout='row'>
+            <div>
+              Date
+            </div>
+            <div>
+              Supervisor
+            </div>
           </div>
         </div>
-      </mat-card>
+        <div fxLayout='row' class='form__column-pdf form__title-right'>
+          <div>
+            PDF
+          </div>
+        </div>
+      </div>
+      <div class='list'>
+        <div *ngFor="let form of signedForms; index as i">
+          <mat-card class='full form__card'>
+            <!-- <a href='#' (click)="getPdf(form)"> -->
+            <div class='full form__columns-left'>
+              <div>
+                {{form.form_name}}
+              </div>
+              <div class='full form__column-center' fxLayout='row'>
+                <div>
+                  {{getDate(form.date)}}
+                </div>
+                <div>
+                  {{getSupervisor(form.email_to)}}
+                </div>
+              </div>
+            </div>
+            <div fxLayoutGap="30px" fxLayout='row' class='form__buttons'>
+              <button color="primary" mat-mini-fab>
+                <mat-icon class="material-icons-outlined" (click)="getPdf(form)">picture_as_pdf</mat-icon>
+              </button>
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
