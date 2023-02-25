@@ -1,0 +1,3 @@
+{"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
+{"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
+{"level":"error","message":"Failed to send email.","nodeServer":"email","service":"Winston Service"}
