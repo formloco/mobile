@@ -1,0 +1,5 @@
+{"infoCode":200,"level":"info","message":{"id":"<20230122182443.b1148561024eee43@mg.bluerockapps.com>","message":"Queued. Thank you."},"service":"services"}
+{"defaultMeta":{"service":"email"},"level":"info","message":{"id":"<20230122183052.724b198aed70b17f@mg.bluerockapps.com>","message":"Queued. Thank you."},"service":"services"}
+{"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
+{"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
+{"level":"error","message":"Failed to send email.","nodeServer":"email","service":"Winston Service"}

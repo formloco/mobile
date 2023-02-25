@@ -12,6 +12,8 @@ import { environment } from '../../../../environments/environment'
 import { Store, Select } from '@ngxs/store'
 import { AuthState } from '../../../state/auth/auth.state'
 import { SetPage } from '../../../state/auth/auth-state.actions'
+import { IdbPersistenceService } from '../../../service-idb/idb-persistence.service'
+
 @Component({
   selector: 'app-send-password',
   templateUrl: './send-password.component.html',
@@ -32,7 +34,8 @@ export class SendPasswordComponent {
     private fb: FormBuilder,
     private emailService: EmailService,
     private errorService: ErrorService,
-    private successService: SuccessService) { 
+    private successService: SuccessService,
+    private idbPersistenceService: IdbPersistenceService) { 
     this.emailForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]]
     })
@@ -48,6 +51,7 @@ export class SendPasswordComponent {
     this.emailService.forgotPassword(obj).subscribe(() => {
       this.successService.popSnackbar('Email Sent.')
       this.store.dispatch(new SetPage('identify'))
+      this.idbPersistenceService.deleteDb()
     })
     else this.errorService.popSnackbar('Please Enter a Valid Email.')
   }

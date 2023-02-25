@@ -42,7 +42,7 @@ export class IdentificationComponent {
     private authService: AuthService,
     private errorService: ErrorService,
     private idbCrudService: IdbCrudService,
-    private idbPersistenceService: IdbPersistenceService,) {
+    private idbPersistenceService: IdbPersistenceService) {
     this.idForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required,]]
