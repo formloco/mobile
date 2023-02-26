@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dungeondaddy/Coding/formloco/head/src/polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! /Users/brock/Desktop/formloco/mobile/src/polyfills.ts */"hN/g");
 
 
 /***/ }),
