@@ -3,3 +3,4 @@
 {"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
 {"level":"error","message":{},"nodeServer":"email","service":"Winston Service"}
 {"level":"error","message":"Failed to send email.","nodeServer":"email","service":"Winston Service"}
+{"level":"info","message":{"id":"<20230226212643.371d83abe00e0fad@mg.bluerockapps.com>","message":"Queued. Thank you."},"service":"formloco"}

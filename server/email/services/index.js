@@ -10,6 +10,7 @@ function sendEmail(msg, req, res) {
 
   })
   .catch(msg => {
+    console.log(logger)
     logger.error('Failed to send email.', 'email', 'sendEmail')
     res.status(500).send('Failed to send email.')
   })
