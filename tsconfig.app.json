@@ -4,7 +4,8 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [],
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "sourceMap": false
   },
   "files": [
     "src/main.ts",
